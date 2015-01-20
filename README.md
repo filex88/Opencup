@@ -1,8 +1,8 @@
 # Opencup
 
-Istruzioni per l'installazione
+## Istruzioni per l'installazione
 
-1. Impostare nel file setting.xml nella cartella .m2 il profilo corretto, come da seguenti indicazioni (il path C:/Lavoro/Java/liferay-portal-6.2-ce-ga2-tomcat7 va adattato alla propria installazione di Liferay):
+1. Impostare nel file setting.xml nella cartella .m2 di MAVEN il profilo corretto, come da seguenti indicazioni (il path _C:/Lavoro/Java/liferay-portal-6.2-ce-ga2-tomcat7_ va adattato alla propria installazione di Liferay):
 
 ```html
   <profiles>
@@ -28,3 +28,5 @@ Istruzioni per l'installazione
 ```
 
 
+## Documento di Set-up
+https://docs.google.com/document/d/1PHLyZgyFIcJwNUj99Cj7bCEiOsOeFXUkloy47Rzmcq4/
