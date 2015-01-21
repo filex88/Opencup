@@ -5,7 +5,10 @@
 1. Scaricare Liferay Maven SDK
 http://heanet.dl.sourceforge.net/project/lportal/Liferay%20Portal/6.2.0%20GA1/liferay-portal-maven-6.2.0-ce-ga1-20131101192857659.zip
 
-
+Scompattarlo, installare Apache Ant, e da linea di comando lanciare:
+set ANT_HOME=<path ant>
+set PATH=%PATH%;%ANT_HOME%\bin
+ant install
 
 2. Impostare nel file setting.xml nella cartella .m2 di MAVEN il profilo corretto, come da seguenti indicazioni (il path _C:/Lavoro/Java/liferay-portal-6.2-ce-ga2-tomcat7_ va adattato alla propria installazione di Liferay):
 
@@ -28,7 +31,6 @@ http://heanet.dl.sourceforge.net/project/lportal/Liferay%20Portal/6.2.0%20GA1/li
 
   <activeProfiles>
   	<activeProfile>inject-liferay-properties</activeProfile>
-	
   </activeProfiles>
 ```
 
