@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:util="http://www.springframework.org/schema/util"	
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/jee 
+						http://www.springframework.org/schema/jee/spring-jee.xsd
+						http://www.springframework.org/schema/util 
+						http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:properties id="config" location="classpath:/openCupPortlets.cfg" />
+
+
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	GESTIONE LOGGING AOP INIZIO
+	++++++++++++++++++++++++++++++++++++++++++++++	
+
+	<bean id="methodLoggingInterceptor" class="it.accenture.prova.aop.MethodLoggingInterceptor">
+		<property name="printStackTrace" value="#{config['log.printStackTrace']}"/>
+	</bean>
+
+	
+	<bean id="proxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="proxyTargetClass" value="true"/>
+	    <property name="beanNames">
+	        <list>
+	            <value>*Facade</value>
+	            <value>*Service</value>
+	            <value>*DAO</value>
+	            <value>*Controller</value>
+	        </list>
+	    </property>
+	    <property name="interceptorNames">
+	        <list>
+	            <value>methodLoggingInterceptor</value>
+	        </list>
+	    </property>
+	</bean>
+
+	++++++++++++++++++++++++++++++++++++++++++++++
+	GESTIONE LOGGING AOP FINE
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
+
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	SESSIONI HIBERNATE INIZIO
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<property name="jndiName" value="#{config['log.printStackTrace']}"/>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="it.dipe.opencup.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	TRANSACTION INIZIO
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<aop:config>
+		<aop:pointcut id="serviceOperation"
+			expression="execution(* it.dipe.opencup.facade..*Facade.*(..))" />
+		<aop:advisor pointcut-ref="serviceOperation"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="inserisci*" propagation="REQUIRED" />
+			<tx:method name="aggiorna*" propagation="REQUIRED" />
+			<tx:method name="esegui*" propagation="REQUIRED" />
+			<tx:method name="elimina*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	TRANSACTION FINE
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
+
+
+ 	
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	DAO E FACADE
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
+	
+	<context:component-scan base-package="it.dipe.opencup.dao" />
+	<context:component-scan base-package="it.dipe.opencup.facade" />
+	
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	FINE DAO E FACADE
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
+	 
+</beans>
