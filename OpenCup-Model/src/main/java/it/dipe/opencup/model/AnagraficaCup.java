@@ -1,6 +1,6 @@
 package it.dipe.opencup.model;
 
-import it.dipe.opencup.model.commond.AbstractCommonEntity;
+import it.dipe.opencup.model.common.AbstractCommonEntity;
 
 import java.io.Serializable;
 import java.util.List;

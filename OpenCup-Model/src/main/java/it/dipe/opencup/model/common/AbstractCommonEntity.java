@@ -1,4 +1,4 @@
-package it.dipe.opencup.model.commond;
+package it.dipe.opencup.model.common;
 
 import java.io.Serializable;
 
