@@ -63,7 +63,7 @@
 	 -->
 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-    	<property name="jndiName" value="#{config['log.printStackTrace']}"/>
+    	<property name="jndiName" value="#{config['jndiDataSourceName']}"/>
 	</bean>
 
 	<bean id="sessionFactory"
