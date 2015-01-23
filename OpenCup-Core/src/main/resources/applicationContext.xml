@@ -8,6 +8,7 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:util="http://www.springframework.org/schema/util"	
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd 
 						http://www.springframework.org/schema/tx 
@@ -19,7 +20,9 @@
 						http://www.springframework.org/schema/jee 
 						http://www.springframework.org/schema/jee/spring-jee.xsd
 						http://www.springframework.org/schema/util 
-						http://www.springframework.org/schema/util/spring-util.xsd">
+						http://www.springframework.org/schema/util/spring-util.xsd
+						http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+     					http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
 
 	<util:properties id="config" location="classpath:/openCupPortlets.cfg" />
 
@@ -136,5 +139,19 @@
 	FINE DAO E FACADE
 	++++++++++++++++++++++++++++++++++++++++++++++	
 	 -->
+
+
+	<!-- 
+	++++++++++++++++++++++++++++++++++++++++++++++
+	EHCACHE
+	++++++++++++++++++++++++++++++++++++++++++++++	
+	 -->
 	 
+	 <ehcache:annotation-driven cache-manager="ehCacheManager" create-missing-caches="true"/>
+	 
+	 <ehcache:config cache-manager="ehCacheManager" />
+	 
+	 <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" >
+	 	<property name="configLocation" value="classpath:ehcache.xml" />
+	 </bean>	 
 </beans>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:util="http://www.springframework.org/schema/util"	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/jee 
+						http://www.springframework.org/schema/jee/spring-jee.xsd
+						http://www.springframework.org/schema/util 
+						http://www.springframework.org/schema/util/spring-util-3.2.xsd
+						">
+
+	<bean id="dataSourceTest" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+	        <property name="driverClass" value="oracle.jdbc.OracleDriver" />
+	        <property name="jdbcUrl" value="jdbc:oracle:thin:@foxer.tesoro.it:1521/foxer" />
+	        <property name="user" value="U_LIFE_APP" />
+	        <property name="password" value="U_LIFE_APP" /> 
+	 </bean>	
+	
+	<!-- inside container, use JndiTemplate 
+	<bean id="jndiBinder" class="org.springframework.jndi.JndiTemplate"/> -->
+	<!-- outside container (e.g. for tests), use SimpleNamingContextBuilder -->
+	<bean id="jndiBinder" class="org.springframework.mock.jndi.SimpleNamingContextBuilder" factory-method="emptyActivatedContextBuilder"/>
+	
+	<!-- use MethodInvokingFactoryBean to call 'bind' on 'jndiBinder' --> 
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="jndiBinder"/>
+	    <property name="targetMethod" value="bind"/>
+	    <property name="arguments">
+	        <array>
+	            <value type="java.lang.String">java:comp/env/jdbc/opencupDS</value>
+	            <ref bean="dataSourceTest"/>
+	        </array>
+	    </property>
+	</bean>
+
+</beans>
