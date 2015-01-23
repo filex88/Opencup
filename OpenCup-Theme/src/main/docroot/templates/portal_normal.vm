@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
 #parse ($init)
 
 <html class="$root_css_class" dir="#language ("lang.dir")" lang="$w3c_language_id">
@@ -8,7 +11,14 @@
 	<title>$the_title - $company_name</title>
 
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
-
+	
+	<script type="text/javascript" src="$javascript_folder/d3pie.js" charset="utf-8"></script>
+	<!--[if lte IE 8]><script src="$javascript_folder/r2d3.js" charset="utf-8"></script><![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="$javascript_folder/d3.min.js"></script>
+	 <!--<![endif]-->
+	 <script src="http://d3js.org/topojson.v1.min.js"></script>
+	 <script type="application/json" src="$javascript_folder/italy.json"></script>
 	$theme.include($top_head_include)
 </head>
 
@@ -18,33 +28,118 @@
 
 $theme.include($body_top_include)
 
-#if ($is_signed_in)
-	#dockbar()
-#end
+#dockbar()
 
 <div class="container-fluid" id="wrapper">
 	<header id="banner" role="banner">
+		
 		<div id="heading">
+		<!--
+			<div class="left titolo">
+				<h1 class="site-title">
+					OPENCUP
+				</h1>
+			</div>
+			<div class="left titolo">
+				<ul id="headerNav">
+					<li>
+						<a href="#">Link 1</a>
+					</li>
+					<li>
+						<a href="#">Link 2</a>
+					</li>
+				</ul>
+			</div>
+			-->
+			<!--
 			<h1 class="site-title">
 				<a class="$logo_css_class" href="$site_default_url" title="#language_format ("go-to-x", [$site_name])">
 					<img alt="$logo_description" height="$site_logo_height" src="$site_logo" width="$site_logo_width" />
+
+					#if ($show_site_name)
+						<span class="site-name" title="#language_format ("go-to-x", [$site_name])">
+							$site_name
+						</span>
+					#end
 				</a>
 
-				#if ($show_site_name)
-					<span class="site-name" title="#language_format ("go-to-x", [$site_name])">
-						$site_name
-					</span>
-				#end
 			</h1>
-
+			-->
+			
 			<h2 class="page-title">
-				<span>$the_title</span>
+				<div>
+					<div class="left w25">
+							<div>
+								<span>OPENCUP</span>
+							</div>
+							<div>
+								<span class="smaller">
+									Lorem ipsum dolor sit amet, consectetur adipiscing
+								</span>
+							</div>
+						
+					</div>
+					<div class="left w75">
+						<div class="h50px">
+							<ul id="topLinks" class="h90">
+							
+							#set ($ddlRecordService = $serviceLocator.findService('com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService'))
+							
+							#set ($layoutLocalService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
+							
+							
+ 							#set ($records = $ddlRecordService.getRecords($recordSetId))
+ 							#set ($linkItems =[])
+ 							#foreach($record in $records) 
+ 								#set ($fields = $record.getFields())
+ 								#set ($link_nome = $fields.get("link_name"))
+    							#set ($urlEsterno = $fields.get("link_esterno_url"))
+    							#set ($urlInterno = $fields.get("link_interno_url"))
+    							#set ($urlInternoJSONObject = $jsonFactoryUtil.createJSONObject($urlInterno.value))
+    							
+    							#set ($groupIDLink = $urlInternoJSONObject.getString("groupId"))
+    							#set ($layoutIdLink = $urlInternoJSONObject.getString("layoutId"))
+    							#set ($privateLayoutLink = $urlInternoJSONObject.getString("privateLayout"))
+    							
+    							#set ($layoutLinkInterno = $layoutLocalService.getLayout($getterUtil.getLong($groupIDLink), $getterUtil.getBoolean($privateLayoutLink), $getterUtil.getLong($layoutIdLink)))
+    							
+    							#set ($isEsterno = $fields.get("link_esterno"))
+    							#set ($posizione = $fields.get("posizione_link"))
+    							#set ($Integer = 0 )
+    							#set ($tmp = $linkItems.add({"link_nome":"$link_nome.getValue()" ,"urlEsterno": "$urlEsterno.getValue()", "urlInterno":"$layoutLinkInterno.getFriendlyURL()" , "isEsterno":"$isEsterno.getValue()","posizione":$Integer.parseInt($posizione.getValue())}))
+    						#end
+    						#foreach($linkItem in $sortTool.sort($linkItems,'posizione:asc'))
+							<li class="textTopLink">
+								<div>
+									#if ($linkItem.isEsterno =="true")
+										<a href="$linkItem.urlEsterno" title="$linkItem.link_nome">
+									#else
+										<a href="$linkItem.urlInterno" title="$linkItem.link_nome">
+										
+									#end
+											$linkItem.link_nome
+										</a>
+								</div>
+							</li>
+							#end
+							<li class="textTopLink socialHub">
+								<i class="icon-facebook">
+								</i>
+								&nbsp;
+								<i class="icon-twitter">
+								</i>
+								&nbsp;
+								<i class="icon-google-plus">
+								</i>
+							
+							</li>
+						</ul>
+						</div>
+					<div>
+				</div>
 			</h2>
+			
 		</div>
-
-		#if (!$is_signed_in)
-			<a data-redirect="$is_login_redirect_required" href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
-		#end
 
 		#if ($has_navigation || $is_signed_in)
 			#parse ("$full_templates_path/navigation.vm")
@@ -66,12 +161,15 @@ $theme.include($body_top_include)
 	</div>
 
 	<footer id="footer" role="contentinfo">
+		<p class="h90">
+			&nbsp;
+		</p>
 		<p class="powered-by">
-			#language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>
+			<!--	#language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>-->
+			Copyright 2014 OpenCup
+			
 		</p>
 	</footer>
-	
-	<span>TEMA OPENCUP</span>
 </div>
 
 $theme.include($body_bottom_include)
