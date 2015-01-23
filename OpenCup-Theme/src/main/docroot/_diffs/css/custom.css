@@ -63,4 +63,8 @@
 
 #searchBar{padding-top: 1.5em!important;list-style: none!important;text-align:right!important;}
 
+#footer{background: #f0f0f0;height: 160px;}
+
+#footer .powered-by{height:20%!important;background-color: #999999!important;text-align: center;padding-top: 1em;}
+
 
