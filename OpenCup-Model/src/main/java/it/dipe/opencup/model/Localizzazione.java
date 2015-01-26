@@ -42,7 +42,7 @@ public class Localizzazione extends AbstractCommonEntity implements Serializable
 	
 	@ManyToOne(targetEntity = Provincia.class)
 	@JoinColumn(name = "FK_DLOC_DPRO_ID", referencedColumnName = "SEQU_DPRO_ID")
-	private Provincia provinzia;;
+	private Provincia provincia;
 	 
 
 	@ManyToOne(targetEntity = Regione.class)
@@ -58,6 +58,16 @@ public class Localizzazione extends AbstractCommonEntity implements Serializable
 	@ManyToOne(targetEntity = AreaGeografica.class)
 	@JoinColumn(name = "FK_DLOC_DAGE_ID", referencedColumnName = "SEQU_DAGE_ID")
 	private AreaGeografica areaGeografica;
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 
 	public String getDescProvincia() {
@@ -100,13 +110,13 @@ public class Localizzazione extends AbstractCommonEntity implements Serializable
 	}
 
 
-	public Provincia getProvinzia() {
-		return provinzia;
+	public Provincia getProvincia() {
+		return provincia;
 	}
 
 
-	public void setProvinzia(Provincia provinzia) {
-		this.provinzia = provinzia;
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
 	}
 
 
@@ -137,11 +147,6 @@ public class Localizzazione extends AbstractCommonEntity implements Serializable
 
 	public void setAreaGeografica(AreaGeografica areaGeografica) {
 		this.areaGeografica = areaGeografica;
-	}
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 
