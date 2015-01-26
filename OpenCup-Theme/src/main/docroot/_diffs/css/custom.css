@@ -67,4 +67,16 @@
 
 #footer .powered-by{height:20%!important;background-color: #999999!important;text-align: center;padding-top: 1em;}
 
+#footer ul#main-footer-list{height: inherit;padding-top: 1.5em;}
 
+#footer ul#main-footer-list li{display: inline-block;list-style: none;width: 24%;}
+
+#footer ul#main-footer-list li ul.inner-sublist-footer li{list-style: none; display: list-item;width: inherit;text-align: justify;}
+
+#footer ul#main-footer-list li ul.inner-sublist-footer li strong{font-size: 1.3em;line-height: 2em;color: #5c5c5c;}
+
+#footer ul#main-footer-list li ul.inner-sublist-footer li a{color: #5c5c5c;}
+
+.aui .breadcrumb{line-height: 2em!important;background-color: #F0F0F0!important;}
+
+.aui .breadcrumb  li a{color: #5c5c5c;}

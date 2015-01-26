@@ -23,6 +23,8 @@
 </head>
 
 <body class="$css_class">
+#set ($ddlRecordService = $serviceLocator.findService('com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService'))
+#set ($layoutLocalService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
 
 <a href="#main-content" id="skip-to-content">#language ("skip-to-content")</a>
 
@@ -83,12 +85,7 @@ $theme.include($body_top_include)
 						<div class="h50px">
 							<ul id="topLinks" class="h90">
 							
-							#set ($ddlRecordService = $serviceLocator.findService('com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService'))
-							
-							#set ($layoutLocalService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
-							
-							
- 							#set ($records = $ddlRecordService.getRecords($recordSetId))
+ 							#set ($records = $ddlRecordService.getRecords($headerLinks))
  							#set ($linkItems =[])
  							#foreach($record in $records) 
  								#set ($fields = $record.getFields())
@@ -147,7 +144,11 @@ $theme.include($body_top_include)
 	</header>
 
 	<div id="content">
-		<nav id="breadcrumbs">#breadcrumbs()</nav>
+		<nav id="breadcrumbs">
+		
+			#breadcrumbs()
+			
+		</nav>
 
 		#if ($selectable)
 			$theme.include($content_include)
@@ -161,14 +162,57 @@ $theme.include($body_top_include)
 	</div>
 
 	<footer id="footer" role="contentinfo">
-		<p class="h90">
-			&nbsp;
-		</p>
-		<p class="powered-by">
+		<div class="h90">
+			<ul id="main-footer-list">
+			#foreach ($footerLinkColumn in $footerLinkColumns) ##sorrimento array delle nested list del footer
+				#set ($recordsfooterLinkColumn = $ddlRecordService.getRecords($footerLinkColumn))
+				<li>
+					<ul class="inner-sublist-footer">
+ 					#set ($linkItems =[])
+ 					#foreach($record in $recordsfooterLinkColumn) 
+ 						#set ($fields = $record.getFields())
+ 						#set ($link_nome = $fields.get("link_name"))
+    					#set ($urlEsterno = $fields.get("link_esterno_url"))
+    					#set ($urlInterno = $fields.get("link_interno_url"))
+    					#set ($urlInternoJSONObject = $jsonFactoryUtil.createJSONObject($urlInterno.value))
+    							
+    					#set ($groupIDLink = $urlInternoJSONObject.getString("groupId"))
+    					#set ($layoutIdLink = $urlInternoJSONObject.getString("layoutId"))
+    					#set ($privateLayoutLink = $urlInternoJSONObject.getString("privateLayout"))
+    							
+    					#set ($layoutLinkInterno = $layoutLocalService.getLayout($getterUtil.getLong($groupIDLink), $getterUtil.getBoolean($privateLayoutLink), $getterUtil.getLong($layoutIdLink)))
+    							
+    					#set ($isEsterno = $fields.get("link_esterno"))
+    					#set ($posizione = $fields.get("posizione_link"))
+    					#set ($isTitolo = $fields.get("is_titolo"))
+    					#set ($Integer = 0 )
+    					#set ($tmp = $linkItems.add({"link_nome":"$link_nome.getValue()" ,"urlEsterno": "$urlEsterno.getValue()", "urlInterno":"$layoutLinkInterno.getFriendlyURL()" , "isEsterno":"$isEsterno.getValue()","posizione":$Integer.parseInt($posizione.getValue()),"isTitolo":"$isTitolo.getValue()"}))
+    				#end
+    				#foreach($linkItem in $sortTool.sort($linkItems,'posizione:asc'))
+						<li>
+							#if ($linkItem.isTitolo =="true")
+								<strong>$linkItem.link_nome</strong>
+							#else
+								#if ($linkItem.isEsterno =="true")
+									<a href="$linkItem.urlEsterno" title="$linkItem.link_nome">
+								#else
+									<a href="$linkItem.urlInterno" title="$linkItem.link_nome">	
+								#end
+									$linkItem.link_nome
+									</a>
+							#end
+						</li>
+					#end
+					</ul>
+				</li>
+			#end
+			</ul>	
+		</div>
+		<div class="powered-by">
 			<!--	#language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>-->
 			Copyright 2014 OpenCup
 			
-		</p>
+		</div>
 	</footer>
 </div>
 
