@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("portlet1Facade")
-public class Portlet1Facade {
+public class AgregataFacade {
 	
 	@Autowired
 	private ProgettiDAO progettiDAO;

@@ -2,7 +2,7 @@ package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.Name;
-import it.dipe.opencup.facade.Portlet1Facade;
+import it.dipe.opencup.facade.AgregataFacade;
 
 import java.util.List;
 
@@ -24,20 +24,20 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 public class Portlet1Controller {
 
 	@Autowired
-	private Portlet1Facade portlet1Facade;
+	private AgregataFacade agregataFacade;
 
 	@RenderMapping
 	public String handleRenderRequest(RenderRequest request, RenderResponse response, Model model){
 
 		System.out.println("handleRenderRequest");
-		List<AggregataDTO> aggregataDTO = portlet1Facade.findAggregataByNatura();
+		List<AggregataDTO> aggregataDTO = agregataFacade.findAggregataByNatura();
 
 		model.addAttribute("aggregata", aggregataDTO);
 
 		return "portlet1-view";
 	}
 
-	@ActionMapping(params="myaction=PublishEvent")
+	@ActionMapping(params="action=PublishEvent")
 	public void publishName(ActionRequest aRequest, ActionResponse aResponse){
 		
 		System.out.println("publishName");

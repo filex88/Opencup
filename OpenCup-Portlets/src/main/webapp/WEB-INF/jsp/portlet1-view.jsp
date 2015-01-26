@@ -7,8 +7,8 @@
 
 PORTLET 1
 
-<form name="<portlet:namespace />publisherForm" id="<portlet:namespace />publisherForm"
-	action='<portlet:actionURL> <portlet:param name="myaction" value="PublishEvent"/> </portlet:actionURL>'>
+<form method="POST"
+	action='<portlet:actionURL> <portlet:param name="action" value="PublishEvent"/> </portlet:actionURL>'>
 	<table>
 		<tr>
 			<td>First Name</td>
