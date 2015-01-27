@@ -2,7 +2,7 @@
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
 	<portlet id="natura-portlet1">
 		<portlet-name>natura-portlet1</portlet-name>
-		<display-name>Natura-Portlet1</display-name>
+		<display-name>Distribuzione percentuale</display-name>
 		
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
@@ -14,10 +14,11 @@
 			<mime-type>text/html</mime-type>
 		</supports>
 		<portlet-info>
-			<title>Natura-Portlet1</title>
-			<short-title>Natura-Portlet1</short-title>
-			<keywords>Natura-Portlet1</keywords>
+			<title></title>
+			<short-title></short-title>
+			<keywords>Distribuzione percentuale</keywords>
 		</portlet-info>
+		
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
