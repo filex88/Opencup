@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
-	<portlet id="opencup-portlet1">
-		<portlet-name>opencup-portlet1</portlet-name>
-		<display-name>OpenCup-Portlet1</display-name>
+	<portlet id="natura-portlet1">
+		<portlet-name>natura-portlet1</portlet-name>
+		<display-name>Natura-Portlet1</display-name>
 		
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
   			<name>contextConfigLocation</name>
- 			<value>/WEB-INF/opencup-portlet1.xml</value>
+ 			<value>/WEB-INF/natura-portlet1.xml</value>
  		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
 		<portlet-info>
-			<title>OpenCup-Portlet1</title>
-			<short-title>OpenCup-Portlet1</short-title>
-			<keywords>OpenCup-Portlet1</keywords>
+			<title>Natura-Portlet1</title>
+			<short-title>Natura-Portlet1</short-title>
+			<keywords>Natura-Portlet1</keywords>
 		</portlet-info>
 		<security-role-ref>
 			<role-name>administrator</role-name>
@@ -30,28 +30,30 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
+		<!--
 		<supported-publishing-event>
 			<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
 		</supported-publishing-event>
+		-->
 	</portlet>
 	
-	<portlet id="opencup-portlet2">
-		<portlet-name>opencup-portlet2</portlet-name>
-		<display-name>OpenCup-Portlet2</display-name>
+	<portlet id="natura-portlet2">
+		<portlet-name>natura-portlet2</portlet-name>
+		<display-name>Natura-Portlet2</display-name>
 		
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
   			<name>contextConfigLocation</name>
- 			<value>/WEB-INF/opencup-portlet2.xml</value>
+ 			<value>/WEB-INF/natura-portlet2.xml</value>
  		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
 		<portlet-info>
-			<title>OpenCup-Portlet2</title>
-			<short-title>OpenCup-Portlet2</short-title>
-			<keywords>OpenCup-Portlet2</keywords>
+			<title>Natura-Portlet2</title>
+			<short-title>Natura-Portlet2</short-title>
+			<keywords>Natura-Portlet2</keywords>
 		</portlet-info>
 		<security-role-ref>
 			<role-name>administrator</role-name>
@@ -65,14 +67,16 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
+		<!-- 
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
 		</supported-processing-event>
+		 -->
 	</portlet>
-	
+	<!--
 	<event-definition>
 		<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
 		<value-type>sample.valueobject.Name</value-type>
 	</event-definition>
-	
+	 -->
 </portlet-app>

@@ -19,11 +19,11 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 	  		value="org.springframework.web.servlet.view.InternalResourceView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="prefix" value="/WEB-INF/jsp/natura/" />
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
 		
 
-	<bean class="it.dipe.opencup.controllers.Portlet1Controller" />
+	<bean class="it.dipe.opencup.controllers.NaturaPortlet2Controller" />
 </beans>
