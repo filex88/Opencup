@@ -20,8 +20,8 @@ import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component("portlet1Facade")
-public class AgregataFacade {
+@Component("aggregataFacade")
+public class AggregataFacade {
 	
 	@Autowired
 	private ProgettiDAO progettiDAO;
