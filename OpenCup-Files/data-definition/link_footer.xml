@@ -1,0 +1,81 @@
+
+<root available-locales="en_US" default-locale="en_US">
+	<dynamic-element dataType="string" indexType="keyword" name="link_name" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="small">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[link_name]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="boolean" indexType="keyword" name="link_esterno" readOnly="false" repeatable="false" required="false" showLabel="true" type="checkbox" width="">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[link_esterno]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[false]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="string" indexType="keyword" name="link_esterno_url" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="small">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[link_esterno_url]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="link-to-page" fieldNamespace="ddm" indexType="keyword" name="link_interno_url" readOnly="false" repeatable="false" required="false" showLabel="true" type="ddm-link-to-page" width="small">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[link_interno_url]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="string" indexType="keyword" name="posizione_link" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="small">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[posizione_link]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="boolean" indexType="keyword" name="is_titolo" readOnly="false" repeatable="false" required="false" showLabel="true" type="checkbox" width="">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[is_titolo]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[false]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+</root>
