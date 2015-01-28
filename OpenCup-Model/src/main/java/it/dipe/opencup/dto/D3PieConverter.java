@@ -37,6 +37,5 @@ public class D3PieConverter implements Serializable{
 		this.color = color;
 	}
 	
-	
 
 }
