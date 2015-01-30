@@ -9,29 +9,24 @@ AUI().use(
 			var aggregate = null;
 			var tipoAggregazione = null;
 			
-			A.all('#VOLUME').on('click', function(){
-				loadPie("VOLUME");
-			});
-			
-			
-			A.all('#COSTO').on('click', function(){
-				loadPie("COSTO");
-			});
-			
-			
-			A.all('#IMPORTO').on('click', function(){
-				loadPie("IMPORTO");
-			});
-			
-   			loadPie("VOLUME");
+			A.all('.natura-sel-btn').each(
+				function() {
+					this.on('click', function(){
+						var misura = this.getAttribute("data-natura");
+						loadPie(misura, this);
+					});
+				});
+					  
+   			loadPie("VOLUME", A.one('.natura-sel-btn'));
    			
-			function loadPie(pattern){
+			function loadPie(pattern, button){
 
-				A.all('#IMPORTO').replaceClass('active', '');
-				A.all('#COSTO').replaceClass('active', '');
-				A.all('#VOLUME').replaceClass('active', '');
+				console.log("pattern = " + pattern);
 				
-				A.all("#"+pattern).replaceClass('btn-default', 'btn-default active');
+				
+				A.all('.natura-sel-btn').replaceClass('active', '');
+
+				button.replaceClass('btn-default', 'btn-default active');
 				
 				tipoAggregazione = pattern;
 				
