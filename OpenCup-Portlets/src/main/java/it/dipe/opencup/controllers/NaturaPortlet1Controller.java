@@ -45,7 +45,7 @@ public class NaturaPortlet1Controller {
 	@ResourceMapping(value =  "naturaPortlet1")	
 	public View naturaPortlet1(@RequestParam("pattern") String pattern){
 
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura();
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(0, -1, -1, -1);
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
 
 		MappingJacksonJsonView view = new MappingJacksonJsonView();

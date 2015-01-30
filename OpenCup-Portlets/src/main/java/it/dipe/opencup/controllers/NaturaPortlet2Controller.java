@@ -29,13 +29,35 @@ public class NaturaPortlet2Controller {
 	
 	@RenderMapping
 	public String handleRenderRequest(RenderRequest request, RenderResponse response, Model model){
-	
 
 		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
-		searchContainer.setTotal(aggregataFacade.countNaturaAll());
-
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(searchContainer.getCur());
+		searchContainer.setTotal(aggregataFacade.countAggregataByNatura(0, -1, -1, -1));
+		
+		System.out.println(searchContainer.getOrderByCol());
+		System.out.println(searchContainer.getOrderByColParam());
+		
+		System.out.println(searchContainer.getOrderByType());
+		System.out.println(searchContainer.getOrderByTypeParam());
+		
+		searchContainer.setOrderByCol("numeProgetti");
+		searchContainer.setOrderByType("desc");
+		
+		
+		/*
+		String orderByCol = (searchContainer.getOrderByCol()==null)?"numeProgetti":searchContainer.getOrderByCol();
+		searchContainer.setOrderByCol(orderByCol);
+		
+		String orderByType = (searchContainer.getOrderByType()==null)?"asc":searchContainer.getOrderByType();
+		if( "desc".equals(orderByType) ){
+		    orderByType = "asc";
+		}else{
+		    orderByType = "desc";
+		}
+		searchContainer.setOrderByType(orderByType);
+		*/
+		
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(0, -1, -1, -1, searchContainer.getCur(), searchContainer.getOrderByCol(), searchContainer.getOrderByType() );
 		searchContainer.setResults(listaAggregataDTO);
 		
 		model.addAttribute("searchContainer", searchContainer);
