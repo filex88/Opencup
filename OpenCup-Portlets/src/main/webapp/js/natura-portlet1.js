@@ -134,7 +134,8 @@ AUI().use(
 							"color": "#adadad",
 							"fontSize": 11
 						}
-					},"tooltips": {
+					},
+					"tooltips": {
 						"enabled": false,
 						"type": "placeholder",
 						"string": "{label} Costo:{value}&euro; {percentage}%",
@@ -153,25 +154,16 @@ AUI().use(
 							"size": 8
 						}
 					},
-					callbacks: {
+					"size": {
+						"canvasHeight": 450,
+						"canvasWidth": 450
+					},
+					"callbacks": {
 						onMouseoverSegment: function(info) {
-							//console.log("mouseover:", info);
-
-							var x = "900";
-							var y = "500";							
-							
-							//Get this bar's x/y values, then augment for the tooltip
-							var xPosition = x;
-							console.log("xPosition:", xPosition);
-							
-							var yPosition = y;
-							console.log("yPosition:", yPosition);
-							
+							//console.log("mouseover:", info);							
 							//Update the tooltip position and value
 							var tooltip = d3.select("#tooltip");
-							
-							tooltip.style("left", xPosition + "px");
-							tooltip.style("top", yPosition + "px");
+
 							tooltip.select("#label").text(info.data.label);
 							tooltip.select("#labelvalue").text(tipoAggregazione);
 
@@ -184,14 +176,17 @@ AUI().use(
 							}
 							
 							//Show the tooltip
-							d3.select("#tooltip").classed("hidden", false);
+							tooltip.classed("hidden", false); 
+							tooltip.transition().duration(500).style("opacity", 100);
 
 							
 						},
 						onMouseoutSegment: function(info) {
 							//console.log("mouseout:", info);
 							//Hide the tooltip
-							d3.select("#tooltip").classed("hidden", true);
+							var tooltip = d3.select("#tooltip");
+						    tooltip.transition().duration(500).style("opacity", 0);   
+						    tooltip.classed("hidden", true);
 						}
 					}
 					//,
@@ -203,6 +198,12 @@ AUI().use(
 					//}
 				});
 			}
+			
+			var tooltip = d3.select("#tooltip");
+			d3.select("#pieChart").on("mouseover", function(d) {  
+				tooltip.style("left", d3.event.pageX + "px");
+				tooltip.style("top", d3.event.pageY + "px");
+			});
    			
 		}
 	);

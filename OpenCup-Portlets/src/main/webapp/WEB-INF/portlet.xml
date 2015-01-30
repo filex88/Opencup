@@ -13,12 +13,18 @@
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
+		<resource-bundle>Natura1-language</resource-bundle>
 		<portlet-info>
-			<title></title>
+			<title>Distribuzione percentuale</title>
 			<short-title></short-title>
 			<keywords>Distribuzione percentuale</keywords>
 		</portlet-info>
-		
+		<portlet-preferences>
+			<preference>
+				<name>portlet-setup-show-borders</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
@@ -41,7 +47,6 @@
 	<portlet id="natura-portlet2">
 		<portlet-name>natura-portlet2</portlet-name>
 		<display-name>Natura-Portlet2</display-name>
-		
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
   			<name>contextConfigLocation</name>
@@ -51,6 +56,7 @@
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
+		<resource-bundle>Natura2-language</resource-bundle>
 		<portlet-info>
 			<title>Natura-Portlet2</title>
 			<short-title>Natura-Portlet2</short-title>
@@ -68,6 +74,7 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
+		
 		<!-- 
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
