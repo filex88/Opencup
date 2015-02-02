@@ -26,6 +26,9 @@
 <body class="$css_class">
 #set ($ddlRecordService = $serviceLocator.findService('com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService'))
 #set ($layoutLocalService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
+#set ($nodeNameRemoved = $portalUtil.getLayoutFriendlyURL($layout, $theme_display).replace($theme_display.getPortalURL(),''))
+#set ($lastSlashIndex=$nodeNameRemoved.lastIndexOf('/'))
+#set ($siteContextBase=$nodeNameRemoved.substring(0,$lastSlashIndex))
 
 <a href="#main-content" id="skip-to-content">#language ("skip-to-content")</a>
 
@@ -112,7 +115,7 @@ $theme.include($body_top_include)
 									#if ($linkItem.isEsterno =="true")
 										<a href="$linkItem.urlEsterno" title="$linkItem.link_nome">
 									#else
-										<a href="$linkItem.urlInterno" title="$linkItem.link_nome">
+										<a href="$siteContextBase$linkItem.urlInterno" title="$linkItem.link_nome">
 										
 									#end
 											$linkItem.link_nome
@@ -197,7 +200,7 @@ $theme.include($body_top_include)
 								#if ($linkItem.isEsterno =="true")
 									<a href="$linkItem.urlEsterno" title="$linkItem.link_nome">
 								#else
-									<a href="$linkItem.urlInterno" title="$linkItem.link_nome">	
+									<a href="$siteContextBase$linkItem.urlInterno" title="$linkItem.link_nome">	
 								#end
 									$linkItem.link_nome
 									</a>
