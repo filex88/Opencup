@@ -26,8 +26,9 @@
 <body class="$css_class">
 #set ($ddlRecordService = $serviceLocator.findService('com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService'))
 #set ($layoutLocalService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
-#set ($lastSlashIndex=$portalUtil.getLayoutFriendlyURL($layout, $theme_display).lastIndexOf('/'))
-#set ($siteContextBase=$portalUtil.getLayoutFriendlyURL($layout, $theme_display).substring(0,$lastSlashIndex))
+#set ($nodeNameRemoved = $portalUtil.getLayoutFriendlyURL($layout, $theme_display).replace($theme_display.getPortalURL(),''))
+#set ($lastSlashIndex=$nodeNameRemoved.lastIndexOf('/'))
+#set ($siteContextBase=$nodeNameRemoved.substring(0,$lastSlashIndex))
 
 <a href="#main-content" id="skip-to-content">#language ("skip-to-content")</a>
 
