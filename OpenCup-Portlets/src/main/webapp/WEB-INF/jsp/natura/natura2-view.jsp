@@ -24,16 +24,16 @@ Continua la navigazione selezionando la <strong>Natura</strong> dei progetti
 			
 		<liferay-ui:search-container-column-text name="aggregato-desNatura" property="desNatura" />
 		
-		<liferay-ui:search-container-column-text name="aggregato-volume" orderableProperty="numeProgetti" orderable="<%= true %>">
-			<fmt:formatNumber value="${aggregataDTO.numeProgetti}" type="number" minIntegerDigits="1"/>
+		<liferay-ui:search-container-column-text name="aggregato-volume" orderableProperty="numeProgetti" orderable="true">
+			<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.numeProgetti}" type="number" minIntegerDigits="1"/></span>
 		</liferay-ui:search-container-column-text>
 		
-		<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetti" orderable="<%= true %>">
-			<fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" minFractionDigits="3"/>
+		<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetti" orderable="true">
+			<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
 		</liferay-ui:search-container-column-text>
 		
-		<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="<%= true %>">
-			<fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="3"/>
+		<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+			<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="3"/></span>
 		</liferay-ui:search-container-column-text>
 	
 	</liferay-ui:search-container-row>

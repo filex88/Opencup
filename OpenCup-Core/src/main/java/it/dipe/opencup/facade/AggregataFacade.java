@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -99,7 +100,13 @@ public class AggregataFacade {
 	
 	public List<AggregataDTO> findAggregataByNatura(int natura, int settoreInternvanto, int sottosettoreIntervento, int categoriaIntervento, int page, String orderByCol, String orderByType) {
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(natura, settoreInternvanto, sottosettoreIntervento, categoriaIntervento), page);
+		Criteria criteriaByNatura = bildCriteriaByNatura(natura, settoreInternvanto, sottosettoreIntervento, categoriaIntervento);
+		if("asc".equals(orderByType))
+			criteriaByNatura.addOrder(Order.asc(orderByCol));
+		else
+			criteriaByNatura.addOrder(Order.desc(orderByCol));
+		
+		List<Aggregata> aggregata = aggregataDAO.findByCriteria(criteriaByNatura, page);
 		AggregataDTO ele = null;
 		for( Aggregata tmp: aggregata ){
 			ele = new AggregataDTO(tmp);

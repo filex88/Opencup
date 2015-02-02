@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 @Controller
 @RequestMapping("VIEW")
@@ -29,33 +31,26 @@ public class NaturaPortlet2Controller {
 	
 	@RenderMapping
 	public String handleRenderRequest(RenderRequest request, RenderResponse response, Model model){
-
+		
+		//orderByCol is the column name passed in the request while sorting
+		String orderByCol = ParamUtil.getString(request, "orderByCol"); 
+		if(Validator.isNull(orderByCol)  || Validator.equals("", orderByCol)){
+			orderByCol = "numeProgetti";
+		}
+		
+		//orderByType is passed in the request while sorting. It can be either asc or desc
+		String orderByType = ParamUtil.getString(request, "orderByType");
+		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
+		    orderByType = "asc";
+		}
+		
 		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
 		searchContainer.setTotal(aggregataFacade.countAggregataByNatura(0, -1, -1, -1));
 		
-		System.out.println(searchContainer.getOrderByCol());
-		System.out.println(searchContainer.getOrderByColParam());
-		
-		System.out.println(searchContainer.getOrderByType());
-		System.out.println(searchContainer.getOrderByTypeParam());
-		
-		searchContainer.setOrderByCol("numeProgetti");
-		searchContainer.setOrderByType("desc");
-		
-		
-		/*
-		String orderByCol = (searchContainer.getOrderByCol()==null)?"numeProgetti":searchContainer.getOrderByCol();
 		searchContainer.setOrderByCol(orderByCol);
-		
-		String orderByType = (searchContainer.getOrderByType()==null)?"asc":searchContainer.getOrderByType();
-		if( "desc".equals(orderByType) ){
-		    orderByType = "asc";
-		}else{
-		    orderByType = "desc";
-		}
 		searchContainer.setOrderByType(orderByType);
-		*/
+
 		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(0, -1, -1, -1, searchContainer.getCur(), searchContainer.getOrderByCol(), searchContainer.getOrderByType() );
 		searchContainer.setResults(listaAggregataDTO);

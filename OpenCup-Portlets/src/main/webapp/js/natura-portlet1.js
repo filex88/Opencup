@@ -1,3 +1,4 @@
+
 AUI().use(
 		'liferay-portlet-url', 
 		'aui-base', 
@@ -21,7 +22,7 @@ AUI().use(
    			
 			function loadPie(pattern, button){
 
-				console.log("pattern = " + pattern);
+//				console.log("pattern = " + pattern);
 				
 				
 				A.all('.natura-sel-btn').replaceClass('active', '');
