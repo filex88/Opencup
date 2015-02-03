@@ -12,7 +12,7 @@
 
 <portlet:defineObjects />
 
-Continua la navigazione selezionando la <strong>Natura</strong> dei progetti
+Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei progetti
 
 <fmt:setLocale value="it_IT"/>
 
@@ -22,7 +22,9 @@ Continua la navigazione selezionando la <strong>Natura</strong> dei progetti
 
     <liferay-ui:search-container-row className="it.dipe.opencup.dto.AggregataDTO" keyProperty="id" modelVar="aggregataDTO">
 			
-		<liferay-ui:search-container-column-text name="aggregato-desNatura" property="desNatura" />
+		<liferay-ui:search-container-column-text name="aggregato-des">
+			<a href="#" onclick="return false;" data-url="${aggregataDTO.linkURL}" class="link-url-naviga-selezione">${aggregataDTO.descURL}</a>
+		</liferay-ui:search-container-column-text>
 		
 		<liferay-ui:search-container-column-text name="aggregato-volume" orderableProperty="numeProgetti" orderable="true">
 			<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.numeProgetti}" type="number" minIntegerDigits="1"/></span>
@@ -41,6 +43,9 @@ Continua la navigazione selezionando la <strong>Natura</strong> dei progetti
 	<liferay-ui:search-iterator searchContainer="${searchContainer}"/>
 
 </liferay-ui:search-container>
+
+<form class="formEmpty" method="POST" action="#">
+</form>
 
 
 <%--  

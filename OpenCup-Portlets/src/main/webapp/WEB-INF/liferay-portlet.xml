@@ -13,7 +13,7 @@
 		<portlet-name>natura-portlet2</portlet-name>
 		<icon>/icon.png</icon>
 		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/natura-portlet2.js</footer-portlet-javascript>
 		<css-class-wrapper>natura-portlet2</css-class-wrapper>
 	</portlet>
 	

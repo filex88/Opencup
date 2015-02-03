@@ -37,11 +37,11 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		<!--
-		<supported-publishing-event>
-			<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
-		</supported-publishing-event>
-		-->
+		
+		<supported-processing-event>
+			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
+		</supported-processing-event>
+		
 	</portlet>
 	
 	<portlet id="natura-portlet2">
@@ -75,16 +75,15 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 		
-		<!-- 
-		<supported-processing-event>
-			<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
-		</supported-processing-event>
-		 -->
+		<supported-publishing-event>
+			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
+		</supported-publishing-event>
+		 
 	</portlet>
-	<!--
+	
 	<event-definition>
-		<qname xmlns:publishName="http:eventSample/events">publishName:event.publishName</qname>
+		<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
 		<value-type>sample.valueobject.Name</value-type>
 	</event-definition>
-	 -->
+	 
 </portlet-app>

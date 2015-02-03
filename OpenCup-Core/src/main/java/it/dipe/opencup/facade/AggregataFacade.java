@@ -55,11 +55,15 @@ public class AggregataFacade {
 		criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", -1) );
 		criteria.add( Restrictions.eq("stato.codiStato", "IT") );
 		
+//		System.out.println("natura = " + natura);
+		
 		if( natura == 0 ){
 			criteria.add( Restrictions.ge("classificazione.natura.id", natura) );
 		}else{
 			criteria.add( Restrictions.eq("classificazione.natura.id", natura) );
 		}
+		
+//		System.out.println("settoreInternvanto = " + settoreInternvanto);
 		
 		if( settoreInternvanto == 0 ){
 			criteria.add( Restrictions.ge("classificazione.settoreInternvanto.id", settoreInternvanto) );
@@ -67,11 +71,15 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("classificazione.settoreInternvanto.id", settoreInternvanto) );
 		}
 		
+//		System.out.println("sottosettoreIntervento = " + sottosettoreIntervento);
+		
 		if( sottosettoreIntervento == 0 ){
 			criteria.add( Restrictions.ge("classificazione.sottosettoreIntervento.id", sottosettoreIntervento) );
 		}else{
 			criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", sottosettoreIntervento) );
 		}
+		
+//		System.out.println("categoriaIntervento = " + categoriaIntervento);
 		
 		if( categoriaIntervento == 0 ){
 			criteria.add( Restrictions.ge("classificazione.categoriaIntervento.id", categoriaIntervento) );
