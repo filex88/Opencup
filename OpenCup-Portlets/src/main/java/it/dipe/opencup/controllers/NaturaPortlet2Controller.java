@@ -42,7 +42,7 @@ import com.liferay.portlet.PortletURLFactoryUtil;
 
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("navigaclassificazione2Controller")
+@SessionAttributes("sessionAttrNav")
 public class NaturaPortlet2Controller {
 
 	@Value("#{config['paginazione.risultatiPerPagina']}")
@@ -51,46 +51,36 @@ public class NaturaPortlet2Controller {
 	@Autowired
 	private AggregataFacade aggregataFacade;
 	
-	@ModelAttribute("navigaclassificazione2Controller")
-	public NavigaClassificazioneEvent navigaClassificazioneEvent() {
-		NavigaClassificazioneEvent retval = new NavigaClassificazioneEvent();
-		retval.setRowIdLiv1("0");
-		retval.setRowIdLiv2("-1");
-		retval.setRowIdLiv3("-1");
-		retval.setRowIdLiv4("-1");
-		return retval;
+	@ModelAttribute("sessionAttrNav")
+	public NavigaClassificazioneEvent sessionAttrNav() {
+		NavigaClassificazioneEvent sessionAttrNav = new NavigaClassificazioneEvent();
+		sessionAttrNav.setRowIdLiv1("0");
+		sessionAttrNav.setRowIdLiv2("-1");
+		sessionAttrNav.setRowIdLiv3("-1");
+		sessionAttrNav.setRowIdLiv4("-1");
+		return sessionAttrNav;
 	}
 	
 	@RenderMapping
-	public String handleRenderRequest(RenderRequest request, RenderResponse response, Model model, @ModelAttribute("navigaclassificazione2Controller") NavigaClassificazioneEvent navigaclassificazione2Controller){
-		
-//		HttpServletRequest convertReq = PortalUtil.getHttpServletRequest(request);
-//		HttpServletRequest originalReq = PortalUtil.getOriginalServletRequest(convertReq);       
-//		String rowId = originalReq.getParameter("rowIdLiv1");
-		
-//		String rowIdLiv1 = ParamUtil.getString(request, "rowIdLiv1"); 
-//		String rowIdLiv2 = ParamUtil.getString(request, "rowIdLiv2"); 
-//		String rowIdLiv3 = ParamUtil.getString(request, "rowIdLiv3"); 
-//		String rowIdLiv4 = ParamUtil.getString(request, "rowIdLiv4"); 
-//		if(Validator.isNull(navigaNaturaEvent.getRowIdLiv1()) || Validator.equals("", navigaNaturaEvent.getRowIdLiv1()) || ("0".equals(navigaNaturaEvent.getRowIdLiv1())) ){
-//			pageLiv = "/natliv1";
-//			navigaNaturaEvent.setRowIdLiv1("0");
-//			navigaNaturaEvent.setRowIdLiv2("-1");
-//			navigaNaturaEvent.setRowIdLiv3("-1");
-//			navigaNaturaEvent.setRowIdLiv4("-1");
-//			navigaPer = "Natura";
-//		}else 
+	public String handleRenderRequest(RenderRequest request, RenderResponse response, Model model, @ModelAttribute("sessionAttrNav") NavigaClassificazioneEvent sessionAttrNav){
 		
 		String pageLiv = "";
 		String navigaPer = "";
 		
-		if("0".equals(navigaclassificazione2Controller.getRowIdLiv2())){
+		/*
+		 * Tramite gli elementi RowIdLiv si determina l apagina da caricare, questi elementi possono assumere 3 tipi di valore:
+		 * -1 : cerco il dato aggregato per il livello
+		 * 0 : cerco tutti i valori per quel livello
+		 * > 0 : cerco il dato per l'id indicato
+		 * */
+		
+		if("0".equals(sessionAttrNav.getRowIdLiv2())){
 			pageLiv = "/natliv2";
 			navigaPer = "Settore";
-		}else if("0".equals(navigaclassificazione2Controller.getRowIdLiv3())){
+		}else if("0".equals(sessionAttrNav.getRowIdLiv3())){
 			pageLiv = "/natliv3";
 			navigaPer = "Sottosettore";
-		}else if("0".equals(navigaclassificazione2Controller.getRowIdLiv4())){
+		}else if("0".equals(sessionAttrNav.getRowIdLiv4())){
 			pageLiv = "/natliv4";
 			navigaPer = "Categoria Intervento";
 		}else{
@@ -112,18 +102,18 @@ public class NaturaPortlet2Controller {
 
 		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
-		searchContainer.setTotal(aggregataFacade.countAggregataByNatura(Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv1()), 
-																		Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv2()),
-																		Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv3()),
-																		Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv4())) );
+		searchContainer.setTotal(aggregataFacade.countAggregataByNatura(Integer.valueOf(sessionAttrNav.getRowIdLiv1()), 
+																		Integer.valueOf(sessionAttrNav.getRowIdLiv2()),
+																		Integer.valueOf(sessionAttrNav.getRowIdLiv3()),
+																		Integer.valueOf(sessionAttrNav.getRowIdLiv4())) );
 		
 		searchContainer.setOrderByCol(orderByCol);
 		searchContainer.setOrderByType(orderByType);
 
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv1()), 
-																					 Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv2()),
-																					 Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv3()),
-																					 Integer.valueOf(navigaclassificazione2Controller.getRowIdLiv4()), 
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(Integer.valueOf(sessionAttrNav.getRowIdLiv1()), 
+																					 Integer.valueOf(sessionAttrNav.getRowIdLiv2()),
+																					 Integer.valueOf(sessionAttrNav.getRowIdLiv3()),
+																					 Integer.valueOf(sessionAttrNav.getRowIdLiv4()), 
 																					 searchContainer.getCur(), 
 																					 searchContainer.getOrderByCol(), 
 																					 searchContainer.getOrderByType() );
@@ -143,6 +133,7 @@ public class NaturaPortlet2Controller {
 				
 				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
 				
+				//Viene ricercato l'URL esatto per la pagina successiva
 				if(nodeNameRemoved.indexOf(pageLiv)>0){
 					
 					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
@@ -151,23 +142,26 @@ public class NaturaPortlet2Controller {
 
 					for(AggregataDTO tmp : listaAggregataDTO){		
 						
-						rowIdLiv1URL = navigaclassificazione2Controller.getRowIdLiv1();
-						rowIdLiv2URL = navigaclassificazione2Controller.getRowIdLiv2();
-						rowIdLiv3URL = navigaclassificazione2Controller.getRowIdLiv3();
-						rowIdLiv4URL = navigaclassificazione2Controller.getRowIdLiv4();
+						//Per ogni elemento oltre a caricare la descrizione e i valori
+						//viene generato un linkURL che punta alla pagina successiva
 						
-						if( "0".equals(navigaclassificazione2Controller.getRowIdLiv4()) ){
+						rowIdLiv1URL = sessionAttrNav.getRowIdLiv1();
+						rowIdLiv2URL = sessionAttrNav.getRowIdLiv2();
+						rowIdLiv3URL = sessionAttrNav.getRowIdLiv3();
+						rowIdLiv4URL = sessionAttrNav.getRowIdLiv4();
+						
+						if( "0".equals(sessionAttrNav.getRowIdLiv4()) ){
 							rowIdLiv4URL = tmp.getIdCategoriaIntervento().toString(); 
 							tmp.setDescURL( tmp.getDesCategoriaIntervento() );
-						}else if( "0".equals(navigaclassificazione2Controller.getRowIdLiv3()) ){
+						}else if( "0".equals(sessionAttrNav.getRowIdLiv3()) ){
 							rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
 							rowIdLiv4URL = "0";
 							tmp.setDescURL( tmp.getDesSottoSettore() );
-						}else if( "0".equals(navigaclassificazione2Controller.getRowIdLiv2()) ){
+						}else if( "0".equals(sessionAttrNav.getRowIdLiv2()) ){
 							rowIdLiv2URL = tmp.getIdSettore().toString(); 
 							rowIdLiv3URL = "0";
 							tmp.setDescURL( tmp.getDesSettore() );
-						}else if( "0".equals(navigaclassificazione2Controller.getRowIdLiv1()) ){
+						}else if( "0".equals(sessionAttrNav.getRowIdLiv1()) ){
 							rowIdLiv1URL = tmp.getIdNatura().toString(); 
 							rowIdLiv2URL = "0";
 							tmp.setDescURL( tmp.getDesNatura() );
@@ -180,77 +174,41 @@ public class NaturaPortlet2Controller {
 						
 						renderURL.setParameter("action", "PublishEvent");
 						
-						tmp.setLinkURL(renderURL.toString());
+						tmp.setLinkURL(renderURL.toString()+"#natura-portlet2");
 					}
 				}
 			}
 		
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (WindowStateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} //to set windowsState
-		catch (PortletModeException e) {
-			// TODO Auto-generated catch block
+		} catch (PortletModeException e) {
 			e.printStackTrace();
-			//to set portletmode
 		} catch (PortalException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		searchContainer.setResults(listaAggregataDTO);
 		model.addAttribute("searchContainer", searchContainer);
 		model.addAttribute("navigaPer", navigaPer);
 
-//		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-//		System.out.println(themeDisplay.getLayout().getFriendlyURL());
-//		
-//		try {
-//			
-//			String localHost = themeDisplay.getPortalURL();			
-//			List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
-//
-//			for(Layout layout : layouts){
-//		
-//					String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
-//					int lastSlashIndex = nodeNameRemoved.lastIndexOf("/");
-//					String siteContextBase = nodeNameRemoved.substring(0,lastSlashIndex);
-//					
-//					System.out.println("////////////////////////////////////////");
-//					System.out.println(nodeNameRemoved);
-//					System.out.println(siteContextBase);
-//					
-//					layout.getPlid()
-//					
-//					
-//			}
-//		
-//		} catch (SystemException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (PortalException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 		return "natura2-view";
 	}
 	
 	@ActionMapping(params="action=PublishEvent")
-	public void publishName(ActionRequest aRequest, ActionResponse aResponse, @ModelAttribute("navigaclassificazione2Controller") NavigaClassificazioneEvent navigaclassificazione2Controller){
+	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, @ModelAttribute("sessionAttrNav") NavigaClassificazioneEvent sessionAttrNav){
 		
 		QName eventName = new QName( "http:eventNavigaNatura/events", "event.navigaNatura");
 		
-//		aResponse.setEvent(eventName, name);
-		navigaclassificazione2Controller = new NavigaClassificazioneEvent();
-		navigaclassificazione2Controller.setRowIdLiv1(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		navigaclassificazione2Controller.setRowIdLiv2(ParamUtil.getString(aRequest, "rowIdLiv2"));
-		navigaclassificazione2Controller.setRowIdLiv3(ParamUtil.getString(aRequest, "rowIdLiv3"));
-		navigaclassificazione2Controller.setRowIdLiv4(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		//Leggo la query String per determinare il link di navigazione
+		sessionAttrNav = new NavigaClassificazioneEvent();
+		sessionAttrNav.setRowIdLiv1(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		sessionAttrNav.setRowIdLiv2(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		sessionAttrNav.setRowIdLiv3(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		sessionAttrNav.setRowIdLiv4(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		
-		aResponse.setEvent( eventName, navigaclassificazione2Controller );
+		//Setto l'evento con i parametri letti dalla Query string 
+		aResponse.setEvent( eventName, sessionAttrNav );
 		
 	}
 

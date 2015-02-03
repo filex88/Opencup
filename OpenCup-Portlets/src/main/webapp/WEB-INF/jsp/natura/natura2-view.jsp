@@ -12,6 +12,9 @@
 
 <portlet:defineObjects />
 
+<a name="natura-portlet2"></a>
+
+
 Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei progetti
 
 <fmt:setLocale value="it_IT"/>
@@ -46,26 +49,3 @@ Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei proget
 
 <form class="formEmpty" method="POST" action="#">
 </form>
-
-
-<%--  
-<fmt:setLocale value="it_IT"/>
-
-<display:table name="${listaAggregataDTO}" id="aggregataDTO" class="table" defaultsort="3" defaultorder="descending">
-	<display:column title="" sortable="false">
-		NATURA: ${aggregataDTO.desNatura}
-	</display:column>
-	<display:column>&nbsp;</display:column>
-	<display:column title="Numero Progetti" sortable="true" headerClass="sortable">
-		<fmt:formatNumber value="${aggregataDTO.numeProgetti}" type="number" minIntegerDigits="1"/>
-	</display:column>
-	<display:column>&nbsp;</display:column>
-	<display:column title="Costo Progetti" sortable="true" headerClass="sortable">
-		<fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" minFractionDigits="3"/>
-	</display:column>
-	<display:column>&nbsp;</display:column>
-	<display:column title="Importo Finanziato" sortable="true" headerClass="sortable">
-		<fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="3"/>
-	</display:column>
-</display:table>
- --%>

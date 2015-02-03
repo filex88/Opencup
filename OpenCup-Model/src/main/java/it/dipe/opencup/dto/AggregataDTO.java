@@ -232,8 +232,5 @@ public class AggregataDTO implements Serializable{
 	public void setDescURL(String descURL) {
 		this.descURL = descURL;
 	}
-	
-	
-
 
 }
