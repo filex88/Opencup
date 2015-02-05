@@ -1,9 +1,9 @@
 package it.dipe.opencup.controllers;
 
+import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaClassificazioneEvent;
-import it.dipe.opencup.facade.AggregataFacade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,6 @@ import javax.portlet.EventResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,22 +27,11 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 @Controller
 @RequestMapping("VIEW")
 @SessionAttributes("sessionAttrRiepilogo")
-public class NaturaPortlet3Controller {
+public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 
-	@Value("#{config['paginazione.risultatiPerPagina']}")
-	protected int maxResult;
-	
-	@Autowired
-	private AggregataFacade aggregataFacade;
-	
 	@ModelAttribute("sessionAttrRiepilogo")
 	public NavigaClassificazioneEvent sessionAttrRiepilogo() {
-		NavigaClassificazioneEvent sessionAttrRiepilogo = new NavigaClassificazioneEvent();
-		sessionAttrRiepilogo.setRowIdLiv1("0");
-		sessionAttrRiepilogo.setRowIdLiv2("-1");
-		sessionAttrRiepilogo.setRowIdLiv3("-1");
-		sessionAttrRiepilogo.setRowIdLiv4("-1");
-		return sessionAttrRiepilogo;
+		return super.sessionAttr();
 	}
 	
 	@RenderMapping
@@ -89,15 +76,21 @@ public class NaturaPortlet3Controller {
 		return "natura3-view";
 	}
 	
+	@EventMapping(value = "event.navigaNaturaPie")
+	public void processEventPie(EventRequest eventRequest, EventResponse eventResponse) {
+		processaEvento(eventRequest, eventResponse);
+	}
+	
 	@EventMapping(value = "event.navigaNatura")
 	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
+		processaEvento(eventRequest, eventResponse);
+	}
 	
+	private void processaEvento(EventRequest eventRequest,
+			EventResponse eventResponse) {
 		NavigaClassificazioneEvent naviga = (NavigaClassificazioneEvent) eventRequest.getEvent().getValue();
-		
 		String[] navigaNatura = { naviga.getRowIdLiv1(), naviga.getRowIdLiv2(), naviga.getRowIdLiv3(), naviga.getRowIdLiv4() };
 		eventResponse.setRenderParameter("navigaNatura", navigaNatura);
-
-	
 	}
 
 }

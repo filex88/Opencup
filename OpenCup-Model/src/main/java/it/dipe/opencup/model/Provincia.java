@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DPRO_PROVINCIA")
+@Table(name = "S_DMA_DPRO_PROVINCIA")
 public class Provincia extends AbstractCommonEntity implements Serializable {
 
 	/**

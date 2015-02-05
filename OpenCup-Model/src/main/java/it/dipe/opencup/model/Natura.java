@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DNAT_NATURA")
+@Table(name = "S_DMA_DNAT_NATURA")
 public class Natura extends AbstractCommonEntity implements Serializable {
 
 	/**

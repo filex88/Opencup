@@ -10,6 +10,7 @@ public class D3PieConverter implements Serializable{
 	private String label;
 	private double value;
 	private String color;
+	private String linkURL;
 	
 	public String getId() {
 		return id;
@@ -36,6 +37,13 @@ public class D3PieConverter implements Serializable{
 	public void setColor(String color) {
 		this.color = color;
 	}
+	public String getLinkURL() {
+		return linkURL;
+	}
+	public void setLinkURL(String linkURL) {
+		this.linkURL = linkURL;
+	}
+	
 	
 
 }

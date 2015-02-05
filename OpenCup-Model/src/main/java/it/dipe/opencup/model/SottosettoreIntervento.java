@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DSSI_SOTTOSETTORE_INTERV")
+@Table(name = "S_DMA_DSSI_SOTTOSETTORE_INTERV")
 public class SottosettoreIntervento extends AbstractCommonEntity implements Serializable {
 
 	/**

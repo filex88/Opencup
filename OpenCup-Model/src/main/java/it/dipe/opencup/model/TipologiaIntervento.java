@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DTIN_TIPOLOGIA_INTERVENT")
+@Table(name = "S_DMA_DTIN_TIPOLOGIA_INTERVENT")
 public class TipologiaIntervento extends AbstractCommonEntity implements Serializable {
 
 	/**

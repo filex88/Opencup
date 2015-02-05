@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DSTP_STRUMENTO_PROGR")
+@Table(name = "S_DMA_DSTP_STRUMENTO_PROGR")
 public class StrumentoProgr extends AbstractCommonEntity implements Serializable {
 
 	/**

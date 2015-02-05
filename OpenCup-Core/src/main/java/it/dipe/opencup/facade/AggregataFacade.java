@@ -53,7 +53,7 @@ public class AggregataFacade {
 		criteria.add( Restrictions.eq("localizzazione.provincia.id", -1) );
 		criteria.add( Restrictions.eq("localizzazione.regione.id", -1) );
 		criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", -1) );
-		criteria.add( Restrictions.eq("stato.codiStato", "IT") );
+		criteria.add( Restrictions.eq("stato.descStato", "ITALIA") );
 		
 //		System.out.println("natura = " + natura);
 		
@@ -113,8 +113,9 @@ public class AggregataFacade {
 			criteriaByNatura.addOrder(Order.asc(orderByCol));
 		else
 			criteriaByNatura.addOrder(Order.desc(orderByCol));
-		
+
 		List<Aggregata> aggregata = aggregataDAO.findByCriteria(criteriaByNatura, page);
+		
 		AggregataDTO ele = null;
 		for( Aggregata tmp: aggregata ){
 			ele = new AggregataDTO(tmp);

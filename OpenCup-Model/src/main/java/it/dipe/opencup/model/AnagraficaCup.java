@@ -19,7 +19,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(name = "D_DMA_DCUP_ANAGRAFICA_CUP")
+@Table(name = "S_DMA_DCUP_ANAGRAFICA_CUP")
 public class AnagraficaCup extends AbstractCommonEntity implements Serializable {
 
 	/**

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_FAGG_AGGREGATA")
+@Table(name = "S_DMA_FAGG_AGGREGATA")
 public class Aggregata extends AbstractCommonEntity implements Serializable {
 
 	/**

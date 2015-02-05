@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DCPV_CPV")
+@Table(name = "S_DMA_DCPV_CPV")
 public class Cpv extends AbstractCommonEntity implements Serializable {
 
 	/**

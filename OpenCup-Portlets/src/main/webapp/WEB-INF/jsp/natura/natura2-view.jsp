@@ -47,5 +47,5 @@ Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei proget
 
 </liferay-ui:search-container>
 
-<form class="formEmpty" method="POST" action="#">
+<form class="formEmptyNatura2" method="POST" action="#">
 </form>

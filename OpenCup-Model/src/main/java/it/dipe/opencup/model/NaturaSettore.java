@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DNAS_NATURA_SETTORE")
+@Table(name = "S_DMA_DNAS_NATURA_SETTORE")
 public class NaturaSettore extends AbstractCommonEntity implements Serializable {
 
 	/**

@@ -3,7 +3,7 @@ AUI().use(
 		'aui-base', 
 		function( A ) {
 			
-			var myFormEmpty = A.one(".formEmpty");
+			var myFormEmpty = A.one(".formEmptyNatura2");
 		
 			A.all('.link-url-naviga-selezione').each(
 					function() {

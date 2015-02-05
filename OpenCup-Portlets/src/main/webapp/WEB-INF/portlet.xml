@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
-<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	version="2.0">
 	<portlet id="natura-portlet1">
 		<portlet-name>natura-portlet1</portlet-name>
 		<display-name>Distribuzione percentuale</display-name>
-		
+
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
-  			<name>contextConfigLocation</name>
- 			<value>/WEB-INF/natura-portlet1.xml</value>
- 		</init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/natura-portlet1.xml</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -37,21 +40,25 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
+
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
 		</supported-processing-event>
-		
+
+		<supported-publishing-event>
+			<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+		</supported-publishing-event>
+
 	</portlet>
-	
+
 	<portlet id="natura-portlet2">
 		<portlet-name>natura-portlet2</portlet-name>
 		<display-name>Naviga per Classificazione</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
-  			<name>contextConfigLocation</name>
- 			<value>/WEB-INF/natura-portlet2.xml</value>
- 		</init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/natura-portlet2.xml</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -80,22 +87,26 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
+
+		<supported-processing-event>
+			<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+		</supported-processing-event>
+
 		<supported-publishing-event>
 			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
 		</supported-publishing-event>
-		 
+
 	</portlet>
-	
+
 	<portlet id="natura-portlet3">
 		<portlet-name>natura-portlet3</portlet-name>
 		<display-name>Sintesi Classificazione</display-name>
-		
+
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
-  			<name>contextConfigLocation</name>
- 			<value>/WEB-INF/natura-portlet3.xml</value>
- 		</init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/natura-portlet3.xml</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -124,16 +135,25 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
+
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
 		</supported-processing-event>
-		
+
+		<supported-processing-event>
+			<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+		</supported-processing-event>
+
 	</portlet>
-	
+
 	<event-definition>
 		<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
-		<value-type>sample.valueobject.Name</value-type>
+		<value-type>valueobject.Name</value-type>
 	</event-definition>
-	 
+
+	<event-definition>
+		<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+		<value-type>valueobject.Name</value-type>
+	</event-definition>
+
 </portlet-app>

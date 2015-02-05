@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DCOM_COMUNE")
+@Table(name = "S_DMA_DCOM_COMUNE")
 public class Comune extends AbstractCommonEntity implements Serializable {
 
 	/**

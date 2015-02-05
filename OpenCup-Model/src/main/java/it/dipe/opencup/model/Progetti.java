@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "D_DMA_FPRG_PROGETTI")
+@Table(name = "S_DMA_FPRG_PROGETTI")
 public class Progetti extends AbstractCommonEntity implements Serializable {
 
 	/**

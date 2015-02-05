@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DSPR_STATO_PROGETTO")
+@Table(name = "S_DMA_DSPR_STATO_PROGETTO")
 public class StatoProgetto extends AbstractCommonEntity implements Serializable {
 
 	/**

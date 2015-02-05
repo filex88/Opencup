@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "D_DMA_DADE_ANNO_DECISIONE")
+@Table(name = "S_DMA_DADE_ANNO_DECISIONE")
 public class AnnoDecisione extends AbstractCommonEntity implements Serializable {
 
 	/**

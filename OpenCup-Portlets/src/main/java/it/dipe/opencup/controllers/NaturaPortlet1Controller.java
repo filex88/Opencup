@@ -1,47 +1,45 @@
 package it.dipe.opencup.controllers;
 
+import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.NavigaClassificazioneEvent;
-import it.dipe.opencup.facade.AggregataFacade;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.xml.namespace.QName;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
+import com.liferay.portal.kernel.util.ParamUtil;
+
 @Controller
 @RequestMapping("VIEW")
 @SessionAttributes("sessionAttrPie")
-public class NaturaPortlet1Controller {
-	
-	@Autowired
-	private AggregataFacade aggregataFacade;
+public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 
 	@ModelAttribute("sessionAttrPie")
 	public NavigaClassificazioneEvent sessionAttrPie() {
-		NavigaClassificazioneEvent sessionAttrPie = new NavigaClassificazioneEvent();
-		sessionAttrPie.setRowIdLiv1("0");
-		sessionAttrPie.setRowIdLiv2("-1");
-		sessionAttrPie.setRowIdLiv3("-1");
-		sessionAttrPie.setRowIdLiv4("-1");
-		return sessionAttrPie;
+		return super.sessionAttr();
 	}
 	
 	public static String getRandomColor() {
@@ -70,13 +68,19 @@ public class NaturaPortlet1Controller {
 		return "natura1-view";
 	}
 
-	@ResourceMapping(value =  "naturaPortlet1")	
-	public View caricaDati4Pie(@RequestParam("pattern") String pattern, @ModelAttribute("sessionAttrPie") NavigaClassificazioneEvent sessionAttrPie){
+	@ResourceMapping(value =  "aggregati4Pie")	
+	public View caricaDati4Pie(ResourceRequest request, @RequestParam("pattern") String pattern, @ModelAttribute("sessionAttrPie") NavigaClassificazioneEvent sessionAttrPie){
 		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(Integer.valueOf(sessionAttrPie.getRowIdLiv1()), 
 																					 Integer.valueOf(sessionAttrPie.getRowIdLiv2()),
 																					 Integer.valueOf(sessionAttrPie.getRowIdLiv3()),
 																					 Integer.valueOf(sessionAttrPie.getRowIdLiv4()) );
+		
+		int index = calcolaIndicePagina(sessionAttrPie);
+		
+		String anchorPortlet = "#natura-portlet1";
+		impostaLinkURL(request, sessionAttrPie, index, listaAggregataDTO, anchorPortlet);
+		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
 
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
@@ -105,12 +109,13 @@ public class NaturaPortlet1Controller {
 			}else {
 				conv.setValue(0.0);
 			}
-
+			
+			conv.setLinkURL(aggregataDTO.getLinkURL());
 			conv.setColor(getRandomColor());
 			converter.add(conv);
 		}
 
-		view.addStaticAttribute("naturaPortlet1", converter);
+		view.addStaticAttribute("aggregati4Pie", converter);
 		return view;
 	}
 
@@ -124,4 +129,21 @@ public class NaturaPortlet1Controller {
 		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
 	
 	}
+	
+	@ActionMapping(params="action=PublishEvent")
+	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, @ModelAttribute("sessionAttrPie") NavigaClassificazioneEvent sessionAttrPie){
+
+		QName eventName = new QName( "http:eventNavigaNaturaPie/events", "event.navigaNaturaPie");
+		
+		//Leggo la query String per determinare il link di navigazione
+		sessionAttrPie = new NavigaClassificazioneEvent();
+		sessionAttrPie.setRowIdLiv1(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		sessionAttrPie.setRowIdLiv2(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		sessionAttrPie.setRowIdLiv3(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		sessionAttrPie.setRowIdLiv4(ParamUtil.getString(aRequest, "rowIdLiv4"));
+
+		//Setto l'evento con i parametri letti dalla Query string 
+		aResponse.setEvent( eventName, sessionAttrPie );
+	}
+	
 }

@@ -1,4 +1,3 @@
-
 AUI().use(
 		'liferay-portlet-url', 
 		'aui-base', 
@@ -22,7 +21,7 @@ AUI().use(
    			
 			function loadPie(pattern, button){
 
-//				console.log("pattern = " + pattern);
+				console.log("namespace = " + namespace);
 				
 				
 				A.all('.natura-sel-btn').replaceClass('active', '');
@@ -32,8 +31,8 @@ AUI().use(
 				tipoAggregazione = pattern;
 				
 				var resourceURL = Liferay.PortletURL.createResourceURL();
-				resourceURL.setPortletId("naturaportlet1_WAR_OpenCupPortletsportlet");
-				resourceURL.setResourceId("naturaPortlet1");
+				resourceURL.setPortletId(namespace);
+				resourceURL.setResourceId("aggregati4Pie");
 				resourceURL.setParameter("pattern", pattern);
 				resourceURL.setCopyCurrentRenderParameters(true);
 				
@@ -108,7 +107,7 @@ AUI().use(
 
 					"data": {
 						"sortOrder": "value-desc",
-						"content": aggregate.naturaPortlet1
+						"content": aggregate.aggregati4Pie
 					},
 					"labels": {
 						"outer": {
@@ -158,17 +157,17 @@ AUI().use(
 						onMouseoverSegment: function(info) {
 							//console.log("mouseover:", info);							
 							//Update the tooltip position and value
-							var tooltip = d3.select("#tooltip");
+							var tooltip = d3.select("#tooltip-natura-portlet1");
 
-							tooltip.select("#label").text(info.data.label);
-							tooltip.select("#labelvalue").text(tipoAggregazione);
+							tooltip.select("#label-tooltip-natura-portlet1").text(info.data.label);
+							tooltip.select("#labelvalue-tooltip-natura-portlet1").text(tipoAggregazione);
 
 							if( tipoAggregazione == "VOLUME" ){
-								tooltip.select("#value").text(formattaIntero(info.data.value));
-								tooltip.select("#umvalue").classed("hidden", true);
+								tooltip.select("#value-tooltip-natura-portlet1").text(formattaIntero(info.data.value));
+								tooltip.select("#umvalue-tooltip-natura-portlet1").classed("hidden", true);
 							}else{
-								tooltip.select("#value").text(formattaImporto(info.data.value));
-								tooltip.select("#umvalue").classed("hidden", false);
+								tooltip.select("#value-tooltip-natura-portlet1").text(formattaImporto(info.data.value));
+								tooltip.select("#umvalue-tooltip-natura-portlet1").classed("hidden", false);
 							}
 							
 							//Show the tooltip
@@ -180,9 +179,16 @@ AUI().use(
 						onMouseoutSegment: function(info) {
 							//console.log("mouseout:", info);
 							//Hide the tooltip
-							var tooltip = d3.select("#tooltip");
+							var tooltip = d3.select("#tooltip-natura-portlet1");
 						    tooltip.transition().duration(500).style("opacity", 0);   
 						    tooltip.classed("hidden", true);
+						},
+						onClickSegment: function(info) {
+							//console.log(info);
+							var myFormEmpty = A.one(".formEmptyNatura1");
+							var linkURL = info.data.linkURL;
+							myFormEmpty.setAttribute('action', linkURL);
+							myFormEmpty.submit();
 						}
 					}
 					//,
@@ -194,12 +200,186 @@ AUI().use(
 					//}
 				});
 			}
-			
-			var tooltip = d3.select("#tooltip");
+
 			d3.select("#pieChart").on("mouseover", function(d) {  
+				var tooltip = d3.select("#tooltip-natura-portlet1");
 				tooltip.style("left", d3.event.pageX + "px");
 				tooltip.style("top", d3.event.pageY + "px");
 			});
    			
 		}
 	);
+
+//
+//function NaturaPortlet1(pPortletId, pA){
+//	
+//	var A;
+//	var portletId;
+//	var tipoAggregazione;
+//	
+//	this.A = pA;
+//	this.pPortletId = portletId;
+//	this.tipoAggregazione = "";
+//	
+//	this.onClickNaturaSel = function(){
+//		var misura = this.getAttribute("data-natura");
+//		this.loadPie(misura, this);
+//	}
+//	
+//	this.loadPie = function(pattern, button){
+//		
+//		this.A.one('#pieChart').empty();
+//		
+//		this.aggregate = null;
+//		
+//		this.A.all('.natura-sel-btn').replaceClass('active', '');
+//
+//		button.replaceClass('btn-default', 'btn-default active');
+//		
+//		this.tipoAggregazione = pattern;
+//		
+//		var resourceURL = Liferay.PortletURL.createResourceURL();
+//		resourceURL.setPortletId(this.portletId);
+//		resourceURL.setResourceId("naturaPortlet1");
+//		resourceURL.setParameter("pattern", pattern);
+//		resourceURL.setCopyCurrentRenderParameters(true);
+//		
+//		this.A.io.request( resourceURL.toString(), {
+//			method: 'GET',
+//			dataType: 'json',
+//			on: {
+//				success: function(event, id, obj) {
+//					console.log("success");
+//					this.aggregate = this.get('responseData');
+//					console.log("this.aggregate: " + this.aggregate);
+//				},
+//				failure: function (e) {
+//					var message = this.get('responseData');
+//					alert("Ajax Error : "+message);	
+//				}
+//			}
+//		});
+//		
+//	}
+//	
+//	function formattaImporto(valore){
+//		return A.Number.format(valore,{
+//			prefix: "",
+//	        thousandsSeparator: ".",
+//	        decimalSeparator: ",",
+//	        decimalPlaces: 3,
+//	        suffix: ""
+//		});
+//	}
+//				
+//	function formattaIntero(valore){
+//		return A.Number.format(valore,{
+//			prefix: "",
+//	        thousandsSeparator: ".",
+//	        decimalSeparator: ",",
+//	        decimalPlaces: 0,
+//	        suffix: ""
+//		});
+//	}
+//	
+//	this.drawPie = function(){
+//		
+//		console.log("disegno la torta");
+//		console.log("////////////////////////////////");
+//		console.log(this.aggregate.naturaPortlet1);
+//		console.log("////////////////////////////////");
+//		
+//		new d3pie("pieChart", {
+//			"header": {
+//				"title": {
+//					"text": "Distribuzione percentuale",
+//					"fontSize": 22,
+//					"font": "helvetica"
+//				},
+//				"subtitle": {
+//					"color": "#999999",
+//					"fontSize": 12,
+//					"font": "open sans"
+//				},
+//				"titleSubtitlePadding": 5
+//			},
+//			"footer": {
+//				"color": "#999999",
+//				"fontSize": 10,
+//				"font": "open sans",
+//				"location": "bottom-left"
+//			},
+//			"data": {
+//				"sortOrder": "value-desc",
+//				"content": this.aggregate.naturaPortlet1
+//			},
+//			"labels": {
+//				"outer": {
+//					"format": "percentage",
+//					"pieDistance": 5
+//				},
+//				"inner": {
+//					"format": "none",
+//					"hideWhenLessThanPercentage": 3
+//				},
+//				"mainLabel": {
+//					"fontSize": 11
+//				},
+//				"percentage": {
+//					"color": "#333333",
+//					"decimalPlaces": 0
+//				},
+//				"value": {
+//					"color": "#adadad",
+//					"fontSize": 11
+//				}
+//			},
+//			"effects": {
+//				"pullOutSegmentOnClick": {
+//					"effect": "linear",
+//					"speed": 400,
+//					"size": 8
+//				}
+//			},
+//			"size": {
+//				"canvasHeight": 450,
+//				"canvasWidth": 450
+//			},
+//			"callbacks": {
+//				onMouseoverSegment: function(info) {
+//					//console.log("mouseover:", info);							
+//					//Update the tooltip position and value
+//					var tooltip = d3.select("#tooltip-natura-portlet1");
+//					tooltip.select("#label-tooltip-natura-portlet1").text(info.data.label);
+//					tooltip.select("#labelvalue-tooltip-natura-portlet1").text(this.tipoAggregazione);
+//					if( this.tipoAggregazione == "VOLUME" ){
+//						tooltip.select("#value-tooltip-natura-portlet1").text(formattaIntero(info.data.value));
+//						tooltip.select("#umvalue-tooltip-natura-portlet1").classed("hidden", true);
+//					}else{
+//						tooltip.select("#value-tooltip-natura-portlet1").text(formattaImporto(info.data.value));
+//						tooltip.select("#umvalue-tooltip-natura-portlet1").classed("hidden", false);
+//					}
+//					//Show the tooltip
+//					tooltip.classed("hidden", false); 
+//					tooltip.transition().duration(500).style("opacity", 100);
+//				},
+//				onMouseoutSegment: function(info) {
+//					//console.log("mouseout:", info);
+//					//Hide the tooltip
+//					var tooltip = d3.select("#tooltip-natura-portlet1");
+//					tooltip.transition().duration(500).style("opacity", 0);   
+//					tooltip.classed("hidden", true);
+//				},
+//				onClickSegment: function(info) {
+//					console.log(info);
+//					var myFormEmpty = A.one(".formEmptyNatura1");
+//					var linkURL = info.data.linkURL;
+//					myFormEmpty.setAttribute('action', linkURL);
+//					myFormEmpty.submit();
+//				}
+//			}
+//		});
+//	}
+//	
+//	
+//}
