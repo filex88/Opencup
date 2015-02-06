@@ -3,7 +3,7 @@ package it.dipe.opencup.controllers;
 import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
-import it.dipe.opencup.dto.NavigaClassificazioneEvent;
+import it.dipe.opencup.dto.NavigaAggregata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 
 	@ModelAttribute("sessionAttrPie")
-	public NavigaClassificazioneEvent sessionAttrPie() {
+	public NavigaAggregata sessionAttrPie() {
 		return super.sessionAttr();
 	}
 	
@@ -55,26 +55,24 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 	public String handleRenderRequest(	RenderRequest request, 
 										RenderResponse response, 
 										@RequestParam(required = false) String[] pFiltriRicerca,
-										Model model, @ModelAttribute("sessionAttrPie") NavigaClassificazioneEvent sessionAttrPie){
+										Model model, 
+										@ModelAttribute("sessionAttrPie") NavigaAggregata sessionAttrPie){
 		
 		//Setto in sessione i filtri di ricerca processati in processEvent
 		if( pFiltriRicerca != null && pFiltriRicerca.length == 4 ){
-			sessionAttrPie.setRowIdLiv1(pFiltriRicerca[0]);
-			sessionAttrPie.setRowIdLiv2(pFiltriRicerca[1]);
-			sessionAttrPie.setRowIdLiv3(pFiltriRicerca[2]);
-			sessionAttrPie.setRowIdLiv4(pFiltriRicerca[3]);
+			sessionAttrPie.setIdNatura(pFiltriRicerca[0]);
+			sessionAttrPie.setIdSettoreInternvanto(pFiltriRicerca[1]);
+			sessionAttrPie.setIdSottosettoreIntervento(pFiltriRicerca[2]);
+			sessionAttrPie.setIdCategoriaIntervento(pFiltriRicerca[3]);
 		}
 
 		return "natura1-view";
 	}
 
 	@ResourceMapping(value =  "aggregati4Pie")	
-	public View caricaDati4Pie(ResourceRequest request, @RequestParam("pattern") String pattern, @ModelAttribute("sessionAttrPie") NavigaClassificazioneEvent sessionAttrPie){
+	public View caricaDati4Pie(ResourceRequest request, @RequestParam("pattern") String pattern, @ModelAttribute("sessionAttrPie") NavigaAggregata sessionAttrPie){
 		
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(Integer.valueOf(sessionAttrPie.getRowIdLiv1()), 
-																					 Integer.valueOf(sessionAttrPie.getRowIdLiv2()),
-																					 Integer.valueOf(sessionAttrPie.getRowIdLiv3()),
-																					 Integer.valueOf(sessionAttrPie.getRowIdLiv4()) );
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrPie);
 		
 		int index = calcolaIndicePagina(sessionAttrPie);
 		
@@ -90,13 +88,13 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 			conv = new D3PieConverter();
 			conv.setId(aggregataDTO.getId().toString());
 			
-			if( "0".equals(sessionAttrPie.getRowIdLiv4()) ){
+			if( sessionAttrPie.getIdCategoriaIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesCategoriaIntervento() );
-			}else if( "0".equals(sessionAttrPie.getRowIdLiv3()) ){
+			}else if( sessionAttrPie.getIdSottosettoreIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesSottoSettore() );
-			}else if( "0".equals(sessionAttrPie.getRowIdLiv2()) ){
+			}else if( sessionAttrPie.getIdSettoreInternvanto().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesSettore() );
-			}else if( "0".equals(sessionAttrPie.getRowIdLiv1()) ){
+			}else if( sessionAttrPie.getIdNatura().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesNatura());
 			}
 
@@ -123,24 +121,30 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 	@EventMapping(value = "event.navigaNatura")
 	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
 	
-		NavigaClassificazioneEvent naviga = (NavigaClassificazioneEvent) eventRequest.getEvent().getValue();
+		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
-		String[] pFiltriRicerca = { naviga.getRowIdLiv1(), naviga.getRowIdLiv2(), naviga.getRowIdLiv3(), naviga.getRowIdLiv4() };
+		String[] pFiltriRicerca = { String.valueOf(naviga.getIdNatura()), 
+									String.valueOf(naviga.getIdSettoreInternvanto()), 
+									String.valueOf(naviga.getIdSottosettoreIntervento()), 
+									String.valueOf(naviga.getIdCategoriaIntervento()) };
+		
 		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
 	
 	}
 	
 	@ActionMapping(params="action=PublishEvent")
-	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, @ModelAttribute("sessionAttrPie") NavigaClassificazioneEvent sessionAttrPie){
+	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
 
 		QName eventName = new QName( "http:eventNavigaNaturaPie/events", "event.navigaNaturaPie");
 		
 		//Leggo la query String per determinare il link di navigazione
-		sessionAttrPie = new NavigaClassificazioneEvent();
-		sessionAttrPie.setRowIdLiv1(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		sessionAttrPie.setRowIdLiv2(ParamUtil.getString(aRequest, "rowIdLiv2"));
-		sessionAttrPie.setRowIdLiv3(ParamUtil.getString(aRequest, "rowIdLiv3"));
-		sessionAttrPie.setRowIdLiv4(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		NavigaAggregata sessionAttrPie = new NavigaAggregata();
+		sessionAttrPie.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		sessionAttrPie.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		sessionAttrPie.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		sessionAttrPie.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		
+		model.addAttribute("sessionAttrPie", sessionAttrPie);
 
 		//Setto l'evento con i parametri letti dalla Query string 
 		aResponse.setEvent( eventName, sessionAttrPie );

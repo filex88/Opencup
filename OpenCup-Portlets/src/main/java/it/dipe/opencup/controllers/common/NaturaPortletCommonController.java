@@ -1,7 +1,7 @@
 package it.dipe.opencup.controllers.common;
 
 import it.dipe.opencup.dto.AggregataDTO;
-import it.dipe.opencup.dto.NavigaClassificazioneEvent;
+import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
 
 import java.util.List;
@@ -40,22 +40,19 @@ public class NaturaPortletCommonController {
 	protected final String[] navigaPer = {"Settore", "Sottosettore", "Categoria Intervento", "Natura"};
 	
 	//Metodo per la creazione del session attribute
-	protected NavigaClassificazioneEvent sessionAttr() {
-		NavigaClassificazioneEvent sessionAttr = new NavigaClassificazioneEvent();
-		sessionAttr.setRowIdLiv1("0");
-		sessionAttr.setRowIdLiv2("-1");
-		sessionAttr.setRowIdLiv3("-1");
-		sessionAttr.setRowIdLiv4("-1");
+	protected NavigaAggregata sessionAttr() {
+		NavigaAggregata sessionAttr = new NavigaAggregata();
+		sessionAttr.setIdNatura("0");
 		return sessionAttr;
 	}
 	
-	protected int calcolaIndicePagina(NavigaClassificazioneEvent sessionAttrNav) {
+	protected int calcolaIndicePagina(NavigaAggregata sessionAttrNav) {
 		int index;
-		if("0".equals(sessionAttrNav.getRowIdLiv2())){
+		if( sessionAttrNav.getIdSettoreInternvanto().equals("0") ){
 			index = 0;
-		}else if("0".equals(sessionAttrNav.getRowIdLiv3())){
+		}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
 			index = 1;
-		}else if("0".equals(sessionAttrNav.getRowIdLiv4())){
+		}else if( sessionAttrNav.getIdCategoriaIntervento().equals("0")){
 			index = 2;
 		}else{
 			index = 3;
@@ -63,7 +60,7 @@ public class NaturaPortletCommonController {
 		return index;
 	}
 	
-	protected void impostaLinkURL(PortletRequest request, NavigaClassificazioneEvent sessionAttrNav, int index, List<AggregataDTO> listaAggregataDTO, String anchorPortlet) {
+	protected void impostaLinkURL(PortletRequest request, NavigaAggregata sessionAttrNav, int index, List<AggregataDTO> listaAggregataDTO, String anchorPortlet) {
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
@@ -92,23 +89,23 @@ public class NaturaPortletCommonController {
 						//Per ogni elemento oltre a caricare la descrizione e i valori
 						//viene generato un linkURL che punta alla pagina successiva
 						
-						rowIdLiv1URL = sessionAttrNav.getRowIdLiv1();
-						rowIdLiv2URL = sessionAttrNav.getRowIdLiv2();
-						rowIdLiv3URL = sessionAttrNav.getRowIdLiv3();
-						rowIdLiv4URL = sessionAttrNav.getRowIdLiv4();
+						rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
+						rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdSettoreInternvanto());
+						rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
+						rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
 						
-						if( "0".equals(sessionAttrNav.getRowIdLiv4()) ){
+						if( sessionAttrNav.getIdCategoriaIntervento().equals("0") ){
 							rowIdLiv4URL = tmp.getIdCategoriaIntervento().toString(); 
 							tmp.setDescURL( tmp.getDesCategoriaIntervento() );
-						}else if( "0".equals(sessionAttrNav.getRowIdLiv3()) ){
+						}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
 							rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
 							rowIdLiv4URL = "0";
 							tmp.setDescURL( tmp.getDesSottoSettore() );
-						}else if( "0".equals(sessionAttrNav.getRowIdLiv2()) ){
+						}else if( sessionAttrNav.getIdSettoreInternvanto().equals("0") ){
 							rowIdLiv2URL = tmp.getIdSettore().toString(); 
 							rowIdLiv3URL = "0";
 							tmp.setDescURL( tmp.getDesSettore() );
-						}else if( "0".equals(sessionAttrNav.getRowIdLiv1()) ){
+						}else if( sessionAttrNav.getIdNatura().equals("0") ){
 							rowIdLiv1URL = tmp.getIdNatura().toString(); 
 							rowIdLiv2URL = "0";
 							tmp.setDescURL( tmp.getDesNatura() );

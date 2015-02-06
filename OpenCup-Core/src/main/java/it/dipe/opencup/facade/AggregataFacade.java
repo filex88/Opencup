@@ -6,8 +6,8 @@ import it.dipe.opencup.dao.LocalizzazioneDAO;
 import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.ProgettiDAO;
 import it.dipe.opencup.dto.AggregataDTO;
+import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
-import it.dipe.opencup.utils.DMUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +36,7 @@ public class AggregataFacade {
 	@Autowired
 	private LocalizzazioneDAO localizzazioneDAO;
 	
-	@Autowired
-	private DMUtils dmUtils;
-	
-	
-	private Criteria bildCriteriaByNatura(int natura, int settoreInternvanto, int sottosettoreIntervento, int categoriaIntervento){
+	private Criteria bildCriteriaByNatura(NavigaAggregata navigaAggregata) {
 		Criteria criteria = aggregataDAO.newCriteria();
 		
 		criteria.createAlias("classificazione", "classificazione");
@@ -48,51 +44,70 @@ public class AggregataFacade {
 		criteria.createAlias("annoDecisione", "annoDecisione");
 		criteria.createAlias("localizzazione.stato", "stato");
 		
-		criteria.add( Restrictions.eq("annoDecisione.id", -1) );
-		
-		criteria.add( Restrictions.eq("localizzazione.provincia.id", -1) );
-		criteria.add( Restrictions.eq("localizzazione.regione.id", -1) );
-		criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", -1) );
-		criteria.add( Restrictions.eq("stato.descStato", "ITALIA") );
-		
-//		System.out.println("natura = " + natura);
-		
-		if( natura == 0 ){
-			criteria.add( Restrictions.ge("classificazione.natura.id", natura) );
+		if( navigaAggregata.getIdAnnoDecisione().equals("0") ){
+			criteria.add( Restrictions.ge("annoDecisione.id", Integer.valueOf(navigaAggregata.getIdAnnoDecisione())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.natura.id", natura) );
+			criteria.add( Restrictions.eq("annoDecisione.id", Integer.valueOf(navigaAggregata.getIdAnnoDecisione())) );
 		}
 		
-//		System.out.println("settoreInternvanto = " + settoreInternvanto);
 		
-		if( settoreInternvanto == 0 ){
-			criteria.add( Restrictions.ge("classificazione.settoreInternvanto.id", settoreInternvanto) );
+		
+		if( navigaAggregata.getIdProvincia().equals("0") ){
+			criteria.add( Restrictions.ge("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.settoreInternvanto.id", settoreInternvanto) );
+			criteria.add( Restrictions.eq("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
+		}
+		
+		if( navigaAggregata.getIdRegione().equals("0") ){
+			criteria.add( Restrictions.ge("localizzazione.regione.id", Integer.valueOf(navigaAggregata.getIdRegione())) );
+		}else{
+			criteria.add( Restrictions.eq("localizzazione.regione.id", Integer.valueOf(navigaAggregata.getIdRegione())) );
+		}
+		
+		if( navigaAggregata.getIdAreaGeografica().equals("0") ){
+			criteria.add( Restrictions.ge("localizzazione.areaGeografica.id", Integer.valueOf(navigaAggregata.getIdAreaGeografica())) );
+		}else{
+			criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", Integer.valueOf(navigaAggregata.getIdAreaGeografica())) );
+		}
+
+		criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
+			
+		
+		
+		if( navigaAggregata.getIdNatura().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
+		}else{
+			criteria.add( Restrictions.eq("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
+		}
+		
+		if( navigaAggregata.getIdSettoreInternvanto().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.settoreInternvanto.id", Integer.valueOf(navigaAggregata.getIdSettoreInternvanto())) );
+		}else{
+			criteria.add( Restrictions.eq("classificazione.settoreInternvanto.id", Integer.valueOf(navigaAggregata.getIdSettoreInternvanto())) );
 		}
 		
 //		System.out.println("sottosettoreIntervento = " + sottosettoreIntervento);
 		
-		if( sottosettoreIntervento == 0 ){
-			criteria.add( Restrictions.ge("classificazione.sottosettoreIntervento.id", sottosettoreIntervento) );
+		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", sottosettoreIntervento) );
+			criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}
 		
 //		System.out.println("categoriaIntervento = " + categoriaIntervento);
 		
-		if( categoriaIntervento == 0 ){
-			criteria.add( Restrictions.ge("classificazione.categoriaIntervento.id", categoriaIntervento) );
+		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.categoriaIntervento.id", categoriaIntervento) );
+			criteria.add( Restrictions.eq("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
 		}	
 		
 		return criteria;
 	}
 	
-	public List<AggregataDTO> findAggregataByNatura(int natura, int settoreInternvanto, int sottosettoreIntervento, int categoriaIntervento) {
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(natura, settoreInternvanto, sottosettoreIntervento, categoriaIntervento));
+		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
 		AggregataDTO ele = null;
 		for( Aggregata tmp: aggregata ){
 			ele = new AggregataDTO(tmp);
@@ -101,14 +116,14 @@ public class AggregataFacade {
 		return retval;
 	}
 	
-	public int countAggregataByNatura(int natura, int settoreInternvanto, int sottosettoreIntervento, int categoriaIntervento) {
-		return aggregataDAO.countByCriteria(bildCriteriaByNatura(natura, settoreInternvanto, sottosettoreIntervento, categoriaIntervento));
+	public int countAggregataByNatura(NavigaAggregata navigaAggregata) { 
+		return aggregataDAO.countByCriteria(bildCriteriaByNatura(navigaAggregata));
 	}
 	
 	
-	public List<AggregataDTO> findAggregataByNatura(int natura, int settoreInternvanto, int sottosettoreIntervento, int categoriaIntervento, int page, String orderByCol, String orderByType) {
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, int page, String orderByCol, String orderByType) {
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-		Criteria criteriaByNatura = bildCriteriaByNatura(natura, settoreInternvanto, sottosettoreIntervento, categoriaIntervento);
+		Criteria criteriaByNatura = bildCriteriaByNatura(navigaAggregata);
 		if("asc".equals(orderByType))
 			criteriaByNatura.addOrder(Order.asc(orderByCol));
 		else

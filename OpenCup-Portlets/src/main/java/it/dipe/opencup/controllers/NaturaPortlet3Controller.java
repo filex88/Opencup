@@ -3,7 +3,7 @@ package it.dipe.opencup.controllers;
 import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.DescrizioneValore;
-import it.dipe.opencup.dto.NavigaClassificazioneEvent;
+import it.dipe.opencup.dto.NavigaAggregata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,31 +30,29 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 
 	@ModelAttribute("sessionAttrRiepilogo")
-	public NavigaClassificazioneEvent sessionAttrRiepilogo() {
+	public NavigaAggregata sessionAttrRiepilogo() {
 		return super.sessionAttr();
 	}
 	
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest request, 
 										RenderResponse response, 
-										@RequestParam(required = false) String[] navigaNatura,
-										Model model, @ModelAttribute("sessionAttrRiepilogo") NavigaClassificazioneEvent sessionAttrRiepilogo){
+										@RequestParam(required = false) String[] pFiltriRicerca,
+										Model model, 
+										@ModelAttribute("sessionAttrRiepilogo") NavigaAggregata sessionAttrRiepilogo){
 		
-		if( navigaNatura != null && navigaNatura.length == 4 ){
-			sessionAttrRiepilogo.setRowIdLiv1(navigaNatura[0]);
-			sessionAttrRiepilogo.setRowIdLiv2(navigaNatura[1]);
-			sessionAttrRiepilogo.setRowIdLiv3(navigaNatura[2]);
-			sessionAttrRiepilogo.setRowIdLiv4(navigaNatura[3]);
+		if( pFiltriRicerca != null && pFiltriRicerca.length == 4 ){
+			sessionAttrRiepilogo.setIdNatura(pFiltriRicerca[0]);
+			sessionAttrRiepilogo.setIdSettoreInternvanto(pFiltriRicerca[1]);
+			sessionAttrRiepilogo.setIdSottosettoreIntervento(pFiltriRicerca[2]);
+			sessionAttrRiepilogo.setIdCategoriaIntervento(pFiltriRicerca[3]);
 		}
 		
 		SearchContainer<DescrizioneValore> searchContainer = new SearchContainer<DescrizioneValore>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
 		searchContainer.setTotal(3);
 		
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(Integer.valueOf(sessionAttrRiepilogo.getRowIdLiv1()), 
-																					 Integer.valueOf(sessionAttrRiepilogo.getRowIdLiv2()),
-																					 Integer.valueOf(sessionAttrRiepilogo.getRowIdLiv3()),
-																					 Integer.valueOf(sessionAttrRiepilogo.getRowIdLiv4()) );
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrRiepilogo);
 		Integer numeProgetti = 0;
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
@@ -86,11 +84,16 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 		processaEvento(eventRequest, eventResponse);
 	}
 	
-	private void processaEvento(EventRequest eventRequest,
-			EventResponse eventResponse) {
-		NavigaClassificazioneEvent naviga = (NavigaClassificazioneEvent) eventRequest.getEvent().getValue();
-		String[] navigaNatura = { naviga.getRowIdLiv1(), naviga.getRowIdLiv2(), naviga.getRowIdLiv3(), naviga.getRowIdLiv4() };
-		eventResponse.setRenderParameter("navigaNatura", navigaNatura);
+	private void processaEvento(EventRequest eventRequest, EventResponse eventResponse) {
+		
+		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
+		
+		String[] pFiltriRicerca = {String.valueOf(naviga.getIdNatura()), 
+								   String.valueOf(naviga.getIdSettoreInternvanto()), 
+								   String.valueOf(naviga.getIdSottosettoreIntervento()), 
+								   String.valueOf(naviga.getIdCategoriaIntervento()) };
+		
+		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
 	}
 
 }

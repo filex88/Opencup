@@ -112,7 +112,7 @@ AUI().use(
 					"labels": {
 						"outer": {
 							"format": "percentage",
-							"pieDistance": 5
+							"pieDistance": 15
 						},
 						"inner": {
 							"format": "none",
@@ -128,6 +128,10 @@ AUI().use(
 						"value": {
 							"color": "#adadad",
 							"fontSize": 11
+						},
+						"lines": {
+							"enabled": true,
+							"style": "straight"
 						}
 					},
 					"tooltips": {
@@ -155,7 +159,7 @@ AUI().use(
 					},
 					"callbacks": {
 						onMouseoverSegment: function(info) {
-							//console.log("mouseover:", info);							
+							//console.log(info);							
 							//Update the tooltip position and value
 							var tooltip = d3.select("#tooltip-natura-portlet1");
 
@@ -173,7 +177,6 @@ AUI().use(
 							//Show the tooltip
 							tooltip.classed("hidden", false); 
 							tooltip.transition().duration(500).style("opacity", 100);
-
 							
 						},
 						onMouseoutSegment: function(info) {
