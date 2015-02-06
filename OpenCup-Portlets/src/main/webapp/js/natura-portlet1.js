@@ -201,7 +201,7 @@ AUI().use(
 				});
 			}
 
-			d3.select("#pieChart").on("mouseover", function(d) {  
+			d3.select("#pieChart").on("mousemove", function(d) {  
 				var tooltip = d3.select("#tooltip-natura-portlet1");
 				tooltip.style("left", d3.event.pageX + "px");
 				tooltip.style("top", d3.event.pageY + "px");
