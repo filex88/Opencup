@@ -16,7 +16,9 @@
 <div id="pieChart" style="text-align: center">
 </div>
 
-<div style="text-align: center">
+<div class="alert alert-info pieChartEmpty" id="pieChartEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
+
+<div style="text-align: center" class="pieChartToolBar" id="pieChartToolBar">
 	<aui:button-row cssClass="btn-group btn-group-justified">
 		<aui:button cssClass="natura-sel-btn btn btn-default" data-natura="VOLUME" value="VOLUME" />
 		<aui:button cssClass="natura-sel-btn btn btn-default" data-natura="COSTO" value="COSTO" />
@@ -30,7 +32,7 @@
 <script type="text/javascript">
 
 var namespace = "<portlet:namespace/>";
-namespace = namespace.substring(1,namespace.length - 1);
+namespace = namespace.substring(1, namespace.length - 1);
 
 </script>
 

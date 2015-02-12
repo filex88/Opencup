@@ -54,7 +54,21 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	@ManyToOne(targetEntity = AnnoDecisione.class)
 	@JoinColumn(name = "FK_FAGG_DADE_ID", referencedColumnName = "SEQU_DADE_ID")
 	private AnnoDecisione annoDecisione;
+	
+	
+	@ManyToOne(targetEntity = GerarchiaSoggetto.class)
+	@JoinColumn(name = "FK_FAGG_DGSO_ID", referencedColumnName = "SEQU_DGSO_ID")
+	private GerarchiaSoggetto gerarchiaSoggetto;
+	
 
+	@ManyToOne(targetEntity = TipologiaIntervento.class)
+	@JoinColumn(name = "FK_FAGG_DTIN_ID", referencedColumnName = "SEQU_DTIN_ID")
+	private TipologiaIntervento tipologiaIntervento;
+	
+	
+	@ManyToOne(targetEntity = StatoProgetto.class)
+	@JoinColumn(name = "FK_FAGG_DSPR_ID", referencedColumnName = "SEQU_DSPR_ID")
+	private StatoProgetto statoProgetto;
 
 	public Integer getId() {
 		return id;
@@ -133,6 +147,36 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 
 	public void setAnnoDecisione(AnnoDecisione annoDecisione) {
 		this.annoDecisione = annoDecisione;
+	}
+
+
+	public GerarchiaSoggetto getGerarchiaSoggetto() {
+		return gerarchiaSoggetto;
+	}
+
+
+	public void setGerarchiaSoggetto(GerarchiaSoggetto gerarchiaSoggetto) {
+		this.gerarchiaSoggetto = gerarchiaSoggetto;
+	}
+
+
+	public TipologiaIntervento getTipologiaIntervento() {
+		return tipologiaIntervento;
+	}
+
+
+	public void setTipologiaIntervento(TipologiaIntervento tipologiaIntervento) {
+		this.tipologiaIntervento = tipologiaIntervento;
+	}
+
+
+	public StatoProgetto getStatoProgetto() {
+		return statoProgetto;
+	}
+
+
+	public void setStatoProgetto(StatoProgetto statoProgetto) {
+		this.statoProgetto = statoProgetto;
 	}
 
 

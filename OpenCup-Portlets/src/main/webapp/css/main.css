@@ -24,3 +24,18 @@
 	font-size: 16px;
 	line-height: 20px;
 }
+
+
+.natura-portlet-ricerca .underline {
+	border-bottom: 1px solid;
+	border-color: #004383;
+}
+
+.natura-portlet-ricerca .ricerca .control-group .control-label {
+	padding-top:inherit;
+	font-weight: bold;
+}
+.natura-portlet-ricerca .ricerca .control-group span {
+	padding-top:5px;
+	margin-bottom: 5px;
+}

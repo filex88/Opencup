@@ -30,11 +30,11 @@ import com.liferay.portal.kernel.util.Validator;
 
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("sessionAttrNav")
+@SessionAttributes("sessionAttrNaturaNav")
 public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 	
-	@ModelAttribute("sessionAttrNav")
-	public NavigaAggregata sessionAttrNav() {
+	@ModelAttribute("sessionAttrNaturaNav")
+	public NavigaAggregata sessionAttrNaturaNav() {
 		return super.sessionAttr();
 	}
 	
@@ -43,14 +43,14 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 									  RenderResponse response, 
 									  Model model, 
 									  @RequestParam(required = false) String[] pFiltriRicerca,
-									  @ModelAttribute("sessionAttrNav") NavigaAggregata sessionAttrNav){
+									  @ModelAttribute("sessionAttrNaturaNav") NavigaAggregata sessionAttrNaturaNav){
 				
 		//Setto in sessione i filtri di ricerca processati in processEvent
 		if( pFiltriRicerca != null && pFiltriRicerca.length == 4 ){
-			sessionAttrNav.setIdNatura(pFiltriRicerca[0]);
-			sessionAttrNav.setIdSettoreInternvanto(pFiltriRicerca[1]);
-			sessionAttrNav.setIdSottosettoreIntervento(pFiltriRicerca[2]);
-			sessionAttrNav.setIdCategoriaIntervento(pFiltriRicerca[3]);
+			sessionAttrNaturaNav.setIdNatura(pFiltriRicerca[0]);
+			sessionAttrNaturaNav.setIdSettoreInternvanto(pFiltriRicerca[1]);
+			sessionAttrNaturaNav.setIdSottosettoreIntervento(pFiltriRicerca[2]);
+			sessionAttrNaturaNav.setIdCategoriaIntervento(pFiltriRicerca[3]);
 		}
 		
 		/*
@@ -60,7 +60,7 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 		 * > 0 : cerco il dato per l'id indicato
 		 * */
 		
-		int index = calcolaIndicePagina(sessionAttrNav);
+		int index = calcolaIndicePagina(sessionAttrNaturaNav);
 		
 		//orderByCol is the column name passed in the request while sorting
 		String orderByCol = ParamUtil.getString(request, "orderByCol"); 
@@ -76,19 +76,19 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 
 		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(request, response.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
 		searchContainer.setDelta(maxResult);
-		searchContainer.setTotal(aggregataFacade.countAggregataByNatura( sessionAttrNav ) );
+		searchContainer.setTotal(aggregataFacade.countAggregataByNatura( sessionAttrNaturaNav ) );
 		
 		searchContainer.setOrderByCol(orderByCol);
 		searchContainer.setOrderByType(orderByType);
 
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNav, 
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaNav, 
 																					 searchContainer.getCur(), 
 																					 searchContainer.getOrderByCol(), 
 																					 searchContainer.getOrderByType() );
 		
 		String anchorPortlet = "#natura-portlet2";
 		
-		impostaLinkURL(request, sessionAttrNav, index, listaAggregataDTO, anchorPortlet);
+		impostaLinkURL(request, sessionAttrNaturaNav, index, listaAggregataDTO, anchorPortlet);
 		
 		searchContainer.setResults(listaAggregataDTO);
 		model.addAttribute("searchContainer", searchContainer);
@@ -117,16 +117,16 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 		QName eventName = new QName( "http:eventNavigaNatura/events", "event.navigaNatura");
 		
 		//Leggo la query String per determinare il link di navigazione
-		NavigaAggregata sessionAttrNav = new NavigaAggregata();
-		sessionAttrNav.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		sessionAttrNav.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
-		sessionAttrNav.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
-		sessionAttrNav.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		NavigaAggregata sessionAttrNaturaNav = new NavigaAggregata();
+		sessionAttrNaturaNav.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		sessionAttrNaturaNav.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		sessionAttrNaturaNav.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		sessionAttrNaturaNav.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		
-		model.addAttribute("sessionAttrNav", sessionAttrNav);
+		model.addAttribute("sessionAttrNaturaNav", sessionAttrNaturaNav);
 		
 		//Setto l'evento con i parametri letti dalla Query string 
-		aResponse.setEvent( eventName, sessionAttrNav );
+		aResponse.setEvent( eventName, sessionAttrNaturaNav );
 	}
 
 }

@@ -26,11 +26,11 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("sessionAttrRiepilogo")
+@SessionAttributes("sessionAttrNaturaRiepilogo")
 public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 
-	@ModelAttribute("sessionAttrRiepilogo")
-	public NavigaAggregata sessionAttrRiepilogo() {
+	@ModelAttribute("sessionAttrNaturaRiepilogo")
+	public NavigaAggregata sessionAttrNaturaRiepilogo() {
 		return super.sessionAttr();
 	}
 	
@@ -39,20 +39,20 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 										RenderResponse response, 
 										@RequestParam(required = false) String[] pFiltriRicerca,
 										Model model, 
-										@ModelAttribute("sessionAttrRiepilogo") NavigaAggregata sessionAttrRiepilogo){
+										@ModelAttribute("sessionAttrNaturaRiepilogo") NavigaAggregata sessionAttrNaturaRiepilogo){
 		
 		if( pFiltriRicerca != null && pFiltriRicerca.length == 4 ){
-			sessionAttrRiepilogo.setIdNatura(pFiltriRicerca[0]);
-			sessionAttrRiepilogo.setIdSettoreInternvanto(pFiltriRicerca[1]);
-			sessionAttrRiepilogo.setIdSottosettoreIntervento(pFiltriRicerca[2]);
-			sessionAttrRiepilogo.setIdCategoriaIntervento(pFiltriRicerca[3]);
+			sessionAttrNaturaRiepilogo.setIdNatura(pFiltriRicerca[0]);
+			sessionAttrNaturaRiepilogo.setIdSettoreInternvanto(pFiltriRicerca[1]);
+			sessionAttrNaturaRiepilogo.setIdSottosettoreIntervento(pFiltriRicerca[2]);
+			sessionAttrNaturaRiepilogo.setIdCategoriaIntervento(pFiltriRicerca[3]);
 		}
 		
 		SearchContainer<DescrizioneValore> searchContainer = new SearchContainer<DescrizioneValore>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
 		searchContainer.setTotal(3);
 		
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrRiepilogo);
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaRiepilogo);
 		Integer numeProgetti = 0;
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;

@@ -1,13 +1,25 @@
 package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.AggregataDAO;
+import it.dipe.opencup.dao.AnnoDecisioneDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
+import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.LocalizzazioneDAO;
 import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.ProgettiDAO;
+import it.dipe.opencup.dao.ProvinciaDAO;
+import it.dipe.opencup.dao.RegioneDAO;
+import it.dipe.opencup.dao.StatoProgettoDAO;
+import it.dipe.opencup.dao.TipologiaInterventoDAO;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
+import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.Comune;
+import it.dipe.opencup.model.Provincia;
+import it.dipe.opencup.model.Regione;
+import it.dipe.opencup.model.StatoProgetto;
+import it.dipe.opencup.model.TipologiaIntervento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +46,25 @@ public class AggregataFacade {
 	private ClassificazioneDAO classificazioneDAO;
 	
 	@Autowired
+	private RegioneDAO regioneDAO;
+	
+	@Autowired
+	private ProvinciaDAO provinciaDAO;
+	
+	@Autowired
+	private ComuneDAO comuneDAO;
+	
+	@Autowired
 	private LocalizzazioneDAO localizzazioneDAO;
+	
+	@Autowired
+	private StatoProgettoDAO statoProgettoDAO;
+	
+	@Autowired
+	private AnnoDecisioneDAO annoDecisioneDAO;	
+	
+	@Autowired
+	private TipologiaInterventoDAO tipologiaInterventoDAO;		
 	
 	private Criteria bildCriteriaByNatura(NavigaAggregata navigaAggregata) {
 		Criteria criteria = aggregataDAO.newCriteria();
@@ -138,8 +168,99 @@ public class AggregataFacade {
 		}
 		return retval;
 	}
+
+	public List<Regione> findRegioni() {
+		List<Regione> retval = new ArrayList<Regione>();
+
+		Criteria criteria = regioneDAO.newCriteria();
+		criteria.add( Restrictions.ne("codiRegione", "00") );
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descRegione"));
+		//Estraggo le altre regioni ordinate per nome
+		retval.addAll(regioneDAO.findByCriteria(criteria));
+
+		return retval;
+	}
 	
+	public List<Provincia> findProvinciaByIdRegione(Integer idRegione) {
+		List<Provincia> retval = new ArrayList<Provincia>();
+		
+		Criteria criteria = provinciaDAO.newCriteria();
+		criteria.createAlias("regione", "regione");
+		criteria.add( Restrictions.ne("codiProvincia", "00") );
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("regione.id", idRegione) );
+		criteria.addOrder(Order.asc("descProvincia"));
 	
+		//Estraggo le altre regioni ordinate per nome
+		retval.addAll(provinciaDAO.findByCriteria(criteria));
+		
+		return retval;
+	}
+	
+	public List<Comune> findComuneByIdProvincia(Integer idProvincia) {
+		List<Comune> retval = new ArrayList<Comune>();
+		
+		Criteria criteria = comuneDAO.newCriteria();
+		criteria.createAlias("provincia", "provincia");
+		criteria.add( Restrictions.ne("codiComune", "00") );
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("provincia.id", idProvincia) );
+		criteria.addOrder(Order.asc("descComune"));
+	
+		//Estraggo le altre regioni ordinate per nome
+		retval.addAll(comuneDAO.findByCriteria(criteria));
+		
+		return retval;
+	}
+	
+	public List<StatoProgetto> findStatoProgetto() {
+		List<StatoProgetto> retval = new ArrayList<StatoProgetto>();
+		
+		Criteria criteria = statoProgettoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descStatoProgetto"));
+		
+		retval = statoProgettoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
+	public List<AnnoDecisione> findAnnoDecisioneDAO() {
+		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
+		
+		Criteria criteria = annoDecisioneDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("annoDadeAnnoDecisione"));
+		
+		retval = annoDecisioneDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+
+	public List<TipologiaIntervento> findTipologiaIntervento() {
+		List<TipologiaIntervento> retval = new ArrayList<TipologiaIntervento>();
+				
+		Criteria criteria = tipologiaInterventoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descTipologiaIntervento"));
+		
+		retval = tipologiaInterventoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+
+	public List<AnnoDecisione> findAnniDecisione() {
+		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
+		
+		Criteria criteria = annoDecisioneDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("annoDadeAnnoDecisione"));
+		
+		retval = annoDecisioneDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
 	
 
 //	public List<Natura> findNaturaAll() {
