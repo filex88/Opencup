@@ -42,11 +42,15 @@
 		</security-role-ref>
 
 		<supported-processing-event>
-			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
+			<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
+		</supported-processing-event>
+		
+		<supported-processing-event>
+			<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		</supported-processing-event>
 
 		<supported-publishing-event>
-			<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+			<qname xmlns:publishName="http:eventNavigaClassificazionePie/events">publishName:event.navigaClassificazionePie</qname>
 		</supported-publishing-event>
 
 	</portlet>
@@ -89,11 +93,15 @@
 		</security-role-ref>
 
 		<supported-processing-event>
-			<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+			<qname xmlns:publishName="http:eventNavigaClassificazionePie/events">publishName:event.navigaClassificazionePie</qname>
+		</supported-processing-event>
+		
+		<supported-processing-event>
+			<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		</supported-processing-event>
 
 		<supported-publishing-event>
-			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
+			<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		</supported-publishing-event>
 
 	</portlet>
@@ -137,11 +145,15 @@
 		</security-role-ref>
 
 		<supported-processing-event>
-			<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
+			<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		</supported-processing-event>
 
 		<supported-processing-event>
-			<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+			<qname xmlns:publishName="http:eventNavigaClassificazionePie/events">publishName:event.navigaClassificazionePie</qname>
+		</supported-processing-event>
+		
+		<supported-processing-event>
+			<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		</supported-processing-event>
 
 	</portlet>
@@ -183,6 +195,10 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
+		
+		<supported-publishing-event>
+			<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
+		</supported-publishing-event>
 
 	</portlet>
 	
@@ -227,12 +243,17 @@
 	</portlet>
 
 	<event-definition>
-		<qname xmlns:publishName="http:eventNavigaNatura/events">publishName:event.navigaNatura</qname>
+		<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		<value-type>valueobject.Name</value-type>
 	</event-definition>
 
 	<event-definition>
-		<qname xmlns:publishName="http:eventNavigaNaturaPie/events">publishName:event.navigaNaturaPie</qname>
+		<qname xmlns:publishName="http:eventNavigaClassificazionePie/events">publishName:event.navigaClassificazionePie</qname>
+		<value-type>valueobject.Name</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		<value-type>valueobject.Name</value-type>
 	</event-definition>
 

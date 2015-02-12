@@ -18,6 +18,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
+import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +46,6 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 	@RenderMapping(params="action=affinaricerca")
 	public String handleRenderRicercaRequest(	RenderRequest request, 
 										RenderResponse response, 
-										@RequestParam(required = false) String[] pFiltriRicerca,
 										Model model, 
 										@ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
 		
@@ -86,7 +86,6 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest request, 
 										RenderResponse response, 
-										@RequestParam(required = false) String[] pFiltriRicerca,
 										Model model, 
 										@ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
 		
@@ -135,7 +134,13 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		
 		System.out.println("RICERCA!!!!!!: " + sessionAttrNaturaRicerca.toString());
 		
+		QName eventName = new QName( "http:eventFiltraClassificazione/events", "event.filtraClassificazione");
+		
+		
 		model.addAttribute("sessionAttrNaturaRicerca", sessionAttrNaturaRicerca);
+		
+		//Setto l'evento con i parametri letti dalla Query string 
+		aResponse.setEvent( eventName, sessionAttrNaturaRicerca );
 	}
 
 }
