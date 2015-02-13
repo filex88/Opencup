@@ -1,3 +1,7 @@
+.no,.display_none { position: absolute!important; top: -10000em!important; width: 0px!important; height: 0px!important; overflow: hidden!important; }
+
+.hide {display:none}
+
 .left{float: left!important;} 
 
 .right{float: right!important;}
@@ -80,3 +84,4 @@
 .aui .breadcrumb{line-height: 2em!important;background-color: #F0F0F0!important;}
 
 .aui .breadcrumb  li a{color: #5c5c5c;}
+
