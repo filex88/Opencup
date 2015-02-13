@@ -24,3 +24,32 @@
 	font-size: 16px;
 	line-height: 20px;
 }
+
+#italybymacroareas svg{stroke:#000; stroke-width:1px;}
+
+#italybymacroareas .NE {fill: #9ac7e0;}
+#italybymacroareas .NO {fill: #519ccc;}
+#italybymacroareas .IS {fill: #d1e2f2;}
+#italybymacroareas .SU {fill: #1c6bb0;}
+#italybymacroareas .CE {fill: #f7fbff;}
+
+#italybymacroareas svg path:hover {cursor: pointer;}
+
+#italybymacroareas div.nascosto {
+	visibility: hidden;
+}
+
+#italybymacroareas div.selectiontip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+#italybymacroareas div.selectiontip p strong{
+	color:green;
+}
