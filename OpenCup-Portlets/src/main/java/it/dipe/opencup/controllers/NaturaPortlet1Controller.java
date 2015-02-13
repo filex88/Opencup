@@ -52,26 +52,24 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 	}
 	
 	@RenderMapping
-	public String handleRenderRequest(	RenderRequest request, 
-										RenderResponse response, 
+	public String handleRenderRequest(	RenderRequest renderRequest, 
+										RenderResponse renderResponse, 
 										@RequestParam(required = false) String[] pNavigaClassificazione,
 										@RequestParam(required = false) String[] pFiltriRicerca,
+										@RequestParam(required = false) String[] pFiltriRicercAnni,
 										Model model, 
 										@ModelAttribute("sessionAttrNaturaPie") NavigaAggregata sessionAttrNaturaPie){
 		
-		//Setto in sessione i filtri di ricerca processati in processEvent
-		if( pNavigaClassificazione != null && pNavigaClassificazione.length == 4 ){
-			sessionAttrNaturaPie.setIdNatura(pNavigaClassificazione[0]);
-			sessionAttrNaturaPie.setIdSettoreInternvanto(pNavigaClassificazione[1]);
-			sessionAttrNaturaPie.setIdSottosettoreIntervento(pNavigaClassificazione[2]);
-			sessionAttrNaturaPie.setIdCategoriaIntervento(pNavigaClassificazione[3]);
-		}
+		
+		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaPie, "sessionFiltriClassificazionePie");
 
 		return "natura1-view";
 	}
 
 	@ResourceMapping(value =  "aggregati4Pie")	
-	public View caricaDati4Pie(ResourceRequest request, @RequestParam("pattern") String pattern, @ModelAttribute("sessionAttrNaturaPie") NavigaAggregata sessionAttrNaturaPie){
+	public View caricaDati4Pie(	ResourceRequest request, 
+								@RequestParam("pattern") String pattern, 
+								@ModelAttribute("sessionAttrNaturaPie") NavigaAggregata sessionAttrNaturaPie){
 		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaPie);
 		
@@ -154,20 +152,18 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 	@EventMapping(value = "event.filtraClassificazione")
 	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
 		
-		System.out.println("Evento 1");
-		
 		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
 		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
-				String.valueOf(filtro.getIdRegione()),
-				String.valueOf(filtro.getIdProvincia()),
-				String.valueOf(filtro.getIdComune()),
-				String.valueOf(filtro.getIdAreaGeografica()),
-				String.valueOf(filtro.getDescStato()),
-				String.valueOf(filtro.getIdCategoriaSoggetto()),
-				String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
-				String.valueOf(filtro.getIdTipologiaInterventi()),
-				String.valueOf(filtro.getIdStatoProgetto())};
+									String.valueOf(filtro.getIdRegione()),
+									String.valueOf(filtro.getIdProvincia()),
+									String.valueOf(filtro.getIdComune()),
+									String.valueOf(filtro.getIdAreaGeografica()),
+									String.valueOf(filtro.getDescStato()),
+									String.valueOf(filtro.getIdCategoriaSoggetto()),
+									String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
+									String.valueOf(filtro.getIdTipologiaInterventi()),
+									String.valueOf(filtro.getIdStatoProgetto())};
 		
 		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
 		

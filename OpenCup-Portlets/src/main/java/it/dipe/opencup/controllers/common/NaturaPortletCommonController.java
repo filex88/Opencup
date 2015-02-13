@@ -4,13 +4,17 @@ import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.PortletMode;
 import javax.portlet.PortletModeException;
 import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
 import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -131,6 +135,73 @@ public class NaturaPortletCommonController {
 			e.printStackTrace();
 		} catch (PortalException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	protected void initRender(	RenderRequest renderRequest, 
+								String[] pNavigaClassificazione, 
+								String[] pFiltriRicerca, 
+								String[] pFiltriRicercAnni, 
+								NavigaAggregata sessionAttrClassificazione,
+								String sessionName) {
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
+		//PortletSession session = renderRequest.getPortletSession(false);
+		
+		//Setto in sessione la navigazione tramite il processEvent
+		if( pNavigaClassificazione != null && pNavigaClassificazione.length == 4 ){
+			sessionAttrClassificazione.setIdNatura(pNavigaClassificazione[0]);
+			sessionAttrClassificazione.setIdSettoreInternvanto(pNavigaClassificazione[1]);
+			sessionAttrClassificazione.setIdSottosettoreIntervento(pNavigaClassificazione[2]);
+			sessionAttrClassificazione.setIdCategoriaIntervento(pNavigaClassificazione[3]);
+		}
+		
+		NavigaAggregata sessionFiltri = null;
+		
+		//Setto in sessione i filtri impostati tramite il processEvent
+		if( pFiltriRicerca != null && pFiltriRicerca.length == 10 ){
+			sessionFiltri = new NavigaAggregata();
+			sessionFiltri.setIdAnnoDecisione(pFiltriRicerca[0]);
+			sessionFiltri.setIdRegione(pFiltriRicerca[1]);
+			sessionFiltri.setIdProvincia(pFiltriRicerca[2]);
+			sessionFiltri.setIdComune(pFiltriRicerca[3]);
+			sessionFiltri.setIdAreaGeografica(pFiltriRicerca[4]);
+			sessionFiltri.setDescStato(pFiltriRicerca[5]);
+			sessionFiltri.setIdCategoriaSoggetto(pFiltriRicerca[6]);
+			sessionFiltri.setIdSottoCategoriaSoggetto(pFiltriRicerca[7]);
+			sessionFiltri.setIdTipologiaInterventi(pFiltriRicerca[8]);
+			sessionFiltri.setIdStatoProgetto(pFiltriRicerca[9]);
+		}
+		
+		if( pFiltriRicercAnni != null && pFiltriRicercAnni.length > 0 ){
+			if(sessionFiltri == null){
+				sessionFiltri = new NavigaAggregata();
+			}
+			List<String> listAnnis = new ArrayList<String>();
+			Collections.addAll(listAnnis, pFiltriRicercAnni);
+			sessionFiltri.setIdAnnoDecisiones(listAnnis);
+		}
+		
+		if(sessionFiltri != null){
+			//session.setAttribute("sessionFiltri", sessionFiltri , PortletSession.PORTLET_SCOPE);
+			session.setAttribute(sessionName, sessionFiltri);
+		}
+		
+		//sessionFiltri = (NavigaAggregata) session.getAttribute("sessionFiltri ", PortletSession.PORTLET_SCOPE);
+		sessionFiltri = (session.getAttribute(sessionName)==null)?null:(NavigaAggregata) session.getAttribute(sessionName);
+		
+		if( sessionFiltri != null ){
+			sessionAttrClassificazione.setIdAnnoDecisione(sessionFiltri.getIdAnnoDecisione());
+			sessionAttrClassificazione.setIdRegione(sessionFiltri.getIdRegione());
+			sessionAttrClassificazione.setIdProvincia(sessionFiltri.getIdProvincia());
+			sessionAttrClassificazione.setIdComune(sessionFiltri.getIdComune());
+			sessionAttrClassificazione.setIdAreaGeografica(sessionFiltri.getIdAreaGeografica());
+			sessionAttrClassificazione.setDescStato(sessionFiltri.getDescStato());
+			sessionAttrClassificazione.setIdCategoriaSoggetto(sessionFiltri.getIdCategoriaSoggetto());
+			sessionAttrClassificazione.setIdSottoCategoriaSoggetto(sessionFiltri.getIdSottoCategoriaSoggetto());
+			sessionAttrClassificazione.setIdTipologiaInterventi(sessionFiltri.getIdTipologiaInterventi());
+			sessionAttrClassificazione.setIdStatoProgetto(sessionFiltri.getIdStatoProgetto());
+			sessionAttrClassificazione.setIdAnnoDecisiones(sessionFiltri.getIdAnnoDecisiones());
 		}
 	}
 	

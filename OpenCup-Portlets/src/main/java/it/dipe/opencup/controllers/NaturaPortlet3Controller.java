@@ -39,15 +39,11 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 										RenderResponse response, 
 										@RequestParam(required = false) String[] pNavigaClassificazione,
 										@RequestParam(required = false) String[] pFiltriRicerca,
+										@RequestParam(required = false) String[] pFiltriRicercAnni,
 										Model model, 
 										@ModelAttribute("sessionAttrNaturaRiepilogo") NavigaAggregata sessionAttrNaturaRiepilogo){
 		
-		if( pNavigaClassificazione != null && pNavigaClassificazione.length == 4 ){
-			sessionAttrNaturaRiepilogo.setIdNatura(pNavigaClassificazione[0]);
-			sessionAttrNaturaRiepilogo.setIdSettoreInternvanto(pNavigaClassificazione[1]);
-			sessionAttrNaturaRiepilogo.setIdSottosettoreIntervento(pNavigaClassificazione[2]);
-			sessionAttrNaturaRiepilogo.setIdCategoriaIntervento(pNavigaClassificazione[3]);
-		}
+		initRender(request, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaRiepilogo, "sessionFiltriClassificazioneRiepilogo");
 		
 		SearchContainer<DescrizioneValore> searchContainer = new SearchContainer<DescrizioneValore>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
@@ -100,16 +96,23 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 	@EventMapping(value = "event.filtraClassificazione")
 	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
 		
-		System.out.println("Evento 3");
+NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
-		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
+		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
+									String.valueOf(filtro.getIdRegione()),
+									String.valueOf(filtro.getIdProvincia()),
+									String.valueOf(filtro.getIdComune()),
+									String.valueOf(filtro.getIdAreaGeografica()),
+									String.valueOf(filtro.getDescStato()),
+									String.valueOf(filtro.getIdCategoriaSoggetto()),
+									String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
+									String.valueOf(filtro.getIdTipologiaInterventi()),
+									String.valueOf(filtro.getIdStatoProgetto())};
 		
-		String[] pFiltriRicerca = {String.valueOf(filtro.getIdNatura()), 
-								   String.valueOf(filtro.getIdSettoreInternvanto()), 
-								   String.valueOf(filtro.getIdSottosettoreIntervento()), 
-								   String.valueOf(filtro.getIdCategoriaIntervento()) };
+		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
 		
 		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
+		eventResponse.setRenderParameter("pFiltriRicercAnni", pFiltriRicercAnni);
 		
 	}
 

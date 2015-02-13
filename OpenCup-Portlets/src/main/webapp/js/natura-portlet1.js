@@ -211,6 +211,17 @@ AUI().use(
 				});
 			}
 
+//			var svg = d3.selectAll("#pieChart").selectAll("svg");
+//			
+//			var mouse = d3.mouse(svg.node()).map( function(d) { 
+//				console.log("mouse.tooltip " + mouse);
+//				var tooltip = d3.select("#tooltip-natura-portlet1");
+//				tooltip.style("left", mouse[0]+25 + "px");
+//				tooltip.style("top", mouse[1] + "px");
+//				console.log("OK");
+//				
+//			});
+			
 			d3.select("#pieChart").on("mousemove", function(d) {  
 				var tooltip = d3.select("#tooltip-natura-portlet1");
 				tooltip.style("left", d3.event.pageX + "px");
