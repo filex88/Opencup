@@ -26,6 +26,15 @@
 	</portlet>
 	
 	<portlet>
+		<portlet-name>natura-portlet-ricerca</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/bootstrap-multiselect.css</header-portlet-css>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/natura-portlet-ricerca.js</footer-portlet-javascript>
+		<css-class-wrapper>natura-portlet-ricerca</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
 		<portlet-name>localizzazione-portlet1</portlet-name>
 		<icon>/icon.png</icon>
 		<header-portlet-css>/css/main.css</header-portlet-css>

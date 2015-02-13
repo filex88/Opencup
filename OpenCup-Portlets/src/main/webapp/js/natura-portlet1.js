@@ -20,9 +20,8 @@ AUI().use(
    			loadPie("VOLUME", A.one('.natura-sel-btn'));
    			
 			function loadPie(pattern, button){
-
-				console.log("namespace = " + namespace);
 				
+				A.one('#pieChart').empty();
 				
 				A.all('.natura-sel-btn').replaceClass('active', '');
 
@@ -48,11 +47,19 @@ AUI().use(
 	           				aggregate = this.get('responseData');
 	           				
 	           				//console.log("aggregate = " + aggregate);
-	           				//console.log("aggregate = " + aggregate.naturaPortlet1);
+	           				//console.log("aggregate.aggregati4Pie = " + aggregate.aggregati4Pie);
 	           				
-	           				// Select the node(s) using a css selector string
-	           			    A.one('#pieChart').empty();
-	           				drawPie();
+	           			    if(aggregate.aggregati4Pie!=null && aggregate.aggregati4Pie!=""){
+	           			    	drawPie();
+	           			    }else{
+	           			  	        A.one(".pieChartEmpty").setStyles({
+	           			    		display: 'block'
+	           			    	});
+	           			    	A.one(".pieChartToolBar").setStyles({
+	           			    		display: 'none'
+	           			    	});
+	           			    }
+	           			   
 	           			},
 	           			failure: function (e) {
 	           				var message = this.get('responseData');

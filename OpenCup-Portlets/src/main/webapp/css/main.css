@@ -25,6 +25,7 @@
 	line-height: 20px;
 }
 
+
 #italybymacroareas svg{stroke:#000; stroke-width:1px;}
 
 #italybymacroareas .NE {fill: #9ac7e0;}
@@ -53,3 +54,18 @@
 #italybymacroareas div.selectiontip p strong{
 	color:green;
 }
+
+.natura-portlet-ricerca .underline {
+	border-bottom: 1px solid;
+	border-color: #004383;
+}
+
+.natura-portlet-ricerca .ricerca .control-group .control-label {
+	padding-top:inherit;
+	font-weight: bold;
+}
+.natura-portlet-ricerca .ricerca .control-group span {
+	padding-top:5px;
+	margin-bottom: 5px;
+}
+

@@ -1,0 +1,247 @@
+<%@page import="it.dipe.opencup.model.Regione"%>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
+<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
+
+<%@ page isELIgnored ="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<liferay-theme:defineObjects />
+<portlet:defineObjects />
+	
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+	
+<portlet:actionURL var="affinaRicercaActionVar"  windowState="<%=LiferayWindowState.NORMAL.toString()%>">
+   	<portlet:param name="action" value="ricerca"></portlet:param>
+</portlet:actionURL>
+
+<div id="affina-ricerca-natura-modal-content">
+	<aui:form 
+		action="${affinaRicercaActionVar}" 
+		method="post" 
+		name="affina-ricerca-natura-modal-content-stato-form" 
+		id="affina-ricerca-natura-modal-content-stato-form" 
+		cssClass="form-horizontal affina-ricerca-natura-modal-content-stato-form">	
+		
+		<div>
+		
+			<div class="row">
+		
+				<div class="ricerca span4">
+				
+					<div class="control-group">
+						<strong class="control-label">Gerarchia Soggetto</strong>
+						<div class="controls">&nbsp;</div>
+					</div>
+				
+					<div class="control-group" id="affina-ricerca-natura-modal-content-categoria-soggetto-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-categoria-soggetto">Categoria</label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-categoria-soggetto" label="" bean="sessionAttrNaturaRicerca" name="idCategoriaSoggetto" id="affina-ricerca-natura-modal-content-categoria-soggetto">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idCategoriaSoggetto == -1}"/>
+									<c:forEach items="${listCategoriaSoggetto}" var="categoriasoggetto" >
+							            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${sessionAttrNaturaRicerca.idCategoriaSoggetto == categoriasoggetto.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+					
+					<div class="control-group" id="affina-ricerca-natura-modal-content-sotto-categoria-soggetto-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-sotto-categoria-soggetto">Sotto Categoria</label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-sotto-categoria-soggetto" label="" bean="sessionAttrNaturaRicerca" name="idSottoCategoriaSoggetto" id="affina-ricerca-natura-modal-content-sotto-categoria-soggetto">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idSottoCategoriaSoggetto == -1}"/>
+									<c:forEach items="${listSottoCategoriaSoggetto}" var="sottoCategoriaSoggetto" >
+							            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${sessionAttrNaturaRicerca.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+					
+					<div class="control-group" id="affina-ricerca-natura-modal-content-anno-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-anno"><strong>Anno Decisione</strong></label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-anno" label="" bean="sessionAttrNaturaRicerca" name="idAnnoDecisione" id="affina-ricerca-natura-modal-content-anno">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idAnnoDecisione == -1}"/>
+									<c:forEach items="${listaAnnoDecisione}" var="anno" >
+							            <aui:option value="${anno.id}" label="${anno.annoDadeAnnoDecisione}" selected="${sessionAttrNaturaRicerca.idAnnoDecisione == anno.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+					
+					<div class="control-group" id="affina-ricerca-natura-modal-content-tipologia-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-tipologia"><strong>Tipologia Intervento</strong></label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-tipologia" label="" bean="sessionAttrNaturaRicerca" name="idTipologiaInterventi" id="affina-ricerca-natura-modal-content-tipologia">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idTipologiaInterventi == -1}"/>
+									<c:forEach items="${listaTipologiaIntervento}" var="tipologiaintervento" >
+							            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${sessionAttrNaturaRicerca.idTipologiaInterventi == tipologiaintervento.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+		
+					<div class="control-group" id="affina-ricerca-natura-modal-content-statoprogetto-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-statoprogetto"><strong>Stato Progetto</strong></label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-statoprogetto" label="" bean="sessionAttrNaturaRicerca" name="idStatoProgetto" id="affina-ricerca-natura-modal-content-statoprogetto">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idStatoProgetto == -1}"/>
+									<c:forEach items="${listaStatoProgetto}" var="statoprogetto" >
+							            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${sessionAttrNaturaRicerca.idStatoProgetto == statoprogetto.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="ricerca span4">
+			
+					<div class="control-group">
+						<strong class="control-label">Localizzazione</strong>
+						<div class="controls">&nbsp;</div>
+					</div>
+	
+					<div class="control-group" id="affina-ricerca-natura-modal-content-stato-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-stato">Stato</label>
+						<div class="controls">
+							<span>
+								<aui:input type="text" value="${sessionAttrNaturaRicerca.descStato}" readonly="readonly" cssClass="input-large affina-ricerca-natura-modal-content-stato" label="" bean="sessionAttrNaturaRicerca" name="descStato" id="affina-ricerca-natura-modal-content-stato"></aui:input>
+							</span>
+						</div>
+					</div>
+					 
+					<div class="control-group" id="affina-ricerca-natura-modal-content-regione-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-regione">Regione</label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-regione" label="" bean="sessionAttrNaturaRicerca" name="idRegione" id="affina-ricerca-natura-modal-content-regione">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idRegione == -1}"/>
+									<c:forEach items="${listRegione}" var="regione" >
+							            <aui:option value="${regione.id}" label="${regione.descRegione}" selected="${sessionAttrNaturaRicerca.idRegione == regione.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+					
+					<div class="control-group" id="affina-ricerca-natura-modal-content-provincia-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-provincia">Provincia</label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-provincia" label="" bean="sessionAttrNaturaRicerca" name="idProvincia" id="affina-ricerca-natura-modal-content-provincia">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idProvincia == -1}"/>
+									<c:forEach items="${listProvincia}" var="provincia" >
+							            <aui:option value="${provincia.id}" label="${provincia.descProvincia}" selected="${sessionAttrNaturaRicerca.idProvincia == provincia.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+					
+					<div class="control-group" id="affina-ricerca-natura-modal-content-comune-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-comune">Comune</label>
+						<div class="controls">
+							<span>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-comune" label="" bean="sessionAttrNaturaRicerca" name="idComune" id="affina-ricerca-natura-modal-content-comune">
+									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idComune == -1}"/>
+									<c:forEach items="${listComune}" var="comune" >
+							            <aui:option value="${comune.id}" label="${comune.descComune}" selected="${sessionAttrNaturaRicerca.idComune == comune.id}"/>
+							        </c:forEach>
+								</aui:select>
+							</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>		
+	</aui:form>
+</div>
+
+<script type="text/javascript">
+
+	var namespaceRicerca4js = "<portlet:namespace/>";
+	
+	var namespaceRicerca = "<portlet:namespace/>";
+	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
+	
+	var globalA;
+	
+	AUI().use(	
+		'aui-base',
+		function(A) {
+	
+			globalA = A;
+			
+			function caricaCombo(pNamespaceRicerca, resourceId, pattern, target){
+   				
+				var select = document.getElementById(target);
+   				select.options.length = 0;
+   				select.options[select.options.length] = new Option("Tutte", -1);
+   				
+				if( pattern != -1 ){
+					var resourceURL = Liferay.PortletURL.createResourceURL();
+					resourceURL.setPortletId(pNamespaceRicerca);
+					resourceURL.setResourceId(resourceId);
+					resourceURL.setParameter("pattern", pattern);
+					resourceURL.setCopyCurrentRenderParameters(true);
+
+					A.io.request( resourceURL.toString(), {
+		   				method: 'GET',
+		       			dataType: 'json',
+		       			on: {
+		           			success: function(event, id, obj) {
+		           				var responseData = this.get('responseData');
+		           				A.Object.each(
+		           						responseData.lista, 
+		           						function(value, key){
+		           							console.log("label = " + value.label);
+		           							select.options[select.options.length] = new Option(value.label, value.id);
+		           				});
+		           			},
+		           			failure: function (e) {
+		           				var message = this.get('responseData');
+		           				alert("Ajax Error : "+message);	
+		           			}
+		       			}
+		   			});
+				}
+			}
+			
+			
+			A.one('.affina-ricerca-natura-modal-content-provincia').on(
+				    'change',
+				    function(event) {
+				    	caricaCombo(namespaceRicerca, "loadComuniByProvincia", this.val(), namespaceRicerca4js+"affina-ricerca-natura-modal-content-comune");
+					});
+			
+			A.one('.affina-ricerca-natura-modal-content-regione').on(
+				    'change',
+				    function(event) {
+				    	caricaCombo(namespaceRicerca, "loadProvinciaByRegione", this.val(), namespaceRicerca4js+"affina-ricerca-natura-modal-content-provincia");
+					});
+			
+			
+			
+	});
+	
+	function naturaRicercaContentSubmit(){
+		var form = globalA.one(".affina-ricerca-natura-modal-content-stato-form");
+		form.submit();
+	}
+	
+</script>
