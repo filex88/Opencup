@@ -158,12 +158,21 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 		
 		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
-		String[] pFiltriRicerca = {String.valueOf(filtro.getIdNatura()), 
-								   String.valueOf(filtro.getIdSettoreInternvanto()), 
-								   String.valueOf(filtro.getIdSottosettoreIntervento()), 
-								   String.valueOf(filtro.getIdCategoriaIntervento()) };
+		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
+				String.valueOf(filtro.getIdRegione()),
+				String.valueOf(filtro.getIdProvincia()),
+				String.valueOf(filtro.getIdComune()),
+				String.valueOf(filtro.getIdAreaGeografica()),
+				String.valueOf(filtro.getDescStato()),
+				String.valueOf(filtro.getIdCategoriaSoggetto()),
+				String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
+				String.valueOf(filtro.getIdTipologiaInterventi()),
+				String.valueOf(filtro.getIdStatoProgetto())};
+		
+		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
 		
 		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
+		eventResponse.setRenderParameter("pFiltriRicercAnni", pFiltriRicercAnni);
 		
 	}
 	

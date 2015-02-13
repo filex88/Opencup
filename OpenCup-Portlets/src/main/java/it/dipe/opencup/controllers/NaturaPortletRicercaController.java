@@ -135,8 +135,7 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		System.out.println("RICERCA!!!!!!: " + sessionAttrNaturaRicerca.toString());
 		
 		QName eventName = new QName( "http:eventFiltraClassificazione/events", "event.filtraClassificazione");
-		
-		
+
 		model.addAttribute("sessionAttrNaturaRicerca", sessionAttrNaturaRicerca);
 		
 		//Setto l'evento con i parametri letti dalla Query string 
