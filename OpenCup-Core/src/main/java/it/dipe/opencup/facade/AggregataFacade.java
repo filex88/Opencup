@@ -30,6 +30,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.googlecode.ehcache.annotations.Cacheable;
+import com.googlecode.ehcache.annotations.KeyGenerator;
+
 @Component("aggregataFacade")
 public class AggregataFacade {
 	
@@ -135,7 +138,11 @@ public class AggregataFacade {
 		return criteria;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {
+		
+		System.out.println("CHIAMATA");
+		
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
 		AggregataDTO ele = null;
@@ -146,11 +153,12 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public int countAggregataByNatura(NavigaAggregata navigaAggregata) { 
 		return aggregataDAO.countByCriteria(bildCriteriaByNatura(navigaAggregata));
 	}
 	
-	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, int page, String orderByCol, String orderByType) {
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 		Criteria criteriaByNatura = bildCriteriaByNatura(navigaAggregata);
@@ -169,6 +177,7 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Regione> findRegioni() {
 		List<Regione> retval = new ArrayList<Regione>();
 
@@ -182,6 +191,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Provincia> findProvinciaByIdRegione(Integer idRegione) {
 		List<Provincia> retval = new ArrayList<Provincia>();
 		
@@ -198,6 +208,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Comune> findComuneByIdProvincia(Integer idProvincia) {
 		List<Comune> retval = new ArrayList<Comune>();
 		
@@ -214,6 +225,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<StatoProgetto> findStatoProgetto() {
 		List<StatoProgetto> retval = new ArrayList<StatoProgetto>();
 		
@@ -226,6 +238,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AnnoDecisione> findAnnoDecisioneDAO() {
 		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
 		
@@ -238,6 +251,7 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<TipologiaIntervento> findTipologiaIntervento() {
 		List<TipologiaIntervento> retval = new ArrayList<TipologiaIntervento>();
 				
@@ -250,6 +264,7 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AnnoDecisione> findAnniDecisione() {
 		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
 		

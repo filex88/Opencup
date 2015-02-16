@@ -353,6 +353,4 @@ public class NavigaAggregata implements Serializable{
 		return true;
 	}
 	
-	
-	
 }
