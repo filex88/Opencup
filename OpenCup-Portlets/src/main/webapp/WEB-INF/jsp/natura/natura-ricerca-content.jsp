@@ -41,10 +41,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-categoria-soggetto">Categoria</label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-categoria-soggetto" label="" bean="sessionAttrNaturaRicerca" name="idCategoriaSoggetto" id="affina-ricerca-natura-modal-content-categoria-soggetto">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idCategoriaSoggetto == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-categoria-soggetto" label="" bean="modelAttrNaturaRicerca" name="idCategoriaSoggetto" id="affina-ricerca-natura-modal-content-categoria-soggetto">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idCategoriaSoggetto == -1}"/>
 									<c:forEach items="${listCategoriaSoggetto}" var="categoriasoggetto" >
-							            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${sessionAttrNaturaRicerca.idCategoriaSoggetto == categoriasoggetto.id}"/>
+							            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${modelAttrNaturaRicerca.idCategoriaSoggetto == categoriasoggetto.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -55,10 +55,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-sotto-categoria-soggetto">Sotto Categoria</label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-sotto-categoria-soggetto" label="" bean="sessionAttrNaturaRicerca" name="idSottoCategoriaSoggetto" id="affina-ricerca-natura-modal-content-sotto-categoria-soggetto">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idSottoCategoriaSoggetto == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-sotto-categoria-soggetto" label="" bean="modelAttrNaturaRicerca" name="idSottoCategoriaSoggetto" id="affina-ricerca-natura-modal-content-sotto-categoria-soggetto">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idSottoCategoriaSoggetto == -1}"/>
 									<c:forEach items="${listSottoCategoriaSoggetto}" var="sottoCategoriaSoggetto" >
-							            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${sessionAttrNaturaRicerca.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
+							            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${modelAttrNaturaRicerca.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -69,10 +69,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-anno"><strong>Anno Decisione</strong></label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-anno" label="" bean="sessionAttrNaturaRicerca" name="idAnnoDecisione" id="affina-ricerca-natura-modal-content-anno">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idAnnoDecisione == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-anno" label="" bean="modelAttrNaturaRicerca" name="idAnnoDecisione" id="affina-ricerca-natura-modal-content-anno">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idAnnoDecisione == -1}"/>
 									<c:forEach items="${listaAnnoDecisione}" var="anno" >
-							            <aui:option value="${anno.id}" label="${anno.annoDadeAnnoDecisione}" selected="${sessionAttrNaturaRicerca.idAnnoDecisione == anno.id}"/>
+							            <aui:option value="${anno.id}" label="${anno.annoDadeAnnoDecisione}" selected="${modelAttrNaturaRicerca.idAnnoDecisione == anno.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -83,10 +83,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-tipologia"><strong>Tipologia Intervento</strong></label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-tipologia" label="" bean="sessionAttrNaturaRicerca" name="idTipologiaInterventi" id="affina-ricerca-natura-modal-content-tipologia">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idTipologiaInterventi == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-tipologia" label="" bean="modelAttrNaturaRicerca" name="idTipologiaInterventi" id="affina-ricerca-natura-modal-content-tipologia">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idTipologiaInterventi == -1}"/>
 									<c:forEach items="${listaTipologiaIntervento}" var="tipologiaintervento" >
-							            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${sessionAttrNaturaRicerca.idTipologiaInterventi == tipologiaintervento.id}"/>
+							            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${modelAttrNaturaRicerca.idTipologiaInterventi == tipologiaintervento.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -97,10 +97,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-statoprogetto"><strong>Stato Progetto</strong></label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-statoprogetto" label="" bean="sessionAttrNaturaRicerca" name="idStatoProgetto" id="affina-ricerca-natura-modal-content-statoprogetto">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idStatoProgetto == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-statoprogetto" label="" bean="modelAttrNaturaRicerca" name="idStatoProgetto" id="affina-ricerca-natura-modal-content-statoprogetto">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idStatoProgetto == -1}"/>
 									<c:forEach items="${listaStatoProgetto}" var="statoprogetto" >
-							            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${sessionAttrNaturaRicerca.idStatoProgetto == statoprogetto.id}"/>
+							            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${modelAttrNaturaRicerca.idStatoProgetto == statoprogetto.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -119,7 +119,7 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-stato">Stato</label>
 						<div class="controls">
 							<span>
-								<aui:input type="text" value="${sessionAttrNaturaRicerca.descStato}" readonly="readonly" cssClass="input-large affina-ricerca-natura-modal-content-stato" label="" bean="sessionAttrNaturaRicerca" name="descStato" id="affina-ricerca-natura-modal-content-stato"></aui:input>
+								<aui:input type="text" value="${modelAttrNaturaRicerca.descStato}" readonly="readonly" cssClass="input-large affina-ricerca-natura-modal-content-stato" label="" bean="modelAttrNaturaRicerca" name="descStato" id="affina-ricerca-natura-modal-content-stato"></aui:input>
 							</span>
 						</div>
 					</div>
@@ -128,10 +128,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-regione">Regione</label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-regione" label="" bean="sessionAttrNaturaRicerca" name="idRegione" id="affina-ricerca-natura-modal-content-regione">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idRegione == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-regione" label="" bean="modelAttrNaturaRicerca" name="idRegione" id="affina-ricerca-natura-modal-content-regione">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idRegione == -1}"/>
 									<c:forEach items="${listRegione}" var="regione" >
-							            <aui:option value="${regione.id}" label="${regione.descRegione}" selected="${sessionAttrNaturaRicerca.idRegione == regione.id}"/>
+							            <aui:option value="${regione.id}" label="${regione.descRegione}" selected="${modelAttrNaturaRicerca.idRegione == regione.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -142,10 +142,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-provincia">Provincia</label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-provincia" label="" bean="sessionAttrNaturaRicerca" name="idProvincia" id="affina-ricerca-natura-modal-content-provincia">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idProvincia == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-provincia" label="" bean="modelAttrNaturaRicerca" name="idProvincia" id="affina-ricerca-natura-modal-content-provincia">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idProvincia == -1}"/>
 									<c:forEach items="${listProvincia}" var="provincia" >
-							            <aui:option value="${provincia.id}" label="${provincia.descProvincia}" selected="${sessionAttrNaturaRicerca.idProvincia == provincia.id}"/>
+							            <aui:option value="${provincia.id}" label="${provincia.descProvincia}" selected="${modelAttrNaturaRicerca.idProvincia == provincia.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>
@@ -156,10 +156,10 @@
 						<label class="control-label" for="affina-ricerca-natura-modal-content-comune">Comune</label>
 						<div class="controls">
 							<span>
-								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-comune" label="" bean="sessionAttrNaturaRicerca" name="idComune" id="affina-ricerca-natura-modal-content-comune">
-									<aui:option value="-1" label="ricerca.tutte" selected="${sessionAttrNaturaRicerca.idComune == -1}"/>
+								<aui:select cssClass="input-xlarge affina-ricerca-natura-modal-content-comune" label="" bean="modelAttrNaturaRicerca" name="idComune" id="affina-ricerca-natura-modal-content-comune">
+									<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idComune == -1}"/>
 									<c:forEach items="${listComune}" var="comune" >
-							            <aui:option value="${comune.id}" label="${comune.descComune}" selected="${sessionAttrNaturaRicerca.idComune == comune.id}"/>
+							            <aui:option value="${comune.id}" label="${comune.descComune}" selected="${modelAttrNaturaRicerca.idComune == comune.id}"/>
 							        </c:forEach>
 								</aui:select>
 							</span>

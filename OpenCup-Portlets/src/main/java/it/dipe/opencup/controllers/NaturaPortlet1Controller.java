@@ -30,8 +30,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.liferay.portal.kernel.util.ParamUtil;
-
 @Controller
 @RequestMapping("VIEW")
 @SessionAttributes("sessionAttrNaturaPie")
@@ -61,7 +59,7 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 										@ModelAttribute("sessionAttrNaturaPie") NavigaAggregata sessionAttrNaturaPie){
 		
 		
-		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaPie, "sessionFiltriClassificazionePie");
+		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaPie, NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
 
 		return "natura1-view";
 	}
@@ -115,61 +113,25 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 		view.addStaticAttribute("aggregati4Pie", converter);
 		return view;
 	}
-
-		
-	@EventMapping(value = "event.navigaClassificazione")
-	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
-	
-		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
-		
-		String[] pNavigaClassificazione = { String.valueOf(naviga.getIdNatura()), 
-									String.valueOf(naviga.getIdSettoreInternvanto()), 
-									String.valueOf(naviga.getIdSottosettoreIntervento()), 
-									String.valueOf(naviga.getIdCategoriaIntervento()) };
-		
-		eventResponse.setRenderParameter("pNavigaClassificazione", pNavigaClassificazione);
-	
-	}
 	
 	@ActionMapping(params="action=PublishEvent")
 	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
-
+		
+		//Gestione del click sulla sezione della torta
+		String nomeAttr = "sessionAttrNaturaPie";
 		QName eventName = new QName( "http:eventNavigaClassificazionePie/events", "event.navigaClassificazionePie");
 		
-		//Leggo la query String per determinare il link di navigazione
-		NavigaAggregata sessionAttrNaturaPie = new NavigaAggregata();
-		sessionAttrNaturaPie.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		sessionAttrNaturaPie.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
-		sessionAttrNaturaPie.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
-		sessionAttrNaturaPie.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
-		
-		model.addAttribute("sessionAttrNaturaPie", sessionAttrNaturaPie);
-
-		//Setto l'evento con i parametri letti dalla Query string 
-		aResponse.setEvent( eventName, sessionAttrNaturaPie );
+		publishEvent(aRequest, aResponse, model, nomeAttr, eventName);
+	}
+	
+	@EventMapping(value = "event.navigaClassificazione")
+	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
+		processEventNavigaClassificazione(eventRequest, eventResponse);
 	}
 	
 	@EventMapping(value = "event.filtraClassificazione")
 	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
-		
-		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
-		
-		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
-									String.valueOf(filtro.getIdRegione()),
-									String.valueOf(filtro.getIdProvincia()),
-									String.valueOf(filtro.getIdComune()),
-									String.valueOf(filtro.getIdAreaGeografica()),
-									String.valueOf(filtro.getDescStato()),
-									String.valueOf(filtro.getIdCategoriaSoggetto()),
-									String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
-									String.valueOf(filtro.getIdTipologiaInterventi()),
-									String.valueOf(filtro.getIdStatoProgetto())};
-		
-		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
-		
-		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
-		eventResponse.setRenderParameter("pFiltriRicercAnni", pFiltriRicercAnni);
-		
+		processEventFiltroClassificazione(eventRequest, eventResponse);
 	}
-	
+
 }

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.EventRequest;
+import javax.portlet.EventResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletModeException;
 import javax.portlet.PortletRequest;
@@ -15,13 +19,16 @@ import javax.portlet.RenderRequest;
 import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
 import javax.servlet.http.HttpSession;
+import javax.xml.namespace.QName;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -36,6 +43,8 @@ public class NaturaPortletCommonController {
 	
 	@Autowired
 	protected AggregataFacade aggregataFacade;
+	
+	protected static final String SESSION_FILTRI_CLASSIFICAZIONE = "SESSION_FILTRI_CLASSIFICAZIONE";
 	
 	//Array che contiene i nomi delle pagine per la navigazione nella Classificazione
 	protected final String[] pageLiv = {"/natliv2", "/natliv3", "/natliv4", "/natliv1"};
@@ -64,7 +73,11 @@ public class NaturaPortletCommonController {
 		return index;
 	}
 	
-	protected void impostaLinkURL(PortletRequest request, NavigaAggregata sessionAttrNav, int index, List<AggregataDTO> listaAggregataDTO, String anchorPortlet) {
+	protected void impostaLinkURL(	PortletRequest request, 
+									NavigaAggregata sessionAttrNav, 
+									int index, 
+									List<AggregataDTO> listaAggregataDTO, 
+									String anchorPortlet) {
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
@@ -156,53 +169,105 @@ public class NaturaPortletCommonController {
 			sessionAttrClassificazione.setIdCategoriaIntervento(pNavigaClassificazione[3]);
 		}
 		
-		NavigaAggregata sessionFiltri = null;
+		NavigaAggregata filtriAggiuntivi = null;
 		
 		//Setto in sessione i filtri impostati tramite il processEvent
 		if( pFiltriRicerca != null && pFiltriRicerca.length == 10 ){
-			sessionFiltri = new NavigaAggregata();
-			sessionFiltri.setIdAnnoDecisione(pFiltriRicerca[0]);
-			sessionFiltri.setIdRegione(pFiltriRicerca[1]);
-			sessionFiltri.setIdProvincia(pFiltriRicerca[2]);
-			sessionFiltri.setIdComune(pFiltriRicerca[3]);
-			sessionFiltri.setIdAreaGeografica(pFiltriRicerca[4]);
-			sessionFiltri.setDescStato(pFiltriRicerca[5]);
-			sessionFiltri.setIdCategoriaSoggetto(pFiltriRicerca[6]);
-			sessionFiltri.setIdSottoCategoriaSoggetto(pFiltriRicerca[7]);
-			sessionFiltri.setIdTipologiaInterventi(pFiltriRicerca[8]);
-			sessionFiltri.setIdStatoProgetto(pFiltriRicerca[9]);
+			filtriAggiuntivi = new NavigaAggregata();
+			filtriAggiuntivi.setIdAnnoDecisione(pFiltriRicerca[0]);
+			filtriAggiuntivi.setIdRegione(pFiltriRicerca[1]);
+			filtriAggiuntivi.setIdProvincia(pFiltriRicerca[2]);
+			filtriAggiuntivi.setIdComune(pFiltriRicerca[3]);
+			filtriAggiuntivi.setIdAreaGeografica(pFiltriRicerca[4]);
+			filtriAggiuntivi.setDescStato(pFiltriRicerca[5]);
+			filtriAggiuntivi.setIdCategoriaSoggetto(pFiltriRicerca[6]);
+			filtriAggiuntivi.setIdSottoCategoriaSoggetto(pFiltriRicerca[7]);
+			filtriAggiuntivi.setIdTipologiaInterventi(pFiltriRicerca[8]);
+			filtriAggiuntivi.setIdStatoProgetto(pFiltriRicerca[9]);
 		}
 		
 		if( pFiltriRicercAnni != null && pFiltriRicercAnni.length > 0 ){
-			if(sessionFiltri == null){
-				sessionFiltri = new NavigaAggregata();
+			if(filtriAggiuntivi == null){
+				filtriAggiuntivi = new NavigaAggregata();
 			}
 			List<String> listAnnis = new ArrayList<String>();
 			Collections.addAll(listAnnis, pFiltriRicercAnni);
-			sessionFiltri.setIdAnnoDecisiones(listAnnis);
+			filtriAggiuntivi.setIdAnnoDecisiones(listAnnis);
 		}
 		
-		if(sessionFiltri != null){
+		if(filtriAggiuntivi != null){
 			//session.setAttribute("sessionFiltri", sessionFiltri , PortletSession.PORTLET_SCOPE);
-			session.setAttribute(sessionName, sessionFiltri);
+			session.setAttribute(sessionName, filtriAggiuntivi);
 		}
 		
 		//sessionFiltri = (NavigaAggregata) session.getAttribute("sessionFiltri ", PortletSession.PORTLET_SCOPE);
-		sessionFiltri = (session.getAttribute(sessionName)==null)?null:(NavigaAggregata) session.getAttribute(sessionName);
+		filtriAggiuntivi = (session.getAttribute(sessionName)==null)?null:(NavigaAggregata) session.getAttribute(sessionName);
 		
-		if( sessionFiltri != null ){
-			sessionAttrClassificazione.setIdAnnoDecisione(sessionFiltri.getIdAnnoDecisione());
-			sessionAttrClassificazione.setIdRegione(sessionFiltri.getIdRegione());
-			sessionAttrClassificazione.setIdProvincia(sessionFiltri.getIdProvincia());
-			sessionAttrClassificazione.setIdComune(sessionFiltri.getIdComune());
-			sessionAttrClassificazione.setIdAreaGeografica(sessionFiltri.getIdAreaGeografica());
-			sessionAttrClassificazione.setDescStato(sessionFiltri.getDescStato());
-			sessionAttrClassificazione.setIdCategoriaSoggetto(sessionFiltri.getIdCategoriaSoggetto());
-			sessionAttrClassificazione.setIdSottoCategoriaSoggetto(sessionFiltri.getIdSottoCategoriaSoggetto());
-			sessionAttrClassificazione.setIdTipologiaInterventi(sessionFiltri.getIdTipologiaInterventi());
-			sessionAttrClassificazione.setIdStatoProgetto(sessionFiltri.getIdStatoProgetto());
-			sessionAttrClassificazione.setIdAnnoDecisiones(sessionFiltri.getIdAnnoDecisiones());
+		if( filtriAggiuntivi != null ){
+			sessionAttrClassificazione.setIdAnnoDecisione(filtriAggiuntivi.getIdAnnoDecisione());
+			sessionAttrClassificazione.setIdRegione(filtriAggiuntivi.getIdRegione());
+			sessionAttrClassificazione.setIdProvincia(filtriAggiuntivi.getIdProvincia());
+			sessionAttrClassificazione.setIdComune(filtriAggiuntivi.getIdComune());
+			sessionAttrClassificazione.setIdAreaGeografica(filtriAggiuntivi.getIdAreaGeografica());
+			sessionAttrClassificazione.setDescStato(filtriAggiuntivi.getDescStato());
+			sessionAttrClassificazione.setIdCategoriaSoggetto(filtriAggiuntivi.getIdCategoriaSoggetto());
+			sessionAttrClassificazione.setIdSottoCategoriaSoggetto(filtriAggiuntivi.getIdSottoCategoriaSoggetto());
+			sessionAttrClassificazione.setIdTipologiaInterventi(filtriAggiuntivi.getIdTipologiaInterventi());
+			sessionAttrClassificazione.setIdStatoProgetto(filtriAggiuntivi.getIdStatoProgetto());
+			sessionAttrClassificazione.setIdAnnoDecisiones(filtriAggiuntivi.getIdAnnoDecisiones());
 		}
+	}
+	
+	protected void processEventFiltroClassificazione(EventRequest eventRequest,
+			EventResponse eventResponse) {
+		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
+		
+		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
+									String.valueOf(filtro.getIdRegione()),
+									String.valueOf(filtro.getIdProvincia()),
+									String.valueOf(filtro.getIdComune()),
+									String.valueOf(filtro.getIdAreaGeografica()),
+									String.valueOf(filtro.getDescStato()),
+									String.valueOf(filtro.getIdCategoriaSoggetto()),
+									String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
+									String.valueOf(filtro.getIdTipologiaInterventi()),
+									String.valueOf(filtro.getIdStatoProgetto()) };
+		
+		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
+		
+		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
+		eventResponse.setRenderParameter("pFiltriRicercAnni", pFiltriRicercAnni);
+	}
+	
+	protected void processEventNavigaClassificazione(EventRequest eventRequest, EventResponse eventResponse) {
+		
+		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
+		
+		String[] pNavigaClassificazione = {String.valueOf(naviga.getIdNatura()), 
+								   String.valueOf(naviga.getIdSettoreInternvanto()), 
+								   String.valueOf(naviga.getIdSottosettoreIntervento()), 
+								   String.valueOf(naviga.getIdCategoriaIntervento()) };
+		
+		eventResponse.setRenderParameter("pNavigaClassificazione", pNavigaClassificazione);
+	}
+	
+	protected void publishEvent(	ActionRequest aRequest, 
+									ActionResponse aResponse,
+									Model model, 
+									String nomeAttr, 
+									QName eventName) {
+		
+		//Leggo la query String per determinare il link di navigazione
+		NavigaAggregata sessionAttrNaturaNav = new NavigaAggregata();
+		sessionAttrNaturaNav.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		sessionAttrNaturaNav.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		sessionAttrNaturaNav.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		sessionAttrNaturaNav.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		
+		model.addAttribute(nomeAttr, sessionAttrNaturaNav);
+		
+		//Setto l'evento con i parametri letti dalla Query string 
+		aResponse.setEvent( eventName, sessionAttrNaturaNav );
 	}
 	
 	

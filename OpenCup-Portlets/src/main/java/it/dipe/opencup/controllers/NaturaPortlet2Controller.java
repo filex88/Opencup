@@ -47,7 +47,7 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 									  @RequestParam(required = false) String[] pFiltriRicercAnni,
 									  @ModelAttribute("sessionAttrNaturaNav") NavigaAggregata sessionAttrNaturaNav){
 				
-		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaNav, "sessionFiltriClassificazioneNav");
+		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaNav, NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
 		
 		/*
 		 * Tramite gli elementi RowIdLiv si determina l apagina da caricare, questi elementi possono assumere 3 tipi di valore:
@@ -92,60 +92,25 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 
 		return "natura2-view";
 	}
-	
-	@EventMapping(value = "event.navigaClassificazionePie")
-	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
-	
-		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
-		
-		String[] pNavigaClassificazione = { String.valueOf(naviga.getIdNatura()), 
-									String.valueOf(naviga.getIdSettoreInternvanto()), 
-									String.valueOf(naviga.getIdSottosettoreIntervento()), 
-									String.valueOf(naviga.getIdCategoriaIntervento()) };
-		
-		eventResponse.setRenderParameter("pNavigaClassificazione", pNavigaClassificazione);
-	
-	}
 
 	@ActionMapping(params="action=PublishEvent")
 	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
 		
+		//Gestione del click sul link della tabella
+		String nomeAttr = "sessionAttrNaturaNav";
 		QName eventName = new QName( "http:eventNavigaClassificazione/events", "event.navigaClassificazione");
 		
-		//Leggo la query String per determinare il link di navigazione
-		NavigaAggregata sessionAttrNaturaNav = new NavigaAggregata();
-		sessionAttrNaturaNav.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		sessionAttrNaturaNav.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
-		sessionAttrNaturaNav.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
-		sessionAttrNaturaNav.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
-		
-		model.addAttribute("sessionAttrNaturaNav", sessionAttrNaturaNav);
-		
-		//Setto l'evento con i parametri letti dalla Query string 
-		aResponse.setEvent( eventName, sessionAttrNaturaNav );
+		publishEvent(aRequest, aResponse, model, nomeAttr, eventName);
+	}
+	
+	@EventMapping(value = "event.navigaClassificazionePie")
+	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
+		processEventNavigaClassificazione(eventRequest, eventResponse);
 	}
 	
 	@EventMapping(value = "event.filtraClassificazione")
 	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
-		
-NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
-		
-		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
-									String.valueOf(filtro.getIdRegione()),
-									String.valueOf(filtro.getIdProvincia()),
-									String.valueOf(filtro.getIdComune()),
-									String.valueOf(filtro.getIdAreaGeografica()),
-									String.valueOf(filtro.getDescStato()),
-									String.valueOf(filtro.getIdCategoriaSoggetto()),
-									String.valueOf(filtro.getIdSottoCategoriaSoggetto()),
-									String.valueOf(filtro.getIdTipologiaInterventi()),
-									String.valueOf(filtro.getIdStatoProgetto())};
-		
-		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
-		
-		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
-		eventResponse.setRenderParameter("pFiltriRicercAnni", pFiltriRicercAnni);
-		
+		processEventFiltroClassificazione(eventRequest, eventResponse);
 	}
 
 }
