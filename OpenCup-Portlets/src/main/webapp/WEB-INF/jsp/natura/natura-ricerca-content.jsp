@@ -276,9 +276,18 @@
 				    	A.one('.affina-ricerca-natura-modal-content-statoprogetto').val(-1);
 					});
 			
-			
-			
 	});
+	
+	function naturaRicercaContentReset(){
+		globalA.one('.affina-ricerca-natura-modal-content-comune').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-regione').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-categoria-soggetto').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-sotto-categoria-soggetto').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-anno').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-tipologia').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-statoprogetto').val(-1);
+	}
 	
 	function naturaRicercaContentSubmit(){
 		var form = globalA.one(".affina-ricerca-natura-modal-content-stato-form");

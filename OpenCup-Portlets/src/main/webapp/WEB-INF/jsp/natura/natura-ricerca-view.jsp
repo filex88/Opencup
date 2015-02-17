@@ -19,9 +19,7 @@
 </portlet:renderURL>
 
 <script type="text/javascript">
-	
 	var uriDialogRicerca = "${uriDialogRicerca}";
-
 </script>
 
 <div style="text-align: right;">

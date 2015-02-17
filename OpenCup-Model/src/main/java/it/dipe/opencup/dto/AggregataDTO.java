@@ -67,9 +67,9 @@ public class AggregataDTO implements Serializable{
 		this.desNatura = aggregata.getClassificazione().getNatura().getDescNatura();
 		this.codNatura = aggregata.getClassificazione().getNatura().getCodiNatura();
 		
-		this.idSettore = aggregata.getClassificazione().getSettoreInternvanto().getId();
-		this.desSettore = aggregata.getClassificazione().getSettoreInternvanto().getDescSettoreIntervento();
-		this.codSettore = aggregata.getClassificazione().getSettoreInternvanto().getCodiSettoreIntervento();
+		this.idSettore = aggregata.getClassificazione().getSettoreIntervento().getId();
+		this.desSettore = aggregata.getClassificazione().getSettoreIntervento().getDescSettoreIntervento();
+		this.codSettore = aggregata.getClassificazione().getSettoreIntervento().getCodiSettoreIntervento();
 		
 		this.idSottoSettore = aggregata.getClassificazione().getSottosettoreIntervento().getId();
 		this.desSottoSettore = aggregata.getClassificazione().getSottosettoreIntervento().getDescSottosettoreInt();

@@ -12,7 +12,7 @@ public class NavigaAggregata implements Serializable{
 	private static final long serialVersionUID = 143973242554717243L;
 	
 	private String idNatura = "-1";
-	private String idSettoreInternvanto = "-1";
+	private String idSettoreIntervento = "-1";
 	private String idSottosettoreIntervento = "-1";
 	private String idCategoriaIntervento = "-1";
 	
@@ -36,7 +36,7 @@ public class NavigaAggregata implements Serializable{
 		String toString = "";
 		
 		toString = toString + "idNatura: (" + idNatura + "); ";
-		toString = toString + "idSettoreInternvanto: (" + idSettoreInternvanto + "); ";
+		toString = toString + "idSettoreIntervento: (" + idSettoreIntervento + "); ";
 		toString = toString + "idSottosettoreIntervento: (" + idSottosettoreIntervento + "); ";
 		toString = toString + "idCategoriaIntervento: (" + idCategoriaIntervento + "); ";
 		toString = toString + "idAnnoDecisione: (" + idAnnoDecisione + "); ";
@@ -101,12 +101,12 @@ public class NavigaAggregata implements Serializable{
 		this.idNatura = idNatura;
 	}
 
-	public String getIdSettoreInternvanto() {
-		return idSettoreInternvanto;
+	public String getIdSettoreIntervento() {
+		return idSettoreIntervento;
 	}
 
-	public void setIdSettoreInternvanto(String idSettoreInternvanto) {
-		this.idSettoreInternvanto = idSettoreInternvanto;
+	public void setIdSettoreIntervento(String idSettoreIntervento) {
+		this.idSettoreIntervento = idSettoreIntervento;
 	}
 
 	public String getIdSottosettoreIntervento() {
@@ -245,7 +245,7 @@ public class NavigaAggregata implements Serializable{
 				+ ((idRegione == null) ? 0 : idRegione.hashCode());
 		result = prime
 				* result
-				+ ((idSettoreInternvanto == null) ? 0 : idSettoreInternvanto
+				+ ((idSettoreIntervento == null) ? 0 : idSettoreIntervento
 						.hashCode());
 		result = prime
 				* result
@@ -323,10 +323,10 @@ public class NavigaAggregata implements Serializable{
 				return false;
 		} else if (!idRegione.equals(other.idRegione))
 			return false;
-		if (idSettoreInternvanto == null) {
-			if (other.idSettoreInternvanto != null)
+		if (idSettoreIntervento == null) {
+			if (other.idSettoreIntervento != null)
 				return false;
-		} else if (!idSettoreInternvanto.equals(other.idSettoreInternvanto))
+		} else if (!idSettoreIntervento.equals(other.idSettoreIntervento))
 			return false;
 		if (idSottoCategoriaSoggetto == null) {
 			if (other.idSottoCategoriaSoggetto != null)

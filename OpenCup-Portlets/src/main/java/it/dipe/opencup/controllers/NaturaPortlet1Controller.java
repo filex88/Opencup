@@ -89,7 +89,7 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 				conv.setLabel(aggregataDTO.getDesCategoriaIntervento() );
 			}else if( sessionAttrNaturaPie.getIdSottosettoreIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesSottoSettore() );
-			}else if( sessionAttrNaturaPie.getIdSettoreInternvanto().equals("0") ){
+			}else if( sessionAttrNaturaPie.getIdSettoreIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesSettore() );
 			}else if( sessionAttrNaturaPie.getIdNatura().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesNatura());

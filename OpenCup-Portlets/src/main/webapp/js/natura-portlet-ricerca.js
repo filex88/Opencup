@@ -20,7 +20,16 @@ AUI().use(
 								];
 				
 					var buttons =[{
-						cssClass: 'btn btn-primary',
+			    		cssClass: '',
+				        label: 'Pulisci',
+				        render:true,
+				        id: 'naturaRicercaContentReset',
+				        on: {
+					        click: function() {
+					            naturaRicercaContentReset();
+					        }}
+			    	},{
+						cssClass: '',
 				        label: 'Filtra',
 				        render:true,
 				        id: 'naturaRicercaContentSubmit',

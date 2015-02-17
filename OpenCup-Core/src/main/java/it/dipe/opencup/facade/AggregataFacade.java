@@ -82,9 +82,7 @@ public class AggregataFacade {
 		}else{
 			criteria.add( Restrictions.eq("annoDecisione.id", Integer.valueOf(navigaAggregata.getIdAnnoDecisione())) );
 		}
-		
-		
-		
+				
 		if( navigaAggregata.getIdProvincia().equals("0") ){
 			criteria.add( Restrictions.ge("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
 		}else{
@@ -104,8 +102,6 @@ public class AggregataFacade {
 		}
 
 		criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
-			
-		
 		
 		if( navigaAggregata.getIdNatura().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
@@ -113,21 +109,17 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
 		}
 		
-		if( navigaAggregata.getIdSettoreInternvanto().equals("0") ){
-			criteria.add( Restrictions.ge("classificazione.settoreInternvanto.id", Integer.valueOf(navigaAggregata.getIdSettoreInternvanto())) );
+		if( navigaAggregata.getIdSettoreIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.settoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSettoreIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.settoreInternvanto.id", Integer.valueOf(navigaAggregata.getIdSettoreInternvanto())) );
+			criteria.add( Restrictions.eq("classificazione.settoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSettoreIntervento())) );
 		}
-		
-//		System.out.println("sottosettoreIntervento = " + sottosettoreIntervento);
 		
 		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}else{
 			criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}
-		
-//		System.out.println("categoriaIntervento = " + categoriaIntervento);
 		
 		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
@@ -139,10 +131,7 @@ public class AggregataFacade {
 	}
 	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {
-		
-		System.out.println("CHIAMATA");
-		
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {		
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
 		AggregataDTO ele = null;

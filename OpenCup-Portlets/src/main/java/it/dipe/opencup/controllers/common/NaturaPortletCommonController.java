@@ -47,7 +47,7 @@ public class NaturaPortletCommonController {
 	protected static final String SESSION_FILTRI_CLASSIFICAZIONE = "SESSION_FILTRI_CLASSIFICAZIONE";
 	
 	//Array che contiene i nomi delle pagine per la navigazione nella Classificazione
-	protected final String[] pageLiv = {"/natliv2", "/natliv3", "/natliv4", "/natliv1"};
+	protected final String[] pageLiv = {"/natsettoreinterventoprogetto", "/natsottosettoreintervento", "/natelencoprogetti", "/natprogetto"};
 	
 	//Array per la personalizzazione della voce di navigazione
 	protected final String[] navigaPer = {"Settore", "Sottosettore", "Categoria Intervento", "Natura"};
@@ -61,7 +61,7 @@ public class NaturaPortletCommonController {
 	
 	protected int calcolaIndicePagina(NavigaAggregata sessionAttrNav) {
 		int index;
-		if( sessionAttrNav.getIdSettoreInternvanto().equals("0") ){
+		if( sessionAttrNav.getIdSettoreIntervento().equals("0") ){
 			index = 0;
 		}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
 			index = 1;
@@ -107,7 +107,7 @@ public class NaturaPortletCommonController {
 						//viene generato un linkURL che punta alla pagina successiva
 						
 						rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
-						rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdSettoreInternvanto());
+						rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdSettoreIntervento());
 						rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
 						rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
 						
@@ -118,7 +118,7 @@ public class NaturaPortletCommonController {
 							rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
 							rowIdLiv4URL = "0";
 							tmp.setDescURL( tmp.getDesSottoSettore() );
-						}else if( sessionAttrNav.getIdSettoreInternvanto().equals("0") ){
+						}else if( sessionAttrNav.getIdSettoreIntervento().equals("0") ){
 							rowIdLiv2URL = tmp.getIdSettore().toString(); 
 							rowIdLiv3URL = "0";
 							tmp.setDescURL( tmp.getDesSettore() );
@@ -161,61 +161,79 @@ public class NaturaPortletCommonController {
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
 		//PortletSession session = renderRequest.getPortletSession(false);
 		
-		//Setto in sessione la navigazione tramite il processEvent
+		//Setto in sessione la navigazione tramite il processEvent della Classificazione
 		if( pNavigaClassificazione != null && pNavigaClassificazione.length == 4 ){
 			sessionAttrClassificazione.setIdNatura(pNavigaClassificazione[0]);
-			sessionAttrClassificazione.setIdSettoreInternvanto(pNavigaClassificazione[1]);
+			sessionAttrClassificazione.setIdSettoreIntervento(pNavigaClassificazione[1]);
 			sessionAttrClassificazione.setIdSottosettoreIntervento(pNavigaClassificazione[2]);
 			sessionAttrClassificazione.setIdCategoriaIntervento(pNavigaClassificazione[3]);
 		}
 		
-		NavigaAggregata filtriAggiuntivi = null;
 		
-		//Setto in sessione i filtri impostati tramite il processEvent
+		NavigaAggregata filtri = null;
+		
+		//Setto in sessione i filtri impostati tramite il processEvent nella classificazione
 		if( pFiltriRicerca != null && pFiltriRicerca.length == 10 ){
-			filtriAggiuntivi = new NavigaAggregata();
-			filtriAggiuntivi.setIdAnnoDecisione(pFiltriRicerca[0]);
-			filtriAggiuntivi.setIdRegione(pFiltriRicerca[1]);
-			filtriAggiuntivi.setIdProvincia(pFiltriRicerca[2]);
-			filtriAggiuntivi.setIdComune(pFiltriRicerca[3]);
-			filtriAggiuntivi.setIdAreaGeografica(pFiltriRicerca[4]);
-			filtriAggiuntivi.setDescStato(pFiltriRicerca[5]);
-			filtriAggiuntivi.setIdCategoriaSoggetto(pFiltriRicerca[6]);
-			filtriAggiuntivi.setIdSottoCategoriaSoggetto(pFiltriRicerca[7]);
-			filtriAggiuntivi.setIdTipologiaInterventi(pFiltriRicerca[8]);
-			filtriAggiuntivi.setIdStatoProgetto(pFiltriRicerca[9]);
+			filtri = new NavigaAggregata();
+			filtri.setIdAnnoDecisione(pFiltriRicerca[0]);
+			filtri.setIdRegione(pFiltriRicerca[1]);
+			filtri.setIdProvincia(pFiltriRicerca[2]);
+			filtri.setIdComune(pFiltriRicerca[3]);
+			filtri.setIdAreaGeografica(pFiltriRicerca[4]);
+			filtri.setDescStato(pFiltriRicerca[5]);
+			filtri.setIdCategoriaSoggetto(pFiltriRicerca[6]);
+			filtri.setIdSottoCategoriaSoggetto(pFiltriRicerca[7]);
+			filtri.setIdTipologiaInterventi(pFiltriRicerca[8]);
+			filtri.setIdStatoProgetto(pFiltriRicerca[9]);
 		}
 		
+		//gli anni hanno la multiselezione
 		if( pFiltriRicercAnni != null && pFiltriRicercAnni.length > 0 ){
-			if(filtriAggiuntivi == null){
-				filtriAggiuntivi = new NavigaAggregata();
+			if(filtri == null){
+				filtri = new NavigaAggregata();
 			}
 			List<String> listAnnis = new ArrayList<String>();
 			Collections.addAll(listAnnis, pFiltriRicercAnni);
-			filtriAggiuntivi.setIdAnnoDecisiones(listAnnis);
+			filtri.setIdAnnoDecisiones(listAnnis);
 		}
 		
-		if(filtriAggiuntivi != null){
+		//Se l'oggetto filtri è stato istanziato lo salvo in sessione (ed eventualmente sovrascrivo quello presente in precedenza)
+		if(filtri != null){
 			//session.setAttribute("sessionFiltri", sessionFiltri , PortletSession.PORTLET_SCOPE);
-			session.setAttribute(sessionName, filtriAggiuntivi);
+			session.setAttribute(sessionName, filtri);
 		}
 		
+		//leggo dalla sessione l'oggetto filtri (potrei averlo appena caricato in sessione oppure potrebbe essere in sessione da chiamate precedenti e mantenere
+		//semplicemente i filtri
 		//sessionFiltri = (NavigaAggregata) session.getAttribute("sessionFiltri ", PortletSession.PORTLET_SCOPE);
-		filtriAggiuntivi = (session.getAttribute(sessionName)==null)?null:(NavigaAggregata) session.getAttribute(sessionName);
+		filtri = (session.getAttribute(sessionName)==null)?null:(NavigaAggregata) session.getAttribute(sessionName);
 		
-		if( filtriAggiuntivi != null ){
-			sessionAttrClassificazione.setIdAnnoDecisione(filtriAggiuntivi.getIdAnnoDecisione());
-			sessionAttrClassificazione.setIdRegione(filtriAggiuntivi.getIdRegione());
-			sessionAttrClassificazione.setIdProvincia(filtriAggiuntivi.getIdProvincia());
-			sessionAttrClassificazione.setIdComune(filtriAggiuntivi.getIdComune());
-			sessionAttrClassificazione.setIdAreaGeografica(filtriAggiuntivi.getIdAreaGeografica());
-			sessionAttrClassificazione.setDescStato(filtriAggiuntivi.getDescStato());
-			sessionAttrClassificazione.setIdCategoriaSoggetto(filtriAggiuntivi.getIdCategoriaSoggetto());
-			sessionAttrClassificazione.setIdSottoCategoriaSoggetto(filtriAggiuntivi.getIdSottoCategoriaSoggetto());
-			sessionAttrClassificazione.setIdTipologiaInterventi(filtriAggiuntivi.getIdTipologiaInterventi());
-			sessionAttrClassificazione.setIdStatoProgetto(filtriAggiuntivi.getIdStatoProgetto());
-			sessionAttrClassificazione.setIdAnnoDecisiones(filtriAggiuntivi.getIdAnnoDecisiones());
+		//Se in sessione trovo l'oggetto copio i valori di ricerca nel session attribute che verrà usato nei controller della navigazione per classificazione
+		if( filtri != null ){
+			sessionAttrClassificazione.setIdAnnoDecisione(filtri.getIdAnnoDecisione());
+			sessionAttrClassificazione.setIdRegione(filtri.getIdRegione());
+			sessionAttrClassificazione.setIdProvincia(filtri.getIdProvincia());
+			sessionAttrClassificazione.setIdComune(filtri.getIdComune());
+			sessionAttrClassificazione.setIdAreaGeografica(filtri.getIdAreaGeografica());
+			sessionAttrClassificazione.setDescStato(filtri.getDescStato());
+			sessionAttrClassificazione.setIdCategoriaSoggetto(filtri.getIdCategoriaSoggetto());
+			sessionAttrClassificazione.setIdSottoCategoriaSoggetto(filtri.getIdSottoCategoriaSoggetto());
+			sessionAttrClassificazione.setIdTipologiaInterventi(filtri.getIdTipologiaInterventi());
+			sessionAttrClassificazione.setIdStatoProgetto(filtri.getIdStatoProgetto());
+			sessionAttrClassificazione.setIdAnnoDecisiones(filtri.getIdAnnoDecisiones());
+		}else{
+			//Creo un oggetto filtro
+			filtri = new NavigaAggregata();
 		}
+		
+		//Copio i valori della navigazione per classificazione nell'oggetto filtro
+		filtri.setIdNatura(sessionAttrClassificazione.getIdNatura());
+		filtri.setIdSettoreIntervento(sessionAttrClassificazione.getIdSettoreIntervento());
+		filtri.setIdSottosettoreIntervento(sessionAttrClassificazione.getIdSottosettoreIntervento());
+		filtri.setIdCategoriaIntervento(sessionAttrClassificazione.getIdCategoriaIntervento());
+		
+		//Salvo l'oggetto filtro in sesisone
+		session.setAttribute(sessionName, filtri);
 	}
 	
 	protected void processEventFiltroClassificazione(EventRequest eventRequest,
@@ -244,7 +262,7 @@ public class NaturaPortletCommonController {
 		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
 		String[] pNavigaClassificazione = {String.valueOf(naviga.getIdNatura()), 
-								   String.valueOf(naviga.getIdSettoreInternvanto()), 
+								   String.valueOf(naviga.getIdSettoreIntervento()), 
 								   String.valueOf(naviga.getIdSottosettoreIntervento()), 
 								   String.valueOf(naviga.getIdCategoriaIntervento()) };
 		
@@ -260,7 +278,7 @@ public class NaturaPortletCommonController {
 		//Leggo la query String per determinare il link di navigazione
 		NavigaAggregata sessionAttrNaturaNav = new NavigaAggregata();
 		sessionAttrNaturaNav.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		sessionAttrNaturaNav.setIdSettoreInternvanto(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		sessionAttrNaturaNav.setIdSettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		sessionAttrNaturaNav.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		sessionAttrNaturaNav.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		

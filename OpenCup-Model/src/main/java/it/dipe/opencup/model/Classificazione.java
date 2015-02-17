@@ -47,7 +47,7 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 
 	@ManyToOne(targetEntity = SettoreIntervento.class)
 	@JoinColumn(name = "FK_DCLA_DSIN_ID", referencedColumnName = "SEQU_DSIN_ID")
-	private SettoreIntervento settoreInternvanto;
+	private SettoreIntervento settoreIntervento;
 
 	
 	@ManyToOne(targetEntity = SottosettoreIntervento.class)
@@ -120,13 +120,13 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 	}
 
 
-	public SettoreIntervento getSettoreInternvanto() {
-		return settoreInternvanto;
+	public SettoreIntervento getSettoreIntervento() {
+		return settoreIntervento;
 	}
 
 
-	public void setSettoreInternvanto(SettoreIntervento settoreInternvanto) {
-		this.settoreInternvanto = settoreInternvanto;
+	public void setSettoreIntervento(SettoreIntervento settoreIntervento) {
+		this.settoreIntervento = settoreIntervento;
 	}
 
 

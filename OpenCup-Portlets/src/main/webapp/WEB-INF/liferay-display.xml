@@ -6,6 +6,7 @@
 		<portlet id="natura-portlet1" />
 		<portlet id="natura-portlet2" />
 		<portlet id="natura-portlet3" />
+		<portlet id="elenco-progetti-portlet" />
 		<portlet id="natura-portlet-ricerca" />
 		<portlet id="localizzazione-portlet1" />
 	</category>
