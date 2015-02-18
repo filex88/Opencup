@@ -29,7 +29,7 @@ AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) 
     resourceURL.setPortletId(namespace);
     resourceURL.setResourceId("allTerritoryResource");
     resourceURL.setCopyCurrentRenderParameters(true);
-    //console.log(resourceURL.toString());
+    console.log(resourceURL.toString());
      
     A.io.request( resourceURL.toString(), {
         dataType: 'json',
@@ -82,8 +82,9 @@ d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", function(error, it) {
     .attr("d",path)
     .attr ("id",function(d) { return d.properties.ID_REG_TER; })
     .on("click", function(d){
-    	
-    	//alert(getLocalizationValue(allTerritoryValues.allTerritoryValues,"ALL_"+d.properties.TERR));
+    	var detailUrl=getUrlDetail(allTerritoryValues.allTerritoryValues,"ALL_"+d.properties.TERR);
+    	console.log(detailUrl);
+    	window.location = detailUrl;
     })
     .on("mouseover",function(a){
     	svg.selectAll("path")
@@ -114,13 +115,22 @@ function getLocalizationValue(localization_array,localization_label){
 	var ritorno=null;
 	  localization_array.forEach(function(d) {
 	  	if (d.localizationLabel==localization_label){
-	  		console.log(d.localizationValue);
 	  		ritorno= (d.localizationValue).toFixed(2);
 	  	}
     });
     return ritorno;
 }
 
+function getUrlDetail(localization_array,localization_label){
+	var returnUrl=null;
+	  localization_array.forEach(function(d) {
+	  	if (d.localizationLabel==localization_label){
+	  		returnUrl= d.detailUrl;
+	  	}
+    });
+    console.log(returnUrl);
+    return returnUrl;
+}
 
 </script>
 

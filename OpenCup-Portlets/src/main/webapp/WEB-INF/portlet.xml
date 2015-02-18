@@ -242,6 +242,86 @@
 
 	</portlet>
 
+	<portlet id="localizzazione-portlet2">
+		<portlet-name>localizzazione-portlet2</portlet-name>
+		<display-name>Localizzazione per territorio</display-name>
+
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/localizzazione-portlet2.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>Localizzazione2-language</resource-bundle>
+		<portlet-info>
+			<title>Localizzazione per territorio</title>
+			<short-title></short-title>
+			<keywords>Localizzazione per territorio</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>portlet-setup-show-borders</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+
+	</portlet>
+
+	<portlet id="localizzazione-portlet3">
+		<portlet-name>localizzazione-portlet3</portlet-name>
+		<display-name>Localizzazione per province</display-name>
+
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/localizzazione-portlet3.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>Localizzazione3-language</resource-bundle>
+		<portlet-info>
+			<title>Localizzazione per province</title>
+			<short-title></short-title>
+			<keywords>Localizzazione per province</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>portlet-setup-show-borders</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+
+	</portlet>
+
 	<event-definition>
 		<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		<value-type>valueobject.Name</value-type>

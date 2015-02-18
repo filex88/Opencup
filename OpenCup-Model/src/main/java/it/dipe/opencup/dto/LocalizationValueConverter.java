@@ -8,8 +8,15 @@ public class LocalizationValueConverter implements Serializable{
 	
 	private String localizationLabel;
 	private double localizationValue;
+	private String detailUrl;
 	
-	
+	public LocalizationValueConverter() {
+	}
+	public LocalizationValueConverter(String localizationLabel,double localizationValue, String detailUrl) {
+		this.localizationLabel = localizationLabel;
+		this.localizationValue = localizationValue;
+		this.detailUrl = detailUrl;
+	}
 	public String getLocalizationLabel() {
 		return localizationLabel;
 	}
@@ -21,6 +28,12 @@ public class LocalizationValueConverter implements Serializable{
 	}
 	public void setLocalizationValue(double localizationValue) {
 		this.localizationValue = localizationValue;
+	}
+	public String getDetailUrl() {
+		return detailUrl;
+	}
+	public void setDetailUrl(String detailUrl) {
+		this.detailUrl = detailUrl;
 	}
 
 }

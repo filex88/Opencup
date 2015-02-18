@@ -42,6 +42,22 @@
 		<css-class-wrapper>localizzazione-portlet1</css-class-wrapper>
 	</portlet>
 	
+	<portlet>
+		<portlet-name>localizzazione-portlet2</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/localizzazione-portlet2.js</footer-portlet-javascript>
+		<css-class-wrapper>localizzazione-portlet2</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>localizzazione-portlet3</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/localizzazione-portlet3.js</footer-portlet-javascript>
+		<css-class-wrapper>localizzazione-portlet3</css-class-wrapper>
+	</portlet>
+	
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>
