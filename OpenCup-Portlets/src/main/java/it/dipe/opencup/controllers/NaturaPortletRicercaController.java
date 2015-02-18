@@ -18,6 +18,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Controller;
@@ -25,43 +26,46 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
+import com.liferay.portal.util.PortalUtil;
+
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("sessionAttrNaturaRicerca")
 public class NaturaPortletRicercaController extends NaturaPortletCommonController {
 	
-	@ModelAttribute("sessionAttrNaturaRicerca")
-	public NavigaAggregata sessionAttrNaturaRicerca() {
+	@ModelAttribute("modelAttrNaturaRicerca")
+	public NavigaAggregata modelAttrNaturaRicerca() {
 		return super.sessionAttr();
 	}
 	
 	
 	@RenderMapping(params="action=affinaricerca")
 	public String handleRenderRicercaRequest(	RenderRequest request, 
-										RenderResponse response, 
-										Model model, 
-										@ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
+												RenderResponse response, 
+												Model model, 
+												@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+		modelAttrNaturaRicerca = (session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE)==null)?new NavigaAggregata():(NavigaAggregata) session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
 		
 		//Carico la lista delle regioni
 		List<Regione> listRegione = aggregataFacade.findRegioni();
 		model.addAttribute("listRegione", listRegione);
 		
-		if( ! "-1".equals( sessionAttrNaturaRicerca.getIdRegione() ) ){
+		if( ! "-1".equals( modelAttrNaturaRicerca.getIdRegione() ) ){
 			//Regione selezionata carico le Province
-			List<Provincia> listProvincia = aggregataFacade.findProvinciaByIdRegione(Integer.valueOf( sessionAttrNaturaRicerca.getIdRegione() ));
+			List<Provincia> listProvincia = aggregataFacade.findProvinciaByIdRegione(Integer.valueOf( modelAttrNaturaRicerca.getIdRegione() ));
 			model.addAttribute("listProvincia", listProvincia);
 		}
 		
-		if( ! "-1".equals( sessionAttrNaturaRicerca.getIdProvincia() ) ){
+		if( ! "-1".equals( modelAttrNaturaRicerca.getIdProvincia() ) ){
 			//Provincia selezionata carico i Comuni
-			List<Comune> listComune = aggregataFacade.findComuneByIdProvincia(Integer.valueOf( sessionAttrNaturaRicerca.getIdProvincia() ));
+			List<Comune> listComune = aggregataFacade.findComuneByIdProvincia(Integer.valueOf( modelAttrNaturaRicerca.getIdProvincia() ));
 			model.addAttribute("listComune", listComune);
 		}
 		
@@ -78,7 +82,7 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		model.addAttribute("listaStatoProgetto", listaStatoProgetto);
 		
 		
-		model.addAttribute("sessionAttrNaturaRicerca", sessionAttrNaturaRicerca);
+		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
 				
 		return "natura-ricerca-content";
 	}
@@ -87,14 +91,19 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 	public String handleRenderRequest(	RenderRequest request, 
 										RenderResponse response, 
 										Model model, 
-										@ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
+										@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+		modelAttrNaturaRicerca = (session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE)==null)?new NavigaAggregata():(NavigaAggregata) session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
+		
+		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
 		
 		return "natura-ricerca-view";
 	}
 	
 	
 	@ResourceMapping(value =  "loadProvinciaByRegione")	
-	public View loadProvinciaByRegione(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
+	public View loadProvinciaByRegione(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
 		
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		
@@ -112,7 +121,7 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 	}
 	
 	@ResourceMapping(value =  "loadComuniByProvincia")	
-	public View loadComuniByProvincia(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
+	public View loadComuniByProvincia(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
 		
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		
@@ -130,17 +139,17 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 	}
 	
 	@ActionMapping(params="action=ricerca")
-	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model, @ModelAttribute("sessionAttrNaturaRicerca") NavigaAggregata sessionAttrNaturaRicerca){
+	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
 		
-		System.out.println("RICERCA!!!!!!: " + sessionAttrNaturaRicerca.toString());
+		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
+		session.setAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE, modelAttrNaturaRicerca);
 		
 		QName eventName = new QName( "http:eventFiltraClassificazione/events", "event.filtraClassificazione");
-		
-		
-		model.addAttribute("sessionAttrNaturaRicerca", sessionAttrNaturaRicerca);
+
+		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
 		
 		//Setto l'evento con i parametri letti dalla Query string 
-		aResponse.setEvent( eventName, sessionAttrNaturaRicerca );
+		aResponse.setEvent( eventName, modelAttrNaturaRicerca );
 	}
 
 }

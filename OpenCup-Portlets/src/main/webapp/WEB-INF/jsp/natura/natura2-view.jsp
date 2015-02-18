@@ -12,9 +12,6 @@
 
 <portlet:defineObjects />
 
-<a name="natura-portlet2"></a>
-
-
 Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei progetti
 
 <fmt:setLocale value="it_IT"/>
@@ -49,3 +46,5 @@ Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei proget
 
 <form class="formEmptyNatura2" method="POST" action="#">
 </form>
+
+<a name="natura-portlet2"></a>

@@ -3,7 +3,6 @@ package it.dipe.opencup.model;
 import it.dipe.opencup.model.common.AbstractCommonEntity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "S_DMA_FPRG_PROGETTI")
@@ -104,16 +99,6 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 
 	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
 	private String annoAnnoDecisione;
-
-	@Column(name = "DATA_FPRG_INIZIO_VAL")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "M-")
-	private Date dataInizioVal;
-
-	@Column(name = "DATA_FPRG_FINE_VAL")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "M-")
-	private Date dataFineVal;
 
 	public Integer getId() {
 		return id;
@@ -290,22 +275,6 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 
 	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
 		this.annoAnnoDecisione = annoAnnoDecisione;
-	}
-
-	public Date getDataInizioVal() {
-		return dataInizioVal;
-	}
-
-	public void setDataInizioVal(Date dataInizioVal) {
-		this.dataInizioVal = dataInizioVal;
-	}
-
-	public Date getDataFineVal() {
-		return dataFineVal;
-	}
-
-	public void setDataFineVal(Date dataFineVal) {
-		this.dataFineVal = dataFineVal;
 	}
 
 	@Override

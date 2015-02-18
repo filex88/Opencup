@@ -30,6 +30,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.googlecode.ehcache.annotations.Cacheable;
+import com.googlecode.ehcache.annotations.KeyGenerator;
+
 @Component("aggregataFacade")
 public class AggregataFacade {
 	
@@ -79,9 +82,7 @@ public class AggregataFacade {
 		}else{
 			criteria.add( Restrictions.eq("annoDecisione.id", Integer.valueOf(navigaAggregata.getIdAnnoDecisione())) );
 		}
-		
-		
-		
+				
 		if( navigaAggregata.getIdProvincia().equals("0") ){
 			criteria.add( Restrictions.ge("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
 		}else{
@@ -101,8 +102,6 @@ public class AggregataFacade {
 		}
 
 		criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
-			
-		
 		
 		if( navigaAggregata.getIdNatura().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
@@ -110,21 +109,17 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
 		}
 		
-		if( navigaAggregata.getIdSettoreInternvanto().equals("0") ){
-			criteria.add( Restrictions.ge("classificazione.settoreInternvanto.id", Integer.valueOf(navigaAggregata.getIdSettoreInternvanto())) );
+		if( navigaAggregata.getIdSettoreIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.settoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSettoreIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.settoreInternvanto.id", Integer.valueOf(navigaAggregata.getIdSettoreInternvanto())) );
+			criteria.add( Restrictions.eq("classificazione.settoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSettoreIntervento())) );
 		}
-		
-//		System.out.println("sottosettoreIntervento = " + sottosettoreIntervento);
 		
 		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}else{
 			criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}
-		
-//		System.out.println("categoriaIntervento = " + categoriaIntervento);
 		
 		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
@@ -135,7 +130,8 @@ public class AggregataFacade {
 		return criteria;
 	}
 	
-	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {		
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
 		AggregataDTO ele = null;
@@ -146,11 +142,12 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public int countAggregataByNatura(NavigaAggregata navigaAggregata) { 
 		return aggregataDAO.countByCriteria(bildCriteriaByNatura(navigaAggregata));
 	}
 	
-	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, int page, String orderByCol, String orderByType) {
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 		Criteria criteriaByNatura = bildCriteriaByNatura(navigaAggregata);
@@ -169,6 +166,7 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Regione> findRegioni() {
 		List<Regione> retval = new ArrayList<Regione>();
 
@@ -182,6 +180,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Provincia> findProvinciaByIdRegione(Integer idRegione) {
 		List<Provincia> retval = new ArrayList<Provincia>();
 		
@@ -198,6 +197,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Comune> findComuneByIdProvincia(Integer idProvincia) {
 		List<Comune> retval = new ArrayList<Comune>();
 		
@@ -214,6 +214,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<StatoProgetto> findStatoProgetto() {
 		List<StatoProgetto> retval = new ArrayList<StatoProgetto>();
 		
@@ -226,6 +227,7 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AnnoDecisione> findAnnoDecisioneDAO() {
 		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
 		
@@ -238,6 +240,7 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<TipologiaIntervento> findTipologiaIntervento() {
 		List<TipologiaIntervento> retval = new ArrayList<TipologiaIntervento>();
 				
@@ -250,6 +253,7 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AnnoDecisione> findAnniDecisione() {
 		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
 		

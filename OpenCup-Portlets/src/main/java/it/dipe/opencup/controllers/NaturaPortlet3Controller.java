@@ -39,15 +39,11 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 										RenderResponse response, 
 										@RequestParam(required = false) String[] pNavigaClassificazione,
 										@RequestParam(required = false) String[] pFiltriRicerca,
+										@RequestParam(required = false) String[] pFiltriRicercAnni,
 										Model model, 
 										@ModelAttribute("sessionAttrNaturaRiepilogo") NavigaAggregata sessionAttrNaturaRiepilogo){
 		
-		if( pNavigaClassificazione != null && pNavigaClassificazione.length == 4 ){
-			sessionAttrNaturaRiepilogo.setIdNatura(pNavigaClassificazione[0]);
-			sessionAttrNaturaRiepilogo.setIdSettoreInternvanto(pNavigaClassificazione[1]);
-			sessionAttrNaturaRiepilogo.setIdSottosettoreIntervento(pNavigaClassificazione[2]);
-			sessionAttrNaturaRiepilogo.setIdCategoriaIntervento(pNavigaClassificazione[3]);
-		}
+		initRender(request, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaRiepilogo, NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
 		
 		SearchContainer<DescrizioneValore> searchContainer = new SearchContainer<DescrizioneValore>(request, response.createRenderURL(), null, "There are no nature yet to display.");
 		searchContainer.setDelta(maxResult);
@@ -74,43 +70,20 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 		
 		return "natura3-view";
 	}
-	
+
 	@EventMapping(value = "event.navigaClassificazionePie")
 	public void processEventPie(EventRequest eventRequest, EventResponse eventResponse) {
-		processaEvento(eventRequest, eventResponse);
+		processEventNavigaClassificazione(eventRequest, eventResponse);
 	}
 	
 	@EventMapping(value = "event.navigaClassificazione")
 	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
-		processaEvento(eventRequest, eventResponse);
-	}
-	
-	private void processaEvento(EventRequest eventRequest, EventResponse eventResponse) {
-		
-		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
-		
-		String[] pNavigaClassificazione = {String.valueOf(naviga.getIdNatura()), 
-								   String.valueOf(naviga.getIdSettoreInternvanto()), 
-								   String.valueOf(naviga.getIdSottosettoreIntervento()), 
-								   String.valueOf(naviga.getIdCategoriaIntervento()) };
-		
-		eventResponse.setRenderParameter("pNavigaClassificazione", pNavigaClassificazione);
+		processEventNavigaClassificazione(eventRequest, eventResponse);
 	}
 	
 	@EventMapping(value = "event.filtraClassificazione")
 	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
-		
-		System.out.println("Evento 3");
-		
-		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
-		
-		String[] pFiltriRicerca = {String.valueOf(filtro.getIdNatura()), 
-								   String.valueOf(filtro.getIdSettoreInternvanto()), 
-								   String.valueOf(filtro.getIdSottosettoreIntervento()), 
-								   String.valueOf(filtro.getIdCategoriaIntervento()) };
-		
-		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
-		
+		processEventFiltroClassificazione(eventRequest, eventResponse);	
 	}
 
 }

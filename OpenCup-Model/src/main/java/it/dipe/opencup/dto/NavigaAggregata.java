@@ -12,7 +12,7 @@ public class NavigaAggregata implements Serializable{
 	private static final long serialVersionUID = 143973242554717243L;
 	
 	private String idNatura = "-1";
-	private String idSettoreInternvanto = "-1";
+	private String idSettoreIntervento = "-1";
 	private String idSottosettoreIntervento = "-1";
 	private String idCategoriaIntervento = "-1";
 	
@@ -36,7 +36,7 @@ public class NavigaAggregata implements Serializable{
 		String toString = "";
 		
 		toString = toString + "idNatura: (" + idNatura + "); ";
-		toString = toString + "idSettoreInternvanto: (" + idSettoreInternvanto + "); ";
+		toString = toString + "idSettoreIntervento: (" + idSettoreIntervento + "); ";
 		toString = toString + "idSottosettoreIntervento: (" + idSottosettoreIntervento + "); ";
 		toString = toString + "idCategoriaIntervento: (" + idCategoriaIntervento + "); ";
 		toString = toString + "idAnnoDecisione: (" + idAnnoDecisione + "); ";
@@ -101,12 +101,12 @@ public class NavigaAggregata implements Serializable{
 		this.idNatura = idNatura;
 	}
 
-	public String getIdSettoreInternvanto() {
-		return idSettoreInternvanto;
+	public String getIdSettoreIntervento() {
+		return idSettoreIntervento;
 	}
 
-	public void setIdSettoreInternvanto(String idSettoreInternvanto) {
-		this.idSettoreInternvanto = idSettoreInternvanto;
+	public void setIdSettoreIntervento(String idSettoreIntervento) {
+		this.idSettoreIntervento = idSettoreIntervento;
 	}
 
 	public String getIdSottosettoreIntervento() {
@@ -211,6 +211,146 @@ public class NavigaAggregata implements Serializable{
 
 	public void setIdStatoProgetto(String idStatoProgetto) {
 		this.idStatoProgetto = idStatoProgetto;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((descStato == null) ? 0 : descStato.hashCode());
+		result = prime * result
+				+ ((idAnnoDecisione == null) ? 0 : idAnnoDecisione.hashCode());
+		result = prime
+				* result
+				+ ((idAnnoDecisiones == null) ? 0 : idAnnoDecisiones.hashCode());
+		result = prime
+				* result
+				+ ((idAreaGeografica == null) ? 0 : idAreaGeografica.hashCode());
+		result = prime
+				* result
+				+ ((idCategoriaIntervento == null) ? 0 : idCategoriaIntervento
+						.hashCode());
+		result = prime
+				* result
+				+ ((idCategoriaSoggetto == null) ? 0 : idCategoriaSoggetto
+						.hashCode());
+		result = prime * result
+				+ ((idComune == null) ? 0 : idComune.hashCode());
+		result = prime * result
+				+ ((idNatura == null) ? 0 : idNatura.hashCode());
+		result = prime * result
+				+ ((idProvincia == null) ? 0 : idProvincia.hashCode());
+		result = prime * result
+				+ ((idRegione == null) ? 0 : idRegione.hashCode());
+		result = prime
+				* result
+				+ ((idSettoreIntervento == null) ? 0 : idSettoreIntervento
+						.hashCode());
+		result = prime
+				* result
+				+ ((idSottoCategoriaSoggetto == null) ? 0
+						: idSottoCategoriaSoggetto.hashCode());
+		result = prime
+				* result
+				+ ((idSottosettoreIntervento == null) ? 0
+						: idSottosettoreIntervento.hashCode());
+		result = prime * result
+				+ ((idStatoProgetto == null) ? 0 : idStatoProgetto.hashCode());
+		result = prime
+				* result
+				+ ((idTipologiaInterventi == null) ? 0 : idTipologiaInterventi
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NavigaAggregata other = (NavigaAggregata) obj;
+		if (descStato == null) {
+			if (other.descStato != null)
+				return false;
+		} else if (!descStato.equals(other.descStato))
+			return false;
+		if (idAnnoDecisione == null) {
+			if (other.idAnnoDecisione != null)
+				return false;
+		} else if (!idAnnoDecisione.equals(other.idAnnoDecisione))
+			return false;
+		if (idAnnoDecisiones == null) {
+			if (other.idAnnoDecisiones != null)
+				return false;
+		} else if (!idAnnoDecisiones.equals(other.idAnnoDecisiones))
+			return false;
+		if (idAreaGeografica == null) {
+			if (other.idAreaGeografica != null)
+				return false;
+		} else if (!idAreaGeografica.equals(other.idAreaGeografica))
+			return false;
+		if (idCategoriaIntervento == null) {
+			if (other.idCategoriaIntervento != null)
+				return false;
+		} else if (!idCategoriaIntervento.equals(other.idCategoriaIntervento))
+			return false;
+		if (idCategoriaSoggetto == null) {
+			if (other.idCategoriaSoggetto != null)
+				return false;
+		} else if (!idCategoriaSoggetto.equals(other.idCategoriaSoggetto))
+			return false;
+		if (idComune == null) {
+			if (other.idComune != null)
+				return false;
+		} else if (!idComune.equals(other.idComune))
+			return false;
+		if (idNatura == null) {
+			if (other.idNatura != null)
+				return false;
+		} else if (!idNatura.equals(other.idNatura))
+			return false;
+		if (idProvincia == null) {
+			if (other.idProvincia != null)
+				return false;
+		} else if (!idProvincia.equals(other.idProvincia))
+			return false;
+		if (idRegione == null) {
+			if (other.idRegione != null)
+				return false;
+		} else if (!idRegione.equals(other.idRegione))
+			return false;
+		if (idSettoreIntervento == null) {
+			if (other.idSettoreIntervento != null)
+				return false;
+		} else if (!idSettoreIntervento.equals(other.idSettoreIntervento))
+			return false;
+		if (idSottoCategoriaSoggetto == null) {
+			if (other.idSottoCategoriaSoggetto != null)
+				return false;
+		} else if (!idSottoCategoriaSoggetto
+				.equals(other.idSottoCategoriaSoggetto))
+			return false;
+		if (idSottosettoreIntervento == null) {
+			if (other.idSottosettoreIntervento != null)
+				return false;
+		} else if (!idSottosettoreIntervento
+				.equals(other.idSottosettoreIntervento))
+			return false;
+		if (idStatoProgetto == null) {
+			if (other.idStatoProgetto != null)
+				return false;
+		} else if (!idStatoProgetto.equals(other.idStatoProgetto))
+			return false;
+		if (idTipologiaInterventi == null) {
+			if (other.idTipologiaInterventi != null)
+				return false;
+		} else if (!idTipologiaInterventi.equals(other.idTipologiaInterventi))
+			return false;
+		return true;
 	}
 	
 }

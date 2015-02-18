@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.2.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_6_2_0.dtd">
 <liferay-portlet-app>
+	
 	<portlet>
 		<portlet-name>natura-portlet1</portlet-name>
 		<icon>/icon.png</icon>
@@ -32,6 +33,16 @@
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/natura-portlet-ricerca.js</footer-portlet-javascript>
 		<css-class-wrapper>natura-portlet-ricerca</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>elenco-progetti-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<instanceable>true</instanceable>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/elenco-progetti-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>elenco-progetti-portlet</css-class-wrapper>
+		<add-default-resource>true</add-default-resource>
 	</portlet>
 	
 	<portlet>

@@ -42,11 +42,13 @@
 		</dependency>  
   
   	<dependency>
+  		<type>jar</type> 
 		<groupId>opencup</groupId>
 		<artifactId>opencup-model</artifactId>
 		<version>1.0.0</version>
 	</dependency>
 	<dependency>
+		<type>jar</type> 
 		<groupId>opencup</groupId>
 		<artifactId>opencup-core</artifactId>
 		<version>1.0.0</version>
@@ -120,19 +122,19 @@
 		<version>1.9.13</version>
 	</dependency>
 	
-	<!--
 	<dependency>
 	  <groupId>com.googlecode.ehcache-spring-annotations</groupId>
 	  <artifactId>ehcache-spring-annotations</artifactId>
 	  <version>1.2.0</version>
+	  <exclusions>
+	  	<exclusion>
+	  		<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+	  	</exclusion>
+	  </exclusions>
 	</dependency>
 	
-	<dependency>
-		<groupId>net.sf.ehcache</groupId>
-		<artifactId>ehcache-core</artifactId>
-		<version>2.6.10</version>
-	</dependency>
-	-->
+
   </dependencies>
   <build>
     <finalName>opencup-portlets</finalName>
@@ -145,7 +147,7 @@
       <plugin>
 		<groupId>com.liferay.maven.plugins</groupId>
 		<artifactId>liferay-maven-plugin</artifactId>
-		<version>${liferay.version}</version>
+		<!-- <version>${liferay.version}</version>  -->
 		<configuration>
 			 <autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
 			 <appServerDeployDir>${liferay.app.server.deploy.dir}</appServerDeployDir>
