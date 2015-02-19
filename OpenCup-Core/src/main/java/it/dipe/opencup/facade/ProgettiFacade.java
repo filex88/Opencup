@@ -35,18 +35,6 @@ public class ProgettiFacade {
 	@Autowired
 	private ComuneDAO comuneDAO;
 	
-//	private Regione findRegioneById(Integer id){
-//		return regioneDAO.findById(id);
-//	}
-//	
-//	private Provincia findProvinciaById(Integer id){
-//		return provinciaDAO.findById(id);
-//	}
-//	
-//	private Comune findComuneById(Integer id){
-//		return comuneDAO.findById(id);
-//	}
-	
 	private Criteria bildCriteria(NavigaAggregata filtri) {
 		Criteria criteria = progettiDAO.newCriteria();
 		
