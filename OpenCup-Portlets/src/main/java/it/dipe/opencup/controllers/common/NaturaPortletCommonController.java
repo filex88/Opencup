@@ -173,18 +173,17 @@ public class NaturaPortletCommonController {
 		NavigaAggregata filtri = null;
 		
 		//Setto in sessione i filtri impostati tramite il processEvent nella classificazione
-		if( pFiltriRicerca != null && pFiltriRicerca.length == 10 ){
+		if( pFiltriRicerca != null && pFiltriRicerca.length == 9 ){
 			filtri = new NavigaAggregata();
-			filtri.setIdAnnoDecisione(pFiltriRicerca[0]);
-			filtri.setIdRegione(pFiltriRicerca[1]);
-			filtri.setIdProvincia(pFiltriRicerca[2]);
-			filtri.setIdComune(pFiltriRicerca[3]);
-			filtri.setIdAreaGeografica(pFiltriRicerca[4]);
-			filtri.setDescStato(pFiltriRicerca[5]);
-			filtri.setIdCategoriaSoggetto(pFiltriRicerca[6]);
-			filtri.setIdSottoCategoriaSoggetto(pFiltriRicerca[7]);
-			filtri.setIdTipologiaInterventi(pFiltriRicerca[8]);
-			filtri.setIdStatoProgetto(pFiltriRicerca[9]);
+			filtri.setIdRegione(pFiltriRicerca[0]);
+			filtri.setIdProvincia(pFiltriRicerca[1]);
+			filtri.setIdComune(pFiltriRicerca[2]);
+			filtri.setIdAreaGeografica(pFiltriRicerca[3]);
+			filtri.setDescStato(pFiltriRicerca[4]);
+			filtri.setIdCategoriaSoggetto(pFiltriRicerca[5]);
+			filtri.setIdSottoCategoriaSoggetto(pFiltriRicerca[6]);
+			filtri.setIdTipologiaInterventi(pFiltriRicerca[7]);
+			filtri.setIdStatoProgetto(pFiltriRicerca[8]);
 		}
 		
 		//gli anni hanno la multiselezione
@@ -210,7 +209,6 @@ public class NaturaPortletCommonController {
 		
 		//Se in sessione trovo l'oggetto copio i valori di ricerca nel session attribute che verrà usato nei controller della navigazione per classificazione
 		if( filtri != null ){
-			sessionAttrClassificazione.setIdAnnoDecisione(filtri.getIdAnnoDecisione());
 			sessionAttrClassificazione.setIdRegione(filtri.getIdRegione());
 			sessionAttrClassificazione.setIdProvincia(filtri.getIdProvincia());
 			sessionAttrClassificazione.setIdComune(filtri.getIdComune());
@@ -240,8 +238,7 @@ public class NaturaPortletCommonController {
 			EventResponse eventResponse) {
 		NavigaAggregata filtro = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
-		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdAnnoDecisione()),
-									String.valueOf(filtro.getIdRegione()),
+		String[] pFiltriRicerca = {	String.valueOf(filtro.getIdRegione()),
 									String.valueOf(filtro.getIdProvincia()),
 									String.valueOf(filtro.getIdComune()),
 									String.valueOf(filtro.getIdAreaGeografica()),
@@ -262,9 +259,9 @@ public class NaturaPortletCommonController {
 		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
 		String[] pNavigaClassificazione = {String.valueOf(naviga.getIdNatura()), 
-								   String.valueOf(naviga.getIdSettoreIntervento()), 
-								   String.valueOf(naviga.getIdSottosettoreIntervento()), 
-								   String.valueOf(naviga.getIdCategoriaIntervento()) };
+										   String.valueOf(naviga.getIdSettoreIntervento()), 
+										   String.valueOf(naviga.getIdSottosettoreIntervento()), 
+										   String.valueOf(naviga.getIdCategoriaIntervento()) };
 		
 		eventResponse.setRenderParameter("pNavigaClassificazione", pNavigaClassificazione);
 	}

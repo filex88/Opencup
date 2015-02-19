@@ -3,13 +3,19 @@ package it.dipe.opencup.model;
 import it.dipe.opencup.model.common.AbstractCommonEntity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "S_DMA_FPRG_PROGETTI")
@@ -99,6 +105,10 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 
 	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
 	private String annoAnnoDecisione;
+	
+	@OneToMany(targetEntity=CupLocalizzazione.class, fetch=FetchType.EAGER, mappedBy="progetti")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<CupLocalizzazione> cupLocalizzazioni;
 
 	public Integer getId() {
 		return id;
@@ -275,6 +285,14 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 
 	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
 		this.annoAnnoDecisione = annoAnnoDecisione;
+	}
+
+	public List<CupLocalizzazione> getCupLocalizzazioni() {
+		return cupLocalizzazioni;
+	}
+
+	public void setCupLocalizzazioni(List<CupLocalizzazione> cupLocalizzazioni) {
+		this.cupLocalizzazioni = cupLocalizzazioni;
 	}
 
 	@Override

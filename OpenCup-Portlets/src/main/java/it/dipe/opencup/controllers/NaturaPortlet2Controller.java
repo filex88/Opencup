@@ -25,6 +25,7 @@ import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -72,21 +73,23 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 
 		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(renderRequest, responseRequest.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
 		searchContainer.setDelta(maxResult);
-		searchContainer.setTotal(aggregataFacade.countAggregataByNatura( sessionAttrNaturaNav ) );
 		
 		searchContainer.setOrderByCol(orderByCol);
 		searchContainer.setOrderByType(orderByType);
 
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaNav, 
-																					 searchContainer.getCur(), 
 																					 searchContainer.getOrderByCol(), 
 																					 searchContainer.getOrderByType() );
+		
+		searchContainer.setTotal(listaAggregataDTO.size());
 		
 		String anchorPortlet = "#natura-portlet2";
 		
 		impostaLinkURL(renderRequest, sessionAttrNaturaNav, index, listaAggregataDTO, anchorPortlet);
 		
+		listaAggregataDTO = ListUtil.subList(listaAggregataDTO, searchContainer.getStart(), searchContainer.getEnd());       
 		searchContainer.setResults(listaAggregataDTO);
+		
 		model.addAttribute("searchContainer", searchContainer);
 		model.addAttribute("navigaPer", navigaPer[index]);
 

@@ -66,11 +66,26 @@
 					<div class="control-group" id="affina-ricerca-natura-modal-content-anno-div">
 						<label class="control-label" for="affina-ricerca-natura-modal-content-anno"><strong>Anno Decisione</strong></label>
 						<div class="controls">
-							<aui:select multiple="true" inlineField="true" cssClass="input-xlarge affina-ricerca-natura-modal-content-anno" label="" bean="modelAttrNaturaRicerca" name="idAnnoDecisione" id="affina-ricerca-natura-modal-content-anno">
-								<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idAnnoDecisione == -1}"/>
+							<aui:select multiple="true" inlineField="true" cssClass="input-xlarge affina-ricerca-natura-modal-content-anno" label="" bean="modelAttrNaturaRicerca" name="idAnnoDecisiones" id="affina-ricerca-natura-modal-content-anno">
+								
+								<c:set var="selected" value="false" />
+								<c:forEach items="${modelAttrNaturaRicerca.idAnnoDecisiones}" var="annoSel" >
+									<c:if test="${annoSel == -1}">
+										<c:set var="selected" value="true" />
+									</c:if>
+								</c:forEach>
+								<aui:option value="-1" label="ricerca.tutte" selected="${selected}"/>
+								
 								<c:forEach items="${listaAnnoDecisione}" var="anno" >
-						            <aui:option value="${anno.id}" label="${anno.annoDadeAnnoDecisione}" selected="${modelAttrNaturaRicerca.idAnnoDecisione == anno.id}"/>
+									<c:set var="selected" value="false" />
+									<c:forEach items="${modelAttrNaturaRicerca.idAnnoDecisiones}" var="annoSel" >
+						           		<c:if test="${annoSel == anno.id}">
+											<c:set var="selected" value="true" />
+										</c:if>
+						        	</c:forEach>
+						        	<aui:option value="${anno.id}" label="${anno.annoDadeAnnoDecisione}" selected="${selected}"/>
 						        </c:forEach>
+						        
 							</aui:select>
 							<i class="icon-remove-circle pulisciElementoAnno" style="cursor: pointer;"></i>
 						</div>
@@ -142,7 +157,7 @@
 							<i class="icon-remove-circle pulisciElementoProvincia" style="cursor: pointer;"></i>
 						</div>
 					</div>
-					
+					<%-- 
 					<div class="control-group" id="affina-ricerca-natura-modal-content-comune-div">
 						<label class="control-label" for="affina-ricerca-natura-modal-content-comune">Comune</label>
 						<div class="controls form-inline">
@@ -155,7 +170,7 @@
 							<i class="icon-remove-circle pulisciElementoComune" style="cursor: pointer;"></i>
 						</div>
 					</div>
-
+					--%>
 				</div>
 			</div>
 		</div>		
@@ -212,12 +227,13 @@
 				}
 			}
 			
-			
+			<%--
 			A.one('.affina-ricerca-natura-modal-content-provincia').on(
 				    'change',
 				    function(event) {
 				    	caricaCombo(namespaceRicerca, "loadComuniByProvincia", this.val(), namespaceRicerca4js+"affina-ricerca-natura-modal-content-comune");
 					});
+			--%>
 			
 			A.one('.affina-ricerca-natura-modal-content-regione').on(
 				    'change',
@@ -228,7 +244,9 @@
 			A.one('.pulisciElementoRegione').on(
 				    'click',
 				    function(event) {
+				    	<%--
 				    	A.one('.affina-ricerca-natura-modal-content-comune').val(-1);
+				    	--%>
 				    	A.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
 				    	A.one('.affina-ricerca-natura-modal-content-regione').val(-1);
 					});
@@ -236,16 +254,18 @@
 			A.one('.pulisciElementoProvincia').on(
 				    'click',
 				    function(event) {
+				    	<%--
 				    	A.one('.affina-ricerca-natura-modal-content-comune').val(-1);
+				    	--%>
 				    	A.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
 					});
-			
+			<%--
 			A.one('.pulisciElementoComune').on(
 				    'click',
 				    function(event) {
 				    	A.one('.affina-ricerca-natura-modal-content-comune').val(-1);
 					});
-			
+			--%>
 			A.one('.pulisciElementoCategoriaSoggetto').on(
 				    'click',
 				    function(event) {
@@ -279,12 +299,17 @@
 	});
 	
 	function naturaRicercaContentReset(){
-		globalA.one('.affina-ricerca-natura-modal-content-comune').val(-1);
-		globalA.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
-		globalA.one('.affina-ricerca-natura-modal-content-regione').val(-1);
+		
 		globalA.one('.affina-ricerca-natura-modal-content-categoria-soggetto').val(-1);
 		globalA.one('.affina-ricerca-natura-modal-content-sotto-categoria-soggetto').val(-1);
+		
 		globalA.one('.affina-ricerca-natura-modal-content-anno').val(-1);
+		
+		globalA.one('.affina-ricerca-natura-modal-content-regione').val(-1);
+		globalA.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
+		<%--
+		globalA.one('.affina-ricerca-natura-modal-content-comune').val(-1);
+		--%>
 		globalA.one('.affina-ricerca-natura-modal-content-tipologia').val(-1);
 		globalA.one('.affina-ricerca-natura-modal-content-statoprogetto').val(-1);
 	}

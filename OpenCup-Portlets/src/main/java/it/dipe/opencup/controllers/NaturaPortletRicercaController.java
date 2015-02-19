@@ -4,9 +4,11 @@ import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
 import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
 import it.dipe.opencup.model.Regione;
+import it.dipe.opencup.model.SottocategoriaSoggetto;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
@@ -81,6 +83,13 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		List<StatoProgetto> listaStatoProgetto = aggregataFacade.findStatoProgetto();
 		model.addAttribute("listaStatoProgetto", listaStatoProgetto);
 		
+		//Carico la lista della Categoria Soggetto
+		List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggetto();
+		model.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
+		
+		//Carico la lista della Sottocategoria Soggetto
+		List<SottocategoriaSoggetto> listSottoCategoriaSoggetto = aggregataFacade.findSottocategoriaSoggetto();
+		model.addAttribute("listSottoCategoriaSoggetto", listSottoCategoriaSoggetto);
 		
 		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
 				

@@ -11,26 +11,43 @@ public class NavigaAggregata implements Serializable{
 	 */
 	private static final long serialVersionUID = 143973242554717243L;
 	
-	private String idNatura = "-1";
-	private String idSettoreIntervento = "-1";
-	private String idSottosettoreIntervento = "-1";
-	private String idCategoriaIntervento = "-1";
+	private String idNatura;
+	private String idSettoreIntervento;
+	private String idSottosettoreIntervento;
+	private String idCategoriaIntervento;
 	
-	private String idAnnoDecisione = "-1";
-	private List<String> idAnnoDecisiones = new ArrayList<String>();
+	private List<String> idAnnoDecisiones;
 	
-	private String idRegione = "-1";
-	private String idProvincia = "-1";
-	private String idComune = "-1";
+	private String idRegione;
+	private String idProvincia;
+	private String idComune;
 	
-	private String idAreaGeografica = "-1";
-	private String descStato = "ITALIA";
+	private String idAreaGeografica;
+	private String descStato;
 
-	private String idCategoriaSoggetto = "-1";
-	private String idSottoCategoriaSoggetto = "-1";
+	private String idCategoriaSoggetto;
+	private String idSottoCategoriaSoggetto;
 	
-	private String idTipologiaInterventi = "-1";
-	private String idStatoProgetto = "-1";
+	private String idTipologiaInterventi;
+	private String idStatoProgetto;
+	
+	public NavigaAggregata(){
+		this.idNatura = "-1";
+		this.idSettoreIntervento = "-1";
+		this.idSottosettoreIntervento = "-1";
+		this.idCategoriaIntervento = "-1";
+		this.idAnnoDecisiones = new ArrayList<String>();
+		this.idAnnoDecisiones.add("-1");
+		this.idRegione = "-1";
+		this.idProvincia = "-1";
+		this.idComune = "-1";
+		this.idAreaGeografica = "-1";
+		this.descStato = "ITALIA";
+		this.idCategoriaSoggetto = "-1";
+		this.idSottoCategoriaSoggetto = "-1";
+		this.idTipologiaInterventi = "-1";
+		this.idStatoProgetto = "-1";
+	}
 	
 	public String toString(){
 		String toString = "";
@@ -39,7 +56,6 @@ public class NavigaAggregata implements Serializable{
 		toString = toString + "idSettoreIntervento: (" + idSettoreIntervento + "); ";
 		toString = toString + "idSottosettoreIntervento: (" + idSottosettoreIntervento + "); ";
 		toString = toString + "idCategoriaIntervento: (" + idCategoriaIntervento + "); ";
-		toString = toString + "idAnnoDecisione: (" + idAnnoDecisione + "); ";
 		toString = toString + "idRegione: (" + idRegione + "); ";
 		toString = toString + "idProvincia: (" + idProvincia + "); ";
 		toString = toString + "idComune: (" + idComune + "); ";
@@ -56,11 +72,11 @@ public class NavigaAggregata implements Serializable{
 
 	public boolean isFiltroClassificazione(){
 		boolean retval=false;
-		if(! "-1".equals( idAnnoDecisione ) ){
+		if( idAnnoDecisiones.size() == 1 && (!idAnnoDecisiones.contains("-1")) ){
 			 retval=true;
 		}else
-		if(idAnnoDecisiones.size()>0){
-			 retval=true;
+		if( idAnnoDecisiones.size() > 1 ){
+			retval=true;
 		}else
 		if(! "-1".equals( idRegione ) ){
 			 retval=true;
@@ -123,14 +139,6 @@ public class NavigaAggregata implements Serializable{
 
 	public void setIdCategoriaIntervento(String idCategoriaIntervento) {
 		this.idCategoriaIntervento = idCategoriaIntervento;
-	}
-
-	public String getIdAnnoDecisione() {
-		return idAnnoDecisione;
-	}
-
-	public void setIdAnnoDecisione(String idAnnoDecisione) {
-		this.idAnnoDecisione = idAnnoDecisione;
 	}
 
 	public List<String> getIdAnnoDecisiones() {
@@ -219,8 +227,6 @@ public class NavigaAggregata implements Serializable{
 		int result = 1;
 		result = prime * result
 				+ ((descStato == null) ? 0 : descStato.hashCode());
-		result = prime * result
-				+ ((idAnnoDecisione == null) ? 0 : idAnnoDecisione.hashCode());
 		result = prime
 				* result
 				+ ((idAnnoDecisiones == null) ? 0 : idAnnoDecisiones.hashCode());
@@ -277,11 +283,6 @@ public class NavigaAggregata implements Serializable{
 			if (other.descStato != null)
 				return false;
 		} else if (!descStato.equals(other.descStato))
-			return false;
-		if (idAnnoDecisione == null) {
-			if (other.idAnnoDecisione != null)
-				return false;
-		} else if (!idAnnoDecisione.equals(other.idAnnoDecisione))
 			return false;
 		if (idAnnoDecisiones == null) {
 			if (other.idAnnoDecisiones != null)
@@ -352,5 +353,7 @@ public class NavigaAggregata implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 	
 }

@@ -2,6 +2,7 @@ package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.AggregataDAO;
 import it.dipe.opencup.dao.AnnoDecisioneDAO;
+import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
 import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.LocalizzazioneDAO;
@@ -9,15 +10,18 @@ import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.ProgettiDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
+import it.dipe.opencup.dao.SottocategoriaSoggettoDAO;
 import it.dipe.opencup.dao.StatoProgettoDAO;
 import it.dipe.opencup.dao.TipologiaInterventoDAO;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
 import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
 import it.dipe.opencup.model.Regione;
+import it.dipe.opencup.model.SottocategoriaSoggetto;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
@@ -25,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,20 +74,36 @@ public class AggregataFacade {
 	@Autowired
 	private TipologiaInterventoDAO tipologiaInterventoDAO;		
 	
+	@Autowired
+	private CategoriaSoggettoDAO categoriaSoggettoDAO;
+	
+	@Autowired
+	private SottocategoriaSoggettoDAO sottocategoriaSoggettoDAO;
+	
 	private Criteria bildCriteriaByNatura(NavigaAggregata navigaAggregata) {
+		
 		Criteria criteria = aggregataDAO.newCriteria();
 		
 		criteria.createAlias("classificazione", "classificazione");
 		criteria.createAlias("localizzazione", "localizzazione");
 		criteria.createAlias("annoDecisione", "annoDecisione");
 		criteria.createAlias("localizzazione.stato", "stato");
+		criteria.createAlias("gerarchiaSoggetto", "gerarchiaSoggetto");
 		
-		if( navigaAggregata.getIdAnnoDecisione().equals("0") ){
-			criteria.add( Restrictions.ge("annoDecisione.id", Integer.valueOf(navigaAggregata.getIdAnnoDecisione())) );
+		if( navigaAggregata.getIdAnnoDecisiones() != null && navigaAggregata.getIdAnnoDecisiones().size() > 0 ){
+			if( ! navigaAggregata.getIdAnnoDecisiones().contains("-1") ){
+				Disjunction or = Restrictions.disjunction();
+				for( String tmp : navigaAggregata.getIdAnnoDecisiones() ){
+					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
+				}
+				criteria.add(or);
+			}else{
+				criteria.add( Restrictions.eq("annoDecisione.id", -1 ) );
+			}
 		}else{
-			criteria.add( Restrictions.eq("annoDecisione.id", Integer.valueOf(navigaAggregata.getIdAnnoDecisione())) );
+			criteria.add( Restrictions.eq("annoDecisione.id", -1 ) );
 		}
-				
+		
 		if( navigaAggregata.getIdProvincia().equals("0") ){
 			criteria.add( Restrictions.ge("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
 		}else{
@@ -127,44 +148,140 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
 		}	
 		
+		if( navigaAggregata.getIdStatoProgetto().equals("0") ){
+			criteria.add( Restrictions.ge("statoProgetto.id", Integer.valueOf(navigaAggregata.getIdStatoProgetto())) );
+		}else{
+			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaAggregata.getIdStatoProgetto())) );
+		}	
+		
+		if( navigaAggregata.getIdTipologiaInterventi().equals("0") ){
+			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaInterventi())) );
+		}else{
+			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaInterventi())) );
+		}	
+		
+		if( navigaAggregata.getIdCategoriaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("gerarchiaSoggetto.categoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdCategoriaSoggetto())) );
+		}else{
+			criteria.add( Restrictions.eq("gerarchiaSoggetto.categoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdCategoriaSoggetto())) );
+		}	
+
+		if( navigaAggregata.getIdSottoCategoriaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
+		}else{
+			criteria.add( Restrictions.eq("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
+		}
+		
 		return criteria;
+	}
+	
+	private List<AggregataDTO> listaAggregataToListaAggregataDTO( 	NavigaAggregata navigaAggregata, 
+																	List<Aggregata> listaAggregata ) {
+
+		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
+
+		List<Integer> listaIdElementiEleborati = new ArrayList<Integer>();
+
+		if(navigaAggregata.getIdAnnoDecisiones().size() > 1){
+
+			//E' stata effettuata una ricerca per più anni, devo aggregare i risultati per anni diversi		
+			for( Aggregata tmpAggregata : listaAggregata ){
+
+				//Verifico che il record corrente non sia già stato aggregato ad uno precedente e quindi già presente nella newListaAggregata
+				boolean daAggregare = ! listaIdElementiEleborati.contains( tmpAggregata.getId() );
+
+				if(daAggregare){
+ 
+					//Salvo l'id dell'elemento tra quelli già aggregati
+					listaIdElementiEleborati.add(tmpAggregata.getId());
+					
+					//Uso il primo elemento trovato
+					Integer numeProgetti = tmpAggregata.getNumeProgetti();
+					Double impoCostoProgetti = tmpAggregata.getImpoCostoProgetti();
+					Double impoImportoFinanziato = tmpAggregata.getImpoImportoFinanziato();
+					
+					for( Aggregata tmpAggregata2 : listaAggregata ){
+						
+						if( tmpAggregata.getClassificazione().equals( tmpAggregata2.getClassificazione() ) 
+								&&
+								(! tmpAggregata.getAnnoDecisione().equals( tmpAggregata2.getAnnoDecisione() ) )
+								){
+							
+							//Salvo l'id dell'elemento tra quelli già aggregati
+							listaIdElementiEleborati.add(tmpAggregata2.getId());
+							
+							//sommo i valori in un unico record
+							numeProgetti = numeProgetti + tmpAggregata2.getNumeProgetti();
+							impoCostoProgetti = impoCostoProgetti + tmpAggregata2.getImpoCostoProgetti();
+							impoImportoFinanziato = impoImportoFinanziato + tmpAggregata2.getImpoImportoFinanziato();
+	
+						}
+					}
+					
+					tmpAggregata.setImpoCostoProgetti( impoCostoProgetti );
+					tmpAggregata.setImpoImportoFinanziato( impoImportoFinanziato );
+					tmpAggregata.setNumeProgetti(numeProgetti);
+					
+					retval.add(new AggregataDTO(tmpAggregata));
+				
+				}
+			}
+
+		}else{
+			for( Aggregata tmp: listaAggregata ){
+				retval.add(new AggregataDTO(tmp));
+			}
+		}
+
+		return retval;
+
 	}
 	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {		
-		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-		List<Aggregata> aggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
-		AggregataDTO ele = null;
-		for( Aggregata tmp: aggregata ){
-			ele = new AggregataDTO(tmp);
-			retval.add(ele);
-		}
-		return retval;
-	}
-	
-	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public int countAggregataByNatura(NavigaAggregata navigaAggregata) { 
-		return aggregataDAO.countByCriteria(bildCriteriaByNatura(navigaAggregata));
-	}
-	
-	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, int page, String orderByCol, String orderByType) {
-		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-		Criteria criteriaByNatura = bildCriteriaByNatura(navigaAggregata);
-		if("asc".equals(orderByType))
-			criteriaByNatura.addOrder(Order.asc(orderByCol));
-		else
-			criteriaByNatura.addOrder(Order.desc(orderByCol));
-
-		List<Aggregata> aggregata = aggregataDAO.findByCriteria(criteriaByNatura, page);
 		
-		AggregataDTO ele = null;
-		for( Aggregata tmp: aggregata ){
-			ele = new AggregataDTO(tmp);
-			retval.add(ele);
-		}
-		return retval;
+		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
+		
+		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
+
 	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
+		
+		Criteria criteria = bildCriteriaByNatura(navigaAggregata);
+		if("asc".equals(orderByType))
+			criteria.addOrder(Order.asc(orderByCol));
+		else
+			criteria.addOrder(Order.desc(orderByCol));
+		
+		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
+		
+		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
+
+	}
+	
+//	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+//	public int countAggregataByNatura(NavigaAggregata navigaAggregata) { 
+//		//return aggregataDAO.countByCriteria(bildCriteriaByNatura(navigaAggregata));
+//		//Non posso usare il metodo count del dao perchè devo eseguire la caunt 
+//		return findAggregataByNatura(navigaAggregata).size();
+//		
+//	}
+//	
+//	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+//	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, int page, String orderByCol, String orderByType) {
+//		
+//		Criteria criteriaByNatura = bildCriteriaByNatura(navigaAggregata);
+//		if("asc".equals(orderByType))
+//			criteriaByNatura.addOrder(Order.asc(orderByCol));
+//		else
+//			criteriaByNatura.addOrder(Order.desc(orderByCol));
+//
+//		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteriaByNatura, page);
+//		
+//		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
+//	}
 
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Regione> findRegioni() {
@@ -262,6 +379,32 @@ public class AggregataFacade {
 		criteria.addOrder(Order.asc("annoDadeAnnoDecisione"));
 		
 		retval = annoDecisioneDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<CategoriaSoggetto> findCategoriaSoggetto() {
+		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
+		
+		Criteria criteria = categoriaSoggettoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descCategoriaSoggetto"));
+		
+		retval = categoriaSoggettoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<SottocategoriaSoggetto> findSottocategoriaSoggetto() {
+		List<SottocategoriaSoggetto> retval = new ArrayList<SottocategoriaSoggetto>();
+		
+		Criteria criteria = sottocategoriaSoggettoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descSottocategSoggetto"));
+		
+		retval = sottocategoriaSoggettoDAO.findByCriteria(criteria);
 		
 		return retval;
 	}

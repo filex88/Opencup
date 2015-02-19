@@ -160,6 +160,7 @@
 	++++++++++++++++++++++++++++++++++++++++++++++	
 	 --> 	
 	
+	<!-- 
 	 <ehcache:annotation-driven cache-manager="ehCacheManager" create-missing-caches="true"/>
 	 
 	 <ehcache:config cache-manager="ehCacheManager" />
@@ -167,6 +168,6 @@
 	 <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" >
 	 	<property name="configLocation" value="classpath:ehcache.xml" />
 	 </bean>	 
-
+   -->
 	 
 </beans>
