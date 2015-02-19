@@ -2,8 +2,10 @@ package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.LocalizzazionePortletCommonController;
 import it.dipe.opencup.dto.LocalizationValueConverter;
+import it.dipe.opencup.utils.ComparatorByLocalizationValue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,8 +34,9 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 	public String handleRenderRequest(RenderRequest request, RenderResponse response,Model model){
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
 		String idTerr=httpServletRequest.getParameter("idTerr")!=null?httpServletRequest.getParameter("idTerr").toString():"";
-		
+		String nomeTerr=httpServletRequest.getParameter("nomeTerr")!=null?httpServletRequest.getParameter("nomeTerr").toString():"";
 		model.addAttribute("selectedTerritory", idTerr);
+		model.addAttribute("selectedTerritoryName", nomeTerr);
 		return "localizzazione2-view";
 	}
 	
@@ -41,7 +44,9 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 	@ResourceMapping("selectedTerritoryResource")
 	public View processSelectedTerritoryData(ResourceRequest request, @RequestParam("selectedTerritory") String  selectedTerritory){
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
-	    view.addStaticAttribute("selectedTerritoryValues", loadRegionValuesByTerritory(selectedTerritory, request));
+		List<LocalizationValueConverter> regioniByTerritorio=loadRegionValuesByTerritory(selectedTerritory, request);
+		Collections.sort(regioniByTerritorio,new ComparatorByLocalizationValue());
+	    view.addStaticAttribute("selectedTerritoryValues",regioniByTerritorio);
 	    return view;
 	}
 

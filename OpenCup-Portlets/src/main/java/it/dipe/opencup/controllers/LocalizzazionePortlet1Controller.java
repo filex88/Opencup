@@ -2,8 +2,10 @@ package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.LocalizzazionePortletCommonController;
 import it.dipe.opencup.dto.LocalizationValueConverter;
+import it.dipe.opencup.utils.ComparatorByLocalizationValue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
@@ -58,6 +60,7 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		valori.add(isole);
 		valori.add(centro);
 		valori.add(sud);
+		Collections.sort(valori,new ComparatorByLocalizationValue());
 	    view.addStaticAttribute("allTerritoryValues", valori);
 	    return view;
 	}
