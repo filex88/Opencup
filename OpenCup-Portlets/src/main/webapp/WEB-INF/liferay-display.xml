@@ -9,5 +9,7 @@
 		<portlet id="elenco-progetti-portlet" />
 		<portlet id="natura-portlet-ricerca" />
 		<portlet id="localizzazione-portlet1" />
+		<portlet id="localizzazione-portlet2" />
+		<portlet id="localizzazione-portlet3" />
 	</category>
 </display>
