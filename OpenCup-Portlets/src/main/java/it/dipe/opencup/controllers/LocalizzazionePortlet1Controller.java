@@ -2,10 +2,8 @@ package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.LocalizzazionePortletCommonController;
 import it.dipe.opencup.dto.LocalizationValueConverter;
-import it.dipe.opencup.utils.ComparatorByLocalizationValue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
@@ -39,19 +37,19 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		LocalizationValueConverter sud= new LocalizationValueConverter();
 		LocalizationValueConverter isole= new LocalizationValueConverter();
 		LocalizationValueConverter centro= new LocalizationValueConverter();
-		nordEst.setLocalizationLabel("ALL_NE");
+		nordEst.setLocalizationLabel("NE");
 		nordEst.setLocalizationValue(1.0);
 		nordEst.setDetailUrl(nestedDetailUrl+"&idTerr=NE");
-		nordOvest.setLocalizationLabel("ALL_NO");
+		nordOvest.setLocalizationLabel("NO");
 		nordOvest.setLocalizationValue(2.0);
 		nordOvest.setDetailUrl(nestedDetailUrl+"&idTerr=NO");
-		sud.setLocalizationLabel("ALL_SU");
+		sud.setLocalizationLabel("SU");
 		sud.setLocalizationValue(3.0);
 		sud.setDetailUrl(nestedDetailUrl+"&idTerr=SU");
-		centro.setLocalizationLabel("ALL_CE");
+		centro.setLocalizationLabel("CE");
 		centro.setLocalizationValue(4.0);
 		centro.setDetailUrl(nestedDetailUrl+"&idTerr=CE");
-		isole.setLocalizationLabel("ALL_IS");
+		isole.setLocalizationLabel("IS");
 		isole.setLocalizationValue(5.0);
 		isole.setDetailUrl(nestedDetailUrl+"&idTerr=IS");
 		
@@ -60,7 +58,6 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		valori.add(isole);
 		valori.add(centro);
 		valori.add(sud);
-		Collections.sort(valori,new ComparatorByLocalizationValue());
 	    view.addStaticAttribute("allTerritoryValues", valori);
 	    return view;
 	}

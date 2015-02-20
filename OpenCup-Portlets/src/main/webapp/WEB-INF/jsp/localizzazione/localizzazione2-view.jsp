@@ -12,7 +12,7 @@
 
 <portlet:defineObjects />
 
-<h1>Per Regioni del territorio: ${selectedTerritoryName} </h1>
+<h2>Per regioni dell'area geografica: ${selectedTerritoryName} </h2>
 
 <div id="italybymacroareas" style="text-align: left"></div>
 
@@ -20,17 +20,17 @@
 
 
 var territorioSelezionato="${selectedTerritory}";
-console.log(territorioSelezionato);
-
-
 
 var namespace = "<portlet:namespace/>";
 namespace = namespace.substring(1,namespace.length - 1);
 
 var selectedTerritoryValues=null;
 
-var colours = ["#F7F7F7", "#E8E8E8", "#D6D6D6", "#BFBFBF", "#B0B0B0", "#969696",
-               "#787878", "#666666", "#555555", "#383838", "#1C1C1C"];
+var baseColor1="rgb(209,226,242)";
+var baseColor2="rgb(114,178,215)";
+var baseColor3="rgb(8,64,131)";
+
+
 
 AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) {
     
@@ -55,10 +55,29 @@ AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) 
 
 function drawRegionsByTerritory(){
 
+	var calculated_json=selectedTerritoryValues.selectedTerritoryValues;
+	
+	// min mid, max valori calcolati 
+	var minData=d3.min(calculated_json,function(d){
+		return d.localizationValue.toFixed(2);
+	})
+	
+	var midData=d3.mean(calculated_json,function(d){
+		return d.localizationValue.toFixed(2);
+	})
+
+	var maxData=d3.max(calculated_json,function(d){
+		return d.localizationValue.toFixed(2);
+	})
+
+	// scala colori in base a valori calcolati
+	var color = d3.scale.linear().domain([minData,midData,maxData])
+	.range([baseColor1,baseColor2,baseColor3]);
+
 	var width = 500,
     	height = 500,
     	border=1
-    	bordercolor='black',
+    	bordercolor='none',
     	smallrectW=50,
     	smallrectH=50;
 
@@ -78,7 +97,23 @@ function drawRegionsByTerritory(){
     	.attr("class", "selectiontip");
 
 	d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", function(error, it) {
-
+	
+		var territory_topojson=it.objects.sub.geometries;
+	
+		// unisco i dati
+		for (var i=0;i < territory_topojson.length;i++){
+			var label_toposon=territory_topojson[i].properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-");
+			for (var j=0;j<calculated_json.length;j++){
+				if (label_toposon==calculated_json[j].localizationLabel){
+					var valore=calculated_json[j].localizationValue.toFixed(2);
+					var link=calculated_json[j].detailUrl;
+					territory_topojson[i].properties.VALORE=valore;
+					territory_topojson[i].properties.LINK=link;
+					break;
+				}
+			}
+		}
+	
     	var projection = d3.geo.albers()
         	.center([0, 41])
         	.rotate([347, 0])
@@ -105,34 +140,26 @@ function drawRegionsByTerritory(){
     	.attr("d",path)
     	.attr ("id",function(d) { return d.properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-"); })
     	.style("fill",function(d){
-    		var reg_selected=d.properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-");
-    		return colours[calcolaIndice(selectedTerritoryValues.selectedTerritoryValues,reg_selected)];
+    		return color(d.properties.VALORE);
     	})
     	.on("click", function(d){
-    		var reg_selected=d.properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-");
-    		var detailUrl=getUrlDetail(selectedTerritoryValues.selectedTerritoryValues,reg_selected);
-
-    		window.location = detailUrl;
+    		window.location = d.properties.LINK;
    		 })
     	.on("mouseover",function(a){
     		var idSelected=a.properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-");
     		svg.selectAll("#"+idSelected)
     		.style("fill","#FFFFCC");
-    		
-    		var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
-    		var valore_regione=getLocalizationValue(selectedTerritoryValues.selectedTerritoryValues,idSelected);
-    	
-    	tooltip.classed("nascosto", false)
-        .attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+height)+"px")
-         .html('<p><strong>REGIONE: </strong>'+a.properties.REGIONE+'</p>'
-         	  +'<p><strong>VALORE REGIONE: </strong>&euro;&nbsp;'+valore_regione+'</p>');
-   		 })
+    		 var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+    		 tooltip.classed("nascosto", false)
+        	.attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+height-50)+"px")
+         	.html('<p><strong>REGIONE: </strong>'+a.properties.REGIONE+'</p>'
+         	  +'<p><strong>VALORE: </strong>&euro;&nbsp;'+a.properties.VALORE+'</p>');
+   		 	})
     	.on("mouseout",function(a){
     		var idSelected=a.properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-");
     		svg.selectAll("#"+idSelected)
     		.style("fill",function(d){
-    			var reg_selected=d.properties.REGIONE.replace(/'/g,"_").replace(/\s/g,"-");
-    			return colours[calcolaIndice(selectedTerritoryValues.selectedTerritoryValues,reg_selected)];
+    			return color(d.properties.VALORE);
     		})
     	 	tooltip.classed("nascosto", true)
     	});
@@ -167,37 +194,6 @@ function drawRegionsByTerritory(){
 	
   
 	});
-
-}
-
-function getLocalizationValue(localization_array,localization_label){
-	var ritorno=null;
-	  localization_array.forEach(function(d) {
-	  	if (d.localizationLabel==localization_label){
-	  		ritorno= (d.localizationValue).toFixed(2);
-	  	}
-    });
-    return ritorno;
-}
-
-function getUrlDetail(localization_array,localization_label){
-	var returnUrl=null;
-	  localization_array.forEach(function(d) {
-	  	if (d.localizationLabel==localization_label){
-	  		returnUrl= d.detailUrl;
-	  	}
-    });
-    console.log(returnUrl);
-    return returnUrl;
-}
-function calcolaIndice(localization_array,localization_label){
-	var ritorno=null;
-	  localization_array.forEach(function(d) {
-	  	if (d.localizationLabel==localization_label){
-	  		ritorno= localization_array.indexOf(d);
-	  	}
-    });
-    return ritorno;
 }
 
 </script>

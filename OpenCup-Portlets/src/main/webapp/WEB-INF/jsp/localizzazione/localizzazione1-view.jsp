@@ -12,7 +12,7 @@
 
 <portlet:defineObjects />
 
-<h1>Per Territorio</h1>
+<h1>Per area geografica</h1>
 
 <div id="italybymacroareas" style="text-align: left"></div>
 
@@ -23,10 +23,11 @@ namespace = namespace.substring(1,namespace.length - 1);
 
 var allTerritoryValues=null;
 
+var baseColor1="rgb(209,226,242)";
 
-var colours = ["#F7F7F7", "#E8E8E8", "#D6D6D6", "#BFBFBF", "#B0B0B0", "#969696",
-               "#787878", "#666666", "#555555", "#383838", "#1C1C1C"];
+var baseColor2="rgb(114,178,215)";
 
+var baseColor3="rgb(8,64,131)";
 
 AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) {
     
@@ -52,10 +53,29 @@ AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) 
 
 function drawGraphTerritori(){
 
+	var calculated_json=allTerritoryValues.allTerritoryValues;
+	
+	// min mid, max valori calcolati 
+	var minData=d3.min(calculated_json,function(d){
+		return d.localizationValue.toFixed(2);
+	})
+	
+	var midData=d3.mean(calculated_json,function(d){
+		return d.localizationValue.toFixed(2);
+	})
+
+	var maxData=d3.max(calculated_json,function(d){
+		return d.localizationValue.toFixed(2);
+	})
+
+	// scala colori in base a valori calcolati
+	var color = d3.scale.linear().domain([minData,midData,maxData])
+	.range([baseColor1,baseColor2,baseColor3]);
+
 	var width = 500,
     height = 500,
     border=1
-    bordercolor='black',
+    bordercolor='none',
     smallrectW=50,
     smallrectH=50;
 
@@ -75,6 +95,22 @@ function drawGraphTerritori(){
     	.attr("class", "selectiontip");
 
 	d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", function(error, it) {
+	
+		var territory_topojson=it.objects.sub.geometries;
+	
+		// unisco i dati
+		for (var i=0;i < territory_topojson.length;i++){
+			var label_toposon=territory_topojson[i].properties.TERR;
+			for (var j=0;j<calculated_json.length;j++){
+				if (label_toposon==calculated_json[j].localizationLabel){
+					var valore=calculated_json[j].localizationValue.toFixed(2);
+					var link=calculated_json[j].detailUrl;
+					territory_topojson[i].properties.VALORE=valore;
+					territory_topojson[i].properties.LINK=link+"&nomeTerr="+territory_topojson[i].properties.TERR_DESC;
+					break;
+				}
+			}
+		}
 
     var projection = d3.geo.albers()
         .center([0, 41])
@@ -85,6 +121,7 @@ function drawGraphTerritori(){
  
     var path = d3.geo.path()
         .projection(projection);
+     
                 
      svg.selectAll("path").data(topojson.feature(it, it.objects.sub).features)
      	.enter().append("path")
@@ -92,78 +129,41 @@ function drawGraphTerritori(){
     	.attr("d",path)
     	.attr ("id",function(d) { 
     		return d.properties.ID_REG_TER; })
-    	.style("fill", function(d) {
-     		return colours[calcolaIndice(allTerritoryValues.allTerritoryValues,"ALL_"+d.properties.TERR)];})
+    	.style("fill", function(d){
+    		return color(d.properties.VALORE);
+    	})  
     	.on("click", function(d){
-    		var detailUrl=getUrlDetail(allTerritoryValues.allTerritoryValues,"ALL_"+d.properties.TERR);
-    		console.log(detailUrl);
-    		window.location = detailUrl+"&nomeTerr="+d.properties.TERR_DESC;
-   			 })
+    		window.location = d.properties.LINK;
+   		})
     	.on("mouseover",function(a){
     		svg.selectAll("path")
     		.style("fill",function (d){
-    			if (d.properties.TERR==a.properties.TERR){
-    				return "#FFFFCC";}
-    			else{
-    				return colours[calcolaIndice(allTerritoryValues.allTerritoryValues,"ALL_"+d.properties.TERR)];
+    		if (d.properties.TERR==a.properties.TERR){
+    			return "#FFFFCC";}
+    		else{
+    			return color(d.properties.VALORE); 
     			}
     		});
+    		var mouse = d3.mouse(svg.node()).map( function(d) { 
+    			return parseInt(d); 
+    		});
     	
-    	var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
-    	var valore_terr=getLocalizationValue(allTerritoryValues.allTerritoryValues,"ALL_"+a.properties.TERR);
-    	
-    	tooltip.classed("nascosto", false)
-        	 .attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+height)+"px")
+    		tooltip.classed("nascosto", false)
+        	 .attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+height-50)+"px")
         	 .html('<p><strong>TERRITORIO: </strong>'+a.properties.TERR_DESC+'</p>'
-        	 +'<p><strong>VALORE TERRITORIO: </strong>&euro;&nbsp;'+valore_terr+'</p>'
-         	+'<p><strong>VALORE REGIONE: </strong>'+a.properties.REGIONE+'</p>');
+        	 +'<p><strong>VALORE TERRITORIO: </strong>&euro;&nbsp;'+a.properties.VALORE+'</p>');
     	})
     	.on("mouseout",function(a){
     		svg.selectAll("."+a.properties.TERR)
     		.style("fill",function(d){
-     			return colours[calcolaIndice(allTerritoryValues.allTerritoryValues,"ALL_"+d.properties.TERR)];
+    			return color(d.properties.VALORE);
     		});
+    		
     	 	tooltip.classed("nascosto", true)
     	});
   
 	});
 }
-
-
-
-
-
-function getLocalizationValue(localization_array,localization_label){
-	var ritorno=null;
-	  localization_array.forEach(function(d) {
-	  	if (d.localizationLabel==localization_label){
-	  		ritorno= (d.localizationValue).toFixed(2);
-	  	}
-    });
-    return ritorno;
-}
-
-function getUrlDetail(localization_array,localization_label){
-	var returnUrl=null;
-	  localization_array.forEach(function(d) {
-	  	if (d.localizationLabel==localization_label){
-	  		returnUrl= d.detailUrl;
-	  	}
-    });
-    console.log(returnUrl);
-    return returnUrl;
-}
-
-function calcolaIndice(localization_array,localization_label){
-	var ritorno=null;
-	  localization_array.forEach(function(d) {
-	  	if (d.localizationLabel==localization_label){
-	  		ritorno= localization_array.indexOf(d);
-	  	}
-    });
-    return ritorno;
-}
-
 
 </script>
 
