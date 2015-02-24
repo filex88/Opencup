@@ -131,6 +131,19 @@
 							<aui:input type="text" value="${modelAttrNaturaRicerca.descStato}" readonly="readonly" cssClass="input-large affina-ricerca-natura-modal-content-stato" label="" bean="modelAttrNaturaRicerca" name="descStato" id="affina-ricerca-natura-modal-content-stato"></aui:input>
 						</div>
 					</div>
+					
+					<div class="control-group" id="affina-ricerca-natura-modal-content-area-geografica-div">
+						<label class="control-label" for="affina-ricerca-natura-modal-content-area-geografica">Area Geografica</label>
+						<div class="controls form-inline">
+							<aui:select inlineField="true" cssClass="input-xlarge affina-ricerca-natura-modal-content-area-geografica" label="" bean="modelAttrNaturaRicerca" name="idAreaGeografica" id="affina-ricerca-natura-modal-content-area-geografica">
+								<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idAreaGeografica == -1}"/>
+								<c:forEach items="${listAreaGeografica}" var="areaGeografica" >
+						            <aui:option value="${areaGeografica.id}" label="${areaGeografica.descAreaGeografica}" selected="${modelAttrNaturaRicerca.idAreaGeografica == areaGeografica.id}"/>
+						        </c:forEach>
+							</aui:select>
+							<i class="icon-remove-circle pulisciElementoAreaGeografica" style="cursor: pointer;"></i>
+						</div>
+					</div>
 					 
 					<div class="control-group" id="affina-ricerca-natura-modal-content-regione-div">
 						<label class="control-label" for="affina-ricerca-natura-modal-content-regione">Regione</label>
@@ -157,6 +170,9 @@
 							<i class="icon-remove-circle pulisciElementoProvincia" style="cursor: pointer;"></i>
 						</div>
 					</div>
+					
+					<aui:input type="hidden" bean="modelAttrNaturaRicerca" name="idComune" value="-1" />
+					
 					<%-- 
 					<div class="control-group" id="affina-ricerca-natura-modal-content-comune-div">
 						<label class="control-label" for="affina-ricerca-natura-modal-content-comune">Comune</label>
@@ -214,7 +230,7 @@
 		           				A.Object.each(
 		           						responseData.lista, 
 		           						function(value, key){
-		           							console.log("label = " + value.label);
+		           							//console.log("label = " + value.label);
 		           							select.options[select.options.length] = new Option(value.label, value.id);
 		           				});
 		           			},
@@ -235,10 +251,31 @@
 					});
 			--%>
 			
+			A.one('.affina-ricerca-natura-modal-content-area-geografica').on(
+				    'change',
+				    function(event) {
+				    	A.one('.affina-ricerca-natura-modal-content-regione').val(-1);
+				    	A.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
+				    	caricaCombo(namespaceRicerca, "loadRegioneByAreaGeografica", this.val(), namespaceRicerca4js+"affina-ricerca-natura-modal-content-regione");
+					});
+			
 			A.one('.affina-ricerca-natura-modal-content-regione').on(
 				    'change',
 				    function(event) {
+				    	A.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
 				    	caricaCombo(namespaceRicerca, "loadProvinciaByRegione", this.val(), namespaceRicerca4js+"affina-ricerca-natura-modal-content-provincia");
+					});
+			
+			
+			A.one('.pulisciElementoAreaGeografica').on(
+				    'click',
+				    function(event) {
+				    	<%--
+				    	A.one('.affina-ricerca-natura-modal-content-comune').val(-1);
+				    	--%>
+				    	A.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
+				    	A.one('.affina-ricerca-natura-modal-content-regione').val(-1);
+				    	A.one('.affina-ricerca-natura-modal-content-area-geografica').val(-1);
 					});
 
 			A.one('.pulisciElementoRegione').on(
@@ -305,6 +342,7 @@
 		
 		globalA.one('.affina-ricerca-natura-modal-content-anno').val(-1);
 		
+		globalA.one('.affina-ricerca-natura-modal-content-area-geografica').val(-1);
 		globalA.one('.affina-ricerca-natura-modal-content-regione').val(-1);
 		globalA.one('.affina-ricerca-natura-modal-content-provincia').val(-1);
 		<%--

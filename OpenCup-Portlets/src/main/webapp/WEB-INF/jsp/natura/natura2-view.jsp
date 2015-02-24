@@ -11,12 +11,14 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
 <portlet:defineObjects />
+<div style="text-align: justify;">
+	Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei progetti
+</div>
 
-Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei progetti
 
 <fmt:setLocale value="it_IT"/>
 
-<liferay-ui:search-container searchContainer="${searchContainer}" delta="${searchContainer.delta}" orderByType="${searchContainer.orderByType}" deltaParam="aggregata_delta">
+<liferay-ui:search-container searchContainer="${searchContainer}" delta="${searchContainer.delta}" orderByType="${searchContainer.orderByType}" deltaParam="delta">
 
 	<liferay-ui:search-container-results results="${searchContainer.results}" total="${searchContainer.total}"/>    
 

@@ -26,10 +26,10 @@
 
 	<c:choose>
 		<c:when test="${modelAttrNaturaRicerca.filtroClassificazione}">
-			<aui:button id="affina-ricerca-natura" cssClass="affina-ricerca-natura btn btn-primary" value="AFFINA LA RICERCA <i class='icon-filter'></i>"></aui:button>
+			<aui:button id="affina-ricerca-natura" cssClass="affina-ricerca-natura btn-primary" value="AFFINA LA RICERCA <i class='icon-filter'></i>"></aui:button>
 		</c:when>
 		<c:otherwise>
-			<aui:button id="affina-ricerca-natura" cssClass="affina-ricerca-natura btn" value="AFFINA LA RICERCA <i class='icon-filter'></i>"></aui:button>
+			<aui:button id="affina-ricerca-natura" cssClass="affina-ricerca-natura" value="AFFINA LA RICERCA <i class='icon-filter'></i>"></aui:button>
 		</c:otherwise>
 	</c:choose>
 

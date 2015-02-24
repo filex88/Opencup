@@ -68,6 +68,50 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 		searchContainer.setResults(retval);
 		model.addAttribute("searchContainer", searchContainer);
 		
+//		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//		
+//		String urlElencoProgettiPage = "#";
+//		
+//		try{
+//			
+//			String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+//			ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+//			List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+//			String localHost = themeDisplay.getPortalURL();		
+//			
+//			for( Layout layout : layouts ){
+//				
+//				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+//				
+//				//Viene ricercato l'URL esatto per la pagina successiva
+//				if(nodeNameRemoved.indexOf("elencoprogettipage")>0){
+//					
+//					LiferayPortletURL renderURL = null;
+//					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
+//					renderURL.setWindowState(WindowState.NORMAL);
+//					renderURL.setPortletMode(PortletMode.VIEW);
+//					
+//					urlElencoProgettiPage = renderURL.toString();
+//					
+//				}
+//			}
+//	
+//		} catch (SystemException e) {
+//			e.printStackTrace();
+//		} catch (WindowStateException e) {
+//			e.printStackTrace();
+//		} catch (PortletModeException e) {
+//			e.printStackTrace();
+//		} catch (PortalException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println( "urlElencoProgettiPage: " + urlElencoProgettiPage );
+//		
+//		model.addAttribute("urlElencoProgettiPage", urlElencoProgettiPage);
+//		
+//		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		return "natura3-view";
 	}
 

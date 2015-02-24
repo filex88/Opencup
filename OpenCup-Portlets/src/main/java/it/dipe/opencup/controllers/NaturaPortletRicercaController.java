@@ -4,6 +4,7 @@ import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
 import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
@@ -19,7 +20,6 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
@@ -56,8 +56,14 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		modelAttrNaturaRicerca = (session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE)==null)?new NavigaAggregata():(NavigaAggregata) session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
 		
 		//Carico la lista delle regioni
-		List<Regione> listRegione = aggregataFacade.findRegioni();
-		model.addAttribute("listRegione", listRegione);
+		List<AreaGeografica> listAreaGeografica = aggregataFacade.findAreaGeografica();
+		model.addAttribute("listAreaGeografica", listAreaGeografica);
+		
+		if( ! "-1".equals( modelAttrNaturaRicerca.getIdAreaGeografica() ) ){
+			//Regione selezionata carico le Province
+			List<Regione> listRegione = aggregataFacade.findRegioniByIdAreaGeografica(Integer.valueOf( modelAttrNaturaRicerca.getIdAreaGeografica() ));
+			model.addAttribute("listRegione", listRegione);
+		}
 		
 		if( ! "-1".equals( modelAttrNaturaRicerca.getIdRegione() ) ){
 			//Regione selezionata carico le Province
@@ -70,6 +76,8 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 			List<Comune> listComune = aggregataFacade.findComuneByIdProvincia(Integer.valueOf( modelAttrNaturaRicerca.getIdProvincia() ));
 			model.addAttribute("listComune", listComune);
 		}
+		
+		modelAttrNaturaRicerca.setIdComune("-1");
 		
 		//Carico la lista degli Anni Decisione
 		List<AnnoDecisione> listaAnnoDecisione = aggregataFacade.findAnniDecisione();
@@ -110,9 +118,26 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		return "natura-ricerca-view";
 	}
 	
+	@ResourceMapping(value =  "loadRegioneByAreaGeografica")	
+	public View loadRegioneByAreaGeografica(@RequestParam("pattern") Integer pattern){
+		
+		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		
+		List<FiltroRicercaDTO> regioni = new ArrayList<FiltroRicercaDTO>();
+		FiltroRicercaDTO ele = null;
+		for(Regione regione : aggregataFacade.findRegioniByIdAreaGeografica(pattern)){
+			ele = new FiltroRicercaDTO();
+			ele.setId( regione.getId() );
+			ele.setLabel( regione.getDescRegione() );
+			regioni.add(ele);
+		}
+		
+		view.addStaticAttribute("lista", regioni);
+		return view;
+	}
 	
 	@ResourceMapping(value =  "loadProvinciaByRegione")	
-	public View loadProvinciaByRegione(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
+	public View loadProvinciaByRegione(@RequestParam("pattern") Integer pattern){
 		
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		
@@ -130,20 +155,20 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 	}
 	
 	@ResourceMapping(value =  "loadComuniByProvincia")	
-	public View loadComuniByProvincia(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
+	public View loadComuniByProvincia(@RequestParam("pattern") Integer pattern){
 		
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		
-		List<FiltroRicercaDTO> provincie = new ArrayList<FiltroRicercaDTO>();
+		List<FiltroRicercaDTO> comuni = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
-		for(Comune provincia : aggregataFacade.findComuneByIdProvincia(pattern)){
+		for(Comune comune : aggregataFacade.findComuneByIdProvincia(pattern)){
 			ele = new FiltroRicercaDTO();
-			ele.setId( provincia.getId() );
-			ele.setLabel( provincia.getDescComune() );
-			provincie.add(ele);
+			ele.setId( comune.getId() );
+			ele.setLabel( comune.getDescComune() );
+			comuni.add(ele);
 		}
 		
-		view.addStaticAttribute("lista", provincie);
+		view.addStaticAttribute("lista", comuni);
 		return view;
 	}
 	

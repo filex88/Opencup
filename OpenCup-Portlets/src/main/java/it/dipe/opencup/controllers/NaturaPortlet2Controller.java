@@ -41,7 +41,7 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 	
 	@RenderMapping
 	public String handleRenderRequest(RenderRequest renderRequest, 
-									  RenderResponse responseRequest, 
+									  RenderResponse renderResponse, 
 									  Model model, 
 									  @RequestParam(required = false) String[] pNavigaClassificazione,
 									  @RequestParam(required = false) String[] pFiltriRicerca,
@@ -70,9 +70,16 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
 		    orderByType = "asc";
 		}
-
-		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(renderRequest, responseRequest.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-		searchContainer.setDelta(maxResult);
+		
+		//delta
+		String sDelta = ParamUtil.getString(renderRequest, "delta");
+		int delta = maxResult;
+		if( ! ( Validator.isNull(sDelta) || Validator.equals("", sDelta) ) ){
+		    delta = Integer.parseInt(sDelta);
+		}
+		
+		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+		searchContainer.setDelta(delta);
 		
 		searchContainer.setOrderByCol(orderByCol);
 		searchContainer.setOrderByType(orderByType);

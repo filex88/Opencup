@@ -19,8 +19,12 @@ AUI().use(
 						loadPie(misura, this);
 					});
 				});
-					  
-   			loadPie("VOLUME", A.one('.natura-sel-btn'));
+			
+			var el_div_pie_chart = A.one('#pieChart');
+
+			if(el_div_pie_chart) {
+				loadPie("VOLUME", A.one('.natura-sel-btn'));
+			}
    			
 			function loadPie(pattern, button){
 				
@@ -219,7 +223,7 @@ AUI().use(
 				
 				SVGRoot.addEventListener('mousemove',
 						function(evt){
-					console.log('mousemove');
+//					console.log('mousemove');
 					var loc = cursorPoint(evt)
 					var tooltip = d3.select("#tooltip-natura-portlet1");
 					tooltip.style("left", loc.x + "px");
@@ -230,7 +234,7 @@ AUI().use(
 
 				//// Get point in global SVG space
 				function cursorPoint(evt){
-					console.log('cursorPoint');
+//					console.log('cursorPoint');
 					pt.x = evt.clientX; 
 					pt.y = evt.clientY;
 					return pt.matrixTransform(SVGRoot.getScreenCTM().inverse());

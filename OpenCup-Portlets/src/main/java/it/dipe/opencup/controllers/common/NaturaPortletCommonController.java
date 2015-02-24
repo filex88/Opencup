@@ -44,7 +44,7 @@ public class NaturaPortletCommonController {
 	@Autowired
 	protected AggregataFacade aggregataFacade;
 	
-	protected static final String SESSION_FILTRI_CLASSIFICAZIONE = "SESSION_FILTRI_CLASSIFICAZIONE";
+	protected static final String SESSION_FILTRI_CLASSIFICAZIONE = "SESSION_FILTRI_RICERCA";
 	
 	//Array che contiene i nomi delle pagine per la navigazione nella Classificazione
 	protected final String[] pageLiv = {"/natsettoreinterventoprogetto", "/natsottosettoreintervento", "/natelencoprogetti", "/natprogetto"};
@@ -157,6 +157,9 @@ public class NaturaPortletCommonController {
 								String[] pFiltriRicercAnni, 
 								NavigaAggregata sessionAttrClassificazione,
 								String sessionName) {
+		
+		//Imposto il comune a -1 perchè per la classificazione non si può affinare la ricerca del comune
+		sessionAttrClassificazione.setIdComune("-1");
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
 		//PortletSession session = renderRequest.getPortletSession(false);

@@ -2,6 +2,7 @@ package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.AggregataDAO;
 import it.dipe.opencup.dao.AnnoDecisioneDAO;
+import it.dipe.opencup.dao.AreaGeograficaDAO;
 import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
 import it.dipe.opencup.dao.ComuneDAO;
@@ -17,6 +18,7 @@ import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
 import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
@@ -57,6 +59,9 @@ public class AggregataFacade {
 	private RegioneDAO regioneDAO;
 	
 	@Autowired
+	private AreaGeograficaDAO areaGeograficaDAO;
+	
+	@Autowired
 	private ProvinciaDAO provinciaDAO;
 	
 	@Autowired
@@ -80,7 +85,7 @@ public class AggregataFacade {
 	@Autowired
 	private SottocategoriaSoggettoDAO sottocategoriaSoggettoDAO;
 	
-	private Criteria bildCriteriaByNatura(NavigaAggregata navigaAggregata) {
+	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 		
 		Criteria criteria = aggregataDAO.newCriteria();
 		
@@ -240,8 +245,8 @@ public class AggregataFacade {
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {		
 		
-		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
-		
+		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
+		System.out.println( navigaAggregata );
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
 	}
@@ -249,7 +254,7 @@ public class AggregataFacade {
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
 		
-		Criteria criteria = bildCriteriaByNatura(navigaAggregata);
+		Criteria criteria = buildCriteria(navigaAggregata);
 		if("asc".equals(orderByType))
 			criteria.addOrder(Order.asc(orderByCol));
 		else
@@ -406,6 +411,41 @@ public class AggregataFacade {
 		
 		retval = sottocategoriaSoggettoDAO.findByCriteria(criteria);
 		
+		return retval;
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<Regione> findRegioniByIdAreaGeografica(Integer idAreaGeografica) {
+		List<Regione> retval = new ArrayList<Regione>();
+
+		Criteria criteria = regioneDAO.newCriteria();
+		
+		criteria.createAlias("areaGeografica", "areaGeografica");
+		
+		criteria.add( Restrictions.ne("codiRegione", "00") );
+		criteria.add( Restrictions.ne("id", -1) );
+		
+		criteria.add( Restrictions.eq("areaGeografica.id", idAreaGeografica) );
+		
+		criteria.addOrder(Order.asc("descRegione"));
+		//Estraggo le altre regioni ordinate per nome
+		retval.addAll(regioneDAO.findByCriteria(criteria));
+
+		return retval;
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<AreaGeografica> findAreaGeografica() {
+		List<AreaGeografica> retval = new ArrayList<AreaGeografica>();
+
+		Criteria criteria = areaGeograficaDAO.newCriteria();
+		
+		criteria.add( Restrictions.ne("codiAreaGeografica", "T") );
+		criteria.add( Restrictions.ne("id", -1) );
+	
+		criteria.addOrder(Order.asc("descAreaGeografica"));
+		retval.addAll(areaGeograficaDAO.findByCriteria(criteria));
+
 		return retval;
 	}
 	

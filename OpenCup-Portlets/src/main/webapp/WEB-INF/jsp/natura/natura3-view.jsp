@@ -17,11 +17,6 @@
 </div>
                                                                         
 <liferay-portlet:renderURL var="linkURLvedielencoprogetti" portletName="elencoprogettiportlet_WAR_OpenCupPortletsportlet" portletMode="view" windowState="maximized">
-	<liferay-portlet:param name="rowIdLiv1" value="1"/>
-	<liferay-portlet:param name="rowIdLiv2" value="0"/>
-	<liferay-portlet:param name="rowIdLiv3" value="-1"/>
-	<liferay-portlet:param name="rowIdLiv4" value="-1"/>
-	<liferay-portlet:param name="action" value="PublishEvent"/>
 </liferay-portlet:renderURL>
 
 <div style="text-align: right; padding-top: 15px">
