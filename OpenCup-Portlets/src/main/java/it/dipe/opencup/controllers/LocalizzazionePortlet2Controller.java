@@ -2,10 +2,8 @@ package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.LocalizzazionePortletCommonController;
 import it.dipe.opencup.dto.LocalizationValueConverter;
-import it.dipe.opencup.utils.ComparatorByLocalizationValue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +43,6 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 	public View processSelectedTerritoryData(ResourceRequest request, @RequestParam("selectedTerritory") String  selectedTerritory){
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		List<LocalizationValueConverter> regioniByTerritorio=loadRegionValuesByTerritory(selectedTerritory, request);
-		Collections.sort(regioniByTerritorio,new ComparatorByLocalizationValue());
 	    view.addStaticAttribute("selectedTerritoryValues",regioniByTerritorio);
 	    return view;
 	}
