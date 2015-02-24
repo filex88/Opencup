@@ -124,7 +124,95 @@
 				</div>
 			</div>
 			
-			<aui:button type="submit" value="CERCA" />
+			<div class="control-group">
+				<strong class="control-label">Gerarchia Soggetto</strong>
+				<div class="controls">&nbsp;</div>
+			</div>
+		
+			<div class="control-group" id="categoria-soggetto-div">
+				<label class="control-label" for="categoria-soggetto">Categoria</label>
+				<div class="controls">
+					<aui:select inlineField="true" cssClass="input-large categoria-soggetto" label="" bean="modelAttrFiltriRicercaElePj" name="idCategoriaSoggetto" id="categoria-soggetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idCategoriaSoggetto == -1}"/>
+						<c:forEach items="${listCategoriaSoggetto}" var="categoriasoggetto" >
+				            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${modelAttrFiltriRicercaElePj.idCategoriaSoggetto == categoriasoggetto.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoCategoriaSoggetto" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="control-group" id="sotto-categoria-soggetto-div">
+				<label class="control-label" for="sotto-categoria-soggetto">Sotto Categoria</label>
+				<div class="controls">
+					<aui:select inlineField="true" cssClass="input-large sotto-categoria-soggetto" label="" bean="modelAttrFiltriRicercaElePj" name="idSottoCategoriaSoggetto" id="sotto-categoria-soggetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idSottoCategoriaSoggetto == -1}"/>
+						<c:forEach items="${listSottoCategoriaSoggetto}" var="sottoCategoriaSoggetto" >
+				            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${modelAttrFiltriRicercaElePj.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoSottoCategoriaSoggetto" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="control-group" id="anno-div">
+				<label class="control-label" for="anno"><strong>Anno Decisione</strong></label>
+				<div class="controls">
+					<aui:select multiple="true" inlineField="true" cssClass="input-large anno" label="" bean="modelAttrFiltriRicercaElePj" name="idAnnoDecisiones" id="anno">
+						
+						<c:set var="selected" value="false" />
+						<c:forEach items="${modelAttrFiltriRicercaElePj.idAnnoDecisiones}" var="annoSel" >
+							<c:if test="${annoSel == -1}">
+								<c:set var="selected" value="true" />
+							</c:if>
+						</c:forEach>
+						<aui:option value="-1" label="ricerca.tutte" selected="${selected}"/>
+						
+						<c:forEach items="${listaAnnoDecisione}" var="anno" >
+							<c:set var="selected" value="false" />
+							<c:forEach items="${modelAttrFiltriRicercaElePj.idAnnoDecisiones}" var="annoSel" >
+				           		<c:if test="${annoSel == anno.id}">
+									<c:set var="selected" value="true" />
+								</c:if>
+				        	</c:forEach>
+				        	<aui:option value="${anno.id}" label="${anno.annoDadeAnnoDecisione}" selected="${selected}"/>
+				        </c:forEach>
+				        
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoAnno" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="control-group" id="tipologia-div">
+				<label class="control-label" for="tipologia"><strong>Tipologia Intervento</strong></label>
+				<div class="controls">
+					<aui:select inlineField="true" cssClass="input-large tipologia" label="" bean="modelAttrFiltriRicercaElePj" name="idTipologiaInterventi" id="tipologia">
+						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idTipologiaInterventi == -1}"/>
+						<c:forEach items="${listaTipologiaIntervento}" var="tipologiaintervento" >
+				            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${modelAttrFiltriRicercaElePj.idTipologiaInterventi == tipologiaintervento.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoTipologia" style="cursor: pointer;"></i>
+				</div>
+			</div>
+
+			<div class="control-group" id="statoprogetto-div">
+				<label class="control-label" for="statoprogetto"><strong>Stato Progetto</strong></label>
+				<div class="controls">
+					<aui:select inlineField="true" cssClass="input-large statoprogetto" label="" bean="modelAttrFiltriRicercaElePj" name="idStatoProgetto" id="statoprogetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idStatoProgetto == -1}"/>
+						<c:forEach items="${listaStatoProgetto}" var="statoprogetto" >
+				            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${modelAttrFiltriRicercaElePj.idStatoProgetto == statoprogetto.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoStatoprogetto" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div style="text-align: center">
+				<aui:button type="submit" value="CERCA" />
+			</div>
+			
 		</aui:form>
 		
 		
@@ -231,6 +319,36 @@
 			    'click',
 			    function(event) {
 			    	A.one('.comune').val(-1);
+				});
+		
+		A.one('.pulisciElementoCategoriaSoggetto').on(
+			    'click',
+			    function(event) {
+			    	A.one('.categoria-soggetto').val(-1);
+				});
+
+		A.one('.pulisciElementoSottoCategoriaSoggetto').on(
+			    'click',
+			    function(event) {
+			    	A.one('.sotto-categoria-soggetto').val(-1);
+				});
+
+		A.one('.pulisciElementoAnno').on(
+			    'click',
+			    function(event) {
+			    	A.one('.anno').val(-1);
+				});
+
+		A.one('.pulisciElementoTipologia').on(
+			    'click',
+			    function(event) {
+			    	A.one('.tipologia').val(-1);
+				});
+
+		A.one('.pulisciElementoStatoprogetto').on(
+			    'click',
+			    function(event) {
+			    	A.one('.statoprogetto').val(-1);
 				});
 		
 		
