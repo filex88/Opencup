@@ -108,6 +108,8 @@ public class ElencoProgettiController {
 		
 		// FINE LISTA PROGETTI //
 		
+		/////////////////////////////////////
+		
 		// RICERCA PROGETTI //
 		
 		//Carico la lista delle regioni
