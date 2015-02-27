@@ -3,15 +3,19 @@ package it.dipe.opencup.facade;
 import it.dipe.opencup.dao.AggregataDAO;
 import it.dipe.opencup.dao.AnnoDecisioneDAO;
 import it.dipe.opencup.dao.AreaGeograficaDAO;
+import it.dipe.opencup.dao.CategoriaInterventoDAO;
 import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
 import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.LocalizzazioneDAO;
 import it.dipe.opencup.dao.NaturaDAO;
+import it.dipe.opencup.dao.NaturaSettoreDAO;
 import it.dipe.opencup.dao.ProgettiDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
+import it.dipe.opencup.dao.SettoreInterventoDAO;
 import it.dipe.opencup.dao.SottocategoriaSoggettoDAO;
+import it.dipe.opencup.dao.SottosettoreInterventoDAO;
 import it.dipe.opencup.dao.StatoProgettoDAO;
 import it.dipe.opencup.dao.TipologiaInterventoDAO;
 import it.dipe.opencup.dto.AggregataDTO;
@@ -19,11 +23,16 @@ import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
+import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
+import it.dipe.opencup.model.Natura;
+import it.dipe.opencup.model.NaturaSettore;
 import it.dipe.opencup.model.Provincia;
 import it.dipe.opencup.model.Regione;
+import it.dipe.opencup.model.SettoreIntervento;
 import it.dipe.opencup.model.SottocategoriaSoggetto;
+import it.dipe.opencup.model.SottosettoreIntervento;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
@@ -84,6 +93,18 @@ public class AggregataFacade {
 	
 	@Autowired
 	private SottocategoriaSoggettoDAO sottocategoriaSoggettoDAO;
+
+	@Autowired
+	private SettoreInterventoDAO settoreInterventoDAO;
+	
+	@Autowired
+	private NaturaSettoreDAO naturaSettoreDAO;
+
+	@Autowired
+	private SottosettoreInterventoDAO sottosettoreInterventoDAO;
+
+	@Autowired
+	private CategoriaInterventoDAO categoriaInterventoDAO;
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 		
@@ -159,10 +180,10 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaAggregata.getIdStatoProgetto())) );
 		}	
 		
-		if( navigaAggregata.getIdTipologiaInterventi().equals("0") ){
-			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaInterventi())) );
+		if( navigaAggregata.getIdTipologiaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaInterventi())) );
+			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaIntervento())) );
 		}	
 		
 		if( navigaAggregata.getIdCategoriaSoggetto().equals("0") ){
@@ -246,14 +267,13 @@ public class AggregataFacade {
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {		
 		
 		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
-		System.out.println( navigaAggregata );
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
 	}
 	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
-		
+
 		Criteria criteria = buildCriteria(navigaAggregata);
 		if("asc".equals(orderByType))
 			criteria.addOrder(Order.asc(orderByCol));
@@ -401,6 +421,69 @@ public class AggregataFacade {
 		return retval;
 	}
 
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<Natura> findNatura() {
+		List<Natura> retval = new ArrayList<Natura>();
+		
+		Criteria criteria = naturaDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descNatura"));
+		
+		retval = naturaDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<SettoreIntervento> findSettoreByNatura(Integer idNatura) {
+		List<SettoreIntervento> retval = new ArrayList<SettoreIntervento>();
+		
+		Criteria criteria = naturaSettoreDAO.newCriteria();
+		criteria.createAlias("natura", "natura");
+		criteria.createAlias("settoreIntervento", "settoreIntervento");
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("natura.id", idNatura) );
+		criteria.addOrder(Order.asc("settoreIntervento.descSettoreIntervento"));
+
+		for(NaturaSettore tmp : naturaSettoreDAO.findByCriteria(criteria)  ){
+			retval.add( tmp.getSettoreIntervento() );
+		}
+		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<SottosettoreIntervento> findSottosettoreBySettore(Integer idSettore) {
+		List<SottosettoreIntervento> retval = new ArrayList<SottosettoreIntervento>();
+		
+		Criteria criteria = sottosettoreInterventoDAO.newCriteria();
+		criteria.createAlias("settoreIntervento", "settoreIntervento");
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("settoreIntervento.id", idSettore) );
+		criteria.addOrder(Order.asc("descSottosettoreInt"));
+
+		retval = sottosettoreInterventoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<CategoriaIntervento> findCategoriaInterventoBySettoreSottosettore(Integer idSettore, Integer idSottosettore) {
+		List<CategoriaIntervento> retval = new ArrayList<CategoriaIntervento>();
+		
+		Criteria criteria = categoriaInterventoDAO.newCriteria();
+		criteria.createAlias("settoreIntervento", "settoreIntervento");
+		criteria.createAlias("sottosettoreIntervento", "sottosettoreIntervento");
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("settoreIntervento.id", idSettore) );
+		criteria.add( Restrictions.eq("sottosettoreIntervento.id", idSottosettore) );
+		criteria.addOrder(Order.asc("descCategoriaIntervento"));
+
+		retval = categoriaInterventoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<SottocategoriaSoggetto> findSottocategoriaSoggetto() {
 		List<SottocategoriaSoggetto> retval = new ArrayList<SottocategoriaSoggetto>();
@@ -447,6 +530,71 @@ public class AggregataFacade {
 		retval.addAll(areaGeograficaDAO.findByCriteria(criteria));
 
 		return retval;
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public AreaGeografica findAreaGeografica(Integer valueOf) {
+		return areaGeograficaDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Regione findRegione(Integer valueOf) {
+		return regioneDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Provincia findProvincia(Integer valueOf) {
+		return provinciaDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Comune findComune(Integer valueOf) {
+		return comuneDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public TipologiaIntervento findTipologiaIntervento(Integer valueOf) {
+		return tipologiaInterventoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public StatoProgetto findStatoProgetto(Integer valueOf) {
+		return statoProgettoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public CategoriaSoggetto findCategoriaSoggetto(Integer valueOf) {
+		return categoriaSoggettoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public SottocategoriaSoggetto findSottoCategoriaSoggetto(Integer valueOf) {
+		return sottocategoriaSoggettoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Natura findNatura(Integer valueOf) {
+		return naturaDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public SettoreIntervento findSettoreIntervento(Integer valueOf) {
+		return settoreInterventoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public SottosettoreIntervento findSottosettoreIntervento(Integer valueOf) {
+		return sottosettoreInterventoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public CategoriaIntervento findCategoriaIntervento(Integer valueOf) {
+		return categoriaInterventoDAO.findById(valueOf);
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public AnnoDecisione findAnniDecisione(Integer valueOf) {
+		return annoDecisioneDAO.findById(valueOf);
 	}
 	
 

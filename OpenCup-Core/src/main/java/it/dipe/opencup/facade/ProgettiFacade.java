@@ -155,10 +155,10 @@ public class ProgettiFacade {
 			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(filtri.getIdStatoProgetto())) );
 		}	
 		
-		if( filtri.getIdTipologiaInterventi().equals("0") ){
-			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaInterventi())) );
+		if( filtri.getIdTipologiaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaInterventi())) );
+			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaIntervento())) );
 		}	
 		
 		if( filtri.getIdCategoriaSoggetto().equals("0") ){

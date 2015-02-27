@@ -15,12 +15,21 @@
 	La sintesi per Natura mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati aggregati navigando nelle ulteriori classificazioni:
 	Natura > Settore > Sottosettori > Categoria
 </div>
-                                                                        
+           
+<%--                                                                         
 <liferay-portlet:renderURL var="linkURLvedielencoprogetti" portletName="elencoprogettiportlet_WAR_OpenCupPortletsportlet" portletMode="view" windowState="maximized">
 </liferay-portlet:renderURL>
 
 <div style="text-align: right; padding-top: 15px">
 	<aui:a href="<%= linkURLvedielencoprogetti %>">
+		Vedi Elenco Progetti <i class="icon-list"></i>
+	</aui:a>
+</div>
+
+--%>
+
+<div style="text-align: right; padding-top: 15px">
+	<aui:a href="${linkURLElencoProgetti}">
 		Vedi Elenco Progetti <i class="icon-list"></i>
 	</aui:a>
 </div>

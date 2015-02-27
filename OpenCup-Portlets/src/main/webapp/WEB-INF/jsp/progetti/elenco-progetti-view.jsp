@@ -14,7 +14,9 @@
 
 <liferay-theme:defineObjects/>
 
+<%-- 
 <aui:a href="<%=themeDisplay.getPortletDisplay().getURLBack()%>">Indietro</aui:a>
+--%>
 
 <div class="span12">
 		
@@ -60,108 +62,167 @@
 			id="ricerca-form" 
 			cssClass="form-horizontal">	
 		
-			<div class="control-group">
-				<strong class="control-label">Localizzazione</strong>
+			<aui:input type="hidden" bean="filtriProgetti" name="naviga" value="${filtriProgetti.naviga}" />
+			
+			<div class="control-group no-margin-bottom">
+				<strong class="control-label">Classificazione</strong>
 				<div class="controls">&nbsp;</div>
 			</div>
-	
-			<div class="control-group" id="stato-div">
-				<label class="control-label" for="stato">Stato</label>
-				<div class="controls">
-					<aui:input type="text" value="${modelAttrFiltriRicercaElePj.descStato}" readonly="readonly" cssClass="input-large stato" label="" bean="modelAttrFiltriRicercaElePj" name="descStato" id="stato"></aui:input>
+
+			<div class="control-group no-margin-bottom" id="natura-div">
+				<label class="control-label" for="natura">Natura</label>
+				<div class="controls form-inline">
+					<aui:select inlineField="true" cssClass="input-large natura" label="" bean="filtriProgetti" name="idNatura" id="natura">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idNatura == -1}"/>
+						<c:forEach items="${listaNatura}" var="natura" >
+				            <aui:option value="${natura.id}" label="${natura.descNatura}" selected="${filtriProgetti.idNatura == natura.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoNatura" style="cursor: pointer;"></i>
 				</div>
 			</div>
 			
-			<div class="control-group" id="area-geografica-div">
-				<label class="control-label" for="areaGeografica">Area Geografica</label>
+			<div class="control-group no-margin-bottom" id="settore-intervento-div">
+				<label class="control-label" for="settore-intervento">Settore Intervento</label>
 				<div class="controls form-inline">
-					<aui:select inlineField="true" cssClass="input-large area-geografica" label="" bean="modelAttrFiltriRicercaElePj" name="idAreaGeografica" id="areaGeografica">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idAreaGeografica == -1}"/>
-						<c:forEach items="${listAreaGeografica}" var="areaGeografica" >
-				            <aui:option value="${areaGeografica.id}" label="${areaGeografica.descAreaGeografica}" selected="${modelAttrFiltriRicercaElePj.idAreaGeografica == areaGeografica.id}"/>
-				        </c:forEach>
+					<aui:select inlineField="true" cssClass="input-large settore-intervento" label="" bean="filtriProgetti" name="idSettoreIntervento" id="settore-intervento">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idSettoreIntervento == -1}"/>
+						<c:forEach items="${listSettoreIntervento}" var="settoreIntervento" >
+							<aui:option value="${settoreIntervento.id}" label="${settoreIntervento.descSettoreIntervento}" selected="${filtriProgetti.idSettoreIntervento == settoreIntervento.id}"/>
+						</c:forEach>
 					</aui:select>
-					<i class="icon-remove-circle pulisciElementoAreaGeografica" style="cursor: pointer;"></i>
-				</div>
-			</div>
-			 
-			<div class="control-group" id="regione-div">
-				<label class="control-label" for="regione">Regione</label>
-				<div class="controls form-inline">
-					<aui:select inlineField="true" cssClass="input-large regione" label="" bean="modelAttrFiltriRicercaElePj" name="idRegione" id="regione">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idRegione == -1}"/>
-						<c:forEach items="${listRegione}" var="regione" >
-				            <aui:option value="${regione.id}" label="${regione.descRegione}" selected="${modelAttrFiltriRicercaElePj.idRegione == regione.id}"/>
-				        </c:forEach>
-					</aui:select>
-					<i class="icon-remove-circle pulisciElementoRegione" style="cursor: pointer;"></i>
+					<i class="icon-remove-circle pulisciElementoSettoreIntervento" style="cursor: pointer;"></i>
 				</div>
 			</div>
 			
-			<div class="control-group" id="provincia-div">
-				<label class="control-label" for="provincia">Provincia</label>
+			<div class="control-group no-margin-bottom" id="sotto-settore-intervento-div">
+				<label class="control-label" for="sotto-settore-intervento">Sotto Settore Intervento</label>
 				<div class="controls form-inline">
-					<aui:select inlineField="true" cssClass="input-large provincia" label="" bean="modelAttrFiltriRicercaElePj" name="idProvincia" id="provincia">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idProvincia == -1}"/>
-						<c:forEach items="${listProvincia}" var="provincia" >
-				            <aui:option value="${provincia.id}" label="${provincia.descProvincia}" selected="${modelAttrFiltriRicercaElePj.idProvincia == provincia.id}"/>
-				        </c:forEach>
+					<aui:select inlineField="true" cssClass="input-large sotto-settore-intervento" label="" bean="filtriProgetti" name="idSottosettoreIntervento" id="sotto-settore-intervento">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idSottosettoreIntervento == -1}"/>
+						<c:forEach items="${listSottosettoreIntervento}" var="sottosettoreIntervento" >
+							<aui:option value="${sottosettoreIntervento.id}" label="${sottosettoreIntervento.descSottosettoreInt}" selected="${filtriProgetti.idSottosettoreIntervento == sottosettoreIntervento.id}"/>
+						</c:forEach>
 					</aui:select>
-					<i class="icon-remove-circle pulisciElementoProvincia" style="cursor: pointer;"></i>
+					<i class="icon-remove-circle pulisciElementoSottosettoreIntervento" style="cursor: pointer;"></i>
 				</div>
 			</div>
 			
-			<div class="control-group" id="comune-div">
-				<label class="control-label" for="comune">Comune</label>
+			<div class="control-group no-margin-bottom" id="categoria-intervento-div">
+				<label class="control-label" for="categoria-intervento">Categoria</label>
 				<div class="controls form-inline">
-					<aui:select inlineField="true" cssClass="input-large comune" label="" bean="modelAttrFiltriRicercaElePj" name="idComune" id="comune">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idComune == -1}"/>
-						<c:forEach items="${listComune}" var="comune" >
-				            <aui:option value="${comune.id}" label="${comune.descComune}" selected="${modelAttrFiltriRicercaElePj.idComune == comune.id}"/>
-				        </c:forEach>
+					<aui:select inlineField="true" cssClass="input-large categoria-intervento" label="" bean="filtriProgetti" name="idCategoriaIntervento" id="categoria-intervento">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idCategoriaIntervento == -1}"/>
+						<c:forEach items="${listaCategoriaIntervento}" var="categoria" >
+							<aui:option value="${categoria.id}" label="${categoria.descCategoriaIntervento}" selected="${filtriProgetti.idCategoriaIntervento == categoria.id}"/>
+						</c:forEach>
 					</aui:select>
-					<i class="icon-remove-circle pulisciElementoComune" style="cursor: pointer;"></i>
+					<i class="icon-remove-circle pulisciElementoCategoriaIntervento" style="cursor: pointer;"></i>
 				</div>
 			</div>
 			
-			<div class="control-group">
+			<div class="control-group no-margin-bottom">
 				<strong class="control-label">Gerarchia Soggetto</strong>
 				<div class="controls">&nbsp;</div>
 			</div>
 		
-			<div class="control-group" id="categoria-soggetto-div">
+			<div class="control-group no-margin-bottom" id="categoria-soggetto-div">
 				<label class="control-label" for="categoria-soggetto">Categoria</label>
 				<div class="controls">
-					<aui:select inlineField="true" cssClass="input-large categoria-soggetto" label="" bean="modelAttrFiltriRicercaElePj" name="idCategoriaSoggetto" id="categoria-soggetto">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idCategoriaSoggetto == -1}"/>
+					<aui:select inlineField="true" cssClass="input-large categoria-soggetto" label="" bean="filtriProgetti" name="idCategoriaSoggetto" id="categoria-soggetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idCategoriaSoggetto == -1}"/>
 						<c:forEach items="${listCategoriaSoggetto}" var="categoriasoggetto" >
-				            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${modelAttrFiltriRicercaElePj.idCategoriaSoggetto == categoriasoggetto.id}"/>
+				            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${filtriProgetti.idCategoriaSoggetto == categoriasoggetto.id}"/>
 				        </c:forEach>
 					</aui:select>
 					<i class="icon-remove-circle pulisciElementoCategoriaSoggetto" style="cursor: pointer;"></i>
 				</div>
 			</div>
 			
-			<div class="control-group" id="sotto-categoria-soggetto-div">
+			<div class="control-group no-margin-bottom" id="sotto-categoria-soggetto-div">
 				<label class="control-label" for="sotto-categoria-soggetto">Sotto Categoria</label>
 				<div class="controls">
-					<aui:select inlineField="true" cssClass="input-large sotto-categoria-soggetto" label="" bean="modelAttrFiltriRicercaElePj" name="idSottoCategoriaSoggetto" id="sotto-categoria-soggetto">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idSottoCategoriaSoggetto == -1}"/>
+					<aui:select inlineField="true" cssClass="input-large sotto-categoria-soggetto" label="" bean="filtriProgetti" name="idSottoCategoriaSoggetto" id="sotto-categoria-soggetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idSottoCategoriaSoggetto == -1}"/>
 						<c:forEach items="${listSottoCategoriaSoggetto}" var="sottoCategoriaSoggetto" >
-				            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${modelAttrFiltriRicercaElePj.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
+				            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${filtriProgetti.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
 				        </c:forEach>
 					</aui:select>
 					<i class="icon-remove-circle pulisciElementoSottoCategoriaSoggetto" style="cursor: pointer;"></i>
 				</div>
 			</div>
+					
+			<div class="control-group no-margin-bottom">
+				<strong class="control-label">Localizzazione</strong>
+				<div class="controls">&nbsp;</div>
+			</div>
+	
+			<div class="control-group no-margin-bottom" id="stato-div">
+				<label class="control-label" for="stato">Stato</label>
+				<div class="controls">
+					<aui:input type="text" value="${filtriProgetti.descStato}" readonly="readonly" cssClass="input-large stato" label="" bean="filtriProgetti" name="descStato" id="stato"></aui:input>
+				</div>
+			</div>
 			
-			<div class="control-group" id="anno-div">
+			<div class="control-group no-margin-bottom" id="area-geografica-div">
+				<label class="control-label" for="areaGeografica">Area Geografica</label>
+				<div class="controls form-inline">
+					<aui:select inlineField="true" cssClass="input-large area-geografica" label="" bean="filtriProgetti" name="idAreaGeografica" id="areaGeografica">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idAreaGeografica == -1}"/>
+						<c:forEach items="${listAreaGeografica}" var="areaGeografica" >
+				            <aui:option value="${areaGeografica.id}" label="${areaGeografica.descAreaGeografica}" selected="${filtriProgetti.idAreaGeografica == areaGeografica.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoAreaGeografica" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			 
+			<div class="control-group no-margin-bottom" id="regione-div">
+				<label class="control-label" for="regione">Regione</label>
+				<div class="controls form-inline">
+					<aui:select inlineField="true" cssClass="input-large regione" label="" bean="filtriProgetti" name="idRegione" id="regione">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idRegione == -1}"/>
+						<c:forEach items="${listRegione}" var="regione" >
+				            <aui:option value="${regione.id}" label="${regione.descRegione}" selected="${filtriProgetti.idRegione == regione.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoRegione" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="control-group no-margin-bottom" id="provincia-div">
+				<label class="control-label" for="provincia">Provincia</label>
+				<div class="controls form-inline">
+					<aui:select inlineField="true" cssClass="input-large provincia" label="" bean="filtriProgetti" name="idProvincia" id="provincia">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idProvincia == -1}"/>
+						<c:forEach items="${listProvincia}" var="provincia" >
+				            <aui:option value="${provincia.id}" label="${provincia.descProvincia}" selected="${filtriProgetti.idProvincia == provincia.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoProvincia" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="control-group no-margin-bottom" id="comune-div">
+				<label class="control-label" for="comune">Comune</label>
+				<div class="controls form-inline">
+					<aui:select inlineField="true" cssClass="input-large comune" label="" bean="filtriProgetti" name="idComune" id="comune">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idComune == -1}"/>
+						<c:forEach items="${listComune}" var="comune" >
+				            <aui:option value="${comune.id}" label="${comune.descComune}" selected="${filtriProgetti.idComune == comune.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoComune" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="control-group no-margin-bottom" id="anno-div">
 				<label class="control-label" for="anno"><strong>Anno Decisione</strong></label>
 				<div class="controls">
-					<aui:select multiple="true" inlineField="true" cssClass="input-large anno" label="" bean="modelAttrFiltriRicercaElePj" name="idAnnoDecisiones" id="anno">
+					<aui:select multiple="true" inlineField="true" cssClass="input-large anno" label="" bean="filtriProgetti" name="idAnnoDecisiones" id="anno">
 						
 						<c:set var="selected" value="false" />
-						<c:forEach items="${modelAttrFiltriRicercaElePj.idAnnoDecisiones}" var="annoSel" >
+						<c:forEach items="${filtriProgetti.idAnnoDecisiones}" var="annoSel" >
 							<c:if test="${annoSel == -1}">
 								<c:set var="selected" value="true" />
 							</c:if>
@@ -170,7 +231,7 @@
 						
 						<c:forEach items="${listaAnnoDecisione}" var="anno" >
 							<c:set var="selected" value="false" />
-							<c:forEach items="${modelAttrFiltriRicercaElePj.idAnnoDecisiones}" var="annoSel" >
+							<c:forEach items="${filtriProgetti.idAnnoDecisiones}" var="annoSel" >
 				           		<c:if test="${annoSel == anno.id}">
 									<c:set var="selected" value="true" />
 								</c:if>
@@ -183,32 +244,32 @@
 				</div>
 			</div>
 			
-			<div class="control-group" id="tipologia-div">
+			<div class="control-group no-margin-bottom" id="tipologia-div">
 				<label class="control-label" for="tipologia"><strong>Tipologia Intervento</strong></label>
 				<div class="controls">
-					<aui:select inlineField="true" cssClass="input-large tipologia" label="" bean="modelAttrFiltriRicercaElePj" name="idTipologiaInterventi" id="tipologia">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idTipologiaInterventi == -1}"/>
+					<aui:select inlineField="true" cssClass="input-large tipologia" label="" bean="filtriProgetti" name="idTipologiaIntervento" id="tipologia">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idTipologiaIntervento == -1}"/>
 						<c:forEach items="${listaTipologiaIntervento}" var="tipologiaintervento" >
-				            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${modelAttrFiltriRicercaElePj.idTipologiaInterventi == tipologiaintervento.id}"/>
+				            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${filtriProgetti.idTipologiaIntervento == tipologiaintervento.id}"/>
 				        </c:forEach>
 					</aui:select>
 					<i class="icon-remove-circle pulisciElementoTipologia" style="cursor: pointer;"></i>
 				</div>
 			</div>
 
-			<div class="control-group" id="statoprogetto-div">
+			<div class="control-group no-margin-bottom" id="statoprogetto-div">
 				<label class="control-label" for="statoprogetto"><strong>Stato Progetto</strong></label>
 				<div class="controls">
-					<aui:select inlineField="true" cssClass="input-large statoprogetto" label="" bean="modelAttrFiltriRicercaElePj" name="idStatoProgetto" id="statoprogetto">
-						<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrFiltriRicercaElePj.idStatoProgetto == -1}"/>
+					<aui:select inlineField="true" cssClass="input-large statoprogetto" label="" bean="filtriProgetti" name="idStatoProgetto" id="statoprogetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${filtriProgetti.idStatoProgetto == -1}"/>
 						<c:forEach items="${listaStatoProgetto}" var="statoprogetto" >
-				            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${modelAttrFiltriRicercaElePj.idStatoProgetto == statoprogetto.id}"/>
+				            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${filtriProgetti.idStatoProgetto == statoprogetto.id}"/>
 				        </c:forEach>
 					</aui:select>
 					<i class="icon-remove-circle pulisciElementoStatoprogetto" style="cursor: pointer;"></i>
 				</div>
 			</div>
-			
+
 			<div style="text-align: center">
 				<aui:button type="submit" value="CERCA" />
 			</div>
@@ -225,7 +286,10 @@
 
 	var namespaceRicerca4js = "<portlet:namespace/>";
 	
-	var namespaceRicerca = "naturaportletricerca_WAR_OpenCupPortletsportlet";
+	//var namespaceRicerca = "naturaportletricerca_WAR_OpenCupPortletsportlet";
+	
+	var namespaceRicerca = "<portlet:namespace/>";
+	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	
 	AUI().use('aui-base', function(A) {
 		
@@ -290,6 +354,27 @@
 			    	caricaCombo(namespaceRicerca, "loadComuniByProvincia", this.val(), namespaceRicerca4js+"comune");
 				});
 		
+		A.one('.natura').on(
+			    'change',
+			    function(event) {
+			    	A.one('.settore-intervento').val(-1);
+			    	caricaCombo(namespaceRicerca, "loadSettoreInterventoByNatura", this.val(), namespaceRicerca4js+"settore-intervento");
+					});
+				
+		A.one('.settore-intervento').on(
+			    'change',
+			    function(event) {
+			    	A.one('.sotto-settore-intervento').val(-1);
+			    	caricaCombo(namespaceRicerca, "loadSottosettoreInterventoBySettore", this.val(), namespaceRicerca4js+"sotto-settore-intervento");
+				});
+				
+		A.one('.sotto-settore-intervento').on(
+			    'change',
+			    function(event) {
+			    	A.one('.categoria-intervento').val(-1);
+			    	caricaCombo(namespaceRicerca, "loadCategoriaInterventoBySettoreSottosettore", this.val(), namespaceRicerca4js+"categoria-intervento");
+				});
+		
 		
 		A.one('.pulisciElementoAreaGeografica').on(
 			    'click',
@@ -351,6 +436,39 @@
 			    	A.one('.statoprogetto').val(-1);
 				});
 		
+		A.one('.pulisciElementoNatura').on(
+			    'click',
+			    function(event) {
+
+					A.one('.natura').val(-1);
+					A.one('.settore-intervento').val(-1);
+					A.one('.sotto-settore-intervento').val(-1); 
+					A.one('.categoria-intervento').val(-1);
+				});
+
+		A.one('.pulisciElementoSettoreIntervento').on(
+			    'click',
+			    function(event) {
+
+					A.one('.settore-intervento').val(-1);
+					A.one('.sotto-settore-intervento').val(-1); 
+					A.one('.categoria-intervento').val(-1);
+				});
+
+		A.one('.pulisciElementoSottosettoreIntervento').on(
+			    'click',
+			    function(event) {
+
+					A.one('.sotto-settore-intervento').val(-1); 
+					A.one('.categoria-intervento').val(-1);
+				});
+
+		A.one('.pulisciElementoCategoriaIntervento').on(
+			    'click',
+			    function(event) {
+
+					A.one('.categoria-intervento').val(-1);
+				});
 		
 	});
 </script>

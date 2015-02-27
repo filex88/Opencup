@@ -52,7 +52,7 @@ AUI().use(
 										modal: true,
 										resizable: true,
 										width: 1025,
-										height: 580,
+										height: 600,
 										toolbars: {
 								            footer:buttons,
 								            header: buttonClose

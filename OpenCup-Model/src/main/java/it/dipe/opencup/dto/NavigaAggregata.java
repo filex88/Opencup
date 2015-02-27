@@ -11,6 +11,10 @@ public class NavigaAggregata implements Serializable{
 	 */
 	private static final long serialVersionUID = 143973242554717243L;
 	
+	public static final String NAVIGA_CLASSIFICAZIONE = "classificazione";
+	public static final String NAVIGA_LOCALIZZAZIONE = "localizzazione";
+	private String naviga;
+	
 	private String idNatura;
 	private String idSettoreIntervento;
 	private String idSottosettoreIntervento;
@@ -28,10 +32,53 @@ public class NavigaAggregata implements Serializable{
 	private String idCategoriaSoggetto;
 	private String idSottoCategoriaSoggetto;
 	
-	private String idTipologiaInterventi;
+	private String idTipologiaIntervento;
 	private String idStatoProgetto;
 	
+	private String descNatura;
+	private String descSettoreIntervento;
+	private String descSottosettoreIntervento;
+	private String descCategoriaIntervento;
+	
+	private String descAnnoDecisiones;
+	
+	private String descRegione;
+	private String descProvincia;
+	private String descComune;
+	
+	private String descAreaGeografica;
+
+	private String descCategoriaSoggetto;
+	private String descSottoCategoriaSoggetto;
+	
+	private String descTipologiaIntervento;
+	private String descStatoProgetto;
+	
+	public NavigaAggregata(String naviga){
+		this.naviga = naviga;
+		if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga)){
+			this.idNatura = "0";
+		}else{
+			this.idNatura = "-1";
+		}
+		this.idSettoreIntervento = "-1";
+		this.idSottosettoreIntervento = "-1";
+		this.idCategoriaIntervento = "-1";
+		this.idAnnoDecisiones = new ArrayList<String>();
+		this.idAnnoDecisiones.add("-1");
+		this.idRegione = "-1";
+		this.idProvincia = "-1";
+		this.idComune = "-1";
+		this.idAreaGeografica = "-1";
+		this.descStato = "ITALIA";
+		this.idCategoriaSoggetto = "-1";
+		this.idSottoCategoriaSoggetto = "-1";
+		this.idTipologiaIntervento = "-1";
+		this.idStatoProgetto = "-1";
+	}
+
 	public NavigaAggregata(){
+		this.naviga = "";
 		this.idNatura = "-1";
 		this.idSettoreIntervento = "-1";
 		this.idSottosettoreIntervento = "-1";
@@ -45,13 +92,12 @@ public class NavigaAggregata implements Serializable{
 		this.descStato = "ITALIA";
 		this.idCategoriaSoggetto = "-1";
 		this.idSottoCategoriaSoggetto = "-1";
-		this.idTipologiaInterventi = "-1";
+		this.idTipologiaIntervento = "-1";
 		this.idStatoProgetto = "-1";
 	}
 	
 	public String toString(){
 		String toString = "";
-		
 		toString = toString + "idNatura: (" + idNatura + "); ";
 		toString = toString + "idSettoreIntervento: (" + idSettoreIntervento + "); ";
 		toString = toString + "idSottosettoreIntervento: (" + idSottosettoreIntervento + "); ";
@@ -64,9 +110,9 @@ public class NavigaAggregata implements Serializable{
 		toString = toString + "idAnnoDecisiones: (" + idAnnoDecisiones + "); ";
 		toString = toString + "idCategoriaSoggetto: (" + idCategoriaSoggetto + "); ";
 		toString = toString + "idSottoCategoriaSoggetto: (" + idSottoCategoriaSoggetto + "); ";
-		toString = toString + "idTipologiaInterventi: (" + idTipologiaInterventi + "); ";
+		toString = toString + "idTipologiaIntervento: (" + idTipologiaIntervento + "); ";
 		toString = toString + "idStatoProgetto: (" + idStatoProgetto + "); ";
-		
+		toString = toString + "naviga: (" + naviga + "); ";
 		return toString;
 	}
 
@@ -99,16 +145,103 @@ public class NavigaAggregata implements Serializable{
 		if(! "-1".equals( idSottoCategoriaSoggetto ) ){
 			 retval=true;
 		}else
-		if(! "-1".equals( idTipologiaInterventi ) ){
+		if(! "-1".equals( idTipologiaIntervento ) ){
 			 retval=true;
 		}else
 		if(! "-1".equals( idStatoProgetto ) ){
 			 retval=true;
+		}else
+		if(! "-1".equals( idNatura ) ){
+			if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga) && "0".equals( idNatura ) ){
+				retval=false;
+			}else{
+				retval=true;
+			}
+		}else
+		if(! "-1".equals( idSettoreIntervento ) ){
+			if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga) && "0".equals( idSettoreIntervento ) ){
+				retval=false;
+			}else{
+				retval=true;
+			}
+		}else
+		if(! "-1".equals( idSottosettoreIntervento ) ){
+			if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga) && "0".equals( idSottosettoreIntervento ) ){
+				retval=false;
+			}else{
+				retval=true;
+			}
+		}else
+		if(! "-1".equals( idCategoriaIntervento ) ){
+			if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga) && "0".equals( idCategoriaIntervento ) ){
+				retval=false;
+			}else{
+				retval=true;
+			}
 		}
 		
 		return retval;
 	}
 	
+	public String getCountAffRicerca4Natura(){
+		
+		String sRetval = "";
+		int retval = 0;
+		
+		if( idAnnoDecisiones.size() == 1 && (!idAnnoDecisiones.contains("-1")) ){
+			 retval++;
+		}else
+		if( idAnnoDecisiones.size() > 1 ){
+			retval++;
+		}
+		
+		if(! "-1".equals( idRegione ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idProvincia ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idComune ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idAreaGeografica ) ){
+			 retval++;
+		}
+
+		if(! "-1".equals( idCategoriaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idSottoCategoriaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idTipologiaIntervento ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idStatoProgetto ) ){
+			 retval++;
+		}
+		
+		if( retval > 0 ){
+			sRetval = String.valueOf(retval);
+		}
+		
+		return sRetval;
+	}
+
+	public String getNaviga() {
+		return naviga;
+	}
+
+	public void setNaviga(String naviga) {
+		this.naviga = naviga;
+	}
+
 	public String getIdNatura() {
 		return idNatura;
 	}
@@ -205,12 +338,12 @@ public class NavigaAggregata implements Serializable{
 		this.idSottoCategoriaSoggetto = idSottoCategoriaSoggetto;
 	}
 
-	public String getIdTipologiaInterventi() {
-		return idTipologiaInterventi;
+	public String getIdTipologiaIntervento() {
+		return idTipologiaIntervento;
 	}
 
-	public void setIdTipologiaInterventi(String idTipologiaInterventi) {
-		this.idTipologiaInterventi = idTipologiaInterventi;
+	public void setIdTipologiaIntervento(String idTipologiaIntervento) {
+		this.idTipologiaIntervento = idTipologiaIntervento;
 	}
 
 	public String getIdStatoProgetto() {
@@ -219,6 +352,110 @@ public class NavigaAggregata implements Serializable{
 
 	public void setIdStatoProgetto(String idStatoProgetto) {
 		this.idStatoProgetto = idStatoProgetto;
+	}
+
+	public String getDescNatura() {
+		return descNatura;
+	}
+
+	public void setDescNatura(String descNatura) {
+		this.descNatura = descNatura;
+	}
+
+	public String getDescSettoreIntervento() {
+		return descSettoreIntervento;
+	}
+
+	public void setDescSettoreIntervento(String descSettoreIntervento) {
+		this.descSettoreIntervento = descSettoreIntervento;
+	}
+
+	public String getDescSottosettoreIntervento() {
+		return descSottosettoreIntervento;
+	}
+
+	public void setDescSottosettoreIntervento(String descSottosettoreIntervento) {
+		this.descSottosettoreIntervento = descSottosettoreIntervento;
+	}
+
+	public String getDescCategoriaIntervento() {
+		return descCategoriaIntervento;
+	}
+
+	public void setDescCategoriaIntervento(String descCategoriaIntervento) {
+		this.descCategoriaIntervento = descCategoriaIntervento;
+	}
+
+	public String getDescAnnoDecisiones() {
+		return descAnnoDecisiones;
+	}
+
+	public void setDescAnnoDecisiones(String descAnnoDecisiones) {
+		this.descAnnoDecisiones = descAnnoDecisiones;
+	}
+
+	public String getDescRegione() {
+		return descRegione;
+	}
+
+	public void setDescRegione(String descRegione) {
+		this.descRegione = descRegione;
+	}
+
+	public String getDescProvincia() {
+		return descProvincia;
+	}
+
+	public void setDescProvincia(String descProvincia) {
+		this.descProvincia = descProvincia;
+	}
+
+	public String getDescComune() {
+		return descComune;
+	}
+
+	public void setDescComune(String descComune) {
+		this.descComune = descComune;
+	}
+
+	public String getDescAreaGeografica() {
+		return descAreaGeografica;
+	}
+
+	public void setDescAreaGeografica(String descAreaGeografica) {
+		this.descAreaGeografica = descAreaGeografica;
+	}
+
+	public String getDescCategoriaSoggetto() {
+		return descCategoriaSoggetto;
+	}
+
+	public void setDescCategoriaSoggetto(String descCategoriaSoggetto) {
+		this.descCategoriaSoggetto = descCategoriaSoggetto;
+	}
+
+	public String getDescSottoCategoriaSoggetto() {
+		return descSottoCategoriaSoggetto;
+	}
+
+	public void setDescSottoCategoriaSoggetto(String descSottoCategoriaSoggetto) {
+		this.descSottoCategoriaSoggetto = descSottoCategoriaSoggetto;
+	}
+
+	public String getDescTipologiaIntervento() {
+		return descTipologiaIntervento;
+	}
+
+	public void setDescTipologiaIntervento(String descTipologiaIntervento) {
+		this.descTipologiaIntervento = descTipologiaIntervento;
+	}
+
+	public String getDescStatoProgetto() {
+		return descStatoProgetto;
+	}
+
+	public void setDescStatoProgetto(String descStatoProgetto) {
+		this.descStatoProgetto = descStatoProgetto;
 	}
 
 	@Override
@@ -265,8 +502,9 @@ public class NavigaAggregata implements Serializable{
 				+ ((idStatoProgetto == null) ? 0 : idStatoProgetto.hashCode());
 		result = prime
 				* result
-				+ ((idTipologiaInterventi == null) ? 0 : idTipologiaInterventi
+				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
 						.hashCode());
+		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
 		return result;
 	}
 
@@ -346,14 +584,17 @@ public class NavigaAggregata implements Serializable{
 				return false;
 		} else if (!idStatoProgetto.equals(other.idStatoProgetto))
 			return false;
-		if (idTipologiaInterventi == null) {
-			if (other.idTipologiaInterventi != null)
+		if (idTipologiaIntervento == null) {
+			if (other.idTipologiaIntervento != null)
 				return false;
-		} else if (!idTipologiaInterventi.equals(other.idTipologiaInterventi))
+		} else if (!idTipologiaIntervento.equals(other.idTipologiaIntervento))
+			return false;
+		if (naviga == null) {
+			if (other.naviga != null)
+				return false;
+		} else if (!naviga.equals(other.naviga))
 			return false;
 		return true;
 	}
-
-	
 	
 }
