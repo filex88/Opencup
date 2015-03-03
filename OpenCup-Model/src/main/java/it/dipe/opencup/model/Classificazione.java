@@ -29,8 +29,8 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 	private String descNatura;
 	 
 
-	@Column(name = "DESC_DCLA_SETTORE", length = 255)
-	private String descSettore;
+	@Column(name = "DESC_DCLA_AREA_INTERVENTO", length = 255)
+	private String descAreaIntervento;
 	 
 
 	@Column(name = "DESC_DCLA_SOTTOSETTORE", length = 255)
@@ -45,9 +45,9 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 	private Natura natura;
 	 
 
-	@ManyToOne(targetEntity = SettoreIntervento.class)
-	@JoinColumn(name = "FK_DCLA_DSIN_ID", referencedColumnName = "SEQU_DSIN_ID")
-	private SettoreIntervento settoreIntervento;
+	@ManyToOne(targetEntity = AreaIntervento.class)
+	@JoinColumn(name = "FK_DCLA_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
+	private AreaIntervento areaIntervento;
 
 	
 	@ManyToOne(targetEntity = SottosettoreIntervento.class)
@@ -80,13 +80,13 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 	}
 
 
-	public String getDescSettore() {
-		return descSettore;
+	public String getDescAreaIntervento() {
+		return descAreaIntervento;
 	}
 
 
-	public void setDescSettore(String descSettore) {
-		this.descSettore = descSettore;
+	public void setDescAreaIntervento(String descAreaIntervento) {
+		this.descAreaIntervento = descAreaIntervento;
 	}
 
 
@@ -120,13 +120,13 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 	}
 
 
-	public SettoreIntervento getSettoreIntervento() {
-		return settoreIntervento;
+	public AreaIntervento getAreaIntervento() {
+		return areaIntervento;
 	}
 
 
-	public void setSettoreIntervento(SettoreIntervento settoreIntervento) {
-		this.settoreIntervento = settoreIntervento;
+	public void setAreaIntervento(AreaIntervento areaIntervento) {
+		this.areaIntervento = areaIntervento;
 	}
 
 

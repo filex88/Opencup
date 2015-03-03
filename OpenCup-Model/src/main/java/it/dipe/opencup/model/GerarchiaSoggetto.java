@@ -20,23 +20,38 @@ public class GerarchiaSoggetto extends AbstractCommonEntity implements Serializa
 	 */
 	private static final long serialVersionUID = 2458938368930212936L;
 	
+	
 	@Id
 	@Column(name = "SEQU_DGSO_ID")
 	private Integer id;
-				
+		
+	
 	@Column(name = "DESC_DGSO_CATEGORIA", length = 150)
 	private String descCategSoggetto;
 	
+	
 	@Column(name = "DESC_DGSO_SOTTOCATEGORIA", length = 255)
 	private String descSottocategSoggetto;
-				
+	
+	
+	@Column(name = "DESC_DGSO_AREA_SOGGETTO", length = 100)
+	private String descAreaSoggetto;
+		
+	
 	@ManyToOne(targetEntity = CategoriaSoggetto.class)
 	@JoinColumn(name = "FK_DGSO_DCSO_ID", referencedColumnName = "SEQU_DCSO_ID")
 	private CategoriaSoggetto categoriaSoggetto;
 	
+	
 	@ManyToOne(targetEntity = SottocategoriaSoggetto.class)
 	@JoinColumn(name = "FK_DGSO_DSCS_ID", referencedColumnName = "SEQU_DSCS_ID")
 	private SottocategoriaSoggetto sottocategoriaSoggetto;
+	
+	
+	@ManyToOne(targetEntity = AreaSoggetto.class)
+	@JoinColumn(name = "FK_DGSO_DASO_ID", referencedColumnName = "SEQU_DASO_ID")
+	private AreaSoggetto areaSoggetto;
+	
 
 	public Integer getId() {
 		return id;
@@ -62,6 +77,14 @@ public class GerarchiaSoggetto extends AbstractCommonEntity implements Serializa
 		this.descSottocategSoggetto = descSottocategSoggetto;
 	}
 
+	public String getDescAreaSoggetto() {
+		return descAreaSoggetto;
+	}
+
+	public void setDescAreaSoggetto(String descAreaSoggetto) {
+		this.descAreaSoggetto = descAreaSoggetto;
+	}
+
 	public CategoriaSoggetto getCategoriaSoggetto() {
 		return categoriaSoggetto;
 	}
@@ -77,6 +100,14 @@ public class GerarchiaSoggetto extends AbstractCommonEntity implements Serializa
 	public void setSottocategoriaSoggetto(
 			SottocategoriaSoggetto sottocategoriaSoggetto) {
 		this.sottocategoriaSoggetto = sottocategoriaSoggetto;
+	}
+
+	public AreaSoggetto getAreaSoggetto() {
+		return areaSoggetto;
+	}
+
+	public void setAreaSoggetto(AreaSoggetto areaSoggetto) {
+		this.areaSoggetto = areaSoggetto;
 	}
 
 	@Override

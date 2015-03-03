@@ -96,19 +96,19 @@ public class PortletCommonController {
 			model.addAttribute("listSettoreIntervento", listSettoreIntervento);
 		}
 		
-		if( (! "-1".equals( filtro.getIdSettoreIntervento() )) && (! "0".equals( filtro.getIdSettoreIntervento() )) ){
+		if( (! "-1".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdAreaIntervento() )) ){
 			//Settore intervento selezionata carico i sottosettori
-			List<SottosettoreIntervento> listSottosettoreIntervento = aggregataFacade.findSottosettoreBySettore(Integer.valueOf( filtro.getIdSettoreIntervento() ));
+			List<SottosettoreIntervento> listSottosettoreIntervento = aggregataFacade.findSottosettoreBySettore(Integer.valueOf( filtro.getIdAreaIntervento() ));
 			model.addAttribute("listSottosettoreIntervento", listSottosettoreIntervento);
 		}
 		
 		if( 
-				((! "-1".equals( filtro.getIdSettoreIntervento() )) && (! "-1".equals( filtro.getIdSottosettoreIntervento() )))
+				((! "-1".equals( filtro.getIdAreaIntervento() )) && (! "-1".equals( filtro.getIdSottosettoreIntervento() )))
 				&&
-				((! "0".equals( filtro.getIdSettoreIntervento() )) && (! "0".equals( filtro.getIdSottosettoreIntervento() )))
+				((! "0".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdSottosettoreIntervento() )))
 				){
 			//Settore intervento e sottosettore intervento selezionati carico le categorie
-			List<CategoriaIntervento> listaCategoriaIntervento = aggregataFacade.findCategoriaInterventoBySettoreSottosettore(Integer.valueOf( filtro.getIdSettoreIntervento() ), Integer.valueOf( filtro.getIdSottosettoreIntervento() ));
+			List<CategoriaIntervento> listaCategoriaIntervento = aggregataFacade.findCategoriaInterventoBySettoreSottosettore(Integer.valueOf( filtro.getIdAreaIntervento() ), Integer.valueOf( filtro.getIdSottosettoreIntervento() ));
 			model.addAttribute("listaCategoriaIntervento", listaCategoriaIntervento);
 		}
 		

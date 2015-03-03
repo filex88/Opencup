@@ -52,7 +52,7 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 								@RequestParam("pattern") String pattern	){
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		NavigaAggregata sessionAttrNaturaPie = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+		NavigaAggregata sessionAttrNaturaPie = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
 
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaPie);
 		
@@ -74,8 +74,8 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 				conv.setLabel(aggregataDTO.getDesCategoriaIntervento() );
 			}else if( sessionAttrNaturaPie.getIdSottosettoreIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesSottoSettore() );
-			}else if( sessionAttrNaturaPie.getIdSettoreIntervento().equals("0") ){
-				conv.setLabel(aggregataDTO.getDesSettore() );
+			}else if( sessionAttrNaturaPie.getIdAreaIntervento().equals("0") ){
+				conv.setLabel(aggregataDTO.getDesArea() );
 			}else if( sessionAttrNaturaPie.getIdNatura().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesNatura());
 			}

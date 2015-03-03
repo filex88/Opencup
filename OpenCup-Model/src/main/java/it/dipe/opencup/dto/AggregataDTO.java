@@ -20,7 +20,7 @@ public class AggregataDTO implements Serializable{
 
 	private Double impoImportoFinanziato;
 
-	private String annoAnnoDecisione;
+	private String annoAnnoAggregato;
 
 	private Integer idNatura;
 
@@ -28,11 +28,11 @@ public class AggregataDTO implements Serializable{
 
 	private String codNatura;
 
-	private Integer idSettore;
+	private Integer idArea;
 
-	private String desSettore;
+	private String desArea;
 
-	private String codSettore;
+	private String codArea;
 
 	private Integer idSottoSettore;
 
@@ -61,15 +61,16 @@ public class AggregataDTO implements Serializable{
 		this.numeProgetti = aggregata.getNumeProgetti();
 		this.impoCostoProgetti = aggregata.getImpoCostoProgetti();
 		this.impoImportoFinanziato = aggregata.getImpoImportoFinanziato();
-		this.annoAnnoDecisione = aggregata.getAnnoAnnoDecisione();
+		
+		this.annoAnnoAggregato = aggregata.getAnnoAggregato().getAnnoAggregato();
 		
 		this.idNatura = aggregata.getClassificazione().getNatura().getId();
 		this.desNatura = aggregata.getClassificazione().getNatura().getDescNatura();
 		this.codNatura = aggregata.getClassificazione().getNatura().getCodiNatura();
 		
-		this.idSettore = aggregata.getClassificazione().getSettoreIntervento().getId();
-		this.desSettore = aggregata.getClassificazione().getSettoreIntervento().getDescSettoreIntervento();
-		this.codSettore = aggregata.getClassificazione().getSettoreIntervento().getCodiSettoreIntervento();
+		this.idArea = aggregata.getClassificazione().getAreaIntervento().getId();
+		this.desArea = aggregata.getClassificazione().getAreaIntervento().getDescAreaIntervento();
+		this.codArea = aggregata.getClassificazione().getAreaIntervento().getCodiAreaIntervento();
 		
 		this.idSottoSettore = aggregata.getClassificazione().getSottosettoreIntervento().getId();
 		this.desSottoSettore = aggregata.getClassificazione().getSottosettoreIntervento().getDescSottosettoreInt();
@@ -113,12 +114,12 @@ public class AggregataDTO implements Serializable{
 		this.impoImportoFinanziato = impoImportoFinanziato;
 	}
 
-	public String getAnnoAnnoDecisione() {
-		return annoAnnoDecisione;
+	public String getAnnoAnnoAggregato() {
+		return annoAnnoAggregato;
 	}
 
-	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
-		this.annoAnnoDecisione = annoAnnoDecisione;
+	public void setAnnoAnnoAggregato(String annoAnnoAggregato) {
+		this.annoAnnoAggregato = annoAnnoAggregato;
 	}
 
 	public Integer getIdNatura() {
@@ -145,36 +146,28 @@ public class AggregataDTO implements Serializable{
 		this.codNatura = codNatura;
 	}
 
-	public String getLinkURL() {
-		return linkURL;
+	public Integer getIdArea() {
+		return idArea;
 	}
 
-	public void setLinkURL(String linkURL) {
-		this.linkURL = linkURL;
+	public void setIdArea(Integer idArea) {
+		this.idArea = idArea;
 	}
 
-	public Integer getIdSettore() {
-		return idSettore;
+	public String getDesArea() {
+		return desArea;
 	}
 
-	public void setIdSettore(Integer idSettore) {
-		this.idSettore = idSettore;
+	public void setDesArea(String desArea) {
+		this.desArea = desArea;
 	}
 
-	public String getDesSettore() {
-		return desSettore;
+	public String getCodArea() {
+		return codArea;
 	}
 
-	public void setDesSettore(String desSettore) {
-		this.desSettore = desSettore;
-	}
-
-	public String getCodSettore() {
-		return codSettore;
-	}
-
-	public void setCodSettore(String codSettore) {
-		this.codSettore = codSettore;
+	public void setCodArea(String codArea) {
+		this.codArea = codArea;
 	}
 
 	public Integer getIdSottoSettore() {
@@ -223,6 +216,14 @@ public class AggregataDTO implements Serializable{
 
 	public void setCodCategoriaIntervento(String codCategoriaIntervento) {
 		this.codCategoriaIntervento = codCategoriaIntervento;
+	}
+
+	public String getLinkURL() {
+		return linkURL;
+	}
+
+	public void setLinkURL(String linkURL) {
+		this.linkURL = linkURL;
 	}
 
 	public String getDescURL() {

@@ -41,7 +41,7 @@ public class NaturaPortletCommonController extends PortletCommonController {
 	
 	protected int calcolaIndicePagina(NavigaAggregata sessionAttrNav) {
 		int index;
-		if( sessionAttrNav.getIdSettoreIntervento().equals("0") ){
+		if( sessionAttrNav.getIdAreaIntervento().equals("0") ){
 			index = 0;
 		}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
 			index = 1;
@@ -87,7 +87,7 @@ public class NaturaPortletCommonController extends PortletCommonController {
 						//viene generato un linkURL che punta alla pagina successiva
 						
 						rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
-						rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdSettoreIntervento());
+						rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdAreaIntervento());
 						rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
 						rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
 						
@@ -98,10 +98,10 @@ public class NaturaPortletCommonController extends PortletCommonController {
 							rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
 							rowIdLiv4URL = "0";
 							tmp.setDescURL( tmp.getDesSottoSettore() );
-						}else if( sessionAttrNav.getIdSettoreIntervento().equals("0") ){
-							rowIdLiv2URL = tmp.getIdSettore().toString(); 
+						}else if( sessionAttrNav.getIdAreaIntervento().equals("0") ){
+							rowIdLiv2URL = tmp.getIdArea().toString(); 
 							rowIdLiv3URL = "0";
-							tmp.setDescURL( tmp.getDesSettore() );
+							tmp.setDescURL( tmp.getDesArea() );
 						}else if( sessionAttrNav.getIdNatura().equals("0") ){
 							rowIdLiv1URL = tmp.getIdNatura().toString(); 
 							rowIdLiv2URL = "0";
@@ -134,10 +134,10 @@ public class NaturaPortletCommonController extends PortletCommonController {
 	protected NavigaAggregata initRender(RenderRequest renderRequest) {
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
-		NavigaAggregata filtro = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)? new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+		NavigaAggregata filtro = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)? new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
 
 		if( ! NavigaAggregata.NAVIGA_CLASSIFICAZIONE.equals( filtro.getNaviga() ) ){
-			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE);
+			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0");
 		}
 
 		//Imposto il comune a -1 perchè per la classificazione non si può affinare la ricerca del comune
@@ -147,19 +147,19 @@ public class NaturaPortletCommonController extends PortletCommonController {
 			filtro.setIdNatura("0");
 		}
 		
-		if( filtro.getIdSettoreIntervento() == null ){
-			filtro.setIdSettoreIntervento("-1");
+		if( filtro.getIdAreaIntervento() == null ){
+			filtro.setIdAreaIntervento("-1");
 		}
 		if( Integer.valueOf( filtro.getIdNatura() ) > 0 ){
-			if( "-1".equals( filtro.getIdSettoreIntervento() ) ){
-				filtro.setIdSettoreIntervento("0");
+			if( "-1".equals( filtro.getIdAreaIntervento() ) ){
+				filtro.setIdAreaIntervento("0");
 			}
 		}
 		
 		if( filtro.getIdSottosettoreIntervento() == null ){
 			filtro.setIdSottosettoreIntervento("-1");
 		}
-		if( Integer.valueOf( filtro.getIdSettoreIntervento() ) > 0 ){
+		if( Integer.valueOf( filtro.getIdAreaIntervento() ) > 0 ){
 			if( "-1".equals( filtro.getIdSottosettoreIntervento() ) ){
 				filtro.setIdSottosettoreIntervento("0");
 			}
@@ -192,7 +192,7 @@ public class NaturaPortletCommonController extends PortletCommonController {
 		//Setto in sessione la navigazione tramite il processEvent della Classificazione
 		if( pNavigaClassificazione != null && pNavigaClassificazione.length == 4 ){
 			sessionAttrClassificazione.setIdNatura(pNavigaClassificazione[0]);
-			sessionAttrClassificazione.setIdSettoreIntervento(pNavigaClassificazione[1]);
+			sessionAttrClassificazione.setIdAreaIntervento(pNavigaClassificazione[1]);
 			sessionAttrClassificazione.setIdSottosettoreIntervento(pNavigaClassificazione[2]);
 			sessionAttrClassificazione.setIdCategoriaIntervento(pNavigaClassificazione[3]);
 		}
@@ -201,7 +201,7 @@ public class NaturaPortletCommonController extends PortletCommonController {
 		
 		//Setto in sessione i filtri impostati tramite il processEvent nella classificazione
 		if( pFiltriRicerca != null && pFiltriRicerca.length == 13 ){
-			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE);
+			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0");
 			filtro.setIdRegione(pFiltriRicerca[0]);
 			filtro.setIdProvincia(pFiltriRicerca[1]);
 			filtro.setIdComune(pFiltriRicerca[2]);
@@ -212,7 +212,7 @@ public class NaturaPortletCommonController extends PortletCommonController {
 			filtro.setIdTipologiaIntervento(pFiltriRicerca[7]);
 			filtro.setIdStatoProgetto(pFiltriRicerca[8]);
 			filtro.setIdNatura(pFiltriRicerca[9]);
-			filtro.setIdSettoreIntervento(pFiltriRicerca[10]);
+			filtro.setIdAreaIntervento(pFiltriRicerca[10]);
 			filtro.setIdSottosettoreIntervento(pFiltriRicerca[11]);
 			filtro.setIdCategoriaIntervento(pFiltriRicerca[12]);
 		}
@@ -220,11 +220,11 @@ public class NaturaPortletCommonController extends PortletCommonController {
 		//gli anni hanno la multiselezione
 		if( pFiltriRicercAnni != null && pFiltriRicercAnni.length > 0 ){
 			if(filtro == null){
-				filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE);
+				filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0");
 			}
 			List<String> listAnnis = new ArrayList<String>();
 			Collections.addAll(listAnnis, pFiltriRicercAnni);
-			filtro.setIdAnnoDecisiones(listAnnis);
+			filtro.setIdAnnoAggregatos(listAnnis);
 		}
 		
 		//Se l'oggetto filtri è stato istanziato lo salvo in sessione (ed eventualmente sovrascrivo quello presente in precedenza)
@@ -247,19 +247,19 @@ public class NaturaPortletCommonController extends PortletCommonController {
 			sessionAttrClassificazione.setIdSottoCategoriaSoggetto(filtro.getIdSottoCategoriaSoggetto());
 			sessionAttrClassificazione.setIdTipologiaIntervento(filtro.getIdTipologiaIntervento());
 			sessionAttrClassificazione.setIdStatoProgetto(filtro.getIdStatoProgetto());
-			sessionAttrClassificazione.setIdAnnoDecisiones(filtro.getIdAnnoDecisiones());
+			sessionAttrClassificazione.setIdAnnoAggregatos(filtro.getIdAnnoAggregatos());
 			sessionAttrClassificazione.setIdNatura(filtro.getIdNatura());
-			sessionAttrClassificazione.setIdSettoreIntervento(filtro.getIdSettoreIntervento());
+			sessionAttrClassificazione.setIdAreaIntervento(filtro.getIdAreaIntervento());
 			sessionAttrClassificazione.setIdSottosettoreIntervento(filtro.getIdSottosettoreIntervento());
 			sessionAttrClassificazione.setIdCategoriaIntervento(filtro.getIdCategoriaIntervento());
 		}else{
 			//Creo un oggetto filtro
-			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE);
+			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0");
 		}
 		
 		//Copio i valori della navigazione per classificazione nell'oggetto filtro
 		filtro.setIdNatura(sessionAttrClassificazione.getIdNatura());
-		filtro.setIdSettoreIntervento(sessionAttrClassificazione.getIdSettoreIntervento());
+		filtro.setIdAreaIntervento(sessionAttrClassificazione.getIdAreaIntervento());
 		filtro.setIdSottosettoreIntervento(sessionAttrClassificazione.getIdSottosettoreIntervento());
 		filtro.setIdCategoriaIntervento(sessionAttrClassificazione.getIdCategoriaIntervento());
 		
@@ -284,13 +284,13 @@ public class NaturaPortletCommonController extends PortletCommonController {
 									String.valueOf(filtro.getIdTipologiaIntervento()),
 									String.valueOf(filtro.getIdStatoProgetto()),
 									String.valueOf(filtro.getIdNatura()),
-									String.valueOf(filtro.getIdSettoreIntervento()),
+									String.valueOf(filtro.getIdAreaIntervento()),
 									String.valueOf(filtro.getIdSottosettoreIntervento()),
 									String.valueOf(filtro.getIdCategoriaIntervento()),
 									
 		};
 		
-		String[] pFiltriRicercAnni = filtro.getIdAnnoDecisiones().toArray(new String[0]);
+		String[] pFiltriRicercAnni = filtro.getIdAnnoAggregatos().toArray(new String[0]);
 		
 		eventResponse.setRenderParameter("pFiltriRicerca", pFiltriRicerca);
 		eventResponse.setRenderParameter("pFiltriRicercAnni", pFiltriRicercAnni);
@@ -301,7 +301,7 @@ public class NaturaPortletCommonController extends PortletCommonController {
 		NavigaAggregata naviga = (NavigaAggregata) eventRequest.getEvent().getValue();
 		
 		String[] pNavigaClassificazione = {String.valueOf(naviga.getIdNatura()), 
-										   String.valueOf(naviga.getIdSettoreIntervento()), 
+										   String.valueOf(naviga.getIdAreaIntervento()), 
 										   String.valueOf(naviga.getIdSottosettoreIntervento()), 
 										   String.valueOf(naviga.getIdCategoriaIntervento()) };
 		
@@ -314,11 +314,11 @@ public class NaturaPortletCommonController extends PortletCommonController {
 		NavigaAggregata filtro = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?null:(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
 		
 		if(filtro==null){
-			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE);
+			filtro = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0");
 		}
 		
 		filtro.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		filtro.setIdSettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		filtro.setIdAreaIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		filtro.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		filtro.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		

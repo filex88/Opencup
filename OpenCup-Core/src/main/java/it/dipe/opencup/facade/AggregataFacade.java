@@ -1,8 +1,10 @@
 package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.AggregataDAO;
+import it.dipe.opencup.dao.AnnoAggregatoDAO;
 import it.dipe.opencup.dao.AnnoDecisioneDAO;
 import it.dipe.opencup.dao.AreaGeograficaDAO;
+import it.dipe.opencup.dao.AreaInterventoDAO;
 import it.dipe.opencup.dao.CategoriaInterventoDAO;
 import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
@@ -23,6 +25,7 @@ import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
+import it.dipe.opencup.model.AreaIntervento;
 import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
@@ -86,6 +89,12 @@ public class AggregataFacade {
 	private AnnoDecisioneDAO annoDecisioneDAO;	
 	
 	@Autowired
+	private AnnoAggregatoDAO annoAggregatoDAO;	
+	
+	@Autowired
+	private AreaInterventoDAO areaInterventoDAO;
+	
+	@Autowired
 	private TipologiaInterventoDAO tipologiaInterventoDAO;		
 	
 	@Autowired
@@ -112,22 +121,22 @@ public class AggregataFacade {
 		
 		criteria.createAlias("classificazione", "classificazione");
 		criteria.createAlias("localizzazione", "localizzazione");
-		criteria.createAlias("annoDecisione", "annoDecisione");
 		criteria.createAlias("localizzazione.stato", "stato");
+		criteria.createAlias("annoAggregato", "annoAggregato");
 		criteria.createAlias("gerarchiaSoggetto", "gerarchiaSoggetto");
 		
-		if( navigaAggregata.getIdAnnoDecisiones() != null && navigaAggregata.getIdAnnoDecisiones().size() > 0 ){
-			if( ! navigaAggregata.getIdAnnoDecisiones().contains("-1") ){
+		if( navigaAggregata.getIdAnnoAggregatos() != null && navigaAggregata.getIdAnnoAggregatos().size() > 0 ){
+			if( ! navigaAggregata.getIdAnnoAggregatos().contains("-1") ){
 				Disjunction or = Restrictions.disjunction();
-				for( String tmp : navigaAggregata.getIdAnnoDecisiones() ){
-					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
+				for( String tmp : navigaAggregata.getIdAnnoAggregatos() ){
+					or.add(Restrictions.eq("annoAggregato.id", Integer.valueOf( tmp )) );
 				}
 				criteria.add(or);
 			}else{
-				criteria.add( Restrictions.eq("annoDecisione.id", -1 ) );
+				criteria.add( Restrictions.eq("annoAggregato.id", -1 ) );
 			}
 		}else{
-			criteria.add( Restrictions.eq("annoDecisione.id", -1 ) );
+			criteria.add( Restrictions.eq("annoAggregato.id", -1 ) );
 		}
 		
 		if( navigaAggregata.getIdProvincia().equals("0") ){
@@ -156,10 +165,10 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
 		}
 		
-		if( navigaAggregata.getIdSettoreIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("classificazione.settoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSettoreIntervento())) );
+		if( navigaAggregata.getIdAreaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("classificazione.areaIntervento.id", Integer.valueOf(navigaAggregata.getIdAreaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("classificazione.settoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSettoreIntervento())) );
+			criteria.add( Restrictions.eq("classificazione.areaIntervento.id", Integer.valueOf(navigaAggregata.getIdAreaIntervento())) );
 		}
 		
 		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
@@ -208,7 +217,7 @@ public class AggregataFacade {
 
 		List<Integer> listaIdElementiEleborati = new ArrayList<Integer>();
 
-		if(navigaAggregata.getIdAnnoDecisiones().size() > 1){
+		if(navigaAggregata.getIdAnnoAggregatos().size() > 1){
 
 			//E' stata effettuata una ricerca per più anni, devo aggregare i risultati per anni diversi		
 			for( Aggregata tmpAggregata : listaAggregata ){
@@ -230,7 +239,7 @@ public class AggregataFacade {
 						
 						if( tmpAggregata.getClassificazione().equals( tmpAggregata2.getClassificazione() ) 
 								&&
-								(! tmpAggregata.getAnnoDecisione().equals( tmpAggregata2.getAnnoDecisione() ) )
+								(! tmpAggregata.getAnnoAggregato().equals( tmpAggregata2.getAnnoAggregato() ) )
 								){
 							
 							//Salvo l'id dell'elemento tra quelli già aggregati
@@ -275,10 +284,11 @@ public class AggregataFacade {
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
 
 		Criteria criteria = buildCriteria(navigaAggregata);
-		if("asc".equals(orderByType))
+		if("asc".equals(orderByType)){
 			criteria.addOrder(Order.asc(orderByCol));
-		else
+		}else{
 			criteria.addOrder(Order.desc(orderByCol));
+		}
 		
 		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
 		
@@ -428,9 +438,27 @@ public class AggregataFacade {
 		
 		Criteria criteria = naturaDAO.newCriteria();
 		criteria.add( Restrictions.ne("id", -1) );
+
 		criteria.addOrder(Order.asc("descNatura"));
 		
 		retval = naturaDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Natura findNaturaByCod(String codiNatura) {
+		Natura retval = null;
+		
+		Criteria criteria = naturaDAO.newCriteria();
+		
+		criteria.add( Restrictions.eq("codiNatura", codiNatura) );
+		
+		List<Natura> l = naturaDAO.findByCriteria(criteria);
+		
+		if(l!=null && l.size()>0){
+			retval = l.get(0);
+		}
 		
 		return retval;
 	}
@@ -582,6 +610,12 @@ public class AggregataFacade {
 		return settoreInterventoDAO.findById(valueOf);
 	}
 
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public AreaIntervento findAreaIntervento(Integer valueOf) {
+		return areaInterventoDAO.findById(valueOf);
+	}
+	
+	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public SottosettoreIntervento findSottosettoreIntervento(Integer valueOf) {
 		return sottosettoreInterventoDAO.findById(valueOf);

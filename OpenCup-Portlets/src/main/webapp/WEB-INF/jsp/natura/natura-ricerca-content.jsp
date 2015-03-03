@@ -44,7 +44,6 @@
 						<label class="control-label" for="modal-content-natura">Natura</label>
 						<div class="controls form-inline">
 							<aui:select inlineField="true" cssClass="input-xlarge modal-content-natura" label="" bean="modelAttrNaturaRicerca" name="idNatura" id="modal-content-natura">
-								<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idNatura == -1}"/>
 								<c:forEach items="${listaNatura}" var="natura" >
 						            <aui:option value="${natura.id}" label="${natura.descNatura}" selected="${modelAttrNaturaRicerca.idNatura == natura.id}"/>
 						        </c:forEach>
@@ -56,10 +55,10 @@
 					<div class="control-group no-margin-bottom" id="modal-content-settore-intervento-div">
 						<label class="control-label" for="modal-content-settore-intervento">Settore Intervento</label>
 						<div class="controls form-inline">
-							<aui:select inlineField="true" cssClass="input-xlarge modal-content-settore-intervento" label="" bean="modelAttrNaturaRicerca" name="idSettoreIntervento" id="modal-content-settore-intervento">
-								<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idSettoreIntervento == -1}"/>
+							<aui:select inlineField="true" cssClass="input-xlarge modal-content-settore-intervento" label="" bean="modelAttrNaturaRicerca" name="idAreaIntervento" id="modal-content-settore-intervento">
+								<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idAreaIntervento == -1}"/>
 								<c:forEach items="${listSettoreIntervento}" var="settoreIntervento" >
-									<aui:option value="${settoreIntervento.id}" label="${settoreIntervento.descSettoreIntervento}" selected="${modelAttrNaturaRicerca.idSettoreIntervento == settoreIntervento.id}"/>
+									<aui:option value="${settoreIntervento.id}" label="${settoreIntervento.descSettoreIntervento}" selected="${modelAttrNaturaRicerca.idAreaIntervento == settoreIntervento.id}"/>
 								</c:forEach>
 							</aui:select>
 							<i class="icon-remove-circle pulisciElementoSettoreIntervento" style="cursor: pointer;"></i>
@@ -116,7 +115,7 @@
 							<aui:select inlineField="true" cssClass="input-xlarge modal-content-sotto-categoria-soggetto" label="" bean="modelAttrNaturaRicerca" name="idSottoCategoriaSoggetto" id="modal-content-sotto-categoria-soggetto">
 								<aui:option value="-1" label="ricerca.tutte" selected="${modelAttrNaturaRicerca.idSottoCategoriaSoggetto == -1}"/>
 								<c:forEach items="${listSottoCategoriaSoggetto}" var="sottoCategoriaSoggetto" >
-						            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottoCategoriaSoggetto}" selected="${modelAttrNaturaRicerca.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
+						            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottocategSoggetto}" selected="${modelAttrNaturaRicerca.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
 						        </c:forEach>
 							</aui:select>
 							<i class="icon-remove-circle pulisciElementoSottoCategoriaSoggetto" style="cursor: pointer;"></i>
@@ -181,10 +180,10 @@
 					<div class="control-group no-margin-bottom" id="modal-content-anno-div">
 						<label class="control-label" for="modal-content-anno"><strong>Anno Decisione</strong></label>
 						<div class="controls">
-							<aui:select multiple="true" inlineField="true" cssClass="input-xlarge modal-content-anno" label="" bean="modelAttrNaturaRicerca" name="idAnnoDecisiones" id="modal-content-anno">
+							<aui:select multiple="true" inlineField="true" cssClass="input-xlarge modal-content-anno" label="" bean="modelAttrNaturaRicerca" name="idAnnoAggregatos" id="modal-content-anno">
 								
 								<c:set var="selected" value="false" />
-								<c:forEach items="${modelAttrNaturaRicerca.idAnnoDecisiones}" var="annoSel" >
+								<c:forEach items="${modelAttrNaturaRicerca.idAnnoAggregatos}" var="annoSel" >
 									<c:if test="${annoSel == -1}">
 										<c:set var="selected" value="true" />
 									</c:if>
@@ -193,7 +192,7 @@
 								
 								<c:forEach items="${listaAnnoDecisione}" var="anno" >
 									<c:set var="selected" value="false" />
-									<c:forEach items="${modelAttrNaturaRicerca.idAnnoDecisiones}" var="annoSel" >
+									<c:forEach items="${modelAttrNaturaRicerca.idAnnoAggregatos}" var="annoSel" >
 						           		<c:if test="${annoSel == anno.id}">
 											<c:set var="selected" value="true" />
 										</c:if>

@@ -85,10 +85,10 @@ public class ProgettiFacade {
 		
 		criteria.createAlias("cupLocalizzazioni", "cupLocalizzazioni");
 		
-		if( filtri.getIdAnnoDecisiones() != null && filtri.getIdAnnoDecisiones().size() > 0 ){
-			if( ! filtri.getIdAnnoDecisiones().contains("-1") ){
+		if( filtri.getIdAnnoAggregatos() != null && filtri.getIdAnnoAggregatos().size() > 0 ){
+			if( ! filtri.getIdAnnoAggregatos().contains("-1") ){
 				Disjunction or = Restrictions.disjunction();
-				for( String tmp : filtri.getIdAnnoDecisiones() ){
+				for( String tmp : filtri.getIdAnnoAggregatos() ){
 					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
 				}
 				criteria.add(or);
@@ -131,10 +131,10 @@ public class ProgettiFacade {
 			criteria.add( Restrictions.eq("natura.id", Integer.valueOf(filtri.getIdNatura())) );
 		}
 		
-		if( filtri.getIdSettoreIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("settoreIntervento.id", Integer.valueOf(filtri.getIdSettoreIntervento())) );
+		if( filtri.getIdAreaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("settoreIntervento.id", Integer.valueOf(filtri.getIdAreaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("settoreIntervento.id", Integer.valueOf(filtri.getIdSettoreIntervento())) );
+			criteria.add( Restrictions.eq("settoreIntervento.id", Integer.valueOf(filtri.getIdAreaIntervento())) );
 		}
 		
 		if( filtri.getIdSottosettoreIntervento().equals("0") ){

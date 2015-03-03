@@ -29,7 +29,7 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 										@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
 
 		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		modelAttrNaturaRicerca = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+		modelAttrNaturaRicerca = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
 		
 		impostaDesFiltriImpostati(modelAttrNaturaRicerca);
 
@@ -65,13 +65,13 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 		}
 		
 		String lDescAnno = "";
-		if( 	(		(filtro.getIdAnnoDecisiones().size() == 1) &&
-						(Integer.valueOf( filtro.getIdAnnoDecisiones().get(0) ) > 0)
+		if( 	(		(filtro.getIdAnnoAggregatos().size() == 1) &&
+						(Integer.valueOf( filtro.getIdAnnoAggregatos().get(0) ) > 0)
 				) || (
-						(filtro.getIdAnnoDecisiones().size() > 1) &&
-						(Integer.valueOf( filtro.getIdAnnoDecisiones().get(1) ) > 0)	)	
+						(filtro.getIdAnnoAggregatos().size() > 1) &&
+						(Integer.valueOf( filtro.getIdAnnoAggregatos().get(1) ) > 0)	)	
 		){
-			for(String tmp: filtro.getIdAnnoDecisiones()){
+			for(String tmp: filtro.getIdAnnoAggregatos()){
 				if( "".equals(lDescAnno) ){
 					lDescAnno = (aggregataFacade.findAnniDecisione(Integer.valueOf( tmp )) ).getAnnoDadeAnnoDecisione();
 				}else{
@@ -79,7 +79,7 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 				}
 			}
 		}
-		filtro.setDescAnnoDecisiones( "".equals(lDescAnno)?null:lDescAnno );
+		filtro.setDescAnnoAggregatos( "".equals(lDescAnno)?null:lDescAnno );
 		
 		if( Integer.valueOf( filtro.getIdTipologiaIntervento() ) > 0 ){
 			filtro.setDescTipologiaIntervento( aggregataFacade.findTipologiaIntervento(Integer.valueOf( filtro.getIdTipologiaIntervento() )).getDescTipologiaIntervento() );
@@ -111,10 +111,10 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 			filtro.setDescNatura(null);
 		}
 		
-		if( Integer.valueOf( filtro.getIdSettoreIntervento() ) > 0 ){
-			filtro.setDescSettoreIntervento( aggregataFacade.findSettoreIntervento(Integer.valueOf( filtro.getIdSettoreIntervento() )).getDescSettoreIntervento() );
+		if( Integer.valueOf( filtro.getIdAreaIntervento() ) > 0 ){
+			filtro.setDescAreaIntervento( aggregataFacade.findSettoreIntervento(Integer.valueOf( filtro.getIdAreaIntervento() )).getDescSettoreIntervento() );
 		}else{
-			filtro.setDescSettoreIntervento(null);
+			filtro.setDescAreaIntervento(null);
 		}
 		
 		if( Integer.valueOf( filtro.getIdSottosettoreIntervento() ) > 0 ){
@@ -139,7 +139,7 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 												@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		modelAttrNaturaRicerca = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+		modelAttrNaturaRicerca = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
 
 		initInModelMascheraRicerca(model, modelAttrNaturaRicerca);
 
