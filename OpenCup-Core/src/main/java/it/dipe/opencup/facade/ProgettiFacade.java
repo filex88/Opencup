@@ -4,14 +4,18 @@ import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.ProgettiDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
-import it.dipe.opencup.dto.NavigaAggregata;
+import it.dipe.opencup.dto.NavigaProgetti;
+import it.dipe.opencup.model.AnagraficaCup;
+import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.CategoriaIntervento;
+import it.dipe.opencup.model.Comune;
+import it.dipe.opencup.model.CupLocalizzazione;
 import it.dipe.opencup.model.Progetti;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -36,7 +40,7 @@ public class ProgettiFacade {
 	@Autowired
 	private ComuneDAO comuneDAO;
 	
-	private Criteria buildCriteria(NavigaAggregata filtri) {
+	private Criteria buildCriteria(NavigaProgetti navigaProgetti) {
 		Criteria criteria = progettiDAO.newCriteria();
 		
 		criteria.setProjection(	Projections.projectionList()
@@ -56,12 +60,12 @@ public class ProgettiFacade {
 				.add(Projections.groupProperty("gruppoAteco"))
 				.add(Projections.groupProperty("cpv"))
 				.add(Projections.groupProperty("anagraficaCup"))
-				.add(Projections.groupProperty("textCoperFinanz"))
-				.add(Projections.groupProperty("textComune"))
-				.add(Projections.groupProperty("textProvincia"))
-				.add(Projections.groupProperty("textRegione"))
-				.add(Projections.groupProperty("textStato"))
-				.add(Projections.groupProperty("annoAnnoDecisione"))
+//				.add(Projections.groupProperty("textCoperFinanz"))
+//				.add(Projections.groupProperty("textComune"))
+//				.add(Projections.groupProperty("textProvincia"))
+//				.add(Projections.groupProperty("textRegione"))
+//				.add(Projections.groupProperty("textStato"))
+//				.add(Projections.groupProperty("annoAnnoDecisione"))
 				);
 				
 //		criteria.setProjection(	Projections.projectionList()
@@ -75,116 +79,116 @@ public class ProgettiFacade {
 //				                .add(Projections.count("someColumn")));          
 		
 	
-		criteria.createAlias("natura", "natura");
-		criteria.createAlias("settoreIntervento", "settoreIntervento");
+//		criteria.createAlias("natura", "natura");
+		criteria.createAlias("areaIntervento", "areaIntervento");
 		criteria.createAlias("sottosettoreIntervento", "sottosettoreIntervento");
 		criteria.createAlias("categoriaIntervento", "categoriaIntervento");
 		criteria.createAlias("tipologiaIntervento", "tipologiaIntervento");
 		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
 		criteria.createAlias("statoProgetto", "statoProgetto");
 		
-		criteria.createAlias("cupLocalizzazioni", "cupLocalizzazioni");
+//		criteria.createAlias("cupLocalizzazioni", "cupLocalizzazioni");
 		
-		if( filtri.getIdAnnoAggregatos() != null && filtri.getIdAnnoAggregatos().size() > 0 ){
-			if( ! filtri.getIdAnnoAggregatos().contains("-1") ){
-				Disjunction or = Restrictions.disjunction();
-				for( String tmp : filtri.getIdAnnoAggregatos() ){
-					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
-				}
-				criteria.add(or);
-			}else{
-				criteria.add( Restrictions.ge("annoDecisione.id", -1 ) );
-			}
+//		if( filtri.getIdAnnoAggregatos() != null && filtri.getIdAnnoAggregatos().size() > 0 ){
+//			if( ! filtri.getIdAnnoAggregatos().contains("-1") ){
+//				Disjunction or = Restrictions.disjunction();
+//				for( String tmp : filtri.getIdAnnoAggregatos() ){
+//					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
+//				}
+//				criteria.add(or);
+//			}else{
+//				criteria.add( Restrictions.ge("annoDecisione.id", -1 ) );
+//			}
+//		}else{
+//			criteria.add( Restrictions.ge("annoDecisione.id", -1 ) );
+//		}
+		
+//		if( navigaProgetti.getIdComune().equals("0") ){
+//			criteria.add( Restrictions.ge("cupLocalizzazioni.comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
+//		}else{
+//			criteria.add( Restrictions.eq("cupLocalizzazioni.comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
+//		}
+//		
+//		if( navigaProgetti.getIdProvincia().equals("0") ){
+//			criteria.add( Restrictions.ge("cupLocalizzazioni.provincia.id", Integer.valueOf(navigaProgetti.getIdProvincia())) );
+//		}else{
+//			criteria.add( Restrictions.eq("cupLocalizzazioni.provincia.id", Integer.valueOf(navigaProgetti.getIdProvincia())) );
+//		}
+//		
+//		if( navigaProgetti.getIdRegione().equals("0") ){
+//			criteria.add( Restrictions.ge("cupLocalizzazioni.regione.id", Integer.valueOf(navigaProgetti.getIdRegione())) );
+//		}else{
+//			criteria.add( Restrictions.eq("cupLocalizzazioni.regione.id", Integer.valueOf(navigaProgetti.getIdRegione())) );
+//		}
+//		
+//		if( navigaProgetti.getIdAreaGeografica().equals("0") ){
+//			criteria.add( Restrictions.ge("cupLocalizzazioni.areaGeografica.id", Integer.valueOf(navigaProgetti.getIdAreaGeografica())) );
+//		}else{
+//			criteria.add( Restrictions.eq("cupLocalizzazioni.areaGeografica.id", Integer.valueOf(navigaProgetti.getIdAreaGeografica())) );
+//		}
+		
+//		criteria.add( Restrictions.eq("textStato", navigaProgetti.getDescStato() ) );
+		
+//		if( navigaProgetti.getIdNatura().equals("0") ){
+//			criteria.add( Restrictions.ge("natura.id", Integer.valueOf(navigaProgetti.getIdNatura())) );
+//		}else{
+//			criteria.add( Restrictions.eq("natura.id", Integer.valueOf(navigaProgetti.getIdNatura())) );
+//		}
+		
+		if( navigaProgetti.getIdAreaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("areaIntervento.id", Integer.valueOf(navigaProgetti.getIdAreaIntervento())) );
 		}else{
-			criteria.add( Restrictions.ge("annoDecisione.id", -1 ) );
+			criteria.add( Restrictions.eq("areaIntervento.id", Integer.valueOf(navigaProgetti.getIdAreaIntervento())) );
 		}
 		
-		if( filtri.getIdComune().equals("0") ){
-			criteria.add( Restrictions.ge("cupLocalizzazioni.comune.id", Integer.valueOf(filtri.getIdComune())) );
+		if( navigaProgetti.getIdSottosettoreIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("sottosettoreIntervento.id", Integer.valueOf(navigaProgetti.getIdSottosettoreIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("cupLocalizzazioni.comune.id", Integer.valueOf(filtri.getIdComune())) );
+			criteria.add( Restrictions.eq("sottosettoreIntervento.id", Integer.valueOf(navigaProgetti.getIdSottosettoreIntervento())) );
 		}
 		
-		if( filtri.getIdProvincia().equals("0") ){
-			criteria.add( Restrictions.ge("cupLocalizzazioni.provincia.id", Integer.valueOf(filtri.getIdProvincia())) );
+		if( navigaProgetti.getIdCategoriaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("categoriaIntervento.id", Integer.valueOf(navigaProgetti.getIdCategoriaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("cupLocalizzazioni.provincia.id", Integer.valueOf(filtri.getIdProvincia())) );
+			criteria.add( Restrictions.eq("categoriaIntervento.id", Integer.valueOf(navigaProgetti.getIdCategoriaIntervento())) );
 		}
 		
-		if( filtri.getIdRegione().equals("0") ){
-			criteria.add( Restrictions.ge("cupLocalizzazioni.regione.id", Integer.valueOf(filtri.getIdRegione())) );
+		if( navigaProgetti.getIdStatoProgetto().equals("0") ){
+			criteria.add( Restrictions.ge("statoProgetto.id", Integer.valueOf(navigaProgetti.getIdStatoProgetto())) );
 		}else{
-			criteria.add( Restrictions.eq("cupLocalizzazioni.regione.id", Integer.valueOf(filtri.getIdRegione())) );
-		}
-		
-		if( filtri.getIdAreaGeografica().equals("0") ){
-			criteria.add( Restrictions.ge("cupLocalizzazioni.areaGeografica.id", Integer.valueOf(filtri.getIdAreaGeografica())) );
-		}else{
-			criteria.add( Restrictions.eq("cupLocalizzazioni.areaGeografica.id", Integer.valueOf(filtri.getIdAreaGeografica())) );
-		}
-		
-		criteria.add( Restrictions.eq("textStato", filtri.getDescStato() ) );
-		
-		if( filtri.getIdNatura().equals("0") ){
-			criteria.add( Restrictions.ge("natura.id", Integer.valueOf(filtri.getIdNatura())) );
-		}else{
-			criteria.add( Restrictions.eq("natura.id", Integer.valueOf(filtri.getIdNatura())) );
-		}
-		
-		if( filtri.getIdAreaIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("settoreIntervento.id", Integer.valueOf(filtri.getIdAreaIntervento())) );
-		}else{
-			criteria.add( Restrictions.eq("settoreIntervento.id", Integer.valueOf(filtri.getIdAreaIntervento())) );
-		}
-		
-		if( filtri.getIdSottosettoreIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("sottosettoreIntervento.id", Integer.valueOf(filtri.getIdSottosettoreIntervento())) );
-		}else{
-			criteria.add( Restrictions.eq("sottosettoreIntervento.id", Integer.valueOf(filtri.getIdSottosettoreIntervento())) );
-		}
-		
-		if( filtri.getIdCategoriaIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("categoriaIntervento.id", Integer.valueOf(filtri.getIdCategoriaIntervento())) );
-		}else{
-			criteria.add( Restrictions.eq("categoriaIntervento.id", Integer.valueOf(filtri.getIdCategoriaIntervento())) );
-		}
-		
-		if( filtri.getIdStatoProgetto().equals("0") ){
-			criteria.add( Restrictions.ge("statoProgetto.id", Integer.valueOf(filtri.getIdStatoProgetto())) );
-		}else{
-			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(filtri.getIdStatoProgetto())) );
+			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaProgetti.getIdStatoProgetto())) );
 		}	
 		
-		if( filtri.getIdTipologiaIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaIntervento())) );
+		if( navigaProgetti.getIdTipologiaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(navigaProgetti.getIdTipologiaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaIntervento())) );
+			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaProgetti.getIdTipologiaIntervento())) );
 		}	
 		
-		if( filtri.getIdCategoriaSoggetto().equals("0") ){
-			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(filtri.getIdCategoriaSoggetto())) );
+		if( navigaProgetti.getIdCategoriaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdCategoriaSoggetto())) );
 		}else{
-			criteria.add( Restrictions.eq("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(filtri.getIdCategoriaSoggetto())) );
+			criteria.add( Restrictions.eq("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdCategoriaSoggetto())) );
 		}	
 
-		if( filtri.getIdSottoCategoriaSoggetto().equals("0") ){
-			criteria.add( Restrictions.ge("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(filtri.getIdSottoCategoriaSoggetto())) );
+		if( navigaProgetti.getIdSottoCategoriaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
 		}else{
-			criteria.add( Restrictions.eq("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(filtri.getIdSottoCategoriaSoggetto())) );
+			criteria.add( Restrictions.eq("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
 		}
 		
 		
 		return criteria;
 	}
 	
-	public List<Progetti> findElencoProgetti(NavigaAggregata filtri) {
+	public List<Progetti> findElencoProgetti(NavigaProgetti filtri) {
 		
 		return this.findElencoProgetti(filtri, "id", "desc");
 		
 	}
 
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public List<Progetti> findElencoProgetti(NavigaAggregata filtri, String orderByCol, String orderByType) {
+	public List<Progetti> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType) {
 		
 		Criteria criteria = buildCriteria(filtri);
 
@@ -201,39 +205,49 @@ public class ProgettiFacade {
 		Progetti p = null;
 		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
 		categoriaIntervento.setDescCategoriaIntervento("CATEGORIA INTERVENTO");
-
+		
+		AnnoDecisione annoDecisione = new AnnoDecisione();
+		annoDecisione.setAnnoDadeAnnoDecisione("2013");
+		
+		Comune comune = new Comune();
+		comune.setDescComune("ROMA");
+		
+		CupLocalizzazione cupLocalizzazione = new CupLocalizzazione();
+		cupLocalizzazione.setComune(comune);
+		
+		List<CupLocalizzazione> lCupLocalizzazione = new ArrayList<CupLocalizzazione>();
+		
+		AnagraficaCup anagraficaCup = new AnagraficaCup();
+		lCupLocalizzazione.add(cupLocalizzazione);
+		anagraficaCup.setCupLocalizzazione(lCupLocalizzazione);
+		
+		
 		for(int i=0 ; i<10 ; i++){
 			p = new Progetti();
 			p.setId(index++);
-			p.setAnnoAnnoDecisione("2013");
 			p.setImpoCostoProgetto(1.1);
 			p.setImpoImportoFinanziato(2);
-			p.setTextStato("OPERATIVO");
-			p.setTextComune("ROMA");
 			p.setCategoriaIntervento(categoriaIntervento);
-			p.setTextCoperFinanz("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
+			p.setAnnoDecisione(annoDecisione);
+			p.setAnagraficaCup(anagraficaCup);
 			retval.add(p);
 	
 			p = new Progetti();
 			p.setId(index++);
-			p.setAnnoAnnoDecisione("2014");
 			p.setImpoCostoProgetto(3.3);
 			p.setImpoImportoFinanziato(4);
-			p.setTextStato("OPERATIVO");
-			p.setTextComune("MARINO");
 			p.setCategoriaIntervento(categoriaIntervento);
-			p.setTextCoperFinanz("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
+			p.setAnnoDecisione(annoDecisione);
+			p.setAnagraficaCup(anagraficaCup);
 			retval.add(p);
 	
 			p = new Progetti();
 			p.setId(index++);
-			p.setAnnoAnnoDecisione("2015");
 			p.setImpoCostoProgetto(5.5);
 			p.setImpoImportoFinanziato(6);
-			p.setTextStato("OPERATIVO");
-			p.setTextComune("FRASCATI");
 			p.setCategoriaIntervento(categoriaIntervento);
-			p.setTextCoperFinanz("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
+			p.setAnnoDecisione(annoDecisione);
+			p.setAnagraficaCup(anagraficaCup);
 			retval.add(p);
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

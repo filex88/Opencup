@@ -81,9 +81,12 @@
 	border-color: #3C79B7 !important;
 }
 
-.remove-circle-filtri{
-	cursor: pointer;
+.vertical-align-middle{
 	vertical-align: middle !important;
+}
+
+.cursor-pointer{
+	cursor: pointer;
 }
 
 
@@ -130,3 +133,45 @@
 	font-size: 0.7em;
 }
 
+.classificazione-portlet1 #tooltip-classificazione-portlet1 {
+	position: absolute;
+	width: 200px;
+	height: auto;
+	padding: 10px;
+	background-color: #ffffff;
+	border: 2px solid #5b5955;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;
+}
+
+.classificazione-portlet1 #tooltip-classificazione-portlet1.hidden {
+	display: none;
+}
+
+.classificazione-portlet1 #tooltip-classificazione-portlet1 p {
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+.classificazione-portlet1 .underline {
+	border-bottom: 1px solid;
+	border-color: #004383;
+}
+
+.classificazione-portlet1 .ricerca .control-group .control-label {
+	padding-top:inherit;
+	font-weight: bold;
+	padding-left: 10px;
+  	padding-bottom: 5px;
+}
+.classificazione-portlet1 .ricerca .control-group span {
+	padding-top:5px;
+	margin-bottom: 5px;
+}

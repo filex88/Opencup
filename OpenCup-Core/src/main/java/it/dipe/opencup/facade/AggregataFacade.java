@@ -23,6 +23,7 @@ import it.dipe.opencup.dao.TipologiaInterventoDAO;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
+import it.dipe.opencup.model.AnnoAggregato;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
@@ -295,28 +296,6 @@ public class AggregataFacade {
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
 	}
-	
-//	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-//	public int countAggregataByNatura(NavigaAggregata navigaAggregata) { 
-//		//return aggregataDAO.countByCriteria(bildCriteriaByNatura(navigaAggregata));
-//		//Non posso usare il metodo count del dao perchè devo eseguire la caunt 
-//		return findAggregataByNatura(navigaAggregata).size();
-//		
-//	}
-//	
-//	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-//	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, int page, String orderByCol, String orderByType) {
-//		
-//		Criteria criteriaByNatura = bildCriteriaByNatura(navigaAggregata);
-//		if("asc".equals(orderByType))
-//			criteriaByNatura.addOrder(Order.asc(orderByCol));
-//		else
-//			criteriaByNatura.addOrder(Order.desc(orderByCol));
-//
-//		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteriaByNatura, page);
-//		
-//		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
-//	}
 
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Regione> findRegioni() {
@@ -388,6 +367,19 @@ public class AggregataFacade {
 		criteria.addOrder(Order.asc("annoDadeAnnoDecisione"));
 		
 		retval = annoDecisioneDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<AnnoAggregato> findAnnoAggregato() {
+		List<AnnoAggregato> retval = new ArrayList<AnnoAggregato>();
+		
+		Criteria criteria = annoAggregatoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("annoAggregato"));
+		
+		retval = annoAggregatoDAO.findByCriteria(criteria);
 		
 		return retval;
 	}
@@ -480,30 +472,45 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public List<SottosettoreIntervento> findSottosettoreBySettore(Integer idSettore) {
+	public List<AreaIntervento> findAreaIntervento() {
+		List<AreaIntervento> retval = new ArrayList<AreaIntervento>();
+		
+		Criteria criteria = areaInterventoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+
+		criteria.addOrder(Order.asc("descAreaIntervento"));
+		
+		retval = areaInterventoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<SottosettoreIntervento> findSottosettoreByArea(Integer idArea) {
 		List<SottosettoreIntervento> retval = new ArrayList<SottosettoreIntervento>();
 		
 		Criteria criteria = sottosettoreInterventoDAO.newCriteria();
-		criteria.createAlias("settoreIntervento", "settoreIntervento");
+		criteria.createAlias("settoreIntervento.areaIntervento", "area");
 		criteria.add( Restrictions.ne("id", -1) );
-		criteria.add( Restrictions.eq("settoreIntervento.id", idSettore) );
+		criteria.add( Restrictions.eq("area.id", idArea) );
 		criteria.addOrder(Order.asc("descSottosettoreInt"));
 
 		retval = sottosettoreInterventoDAO.findByCriteria(criteria);
 		
 		return retval;
 	}
-
+	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public List<CategoriaIntervento> findCategoriaInterventoBySettoreSottosettore(Integer idSettore, Integer idSottosettore) {
+	public List<CategoriaIntervento> findCategoriaInterventoByAreaSottosettore(Integer idArea, Integer idSottosettore) {
 		List<CategoriaIntervento> retval = new ArrayList<CategoriaIntervento>();
 		
 		Criteria criteria = categoriaInterventoDAO.newCriteria();
-		criteria.createAlias("settoreIntervento", "settoreIntervento");
+		criteria.createAlias("settoreIntervento.areaIntervento", "area");
 		criteria.createAlias("sottosettoreIntervento", "sottosettoreIntervento");
 		criteria.add( Restrictions.ne("id", -1) );
-		criteria.add( Restrictions.eq("settoreIntervento.id", idSettore) );
+		criteria.add( Restrictions.eq("area.id", idArea) );
 		criteria.add( Restrictions.eq("sottosettoreIntervento.id", idSottosettore) );
 		criteria.addOrder(Order.asc("descCategoriaIntervento"));
 
@@ -615,7 +622,6 @@ public class AggregataFacade {
 		return areaInterventoDAO.findById(valueOf);
 	}
 	
-	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public SottosettoreIntervento findSottosettoreIntervento(Integer valueOf) {
 		return sottosettoreInterventoDAO.findById(valueOf);
@@ -631,67 +637,24 @@ public class AggregataFacade {
 		return annoDecisioneDAO.findById(valueOf);
 	}
 	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<SottocategoriaSoggetto> findSottocategoriaSoggetto(Integer idCategoriaSoggetto) {
+		List<SottocategoriaSoggetto> retval = new ArrayList<SottocategoriaSoggetto>();
 
-//	public List<Natura> findNaturaAll() {
-//		List<String> order = new ArrayList<String>();
-//		order.add("descNatura");
-//		return naturaDAO.findAll(order);
-//	}
-//	
-//	public List<Natura> findNaturaAll(int page) {
-//		List<String> order = new ArrayList<String>();
-//		order.add("descNatura");
-//		return naturaDAO.findAll(page, order);
-//	}
-//	
-//	public int countNaturaAll() {
-//		return naturaDAO.countAll();
-//	}
+		Criteria criteria = sottocategoriaSoggettoDAO.newCriteria();
+		
+		criteria.createAlias("categoriaSoggetto", "categoriaSoggetto");
+		
+		criteria.add( Restrictions.ne("codiSottocategSoggetto", "0000") );
+		criteria.add( Restrictions.ne("id", -1) );
+		
+		criteria.add( Restrictions.eq("categoriaSoggetto.id", idCategoriaSoggetto) );
+		
+		criteria.addOrder(Order.asc("descSottocategSoggetto"));
+		//Estraggo le altre regioni ordinate per nome
+		retval.addAll(sottocategoriaSoggettoDAO.findByCriteria(criteria));
 
-//	public List<AggregataDTO> findAggregataByNatura() {
-//		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-//		Localizzazione italia = findLocalizzazioneItalia();
-//		for( Natura tmp: findNaturaAll()  ){
-//			aggregatiPerNatura(retval, italia, tmp);
-//		}
-//		return retval;
-//	}
-	
-//	public List<AggregataDTO> findAggregataByNatura(int page, String orderByCol, String orderByType) {
-//		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
-//		Localizzazione italia = findLocalizzazioneItalia();
-//		for( Natura tmp: findNaturaAll(page)  ){
-//			aggregatiPerNatura(retval, italia, tmp);
-//		}
-//		return retval;
-//	}
-
-//	private Localizzazione findLocalizzazioneItalia() {
-//		Criteria criteria;
-//		criteria = localizzazioneDAO.newCriteria();
-//		dmUtils.criteriaBinder(criteria,  Constants.LOCALIZZAZIONE_AREA_GEOGRAFICA_ID, -1, Constants.LOCALIZZAZIONE_STATO_ID, Constants.LOCALIZZAZIONE_ID_ITALIA, Constants.LOCALIZZAZIONE_REGIONE_ID, -1, Constants.LOCALIZZAZIONE_PROVINCIA_ID, -1);
-//		Localizzazione italia = localizzazioneDAO.findByCriteria(criteria).get(0);
-//		return italia;
-//	}
-//
-//	private void aggregatiPerNatura(List<AggregataDTO> retval, Localizzazione italia, Natura tmp) {
-//		AggregataDTO ele;
-//		List<Aggregata> lista_aggregata;
-//		List<Classificazione> lista_classificazione;
-//		Criteria criteria;
-//		criteria = classificazioneDAO.newCriteria();
-//		dmUtils.criteriaBinder(criteria, Constants.CLASSIFICAZIONE_NATURA_ID, tmp.getId(), Constants.CLASSIFICAZIONE_CATEGORIA_INTERVANTO_NATURA_ID, -1, Constants.CLASSIFICAZIONE_SETTORE_INTERVANTO_NATURA_ID, -1, Constants.CLASSIFICAZIONE_SOTTOSETTORE_INTERVANTO_NATURA_ID, -1);
-//		lista_classificazione = classificazioneDAO.findByCriteria(criteria);
-//		
-//		if( lista_classificazione.size() > 0 ){
-//			criteria = aggregataDAO.newCriteria();
-//			dmUtils.criteriaBinder( criteria, Constants.LOCALIZZAZIONE_ID, italia.getId() , Constants.CLASSIFICAZIONE_ID, lista_classificazione.get(0).getId(), Constants.ANNO_DECISIONE_ID, -1 );
-//			lista_aggregata = aggregataDAO.findByCriteria(criteria);
-//			if(lista_aggregata.size() > 0){
-//				ele = new AggregataDTO(lista_aggregata.get(0));
-//				retval.add(ele);
-//			}
-//		}
-//	}
+		return retval;
+	}
 	
 }

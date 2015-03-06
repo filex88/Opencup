@@ -52,6 +52,10 @@ public class CupLocalizzazione extends AbstractCommonEntity implements Serializa
 	@ManyToOne(targetEntity = AreaGeografica.class)
 	@JoinColumn(name = "FK_ACLO_DAGE_ID", referencedColumnName = "SEQU_DAGE_ID")
 	private AreaGeografica areaGeografica;
+	
+	@ManyToOne(targetEntity = AnagraficaCup.class)
+	@JoinColumn(name = "FK_ACLO_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
+	private AnagraficaCup anagraficaCup;
 
 
 	public Integer getId() {
@@ -124,6 +128,16 @@ public class CupLocalizzazione extends AbstractCommonEntity implements Serializa
 	}
 
 	
+	public AnagraficaCup getAnagraficaCup() {
+		return anagraficaCup;
+	}
+
+
+	public void setAnagraficaCup(AnagraficaCup anagraficaCup) {
+		this.anagraficaCup = anagraficaCup;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
