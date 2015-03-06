@@ -7,6 +7,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,8 +23,11 @@ public class SettoreIntervento extends AbstractCommonEntity implements Serializa
 	@Id
 	@Column(name = "SEQU_DSIN_ID")
 	private Integer id;
-	 
 
+	@ManyToOne(targetEntity = AreaIntervento.class)
+	@JoinColumn(name = "FK_DSIN_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
+	private AreaIntervento areaIntervento;
+	
 	@Column(name = "CODI_DSIN_SETTORE_INTERVENTO", length = 2)
 	private String codiSettoreIntervento;
 	 
@@ -58,6 +63,16 @@ public class SettoreIntervento extends AbstractCommonEntity implements Serializa
 
 	public void setDescSettoreIntervento(String descSettoreIntervento) {
 		this.descSettoreIntervento = descSettoreIntervento;
+	}
+
+
+	public AreaIntervento getAreaIntervento() {
+		return areaIntervento;
+	}
+
+
+	public void setAreaIntervento(AreaIntervento areaIntervento) {
+		this.areaIntervento = areaIntervento;
 	}
 
 

@@ -5,6 +5,7 @@ import it.dipe.opencup.dao.ProgettiDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaAggregata;
+import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.Progetti;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ProgettiFacade {
 	@Autowired
 	private ComuneDAO comuneDAO;
 	
-	private Criteria bildCriteria(NavigaAggregata filtri) {
+	private Criteria buildCriteria(NavigaAggregata filtri) {
 		Criteria criteria = progettiDAO.newCriteria();
 		
 		criteria.setProjection(	Projections.projectionList()
@@ -82,14 +83,12 @@ public class ProgettiFacade {
 		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
 		criteria.createAlias("statoProgetto", "statoProgetto");
 		
-		
-		
 		criteria.createAlias("cupLocalizzazioni", "cupLocalizzazioni");
 		
-		if( filtri.getIdAnnoDecisiones() != null && filtri.getIdAnnoDecisiones().size() > 0 ){
-			if( ! filtri.getIdAnnoDecisiones().contains("-1") ){
+		if( filtri.getIdAnnoAggregatos() != null && filtri.getIdAnnoAggregatos().size() > 0 ){
+			if( ! filtri.getIdAnnoAggregatos().contains("-1") ){
 				Disjunction or = Restrictions.disjunction();
-				for( String tmp : filtri.getIdAnnoDecisiones() ){
+				for( String tmp : filtri.getIdAnnoAggregatos() ){
 					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
 				}
 				criteria.add(or);
@@ -132,10 +131,10 @@ public class ProgettiFacade {
 			criteria.add( Restrictions.eq("natura.id", Integer.valueOf(filtri.getIdNatura())) );
 		}
 		
-		if( filtri.getIdSettoreIntervento().equals("0") ){
-			criteria.add( Restrictions.ge("settoreIntervento.id", Integer.valueOf(filtri.getIdSettoreIntervento())) );
+		if( filtri.getIdAreaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("settoreIntervento.id", Integer.valueOf(filtri.getIdAreaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("settoreIntervento.id", Integer.valueOf(filtri.getIdSettoreIntervento())) );
+			criteria.add( Restrictions.eq("settoreIntervento.id", Integer.valueOf(filtri.getIdAreaIntervento())) );
 		}
 		
 		if( filtri.getIdSottosettoreIntervento().equals("0") ){
@@ -156,10 +155,10 @@ public class ProgettiFacade {
 			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(filtri.getIdStatoProgetto())) );
 		}	
 		
-		if( filtri.getIdTipologiaInterventi().equals("0") ){
-			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaInterventi())) );
+		if( filtri.getIdTipologiaIntervento().equals("0") ){
+			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaIntervento())) );
 		}else{
-			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaInterventi())) );
+			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(filtri.getIdTipologiaIntervento())) );
 		}	
 		
 		if( filtri.getIdCategoriaSoggetto().equals("0") ){
@@ -178,14 +177,66 @@ public class ProgettiFacade {
 		return criteria;
 	}
 	
-	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<Progetti> findElencoProgetti(NavigaAggregata filtri) {
 		
-		Criteria criteria = bildCriteria(filtri);
+		return this.findElencoProgetti(filtri, "id", "desc");
 		
-		criteria.addOrder(Order.desc("id"));
+	}
+
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<Progetti> findElencoProgetti(NavigaAggregata filtri, String orderByCol, String orderByType) {
+		
+		Criteria criteria = buildCriteria(filtri);
+
+		if("asc".equals(orderByType))
+			criteria.addOrder(Order.asc(orderByCol));
+		else
+			criteria.addOrder(Order.desc(orderByCol));
 		
 		List<Progetti> retval = progettiDAO.findByCriteria(criteria);
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		int index = 0;
+		
+		Progetti p = null;
+		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
+		categoriaIntervento.setDescCategoriaIntervento("CATEGORIA INTERVENTO");
+
+		for(int i=0 ; i<10 ; i++){
+			p = new Progetti();
+			p.setId(index++);
+			p.setAnnoAnnoDecisione("2013");
+			p.setImpoCostoProgetto(1.1);
+			p.setImpoImportoFinanziato(2);
+			p.setTextStato("OPERATIVO");
+			p.setTextComune("ROMA");
+			p.setCategoriaIntervento(categoriaIntervento);
+			p.setTextCoperFinanz("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
+			retval.add(p);
+	
+			p = new Progetti();
+			p.setId(index++);
+			p.setAnnoAnnoDecisione("2014");
+			p.setImpoCostoProgetto(3.3);
+			p.setImpoImportoFinanziato(4);
+			p.setTextStato("OPERATIVO");
+			p.setTextComune("MARINO");
+			p.setCategoriaIntervento(categoriaIntervento);
+			p.setTextCoperFinanz("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
+			retval.add(p);
+	
+			p = new Progetti();
+			p.setId(index++);
+			p.setAnnoAnnoDecisione("2015");
+			p.setImpoCostoProgetto(5.5);
+			p.setImpoImportoFinanziato(6);
+			p.setTextStato("OPERATIVO");
+			p.setTextComune("FRASCATI");
+			p.setCategoriaIntervento(categoriaIntervento);
+			p.setTextCoperFinanz("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
+			retval.add(p);
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		return retval;
 	}

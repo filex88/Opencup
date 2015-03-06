@@ -3,6 +3,46 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
 	version="2.0">
+	
+	<portlet id="classificazione-portlet1">
+		<portlet-name>classificazione-portlet1</portlet-name>
+		<display-name>Classificazione</display-name>
+
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/classificazione-portlet1.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>Classificazione1-language</resource-bundle>
+		<portlet-info>
+			<title>Classificazione</title>
+			<short-title></short-title>
+			<keywords>Classificazione</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>portlet-setup-show-borders</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	
 	<portlet id="natura-portlet1">
 		<portlet-name>natura-portlet1</portlet-name>
 		<display-name>Distribuzione percentuale</display-name>
@@ -40,7 +80,7 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-
+<!-- 
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		</supported-processing-event>
@@ -52,7 +92,7 @@
 		<supported-publishing-event>
 			<qname xmlns:publishName="http:eventNavigaClassificazionePie/events">publishName:event.navigaClassificazionePie</qname>
 		</supported-publishing-event>
-
+ -->
 	</portlet>
 
 	<portlet id="natura-portlet2">
@@ -91,7 +131,7 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-
+<!-- 
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventNavigaClassificazionePie/events">publishName:event.navigaClassificazionePie</qname>
 		</supported-processing-event>
@@ -103,7 +143,7 @@
 		<supported-publishing-event>
 			<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		</supported-publishing-event>
-
+ -->
 	</portlet>
 
 	<portlet id="natura-portlet3">
@@ -143,7 +183,7 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-
+<!--
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		</supported-processing-event>
@@ -155,7 +195,7 @@
 		<supported-processing-event>
 			<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		</supported-processing-event>
-
+-->
 	</portlet>
 	
 	<portlet id="natura-portlet-ricerca">
@@ -195,11 +235,11 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
+<!--		
 		<supported-publishing-event>
 			<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		</supported-publishing-event>
-
+-->
 	</portlet>
 	
 	<portlet id="elenco-progetti-portlet">
@@ -372,7 +412,7 @@
 		</security-role-ref>
 
 	</portlet>
-
+<!--
 	<event-definition>
 		<qname xmlns:publishName="http:eventNavigaClassificazione/events">publishName:event.navigaClassificazione</qname>
 		<value-type>valueobject.Name</value-type>
@@ -387,5 +427,5 @@
 		<qname xmlns:publishName="http:eventFiltraClassificazione/events">publishName:event.filtraClassificazione</qname>
 		<value-type>valueobject.Name</value-type>
 	</event-definition>
-
+-->
 </portlet-app>

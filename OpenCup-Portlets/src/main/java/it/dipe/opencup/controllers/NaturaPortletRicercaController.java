@@ -1,38 +1,20 @@
 package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.NaturaPortletCommonController;
-import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
-import it.dipe.opencup.model.AnnoDecisione;
-import it.dipe.opencup.model.CategoriaSoggetto;
-import it.dipe.opencup.model.Comune;
-import it.dipe.opencup.model.Provincia;
-import it.dipe.opencup.model.Regione;
-import it.dipe.opencup.model.SottocategoriaSoggetto;
-import it.dipe.opencup.model.StatoProgetto;
-import it.dipe.opencup.model.TipologiaIntervento;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.liferay.portal.util.PortalUtil;
 
@@ -40,12 +22,116 @@ import com.liferay.portal.util.PortalUtil;
 @RequestMapping("VIEW")
 public class NaturaPortletRicercaController extends NaturaPortletCommonController {
 	
-	@ModelAttribute("modelAttrNaturaRicerca")
-	public NavigaAggregata modelAttrNaturaRicerca() {
-		return super.sessionAttr();
+	@RenderMapping
+	public String handleRenderRequest(	RenderRequest request, 
+										RenderResponse response, 
+										Model model,
+										@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
+
+		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+		modelAttrNaturaRicerca = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+		
+		impostaDesFiltriImpostati(modelAttrNaturaRicerca);
+
+		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
+
+		return "natura-ricerca-view";
 	}
-	
-	
+
+	private void impostaDesFiltriImpostati( NavigaAggregata filtro ) {
+		
+		if( Integer.valueOf( filtro.getIdAreaGeografica() ) > 0 ){
+			filtro.setDescAreaGeografica( aggregataFacade.findAreaGeografica(Integer.valueOf( filtro.getIdAreaGeografica() )).getDescAreaGeografica() );
+		}else{
+			filtro.setDescAreaGeografica(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdRegione() ) > 0 ){
+			filtro.setDescRegione( aggregataFacade.findRegione(Integer.valueOf( filtro.getIdRegione() )).getDescRegione() );
+		}else{
+			filtro.setDescRegione(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdProvincia() ) > 0 ){
+			filtro.setDescProvincia( aggregataFacade.findProvincia( Integer.valueOf( filtro.getIdProvincia() )).getDescProvincia() );
+		}else{
+			filtro.setDescProvincia(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdComune() ) > 0 ){
+			filtro.setDescComune( aggregataFacade.findComune(Integer.valueOf( filtro.getIdComune() )).getDescComune() );
+		}else{
+			filtro.setDescComune(null);
+		}
+		
+		String lDescAnno = "";
+		if( 	(		(filtro.getIdAnnoAggregatos().size() == 1) &&
+						(Integer.valueOf( filtro.getIdAnnoAggregatos().get(0) ) > 0)
+				) || (
+						(filtro.getIdAnnoAggregatos().size() > 1) &&
+						(Integer.valueOf( filtro.getIdAnnoAggregatos().get(1) ) > 0)	)	
+		){
+			for(String tmp: filtro.getIdAnnoAggregatos()){
+				if( "".equals(lDescAnno) ){
+					lDescAnno = (aggregataFacade.findAnniDecisione(Integer.valueOf( tmp )) ).getAnnoDadeAnnoDecisione();
+				}else{
+					lDescAnno = lDescAnno + ", " + (aggregataFacade.findAnniDecisione(Integer.valueOf( tmp )) ).getAnnoDadeAnnoDecisione();
+				}
+			}
+		}
+		filtro.setDescAnnoAggregatos( "".equals(lDescAnno)?null:lDescAnno );
+		
+		if( Integer.valueOf( filtro.getIdTipologiaIntervento() ) > 0 ){
+			filtro.setDescTipologiaIntervento( aggregataFacade.findTipologiaIntervento(Integer.valueOf( filtro.getIdTipologiaIntervento() )).getDescTipologiaIntervento() );
+		}else{
+			filtro.setDescTipologiaIntervento(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdStatoProgetto() ) > 0 ){
+			filtro.setDescStatoProgetto( aggregataFacade.findStatoProgetto( Integer.valueOf( filtro.getIdStatoProgetto() )).getDescStatoProgetto() );
+		}else{
+			filtro.setDescStatoProgetto(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdCategoriaSoggetto() ) > 0 ){
+			filtro.setDescCategoriaSoggetto( aggregataFacade.findCategoriaSoggetto(Integer.valueOf( filtro.getIdCategoriaSoggetto() )).getDescCategoriaSoggetto() );
+		}else{
+			filtro.setDescCategoriaSoggetto(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdSottoCategoriaSoggetto() ) > 0 ){
+			filtro.setDescSottoCategoriaSoggetto( aggregataFacade.findSottoCategoriaSoggetto(Integer.valueOf( filtro.getIdSottoCategoriaSoggetto() )).getDescSottocategSoggetto() );
+		}else{
+			filtro.setDescSottoCategoriaSoggetto(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdNatura() ) > 0 ){
+			filtro.setDescNatura( aggregataFacade.findNatura(Integer.valueOf( filtro.getIdNatura() )).getDescNatura() );
+		}else{
+			filtro.setDescNatura(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdAreaIntervento() ) > 0 ){
+			filtro.setDescAreaIntervento( aggregataFacade.findSettoreIntervento(Integer.valueOf( filtro.getIdAreaIntervento() )).getDescSettoreIntervento() );
+		}else{
+			filtro.setDescAreaIntervento(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdSottosettoreIntervento() ) > 0 ){
+			filtro.setDescSottosettoreIntervento( aggregataFacade.findSottosettoreIntervento(Integer.valueOf( filtro.getIdSottosettoreIntervento() )).getDescSottosettoreInt() );
+		}else{
+			filtro.setDescSottosettoreIntervento(null);
+		}
+		
+		if( Integer.valueOf( filtro.getIdCategoriaIntervento() ) > 0 ){
+			filtro.setDescCategoriaIntervento( aggregataFacade.findCategoriaIntervento(Integer.valueOf( filtro.getIdCategoriaIntervento() )).getDescCategoriaIntervento() );
+		}else{
+			filtro.setDescCategoriaIntervento(null);
+		}
+		
+	}
+
+
 	@RenderMapping(params="action=affinaricerca")
 	public String handleRenderRicercaRequest(	RenderRequest request, 
 												RenderResponse response, 
@@ -53,112 +139,23 @@ public class NaturaPortletRicercaController extends NaturaPortletCommonControlle
 												@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		modelAttrNaturaRicerca = (session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE)==null)?new NavigaAggregata():(NavigaAggregata) session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
-		
-		//Carico la lista delle regioni
-		List<Regione> listRegione = aggregataFacade.findRegioni();
-		model.addAttribute("listRegione", listRegione);
-		
-		if( ! "-1".equals( modelAttrNaturaRicerca.getIdRegione() ) ){
-			//Regione selezionata carico le Province
-			List<Provincia> listProvincia = aggregataFacade.findProvinciaByIdRegione(Integer.valueOf( modelAttrNaturaRicerca.getIdRegione() ));
-			model.addAttribute("listProvincia", listProvincia);
-		}
-		
-		if( ! "-1".equals( modelAttrNaturaRicerca.getIdProvincia() ) ){
-			//Provincia selezionata carico i Comuni
-			List<Comune> listComune = aggregataFacade.findComuneByIdProvincia(Integer.valueOf( modelAttrNaturaRicerca.getIdProvincia() ));
-			model.addAttribute("listComune", listComune);
-		}
-		
-		//Carico la lista degli Anni Decisione
-		List<AnnoDecisione> listaAnnoDecisione = aggregataFacade.findAnniDecisione();
-		model.addAttribute("listaAnnoDecisione", listaAnnoDecisione);
-		
-		//Carico la lista delle Tipologia Intervento
-		List<TipologiaIntervento> listaTipologiaIntervento = aggregataFacade.findTipologiaIntervento();
-		model.addAttribute("listaTipologiaIntervento", listaTipologiaIntervento);
-		
-		//Carico la lista degli Stato Progetto
-		List<StatoProgetto> listaStatoProgetto = aggregataFacade.findStatoProgetto();
-		model.addAttribute("listaStatoProgetto", listaStatoProgetto);
-		
-		//Carico la lista della Categoria Soggetto
-		List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggetto();
-		model.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
-		
-		//Carico la lista della Sottocategoria Soggetto
-		List<SottocategoriaSoggetto> listSottoCategoriaSoggetto = aggregataFacade.findSottocategoriaSoggetto();
-		model.addAttribute("listSottoCategoriaSoggetto", listSottoCategoriaSoggetto);
-		
+		modelAttrNaturaRicerca = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+
+		initInModelMascheraRicerca(model, modelAttrNaturaRicerca);
+
 		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
-				
+
 		return "natura-ricerca-content";
 	}
 	
-	@RenderMapping
-	public String handleRenderRequest(	RenderRequest request, 
-										RenderResponse response, 
-										Model model, 
-										@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
-		
-		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		modelAttrNaturaRicerca = (session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE)==null)?new NavigaAggregata():(NavigaAggregata) session.getAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
-		
-		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
-		
-		return "natura-ricerca-view";
-	}
-	
-	
-	@ResourceMapping(value =  "loadProvinciaByRegione")	
-	public View loadProvinciaByRegione(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
-		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
-		
-		List<FiltroRicercaDTO> provincie = new ArrayList<FiltroRicercaDTO>();
-		FiltroRicercaDTO ele = null;
-		for(Provincia provincia : aggregataFacade.findProvinciaByIdRegione(pattern)){
-			ele = new FiltroRicercaDTO();
-			ele.setId( provincia.getId() );
-			ele.setLabel( provincia.getDescProvincia() );
-			provincie.add(ele);
-		}
-		
-		view.addStaticAttribute("lista", provincie);
-		return view;
-	}
-	
-	@ResourceMapping(value =  "loadComuniByProvincia")	
-	public View loadComuniByProvincia(ResourceRequest request, @RequestParam("pattern") Integer pattern, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
-		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
-		
-		List<FiltroRicercaDTO> provincie = new ArrayList<FiltroRicercaDTO>();
-		FiltroRicercaDTO ele = null;
-		for(Comune provincia : aggregataFacade.findComuneByIdProvincia(pattern)){
-			ele = new FiltroRicercaDTO();
-			ele.setId( provincia.getId() );
-			ele.setLabel( provincia.getDescComune() );
-			provincie.add(ele);
-		}
-		
-		view.addStaticAttribute("lista", provincie);
-		return view;
-	}
-	
 	@ActionMapping(params="action=ricerca")
-	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model, @ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
-		
+	public void actionPublishEvent(	ActionRequest aRequest, 
+									ActionResponse aResponse, 
+									Model model, 
+									@ModelAttribute("modelAttrNaturaRicerca") NavigaAggregata modelAttrNaturaRicerca){
+		//Metto in sessione il filtro
 		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
-		session.setAttribute(NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE, modelAttrNaturaRicerca);
-		
-		QName eventName = new QName( "http:eventFiltraClassificazione/events", "event.filtraClassificazione");
-
-		model.addAttribute("modelAttrNaturaRicerca", modelAttrNaturaRicerca);
-		
-		//Setto l'evento con i parametri letti dalla Query string 
-		aResponse.setEvent( eventName, modelAttrNaturaRicerca );
+		session.setAttribute(SESSION_FILTRI_RICERCA, modelAttrNaturaRicerca);
 	}
 
 }

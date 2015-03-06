@@ -100,5 +100,65 @@
 	background-image: none;
     outline: 0;
     box-shadow:inset 0 2px 4px rgba(0,0,0,.40), 0 1px 2px rgba(0,0,0,.05);
+
+.no-margin-bottom {
+	margin-bottom: 0px !important;
+}
+
+
+.riepilogo-filtri {
+	padding: 6px !important;
+	background-color: #4C9AED !important;
+	border-color: #3C79B7 !important;
+}
+
+.remove-circle-filtri{
+	cursor: pointer;
+	vertical-align: middle !important;
+}
+
+
+.affina-ricerca-natura .icon-filter {
+	position:relative; 
+	text-decoration:none;
+}
+
+.affina-ricerca-natura .icon-filter > .icon-circle {
+	font-size: 1em;
+}
+
+.affina-ricerca-natura .icon-filter > .icon-light {
+	font-size: 0.7em;
+}
+
+.affina-ricerca-natura #notifBadge {
+	color: #cb4437; 
+	text-decoration: none; 
+	position: absolute; 
+	top: -11px; 
+	right: -10px; 
+	display: none;
+}
+
+
+
+.utente .icon-bell-alt {
+	position:relative; 
+	text-decoration:none;
+}
+
+.utente #notifBadge {
+	color: #cb4437; 
+	text-decoration: none; 
+	position: absolute; 
+}
+
+.utente .icon-stack > .icon-circle {
+	font-size: 1em;
+}
+
+.utente .icon-stack > .icon-light {
+	font-size: 0.7em;
+
 }
 

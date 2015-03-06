@@ -8,20 +8,13 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.EventRequest;
-import javax.portlet.EventResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -31,24 +24,14 @@ import com.liferay.portal.kernel.util.Validator;
 
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("sessionAttrNaturaNav")
 public class NaturaPortlet2Controller extends NaturaPortletCommonController {
-	
-	@ModelAttribute("sessionAttrNaturaNav")
-	public NavigaAggregata sessionAttrNaturaNav() {
-		return super.sessionAttr();
-	}
 	
 	@RenderMapping
 	public String handleRenderRequest(RenderRequest renderRequest, 
-									  RenderResponse responseRequest, 
-									  Model model, 
-									  @RequestParam(required = false) String[] pNavigaClassificazione,
-									  @RequestParam(required = false) String[] pFiltriRicerca,
-									  @RequestParam(required = false) String[] pFiltriRicercAnni,
-									  @ModelAttribute("sessionAttrNaturaNav") NavigaAggregata sessionAttrNaturaNav){
+									  RenderResponse renderResponse, 
+									  Model model){
 				
-		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaNav, NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
+		NavigaAggregata sessionAttrNaturaNav = initRender(renderRequest);
 		
 		/*
 		 * Tramite gli elementi RowIdLiv si determina l apagina da caricare, questi elementi possono assumere 3 tipi di valore:
@@ -70,9 +53,16 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
 		    orderByType = "asc";
 		}
-
-		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(renderRequest, responseRequest.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-		searchContainer.setDelta(maxResult);
+		
+		//delta
+		String sDelta = ParamUtil.getString(renderRequest, "delta");
+		int delta = maxResult;
+		if( ! ( Validator.isNull(sDelta) || Validator.equals("", sDelta) ) ){
+		    delta = Integer.parseInt(sDelta);
+		}
+		
+		SearchContainer<AggregataDTO> searchContainer = new SearchContainer<AggregataDTO>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+		searchContainer.setDelta(delta);
 		
 		searchContainer.setOrderByCol(orderByCol);
 		searchContainer.setOrderByType(orderByType);
@@ -97,23 +87,7 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 	}
 
 	@ActionMapping(params="action=PublishEvent")
-	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
-		
-		//Gestione del click sul link della tabella
-		String nomeAttr = "sessionAttrNaturaNav";
-		QName eventName = new QName( "http:eventNavigaClassificazione/events", "event.navigaClassificazione");
-		
-		publishEvent(aRequest, aResponse, model, nomeAttr, eventName);
+	public void actionPublishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
+		publishEvent(aRequest);
 	}
-	
-	@EventMapping(value = "event.navigaClassificazionePie")
-	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
-		processEventNavigaClassificazione(eventRequest, eventResponse);
-	}
-	
-	@EventMapping(value = "event.filtraClassificazione")
-	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
-		processEventFiltroClassificazione(eventRequest, eventResponse);
-	}
-
 }

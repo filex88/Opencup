@@ -10,35 +10,26 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.EventRequest;
-import javax.portlet.EventResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
-import javax.xml.namespace.QName;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
+import com.liferay.portal.util.PortalUtil;
+
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("sessionAttrNaturaPie")
 public class NaturaPortlet1Controller extends NaturaPortletCommonController {
-
-	@ModelAttribute("sessionAttrNaturaPie")
-	public NavigaAggregata sessionAttrNaturaPie() {
-		return super.sessionAttr();
-	}
 	
 	public static String getRandomColor() {
 		String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
@@ -51,24 +42,18 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 	
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
-										RenderResponse renderResponse, 
-										@RequestParam(required = false) String[] pNavigaClassificazione,
-										@RequestParam(required = false) String[] pFiltriRicerca,
-										@RequestParam(required = false) String[] pFiltriRicercAnni,
-										Model model, 
-										@ModelAttribute("sessionAttrNaturaPie") NavigaAggregata sessionAttrNaturaPie){
-		
-		
-		initRender(renderRequest, pNavigaClassificazione, pFiltriRicerca, pFiltriRicercAnni, sessionAttrNaturaPie, NaturaPortletCommonController.SESSION_FILTRI_CLASSIFICAZIONE);
-
+										RenderResponse renderResponse ){
+		initRender(renderRequest);
 		return "natura1-view";
 	}
 
 	@ResourceMapping(value =  "aggregati4Pie")	
 	public View caricaDati4Pie(	ResourceRequest request, 
-								@RequestParam("pattern") String pattern, 
-								@ModelAttribute("sessionAttrNaturaPie") NavigaAggregata sessionAttrNaturaPie){
+								@RequestParam("pattern") String pattern	){
 		
+		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+		NavigaAggregata sessionAttrNaturaPie = (session.getAttribute(SESSION_FILTRI_RICERCA)==null)?new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, "0"):(NavigaAggregata) session.getAttribute(SESSION_FILTRI_RICERCA);
+
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaPie);
 		
 		int index = calcolaIndicePagina(sessionAttrNaturaPie);
@@ -89,8 +74,8 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 				conv.setLabel(aggregataDTO.getDesCategoriaIntervento() );
 			}else if( sessionAttrNaturaPie.getIdSottosettoreIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesSottoSettore() );
-			}else if( sessionAttrNaturaPie.getIdSettoreIntervento().equals("0") ){
-				conv.setLabel(aggregataDTO.getDesSettore() );
+			}else if( sessionAttrNaturaPie.getIdAreaIntervento().equals("0") ){
+				conv.setLabel(aggregataDTO.getDesArea() );
 			}else if( sessionAttrNaturaPie.getIdNatura().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesNatura());
 			}
@@ -115,23 +100,9 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 	}
 	
 	@ActionMapping(params="action=PublishEvent")
-	public void publishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
-		
-		//Gestione del click sulla sezione della torta
-		String nomeAttr = "sessionAttrNaturaPie";
-		QName eventName = new QName( "http:eventNavigaClassificazionePie/events", "event.navigaClassificazionePie");
-		
-		publishEvent(aRequest, aResponse, model, nomeAttr, eventName);
+	public void actionPublishEvent(ActionRequest aRequest, ActionResponse aResponse, Model model){
+		publishEvent(aRequest);
 	}
 	
-	@EventMapping(value = "event.navigaClassificazione")
-	public void processEvent(EventRequest eventRequest, EventResponse eventResponse) {
-		processEventNavigaClassificazione(eventRequest, eventResponse);
-	}
-	
-	@EventMapping(value = "event.filtraClassificazione")
-	public void processEventFiltro(EventRequest eventRequest, EventResponse eventResponse) {
-		processEventFiltroClassificazione(eventRequest, eventResponse);
-	}
 
 }

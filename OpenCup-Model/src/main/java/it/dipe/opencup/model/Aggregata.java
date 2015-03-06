@@ -35,10 +35,6 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 
 	@Column(name = "IMPO_FAGG_IMPORTO_FINANZIATO", columnDefinition = "NUMBER", precision = 15, scale = 3)
 	private Double impoImportoFinanziato;
-	 
-
-	@Column(name = "ANNO_FAGG_ANNO_DECISIONE", length = 4)
-	private String annoAnnoDecisione;
 	
 	
 	@ManyToOne(targetEntity = Classificazione.class)
@@ -49,11 +45,6 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	@ManyToOne(targetEntity = Localizzazione.class)
 	@JoinColumn(name = "FK_FAGG_DLOC_ID", referencedColumnName = "SEQU_DLOC_ID")
 	private Localizzazione localizzazione;
-	 
-	
-	@ManyToOne(targetEntity = AnnoDecisione.class)
-	@JoinColumn(name = "FK_FAGG_DADE_ID", referencedColumnName = "SEQU_DADE_ID")
-	private AnnoDecisione annoDecisione;
 	
 	
 	@ManyToOne(targetEntity = GerarchiaSoggetto.class)
@@ -69,6 +60,11 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	@ManyToOne(targetEntity = StatoProgetto.class)
 	@JoinColumn(name = "FK_FAGG_DSPR_ID", referencedColumnName = "SEQU_DSPR_ID")
 	private StatoProgetto statoProgetto;
+	
+	@ManyToOne(targetEntity = AnnoAggregato.class)
+	@JoinColumn(name = "FK_FAGG_DAAG_ID", referencedColumnName = "SEQU_DAAG_ID")
+	private AnnoAggregato annoAggregato;
+
 
 	public Integer getId() {
 		return id;
@@ -110,16 +106,6 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	}
 
 
-	public String getAnnoAnnoDecisione() {
-		return annoAnnoDecisione;
-	}
-
-
-	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
-		this.annoAnnoDecisione = annoAnnoDecisione;
-	}
-
-
 	public Classificazione getClassificazione() {
 		return classificazione;
 	}
@@ -137,16 +123,6 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 
 	public void setLocalizzazione(Localizzazione localizzazione) {
 		this.localizzazione = localizzazione;
-	}
-
-
-	public AnnoDecisione getAnnoDecisione() {
-		return annoDecisione;
-	}
-
-
-	public void setAnnoDecisione(AnnoDecisione annoDecisione) {
-		this.annoDecisione = annoDecisione;
 	}
 
 
@@ -177,6 +153,16 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 
 	public void setStatoProgetto(StatoProgetto statoProgetto) {
 		this.statoProgetto = statoProgetto;
+	}
+
+
+	public AnnoAggregato getAnnoAggregato() {
+		return annoAggregato;
+	}
+
+
+	public void setAnnoAggregato(AnnoAggregato annoAggregato) {
+		this.annoAggregato = annoAggregato;
 	}
 
 

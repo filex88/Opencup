@@ -3,6 +3,14 @@
 <liferay-portlet-app>
 	
 	<portlet>
+		<portlet-name>classificazione-portlet1</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/classificazione-portlet1.js</footer-portlet-javascript>
+		<css-class-wrapper>classificazione-portlet1</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
 		<portlet-name>natura-portlet1</portlet-name>
 		<icon>/icon.png</icon>
 		<header-portlet-css>/css/main.css</header-portlet-css>
@@ -39,7 +47,7 @@
 		<portlet-name>elenco-progetti-portlet</portlet-name>
 		<icon>/icon.png</icon>
 		<instanceable>true</instanceable>
-		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-css>/css/main.css</footer-portlet-css>
 		<footer-portlet-javascript>/js/elenco-progetti-portlet.js</footer-portlet-javascript>
 		<css-class-wrapper>elenco-progetti-portlet</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>

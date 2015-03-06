@@ -7,31 +7,24 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "S_DMA_DADE_ANNO_DECISIONE")
-public class AnnoDecisione extends AbstractCommonEntity implements Serializable {
+@Table(name = "S_DMA_DAAG_ANNO_AGGREGATO")
+public class AnnoAggregato extends AbstractCommonEntity implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2920665192009856745L;
+	private static final long serialVersionUID = -5744164534669305636L;
 
 	@Id
-	@Column(name = "SEQU_DADE_ID")
+	@Column(name = "SEQU_DAAG_ID")
 	private Integer id;
 
-	@Column(name = "ANNO_DADE_ANNO_DECISIONE", length = 50)
-	private String annoDadeAnnoDecisione;
-	
-	
-	@ManyToOne(targetEntity = AnnoAggregato.class)
-	@JoinColumn(name = "FK_DADE_DAAG_ID", referencedColumnName = "SEQU_DAAG_ID")
-	private AnnoAggregato annoAggregato;
-	
+	@Column(name = "DESC_DAGG_ANNO_AGGREGATO", length = 4)
+	private String annoAggregato;
+
 	public Integer getId() {
 		return id;
 	}
@@ -40,19 +33,11 @@ public class AnnoDecisione extends AbstractCommonEntity implements Serializable 
 		this.id = id;
 	}
 
-	public String getAnnoDadeAnnoDecisione() {
-		return annoDadeAnnoDecisione;
-	}
-
-	public void setAnnoDadeAnnoDecisione(String annoDadeAnnoDecisione) {
-		this.annoDadeAnnoDecisione = annoDadeAnnoDecisione;
-	}
-
-	public AnnoAggregato getAnnoAggregato() {
+	public String getAnnoAggregato() {
 		return annoAggregato;
 	}
 
-	public void setAnnoAggregato(AnnoAggregato annoAggregato) {
+	public void setAnnoAggregato(String annoAggregato) {
 		this.annoAggregato = annoAggregato;
 	}
 
@@ -72,7 +57,7 @@ public class AnnoDecisione extends AbstractCommonEntity implements Serializable 
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AnnoDecisione other = (AnnoDecisione) obj;
+		AnnoAggregato other = (AnnoAggregato) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -80,8 +65,7 @@ public class AnnoDecisione extends AbstractCommonEntity implements Serializable 
 			return false;
 		return true;
 	}
-	
-	
 
+	
 	
 }

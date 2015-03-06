@@ -23,7 +23,7 @@ public class NavigaProgetti implements Serializable{
 	private String textProvincia;
 	private String textComune;
 	
-	private String idTipologiaInterventi;
+	private String idTipologiaIntervento;
 	private String idStatoProgetto;
 	
 	private String idCategoriaSoggetto;
@@ -42,7 +42,7 @@ public class NavigaProgetti implements Serializable{
 		this.textStato = "ITALIA";
 		this.idCategoriaSoggetto = "-1";
 		this.idSottoCategoriaSoggetto = "-1";
-		this.idTipologiaInterventi = "-1";
+		this.idTipologiaIntervento = "-1";
 		this.idStatoProgetto = "-1";
 	}
 
@@ -118,12 +118,12 @@ public class NavigaProgetti implements Serializable{
 		this.textComune = textComune;
 	}
 
-	public String getIdTipologiaInterventi() {
-		return idTipologiaInterventi;
+	public String getIdTipologiaIntervento() {
+		return idTipologiaIntervento;
 	}
 
-	public void setIdTipologiaInterventi(String idTipologiaInterventi) {
-		this.idTipologiaInterventi = idTipologiaInterventi;
+	public void setIdTipologiaIntervento(String idTipologiaIntervento) {
+		this.idTipologiaIntervento = idTipologiaIntervento;
 	}
 
 	public String getIdStatoProgetto() {
@@ -183,7 +183,7 @@ public class NavigaProgetti implements Serializable{
 				+ ((idStatoProgetto == null) ? 0 : idStatoProgetto.hashCode());
 		result = prime
 				* result
-				+ ((idTipologiaInterventi == null) ? 0 : idTipologiaInterventi
+				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
 						.hashCode());
 		result = prime * result
 				+ ((textComune == null) ? 0 : textComune.hashCode());
@@ -247,10 +247,10 @@ public class NavigaProgetti implements Serializable{
 				return false;
 		} else if (!idStatoProgetto.equals(other.idStatoProgetto))
 			return false;
-		if (idTipologiaInterventi == null) {
-			if (other.idTipologiaInterventi != null)
+		if (idTipologiaIntervento == null) {
+			if (other.idTipologiaIntervento != null)
 				return false;
-		} else if (!idTipologiaInterventi.equals(other.idTipologiaInterventi))
+		} else if (!idTipologiaIntervento.equals(other.idTipologiaIntervento))
 			return false;
 		if (textComune == null) {
 			if (other.textComune != null)
