@@ -14,7 +14,22 @@
 
 <h1>Per area geografica</h1>
 
-<div id="italybymacroareas" style="text-align: left"></div>
+<div id="italybymacroareas"></div>
+<div id="dimensions">
+	<ul>
+		<li id="volumeLabel">
+			<input type="button" value="VOLUME"></input>
+		</li>
+		<li id="costoLabel">
+			<input type="button" value="COSTO"></input>
+		</li>
+		<li id="importoLabel">
+			<input type="button" value="FINANZIATO"></input>
+		</li>
+	</ul>
+</div>
+
+
 
 <script>
 
@@ -22,6 +37,10 @@ var namespace = "<portlet:namespace/>";
 namespace = namespace.substring(1,namespace.length - 1);
 
 var allTerritoryValues=null;
+
+var selectedDimension='volume';
+d3.select("#volumeLabel").select("input").classed("active",true);
+
 
 var baseColor1="rgb(209,226,242)";
 
@@ -43,7 +62,37 @@ AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) 
             	success: function(event, id, obj) 
             	{
             		allTerritoryValues = this.get('responseData');
-           		 	drawGraphTerritori();
+           		 	drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
+           		 	
+           		 	d3.select("#volumeLabel").select("input")
+					.on("click",function(d){
+						d3.select("#italybymacroareas").select("svg").remove();
+						d3.selectAll("div.selectiontip").remove();
+						selectedDimension='volume';
+						d3.selectAll("input").attr("class",null);
+						d3.select("#volumeLabel").select("input").classed("active",true);
+						drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
+					});
+	
+					d3.select("#costoLabel").select("input")
+					.on("click",function(d){
+						d3.select("#italybymacroareas").select("svg").remove();
+						d3.selectAll("div.selectiontip").remove();
+						selectedDimension='costo';
+						d3.selectAll("input").attr("class",null);
+						d3.select("#costoLabel").select("input").classed("active",true);
+						drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
+					});
+					
+					d3.select("#importoLabel").select("input")
+					.on("click",function(d){
+						d3.select("#italybymacroareas").select("svg").remove();
+						d3.selectAll("div.selectiontip").remove();
+						selectedDimension='importo';
+						d3.selectAll("input").attr("class",null);
+						d3.select("#importoLabel").select("input").classed("active",true);
+						drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
+					});
            		}
         	}
     	});
@@ -51,22 +100,53 @@ AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) 
 
 
 
-function drawGraphTerritori(){
+function drawGraphTerritori(dimension,calculated_json){
 
-	var calculated_json=allTerritoryValues.allTerritoryValues;
-	
+	console.log(dimension);
+		
 	// min mid, max valori calcolati 
 	var minData=d3.min(calculated_json,function(d){
-		return d.localizationValue.toFixed(2);
-	})
-	
+		if( dimension=='volume'){
+			return d.volumeValue;
+		}
+		else if(dimension=='costo'){
+			return d.costoValue;
+		}
+		else{
+			return d.importoValue;
+		}
+	});
+	console.log(minData);
+
 	var midData=d3.mean(calculated_json,function(d){
-		return d.localizationValue.toFixed(2);
+		var result=null;
+		if( dimension=='volume'){
+			return d.volumeValue;
+		}
+		else if(dimension=='costo'){
+			return d.costoValue;
+		}
+		else{
+			return d.importoValue;
+		}
 	})
+	console.log(midData);
 
 	var maxData=d3.max(calculated_json,function(d){
-		return d.localizationValue.toFixed(2);
+		var result=null;
+		if( dimension=='volume'){
+			return d.volumeValue;
+		}
+		else if(dimension=='costo'){
+			return d.costoValue;
+		}
+		else{
+			return d.importoValue;
+		}
+		
 	})
+	console.log(maxData);
+
 
 	// scala colori in base a valori calcolati
 	var color = d3.scale.linear().domain([minData,midData,maxData])
@@ -92,7 +172,7 @@ function drawGraphTerritori(){
        	.style("stroke-width", border);
        	
  	 var tooltip = d3.select("#italybymacroareas").append("div")
-    	.attr("class", "selectiontip");
+    	.attr("class", "selectiontip nascosto");
 
 	d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", function(error, it) {
 	
@@ -103,10 +183,14 @@ function drawGraphTerritori(){
 			var label_toposon=territory_topojson[i].properties.TERR;
 			for (var j=0;j<calculated_json.length;j++){
 				if (label_toposon==calculated_json[j].localizationLabel){
-					var valore=calculated_json[j].localizationValue.toFixed(2);
+					var valore_volume=calculated_json[j].volumeValue;
+					var valore_costo=calculated_json[j].costoValue;
+					var valore_importo=calculated_json[j].importoValue;
 					var link=calculated_json[j].detailUrl;
-					territory_topojson[i].properties.VALORE=valore;
-					territory_topojson[i].properties.LINK=link+"&nomeTerr="+territory_topojson[i].properties.TERR_DESC;
+					territory_topojson[i].properties.VALORE_VOLUME=valore_volume;
+					territory_topojson[i].properties.VALORE_COSTO=valore_costo;
+					territory_topojson[i].properties.VALORE_IMPORTO=valore_importo;
+					territory_topojson[i].properties.LINK=link;
 					break;
 				}
 			}
@@ -130,7 +214,15 @@ function drawGraphTerritori(){
     	.attr ("id",function(d) { 
     		return d.properties.ID_REG_TER; })
     	.style("fill", function(d){
-    		return color(d.properties.VALORE);
+    		if( dimension=='volume'){
+				return color(d.properties.VALORE_VOLUME);
+			}
+			else if(dimension=='costo'){
+				return color(d.properties.VALORE_COSTO);
+			}
+			else{
+				return color(d.properties.VALORE_IMPORTO);
+			}
     	})  
     	.on("click", function(d){
     		window.location = d.properties.LINK;
@@ -141,28 +233,60 @@ function drawGraphTerritori(){
     		if (d.properties.TERR==a.properties.TERR){
     			return "#FFFFCC";}
     		else{
-    			return color(d.properties.VALORE); 
-    			}
+    			if( dimension=='volume'){
+					return color(d.properties.VALORE_VOLUME);
+				}
+				else if(dimension=='costo'){
+					return color(d.properties.VALORE_COSTO);
+				}
+				else{
+					return color(d.properties.VALORE_IMPORTO);
+				}
+    			
+    		  }
     		});
     		var mouse = d3.mouse(svg.node()).map( function(d) { 
     			return parseInt(d); 
     		});
-    	
+    		var labelToShow=null;
+    		var valueToShow=null;
+    			if( dimension=='volume'){
+    				labelToShow="VOLUME:";
+    				valueToShow=a.properties.VALORE_VOLUME;
+				}
+				else if(dimension=='costo'){
+					labelToShow="COSTO:";
+    				valueToShow='&euro;&nbsp;'+a.properties.VALORE_COSTO.toFixed(2);
+				}
+				else{
+					labelToShow="IMPORTO FINANZIATO:";
+    				valueToShow='&euro;&nbsp;'+a.properties.VALORE_IMPORTO.toFixed(2);
+				}
+				
     		tooltip.classed("nascosto", false)
         	 .attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+height-50)+"px")
-        	 .html('<p><strong>TERRITORIO: </strong>'+a.properties.TERR_DESC+'</p>'
-        	 +'<p><strong>VALORE TERRITORIO: </strong>&euro;&nbsp;'+a.properties.VALORE+'</p>');
+        	 .html('<p><strong>AREA GEOGRAFICA: </strong>'+a.properties.TERR_DESC+'</p>'
+        	 +'<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
     	})
     	.on("mouseout",function(a){
     		svg.selectAll("."+a.properties.TERR)
     		.style("fill",function(d){
-    			return color(d.properties.VALORE);
+    			if( dimension=='volume'){
+					return color(d.properties.VALORE_VOLUME);
+				}
+				else if(dimension=='costo'){
+					return color(d.properties.VALORE_COSTO);
+				}
+				else{
+					return color(d.properties.VALORE_IMPORTO);
+				}
     		});
     		
     	 	tooltip.classed("nascosto", true)
     	});
   
 	});
+	
 }
 
 </script>

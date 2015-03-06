@@ -106,7 +106,7 @@ public class AggregataFacade {
 
 	@Autowired
 	private SettoreInterventoDAO settoreInterventoDAO;
-	
+		
 	@Autowired
 	private NaturaSettoreDAO naturaSettoreDAO;
 
@@ -117,6 +117,7 @@ public class AggregataFacade {
 	private CategoriaInterventoDAO categoriaInterventoDAO;
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
+
 		
 		Criteria criteria = aggregataDAO.newCriteria();
 		
@@ -279,6 +280,13 @@ public class AggregataFacade {
 		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
+	}
+	
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<Aggregata> findAggregataByLocalizzazione(NavigaAggregata navigaAggregata) {		
+		
+		return aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
 	}
 	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
@@ -655,6 +663,34 @@ public class AggregataFacade {
 		retval.addAll(sottocategoriaSoggettoDAO.findByCriteria(criteria));
 
 		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public AreaGeografica findAreaGeograficaByCodiceArea(String codAreaGeografica) {
+		AreaGeografica areaGeograficaRecuperata=null;
+		List<AreaGeografica> retval = new ArrayList<AreaGeografica>();
+		Criteria criteria = areaGeograficaDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("codiAreaGeografica", codAreaGeografica) );
+		retval = areaGeograficaDAO.findByCriteria(criteria);
+		if (retval!=null && retval.size()>0){
+			areaGeograficaRecuperata=retval.get(0);
+		}
+		return areaGeograficaRecuperata;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Regione findRegionebyCodice(String codRegione) {
+		Regione regioneRecuperata=null;
+		List<Regione> retval = new ArrayList<Regione>();
+		Criteria criteria = regioneDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("codiRegione", codRegione) );
+		retval = regioneDAO.findByCriteria(criteria);
+		if (retval!=null && retval.size()>0){
+			regioneRecuperata=retval.get(0);
+		}
+		return regioneRecuperata;
 	}
 	
 }

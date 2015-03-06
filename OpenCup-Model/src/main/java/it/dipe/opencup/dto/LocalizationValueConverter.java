@@ -7,14 +7,19 @@ public class LocalizationValueConverter implements Serializable{
 	private static final long serialVersionUID = -4831831295847632970L;
 	
 	private String localizationLabel;
-	private double localizationValue;
+	private double costoValue;
+	private double importoValue;
+	private Integer volumeValue;
 	private String detailUrl;
 	
 	public LocalizationValueConverter() {
 	}
-	public LocalizationValueConverter(String localizationLabel,double localizationValue, String detailUrl) {
+	public LocalizationValueConverter(String localizationLabel,double importoValue,double costoValue,
+			Integer volumeValue,  String detailUrl) {
 		this.localizationLabel = localizationLabel;
-		this.localizationValue = localizationValue;
+		this.importoValue = importoValue;
+		this.costoValue=costoValue;
+		this.volumeValue=volumeValue;
 		this.detailUrl = detailUrl;
 	}
 	public String getLocalizationLabel() {
@@ -23,11 +28,24 @@ public class LocalizationValueConverter implements Serializable{
 	public void setLocalizationLabel(String localizationLabel) {
 		this.localizationLabel = localizationLabel;
 	}
-	public double getLocalizationValue() {
-		return localizationValue;
+	
+	public double getCostoValue() {
+		return costoValue;
 	}
-	public void setLocalizationValue(double localizationValue) {
-		this.localizationValue = localizationValue;
+	public void setCostoValue(double costoValue) {
+		this.costoValue = costoValue;
+	}
+	public double getImportoValue() {
+		return importoValue;
+	}
+	public void setImportoValue(double importoValue) {
+		this.importoValue = importoValue;
+	}
+	public Integer getVolumeValue() {
+		return volumeValue;
+	}
+	public void setVolumeValue(Integer volumeValue) {
+		this.volumeValue = volumeValue;
 	}
 	public String getDetailUrl() {
 		return detailUrl;

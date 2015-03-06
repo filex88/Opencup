@@ -290,6 +290,10 @@
 			<name>contextConfigLocation</name>
 			<value>/WEB-INF/localizzazione-portlet1.xml</value>
 		</init-param>
+		<init-param>
+            <name>check-auth-token</name>
+            <value>false</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -330,6 +334,10 @@
 			<name>contextConfigLocation</name>
 			<value>/WEB-INF/localizzazione-portlet2.xml</value>
 		</init-param>
+		<init-param>
+            <name>check-auth-token</name>
+            <value>false</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -369,6 +377,10 @@
 		<init-param>
 			<name>contextConfigLocation</name>
 			<value>/WEB-INF/localizzazione-portlet3.xml</value>
+		</init-param>
+		<init-param>
+            <name>check-auth-token</name>
+            <value>false</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
