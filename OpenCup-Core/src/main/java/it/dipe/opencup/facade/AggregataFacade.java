@@ -2,6 +2,7 @@ package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.AggregataDAO;
 import it.dipe.opencup.dao.AnnoDecisioneDAO;
+import it.dipe.opencup.dao.AreaGeograficaDAO;
 import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
 import it.dipe.opencup.dao.ComuneDAO;
@@ -17,6 +18,7 @@ import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.model.Aggregata;
 import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
@@ -79,6 +81,9 @@ public class AggregataFacade {
 	
 	@Autowired
 	private SottocategoriaSoggettoDAO sottocategoriaSoggettoDAO;
+	
+	@Autowired
+	private AreaGeograficaDAO areaGeograficaDAO;
 	
 	private Criteria bildCriteriaByNatura(NavigaAggregata navigaAggregata) {
 		
@@ -246,6 +251,13 @@ public class AggregataFacade {
 
 	}
 	
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public List<Aggregata> findAggregataByLocalizzazione(NavigaAggregata navigaAggregata) {		
+		
+		return aggregataDAO.findByCriteria(bildCriteriaByNatura(navigaAggregata));
+	}
+	
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
 		
@@ -407,6 +419,34 @@ public class AggregataFacade {
 		retval = sottocategoriaSoggettoDAO.findByCriteria(criteria);
 		
 		return retval;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public AreaGeografica findAreaGeograficaByCodiceArea(String codAreaGeografica) {
+		AreaGeografica areaGeograficaRecuperata=null;
+		List<AreaGeografica> retval = new ArrayList<AreaGeografica>();
+		Criteria criteria = areaGeograficaDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("codiAreaGeografica", codAreaGeografica) );
+		retval = areaGeograficaDAO.findByCriteria(criteria);
+		if (retval!=null && retval.size()>0){
+			areaGeograficaRecuperata=retval.get(0);
+		}
+		return areaGeograficaRecuperata;
+	}
+	
+	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	public Regione findRegionebyCodice(String codRegione) {
+		Regione regioneRecuperata=null;
+		List<Regione> retval = new ArrayList<Regione>();
+		Criteria criteria = regioneDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.add( Restrictions.eq("codiRegione", codRegione) );
+		retval = regioneDAO.findByCriteria(criteria);
+		if (retval!=null && retval.size()>0){
+			regioneRecuperata=retval.get(0);
+		}
+		return regioneRecuperata;
 	}
 	
 
