@@ -121,51 +121,6 @@
 	cursor: pointer;
 }
 
-
-.affina-ricerca-natura .icon-filter {
-	position:relative; 
-	text-decoration:none;
-}
-
-.affina-ricerca-natura .icon-filter > .icon-circle {
-	font-size: 1em;
-}
-
-.affina-ricerca-natura .icon-filter > .icon-light {
-	font-size: 0.7em;
-}
-
-.affina-ricerca-natura #notifBadge {
-	color: #cb4437; 
-	text-decoration: none; 
-	position: absolute; 
-	top: -11px; 
-	right: -10px; 
-	display: none;
-}
-
-
-
-.utente .icon-bell-alt {
-	position:relative; 
-	text-decoration:none;
-}
-
-.utente #notifBadge {
-	color: #cb4437; 
-	text-decoration: none; 
-	position: absolute; 
-}
-
-.utente .icon-stack > .icon-circle {
-	font-size: 1em;
-}
-
-.utente .icon-stack > .icon-light {
-	font-size: 0.7em;
-
-}
-
 .classificazione-portlet1 #tooltip-classificazione-portlet1 {
 	position: absolute;
 	width: 200px;
@@ -207,4 +162,52 @@
 .classificazione-portlet1 .ricerca .control-group span {
 	padding-top:5px;
 	margin-bottom: 5px;
+}
+
+
+.affina-ricerca-div{
+	margin-bottom: 0px;
+}
+
+.affina-ricerca {
+	position: absolute;
+	right: 0px;
+	display: block;
+	line-height: 30px;
+	background-color: #004383;
+	color: #fff;
+	padding-left: 10px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.affina-ricerca > a, .affina-ricerca > a:visited {
+	color: #fff;
+}
+
+.affina-ricerca .icon-filter {
+	position:relative; 
+	text-decoration:none;
+}
+
+.affina-ricerca #filtriBadge {
+	color: #cb4437; 
+	text-decoration: none; 
+	position: absolute; 
+	top: -15px; 
+	right: -15px; 
+}
+
+.affina-ricerca .icon-stack > .icon-circle {
+	font-size: 1.2em !important;
+}
+
+.affina-ricerca .icon-stack > .icon-light {
+	font-size: 0.9em !important;
+}
+
+#popoverNotifiche + .popover > .popover-content {
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }

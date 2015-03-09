@@ -192,7 +192,7 @@ public class NavigaAggregata implements Serializable{
 	
 	public String getCountAffRicerca4Natura(){
 		
-		String sRetval = "";
+		String sRetval = null;
 		int retval = 0;
 		
 		if( idAnnoAggregatos.size() == 1 && (!idAnnoAggregatos.contains("-1")) ){

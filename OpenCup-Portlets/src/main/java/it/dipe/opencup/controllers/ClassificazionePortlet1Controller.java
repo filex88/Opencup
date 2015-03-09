@@ -63,10 +63,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 	
 	@Value("#{config['codice.natura.open.cup']}")
 	private String codiNaturaOpenCUP;
-	
-	private final String pagNavigaClassificazione = "/natura";
-	private final String pagElencoProgetti = "/natelencoprogetti";
-	
+
 	//Array per la personalizzazione della voce di navigazione
 	private final String[] navigaPer = {"Area Intervento", "Sottosettore", "Categoria Intervento"};
 	
@@ -266,7 +263,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 			}
 			
 			conv.setLinkURL(aggregataDTO.getLinkURL());
-			conv.setColor(getRandomColor());
+//			conv.setColor(getRandomColor());
 			converter.add(conv);
 		}
 
@@ -365,14 +362,14 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		return index;
 	}
 	
-	public static String getRandomColor() {
-		String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
-		String color = "#";
-		for (int i = 0; i < 6; i++ ) {
-			color += letters[(int) Math.round(Math.random() * 15)];
-		}
-		return color;
-	}
+//	public static String getRandomColor() {
+//		String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+//		String color = "#";
+//		for (int i = 0; i < 6; i++ ) {
+//			color += letters[(int) Math.round(Math.random() * 15)];
+//		}
+//		return color;
+//	}
 	
 	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage) {
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);

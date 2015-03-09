@@ -39,6 +39,7 @@ AUI().use(
 				    	// submit
 				    	myFormAffinaRicerca.submit();
 					});
+
 			
 			new A.TogglerDelegate({
 				        animated: true,
@@ -192,12 +193,12 @@ AUI().use(
 
 					"data": {
 						"sortOrder": "value-desc",
-						"content": aggregate.aggregati4Pie
+						"content": aggregate.aggregati4Pie,
+						"color": "#FF0000"
 					},
 					"labels": {
 						"outer": {
-							"format": "percentage",
-							"pieDistance": 15
+							"format": "percentage"
 						},
 						"inner": {
 							"format": "none",

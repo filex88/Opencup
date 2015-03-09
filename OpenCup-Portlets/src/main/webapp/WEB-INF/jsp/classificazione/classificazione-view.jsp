@@ -11,6 +11,7 @@
 <portlet:defineObjects />
 
 <div class="portlet-body">
+		
 	<div id="my-toggler-affina-ricerca-classificazione">
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -46,8 +47,28 @@
 			
 		</div>
 		
+		<div class="header toggler-header-collapsed">
+			<div id="affina-ricerca-classificazione" class="affina-ricerca-div affina-ricerca cursor-pointer">
+				AFFINA RICERCA
+				<span>
+					<i class="icon-filter"> 
+						<c:if test="${ navigaAggregata.countAffRicerca4Natura != null }">
+							<span class="icon-stack" id="filtriBadge">
+				          		<i class="icon-circle icon-stack-base" ></i>
+				          		<i class="icon-light">${ navigaAggregata.countAffRicerca4Natura }</i>
+							</span>
+						</c:if> 
+					</i>
+				</span>
+			</div>
+		</div>
+		<br/>&nbsp;
+		<br/>&nbsp;
+		<!-- 	
+		<br/>&nbsp;
 		<aui:button id="affina-ricerca-classificazione" cssClass="header toggler-header-collapsed" value="AFFINA LA RICERCA <i class='icon-filter'></i>"></aui:button>
 		<br/>&nbsp;
+		 -->
 		
 		<div class="content toggler-content-collapsed">
 			
