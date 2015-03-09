@@ -117,7 +117,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		session.setAttribute("navigaAggregata", navigaAggregata);
 		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
-			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, this.pagElencoProgetti);
+			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
 			try {
 				aResponse.sendRedirect( renderURL.toString() );
 			} catch (Exception e) {
@@ -172,7 +172,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		List<AggregataDTO> subListaAggregataDTO = ListUtil.subList(listaAggregataDTO, searchContainerDettaglio.getStart(), searchContainerDettaglio.getEnd());       
 		
 		String anchorPortlet = "#classificazione-portlet2";
-		impostaLinkURL(renderRequest, navigaAggregata, subListaAggregataDTO, anchorPortlet);
+		impostaLinkURL(renderRequest, navigaAggregata, subListaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
 		
 		searchContainerDettaglio.setResults(subListaAggregataDTO);
 		
@@ -206,7 +206,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		///////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Calcolo l'url per elenco progetti
-		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, this.pagElencoProgetti);
+		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, navigaAggregata.getPagElencoProgetti());
 		modelMap.addAttribute("linkURLElencoProgetti", renderURL.toString());
 		
 		impostaDesFiltriImpostati(navigaAggregata);
@@ -231,13 +231,12 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
 		String anchorPortlet = "#classificazione-portlet1";
-		impostaLinkURL(request, navigaAggregata, listaAggregataDTO, anchorPortlet);
+		impostaLinkURL(request, navigaAggregata, listaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
 
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		D3PieConverter conv = null;
-
 		for (AggregataDTO aggregataDTO: listaAggregataDTO){
 			conv = new D3PieConverter();
 			conv.setId(aggregataDTO.getId().toString());
@@ -263,7 +262,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 			}
 			
 			conv.setLinkURL(aggregataDTO.getLinkURL());
-//			conv.setColor(getRandomColor());
+//			conv.setColor(getColor(indiceColore++));
 			converter.add(conv);
 		}
 
@@ -280,9 +279,10 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 	private void impostaLinkURL(	PortletRequest request, 
 									NavigaAggregata sessionAttrNav, 
 									List<AggregataDTO> listaAggregataDTO, 
-									String anchorPortlet) {
+									String anchorPortlet,
+									String pageTo) {
 
-		LiferayPortletURL renderURL = createLiferayPortletURL(request, this.pagNavigaClassificazione);
+		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo);
 		String rowIdLiv1URL = "", rowIdLiv2URL = "", rowIdLiv3URL = "", rowIdLiv4URL = "";
 		
 		for(AggregataDTO tmp : listaAggregataDTO){		
@@ -361,7 +361,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		}
 		return index;
 	}
-	
+
 //	public static String getRandomColor() {
 //		String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
 //		String color = "#";

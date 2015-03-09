@@ -31,10 +31,6 @@ public class ClassificazionePortletCommonController {
 	@Autowired
 	protected AggregataFacade aggregataFacade;
 	
-	protected final String pagNavigaClassificazione = "natura";
-	protected final String pagElencoProgetti = "natelencoprogetti";
-	protected final String pagDettaglioProgetto = "natdettaglioprogetto";
-	
 	@ResourceMapping(value =  "loadRegioneByAreaGeografica")	
 	protected View loadRegioneByAreaGeografica(@RequestParam("pattern") Integer pattern){
 		

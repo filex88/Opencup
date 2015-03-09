@@ -196,6 +196,13 @@ AUI().use(
 						"content": aggregate.aggregati4Pie,
 						"color": "#FF0000"
 					},
+					misc: {
+						colors: {
+							segments: [
+							           "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3"
+							]
+						}
+					},
 					"labels": {
 						"outer": {
 							"format": "percentage"

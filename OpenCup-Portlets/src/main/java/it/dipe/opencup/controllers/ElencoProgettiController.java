@@ -1,9 +1,10 @@
 package it.dipe.opencup.controllers;
 
-import it.dipe.opencup.controllers.common.ClassificazionePortletCommonController;
 import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
+import it.dipe.opencup.facade.AggregataFacade;
+import it.dipe.opencup.facade.ProgettiFacade;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
@@ -27,6 +28,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,7 +45,18 @@ import com.liferay.portal.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class ElencoProgettiController extends ClassificazionePortletCommonController {
+public class ElencoProgettiController {
+	
+	@Value("#{config['paginazione.risultatiPerPagina']}")
+	protected int maxResult;
+	
+	@Autowired
+	protected ProgettiFacade progettiFacade;
+	
+	@Autowired
+	protected AggregataFacade aggregataFacade;
+
+	protected final String pagDettaglioProgetto = "natdettaglioprogetto";
 	
 	@ModelAttribute("navigaProgetti")
 	public NavigaProgetti modelAttrNavigaProgetti() {

@@ -97,6 +97,9 @@
 			cssClass="form-horizontal ricerca-form">	
 		
 			<aui:input type="hidden" bean="navigaProgetti" name="naviga" value="${navigaProgetti.naviga}" />
+			<aui:input type="hidden" bean="navigaProgetti" name="naviga" value="${navigaProgetti.naviga}" />
+			<aui:input type="hidden" bean="navigaProgetti" name="naviga" value="${navigaProgetti.naviga}" />
+			<aui:input type="hidden" bean="navigaProgetti" name="naviga" value="${navigaProgetti.naviga}" />
 			<aui:input type="hidden" bean="navigaProgetti" name="idNatura" value="${navigaProgetti.idNatura}" />
 			
 			<div class="control-group no-margin-bottom">
