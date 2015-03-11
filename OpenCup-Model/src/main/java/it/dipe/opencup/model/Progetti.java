@@ -3,19 +3,13 @@ package it.dipe.opencup.model;
 import it.dipe.opencup.model.common.AbstractCommonEntity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "S_DMA_FPRG_PROGETTI")
@@ -87,28 +81,28 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	@ManyToOne(targetEntity = AnagraficaCup.class)
 	@JoinColumn(name = "FK_FPRG_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
 	private AnagraficaCup anagraficaCup;
-
-	@Column(name = "TEXT_FPRG_COPER_FINANZ", length = 255)
-	private String textCoperFinanz;
-
-	@Column(name = "TEXT_FPRG_COMUNE", length = 255)
-	private String textComune;
-
-	@Column(name = "TEXT_FPRG_PROVINCIA", length = 255)
-	private String textProvincia;
-
-	@Column(name = "TEXT_FPRG_REGIONE", length = 255)
-	private String textRegione;
-
-	@Column(name = "TEXT_FPRG_STATO", length = 255)
-	private String textStato;
-
-	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
-	private String annoAnnoDecisione;
 	
-	@OneToMany(targetEntity=CupLocalizzazione.class, fetch=FetchType.EAGER, mappedBy="progetti")
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<CupLocalizzazione> cupLocalizzazioni;
+	@ManyToOne(targetEntity = AreaIntervento.class)
+	@JoinColumn(name = "FK_FPRG_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
+	private AreaIntervento areaIntervento;
+
+//	@Column(name = "TEXT_FPRG_COPER_FINANZ", length = 255)
+//	private String textCoperFinanz;
+//
+//	@Column(name = "TEXT_FPRG_COMUNE", length = 255)
+//	private String textComune;
+//
+//	@Column(name = "TEXT_FPRG_PROVINCIA", length = 255)
+//	private String textProvincia;
+//
+//	@Column(name = "TEXT_FPRG_REGIONE", length = 255)
+//	private String textRegione;
+//
+//	@Column(name = "TEXT_FPRG_STATO", length = 255)
+//	private String textStato;
+//
+//	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
+//	private String annoAnnoDecisione;
 
 	public Integer getId() {
 		return id;
@@ -239,61 +233,53 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 		this.anagraficaCup = anagraficaCup;
 	}
 
-	public String getTextCoperFinanz() {
-		return textCoperFinanz;
-	}
-
-	public void setTextCoperFinanz(String textCoperFinanz) {
-		this.textCoperFinanz = textCoperFinanz;
-	}
-
-	public String getTextComune() {
-		return textComune;
-	}
-
-	public void setTextComune(String textComune) {
-		this.textComune = textComune;
-	}
-
-	public String getTextProvincia() {
-		return textProvincia;
-	}
-
-	public void setTextProvincia(String textProvincia) {
-		this.textProvincia = textProvincia;
-	}
-
-	public String getTextRegione() {
-		return textRegione;
-	}
-
-	public void setTextRegione(String textRegione) {
-		this.textRegione = textRegione;
-	}
-
-	public String getTextStato() {
-		return textStato;
-	}
-
-	public void setTextStato(String textStato) {
-		this.textStato = textStato;
-	}
-
-	public String getAnnoAnnoDecisione() {
-		return annoAnnoDecisione;
-	}
-
-	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
-		this.annoAnnoDecisione = annoAnnoDecisione;
-	}
-
-	public List<CupLocalizzazione> getCupLocalizzazioni() {
-		return cupLocalizzazioni;
-	}
-
-	public void setCupLocalizzazioni(List<CupLocalizzazione> cupLocalizzazioni) {
-		this.cupLocalizzazioni = cupLocalizzazioni;
-	}
+//	public String getTextCoperFinanz() {
+//		return textCoperFinanz;
+//	}
+//
+//	public void setTextCoperFinanz(String textCoperFinanz) {
+//		this.textCoperFinanz = textCoperFinanz;
+//	}
+//
+//	public String getTextComune() {
+//		return textComune;
+//	}
+//
+//	public void setTextComune(String textComune) {
+//		this.textComune = textComune;
+//	}
+//
+//	public String getTextProvincia() {
+//		return textProvincia;
+//	}
+//
+//	public void setTextProvincia(String textProvincia) {
+//		this.textProvincia = textProvincia;
+//	}
+//
+//	public String getTextRegione() {
+//		return textRegione;
+//	}
+//
+//	public void setTextRegione(String textRegione) {
+//		this.textRegione = textRegione;
+//	}
+//
+//	public String getTextStato() {
+//		return textStato;
+//	}
+//
+//	public void setTextStato(String textStato) {
+//		this.textStato = textStato;
+//	}
+//
+//	public String getAnnoAnnoDecisione() {
+//		return annoAnnoDecisione;
+//	}
+//
+//	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
+//		this.annoAnnoDecisione = annoAnnoDecisione;
+//	}
 
 	@Override
 	public int hashCode() {

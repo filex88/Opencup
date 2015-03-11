@@ -2,6 +2,7 @@
 <%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
@@ -27,13 +28,13 @@ Progetti progetti = (Progetti)row.getObject();
 		
 		<div>
 			<p>
-				<strong><%=progetti.getTextCoperFinanz()%></strong>
+				<strong>........</strong>
 			</p>
 		</div>
 		
 		<div>
 			<p>
-				<span>Anno decisione: <%= progetti.getAnnoAnnoDecisione() %></span>
+				<span>Anno decisione: <%= progetti.getAnnoDecisione().getAnnoDadeAnnoDecisione() %></span>
 			</p>
 		</div>
 		
@@ -44,8 +45,12 @@ Progetti progetti = (Progetti)row.getObject();
 		</div>
 		
 		<div>
-			<p>
-				<span>Comune: <%= progetti.getTextComune() %></span>
+			<p> Comune:
+				<c:forEach items="${ progetti.anagraficaCup.cupLocalizzazione }" var="localizzazione"> 
+					<span>${ localizzazione.comune.descComune }</span>
+				</c:forEach>
+				
+				
 			</p>
 		</div>
 	</div>

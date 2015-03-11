@@ -13,6 +13,11 @@ public class NavigaAggregata implements Serializable{
 	
 	public static final String NAVIGA_CLASSIFICAZIONE = "classificazione";
 	public static final String NAVIGA_LOCALIZZAZIONE = "localizzazione";
+	
+	private String pagAggregata;
+	private String pagElencoProgetti;
+	private String pagDettaglioProgetto;
+	
 	private String naviga;
 	private String distribuzione;
 	
@@ -62,6 +67,9 @@ public class NavigaAggregata implements Serializable{
 		if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga)){
 			this.idNatura = id;
 			this.idAreaIntervento = "0";
+			this.pagAggregata = "natura";
+			this.pagElencoProgetti = "natelencoprogetti";
+			this.pagDettaglioProgetto = "natdettaglioprogetto";
 		}else{
 			this.idNatura = "-1";
 			this.idAreaIntervento = "-1";
@@ -84,6 +92,9 @@ public class NavigaAggregata implements Serializable{
 
 	public NavigaAggregata(){
 		this.distribuzione = "VOLUME";
+		this.pagAggregata = "";
+		this.pagElencoProgetti = "";
+		this.pagDettaglioProgetto = "";
 		this.naviga = "";
 		this.idNatura = "-1";
 		this.idAreaIntervento = "-1";
@@ -119,6 +130,9 @@ public class NavigaAggregata implements Serializable{
 		toString = toString + "idTipologiaIntervento: (" + idTipologiaIntervento + "); ";
 		toString = toString + "idStatoProgetto: (" + idStatoProgetto + "); ";
 		toString = toString + "naviga: (" + naviga + "); ";
+		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
+		toString = toString + "pagElencoProgetti: (" + pagElencoProgetti + "); ";
+		toString = toString + "pagDettaglioProgetto" + pagDettaglioProgetto + "); ";
 		toString = toString + "distribuzione: (" + distribuzione + "); ";
 		return toString;
 	}
@@ -192,7 +206,7 @@ public class NavigaAggregata implements Serializable{
 	
 	public String getCountAffRicerca4Natura(){
 		
-		String sRetval = "";
+		String sRetval = null;
 		int retval = 0;
 		
 		if( idAnnoAggregatos.size() == 1 && (!idAnnoAggregatos.contains("-1")) ){
@@ -475,6 +489,30 @@ public class NavigaAggregata implements Serializable{
 		this.distribuzione = distribuzione;
 	}
 
+	public String getPagAggregata() {
+		return pagAggregata;
+	}
+
+	public void setPagAggregata(String pagAggregata) {
+		this.pagAggregata = pagAggregata;
+	}
+
+	public String getPagElencoProgetti() {
+		return pagElencoProgetti;
+	}
+
+	public void setPagElencoProgetti(String pagElencoProgetti) {
+		this.pagElencoProgetti = pagElencoProgetti;
+	}
+
+	public String getPagDettaglioProgetto() {
+		return pagDettaglioProgetto;
+	}
+
+	public void setPagDettaglioProgetto(String pagDettaglioProgetto) {
+		this.pagDettaglioProgetto = pagDettaglioProgetto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -486,6 +524,10 @@ public class NavigaAggregata implements Serializable{
 		result = prime
 				* result
 				+ ((descAreaGeografica == null) ? 0 : descAreaGeografica
+						.hashCode());
+		result = prime
+				* result
+				+ ((descAreaIntervento == null) ? 0 : descAreaIntervento
 						.hashCode());
 		result = prime
 				* result
@@ -503,10 +545,6 @@ public class NavigaAggregata implements Serializable{
 				+ ((descProvincia == null) ? 0 : descProvincia.hashCode());
 		result = prime * result
 				+ ((descRegione == null) ? 0 : descRegione.hashCode());
-		result = prime
-				* result
-				+ ((descAreaIntervento == null) ? 0 : descAreaIntervento
-						.hashCode());
 		result = prime
 				* result
 				+ ((descSottoCategoriaSoggetto == null) ? 0
@@ -535,6 +573,9 @@ public class NavigaAggregata implements Serializable{
 				+ ((idAreaGeografica == null) ? 0 : idAreaGeografica.hashCode());
 		result = prime
 				* result
+				+ ((idAreaIntervento == null) ? 0 : idAreaIntervento.hashCode());
+		result = prime
+				* result
 				+ ((idCategoriaIntervento == null) ? 0 : idCategoriaIntervento
 						.hashCode());
 		result = prime
@@ -551,10 +592,6 @@ public class NavigaAggregata implements Serializable{
 				+ ((idRegione == null) ? 0 : idRegione.hashCode());
 		result = prime
 				* result
-				+ ((idAreaIntervento == null) ? 0 : idAreaIntervento
-						.hashCode());
-		result = prime
-				* result
 				+ ((idSottoCategoriaSoggetto == null) ? 0
 						: idSottoCategoriaSoggetto.hashCode());
 		result = prime
@@ -568,6 +605,16 @@ public class NavigaAggregata implements Serializable{
 				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
 						.hashCode());
 		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
+		result = prime * result
+				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
+		result = prime
+				* result
+				+ ((pagDettaglioProgetto == null) ? 0 : pagDettaglioProgetto
+						.hashCode());
+		result = prime
+				* result
+				+ ((pagElencoProgetti == null) ? 0 : pagElencoProgetti
+						.hashCode());
 		return result;
 	}
 
@@ -589,6 +636,11 @@ public class NavigaAggregata implements Serializable{
 			if (other.descAreaGeografica != null)
 				return false;
 		} else if (!descAreaGeografica.equals(other.descAreaGeografica))
+			return false;
+		if (descAreaIntervento == null) {
+			if (other.descAreaIntervento != null)
+				return false;
+		} else if (!descAreaIntervento.equals(other.descAreaIntervento))
 			return false;
 		if (descCategoriaIntervento == null) {
 			if (other.descCategoriaIntervento != null)
@@ -620,11 +672,6 @@ public class NavigaAggregata implements Serializable{
 			if (other.descRegione != null)
 				return false;
 		} else if (!descRegione.equals(other.descRegione))
-			return false;
-		if (descAreaIntervento == null) {
-			if (other.descAreaIntervento != null)
-				return false;
-		} else if (!descAreaIntervento.equals(other.descAreaIntervento))
 			return false;
 		if (descSottoCategoriaSoggetto == null) {
 			if (other.descSottoCategoriaSoggetto != null)
@@ -669,6 +716,11 @@ public class NavigaAggregata implements Serializable{
 				return false;
 		} else if (!idAreaGeografica.equals(other.idAreaGeografica))
 			return false;
+		if (idAreaIntervento == null) {
+			if (other.idAreaIntervento != null)
+				return false;
+		} else if (!idAreaIntervento.equals(other.idAreaIntervento))
+			return false;
 		if (idCategoriaIntervento == null) {
 			if (other.idCategoriaIntervento != null)
 				return false;
@@ -699,11 +751,6 @@ public class NavigaAggregata implements Serializable{
 				return false;
 		} else if (!idRegione.equals(other.idRegione))
 			return false;
-		if (idAreaIntervento == null) {
-			if (other.idAreaIntervento != null)
-				return false;
-		} else if (!idAreaIntervento.equals(other.idAreaIntervento))
-			return false;
 		if (idSottoCategoriaSoggetto == null) {
 			if (other.idSottoCategoriaSoggetto != null)
 				return false;
@@ -731,9 +778,22 @@ public class NavigaAggregata implements Serializable{
 				return false;
 		} else if (!naviga.equals(other.naviga))
 			return false;
+		if (pagAggregata == null) {
+			if (other.pagAggregata != null)
+				return false;
+		} else if (!pagAggregata.equals(other.pagAggregata))
+			return false;
+		if (pagDettaglioProgetto == null) {
+			if (other.pagDettaglioProgetto != null)
+				return false;
+		} else if (!pagDettaglioProgetto.equals(other.pagDettaglioProgetto))
+			return false;
+		if (pagElencoProgetti == null) {
+			if (other.pagElencoProgetti != null)
+				return false;
+		} else if (!pagElencoProgetti.equals(other.pagElencoProgetti))
+			return false;
 		return true;
 	}
 
-	
-	
 }

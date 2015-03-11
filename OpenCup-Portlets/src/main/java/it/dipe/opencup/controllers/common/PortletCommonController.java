@@ -98,7 +98,7 @@ public class PortletCommonController {
 		
 		if( (! "-1".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdAreaIntervento() )) ){
 			//Settore intervento selezionata carico i sottosettori
-			List<SottosettoreIntervento> listSottosettoreIntervento = aggregataFacade.findSottosettoreBySettore(Integer.valueOf( filtro.getIdAreaIntervento() ));
+			List<SottosettoreIntervento> listSottosettoreIntervento = aggregataFacade.findSottosettoreByArea(Integer.valueOf( filtro.getIdAreaIntervento() ));
 			model.addAttribute("listSottosettoreIntervento", listSottosettoreIntervento);
 		}
 		
@@ -108,7 +108,7 @@ public class PortletCommonController {
 				((! "0".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdSottosettoreIntervento() )))
 				){
 			//Settore intervento e sottosettore intervento selezionati carico le categorie
-			List<CategoriaIntervento> listaCategoriaIntervento = aggregataFacade.findCategoriaInterventoBySettoreSottosettore(Integer.valueOf( filtro.getIdAreaIntervento() ), Integer.valueOf( filtro.getIdSottosettoreIntervento() ));
+			List<CategoriaIntervento> listaCategoriaIntervento = aggregataFacade.findCategoriaInterventoByAreaSottosettore(Integer.valueOf( filtro.getIdAreaIntervento() ), Integer.valueOf( filtro.getIdSottosettoreIntervento() ));
 			model.addAttribute("listaCategoriaIntervento", listaCategoriaIntervento);
 		}
 		
@@ -193,7 +193,7 @@ public class PortletCommonController {
 		
 		List<FiltroRicercaDTO> SottosettoriIntervento = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
-		for(SottosettoreIntervento settoreIntervento : aggregataFacade.findSottosettoreBySettore(pattern)){
+		for(SottosettoreIntervento settoreIntervento : aggregataFacade.findSottosettoreByArea(pattern)){
 			ele = new FiltroRicercaDTO();
 			ele.setId( settoreIntervento.getId() );
 			ele.setLabel( settoreIntervento.getDescSottosettoreInt() );
@@ -211,7 +211,7 @@ public class PortletCommonController {
 		
 		List<FiltroRicercaDTO> categorieIntervento = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
-		for(CategoriaIntervento categoriaIntervento : aggregataFacade.findCategoriaInterventoBySettoreSottosettore(pattern, pattern2)){
+		for(CategoriaIntervento categoriaIntervento : aggregataFacade.findCategoriaInterventoByAreaSottosettore(pattern, pattern2)){
 			ele = new FiltroRicercaDTO();
 			ele.setId( categoriaIntervento.getId() );
 			ele.setLabel( categoriaIntervento.getDescCategoriaIntervento() );

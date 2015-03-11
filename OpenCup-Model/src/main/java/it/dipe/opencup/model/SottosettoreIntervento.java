@@ -23,15 +23,13 @@ public class SottosettoreIntervento extends AbstractCommonEntity implements Seri
 	@Id
 	@Column(name = "SEQU_DSSI_ID")
 	private Integer id;
-	 
-
+	
 	@Column(name = "CODI_DSSI_SOTTOSETTORE_INT", length = 4)
 	private String codiSottosettoreInt;
-	 
-
+	
 	@Column(name = "DESC_DSSI_SOTTOSETTORE_INT", length = 255)
 	private String descSottosettoreInt;
-	 
+	
 	@ManyToOne(targetEntity = SettoreIntervento.class)
 	@JoinColumn(name = "FK_DSSI_DSIN_ID", referencedColumnName = "SEQU_DSIN_ID")
 	private SettoreIntervento settoreIntervento;

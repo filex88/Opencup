@@ -131,6 +131,12 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	@OneToMany(targetEntity=AnagraficaCup.class, fetch=FetchType.EAGER, mappedBy="anagraficaCup")
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<AnagraficaCup> subordinatesCup;
+	
+	
+	@OneToMany(targetEntity=CupLocalizzazione.class, fetch=FetchType.EAGER, mappedBy="anagraficaCup")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<CupLocalizzazione> cupLocalizzazione;
+	
 
 	public Integer getId() {
 		return id;
@@ -338,6 +344,14 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 
 	public void setSubordinatesCup(List<AnagraficaCup> subordinatesCup) {
 		this.subordinatesCup = subordinatesCup;
+	}
+
+	public List<CupLocalizzazione> getCupLocalizzazione() {
+		return cupLocalizzazione;
+	}
+
+	public void setCupLocalizzazione(List<CupLocalizzazione> cupLocalizzazione) {
+		this.cupLocalizzazione = cupLocalizzazione;
 	}
 
 	@Override

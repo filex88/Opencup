@@ -91,7 +91,7 @@ public class NaturaPortlet1Controller extends NaturaPortletCommonController {
 			}
 			
 			conv.setLinkURL(aggregataDTO.getLinkURL());
-			conv.setColor(getRandomColor());
+//			conv.setColor(getRandomColor());
 			converter.add(conv);
 		}
 

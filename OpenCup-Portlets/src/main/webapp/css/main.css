@@ -135,56 +135,103 @@
 	border-color: #3C79B7 !important;
 }
 
-.remove-circle-filtri{
-	cursor: pointer;
+.vertical-align-middle{
 	vertical-align: middle !important;
 }
 
-
-.affina-ricerca-natura .icon-filter {
-	position:relative; 
-	text-decoration:none;
+.cursor-pointer{
+	cursor: pointer;
 }
 
-.affina-ricerca-natura .icon-filter > .icon-circle {
-	font-size: 1em;
+.classificazione-portlet1 #tooltip-classificazione-portlet1 {
+	position: absolute;
+	width: 200px;
+	height: auto;
+	padding: 10px;
+	background-color: #ffffff;
+	border: 2px solid #5b5955;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;
 }
 
-.affina-ricerca-natura .icon-filter > .icon-light {
-	font-size: 0.7em;
-}
-
-.affina-ricerca-natura #notifBadge {
-	color: #cb4437; 
-	text-decoration: none; 
-	position: absolute; 
-	top: -11px; 
-	right: -10px; 
+.classificazione-portlet1 #tooltip-classificazione-portlet1.hidden {
 	display: none;
 }
 
+.classificazione-portlet1 #tooltip-classificazione-portlet1 p {
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+.classificazione-portlet1 .underline {
+	border-bottom: 1px solid;
+	border-color: #004383;
+}
+
+.classificazione-portlet1 .ricerca .control-group .control-label {
+	padding-top:inherit;
+	font-weight: bold;
+	padding-left: 10px;
+  	padding-bottom: 5px;
+}
+.classificazione-portlet1 .ricerca .control-group span {
+	padding-top:5px;
+	margin-bottom: 5px;
+}
 
 
-.utente .icon-bell-alt {
+.affina-ricerca-div{
+	margin-bottom: 0px;
+}
+
+.affina-ricerca {
+	position: absolute;
+	right: 0px;
+	display: block;
+	line-height: 30px;
+	background-color: #004383;
+	color: #fff;
+	padding-left: 10px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.affina-ricerca > a, .affina-ricerca > a:visited {
+	color: #fff;
+}
+
+.affina-ricerca .icon-filter {
 	position:relative; 
 	text-decoration:none;
 }
 
-.utente #notifBadge {
+.affina-ricerca #filtriBadge {
 	color: #cb4437; 
 	text-decoration: none; 
 	position: absolute; 
+	top: -15px; 
+	right: -15px; 
 }
 
-.utente .icon-stack > .icon-circle {
-	font-size: 1em;
+.affina-ricerca .icon-stack > .icon-circle {
+	font-size: 1.2em !important;
 }
 
-.utente .icon-stack > .icon-light {
-	font-size: 0.7em;
-
+.affina-ricerca .icon-stack > .icon-light {
+	font-size: 0.9em !important;
 }
 
 
-
+#popoverNotifiche + .popover > .popover-content {
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
 

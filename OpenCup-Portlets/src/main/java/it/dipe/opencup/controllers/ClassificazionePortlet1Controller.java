@@ -1,11 +1,22 @@
 package it.dipe.opencup.controllers;
 
+import it.dipe.opencup.controllers.common.ClassificazionePortletCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
-import it.dipe.opencup.facade.AggregataFacade;
-import it.dipe.opencup.facade.ProgettiFacade;
+import it.dipe.opencup.model.AnnoAggregato;
+import it.dipe.opencup.model.AreaGeografica;
+import it.dipe.opencup.model.AreaIntervento;
+import it.dipe.opencup.model.CategoriaIntervento;
+import it.dipe.opencup.model.CategoriaSoggetto;
+import it.dipe.opencup.model.Comune;
+import it.dipe.opencup.model.Provincia;
+import it.dipe.opencup.model.Regione;
+import it.dipe.opencup.model.SottocategoriaSoggetto;
+import it.dipe.opencup.model.SottosettoreIntervento;
+import it.dipe.opencup.model.StatoProgetto;
+import it.dipe.opencup.model.TipologiaIntervento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +24,16 @@ import java.util.List;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
-import javax.portlet.PortletModeException;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.WindowState;
-import javax.portlet.WindowStateException;
+import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,8 +45,6 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -51,24 +58,12 @@ import com.liferay.portlet.PortletURLFactoryUtil;
 
 @Controller
 @RequestMapping("VIEW")
-@SessionAttributes("navigaAggregata")
-public class ClassificazionePortlet1Controller {
-	
-	@Value("#{config['paginazione.risultatiPerPagina']}")
-	private int maxResult;
+@SessionAttributes({"navigaAggregata"})
+public class ClassificazionePortlet1Controller extends ClassificazionePortletCommonController {
 	
 	@Value("#{config['codice.natura.open.cup']}")
 	private String codiNaturaOpenCUP;
-	
-	@Autowired
-	private ProgettiFacade progettiFacade;
-	
-	@Autowired
-	private AggregataFacade aggregataFacade;
-	
-	//Array che contiene i nomi delle pagine per la navigazione nella Classificazione
-	private final String[] pageLiv = {"/natura", "/natura", "/natelencoprogetti"};
-	
+
 	//Array per la personalizzazione della voce di navigazione
 	private final String[] navigaPer = {"Area Intervento", "Sottosettore", "Categoria Intervento"};
 	
@@ -84,17 +79,31 @@ public class ClassificazionePortlet1Controller {
 	@ActionMapping(params="action=ricerca")
 	public void actionRicerca(	ActionRequest aRequest, 
 								ActionResponse aResponse, 
-								Model model, 
+								ModelMap modelMap, 
 								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
 		
-		System.out.println("AR1: " + navigaAggregata.toString());
-		model.addAttribute("navigaAggregata", navigaAggregata);
+		modelMap.addAttribute("navigaAggregata", navigaAggregata);
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
+		session.setAttribute("navigaAggregata", navigaAggregata);
+	}
+	
+	@ActionMapping(params="action=affinaricerca")
+	public void actionAffinaRicerca(	ActionRequest aRequest, 
+								ActionResponse aResponse, 
+								ModelMap modelMap, 
+								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
+		
+		modelMap.addAttribute("navigaAggregata", navigaAggregata);
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
+		session.setAttribute("navigaAggregata", navigaAggregata);
 	}
 	
 	@ActionMapping(params="action=navigazione")
 	public void actionNavigazione(	ActionRequest aRequest, 
 									ActionResponse aResponse, 
-									Model model, 
+									ModelMap modelMap, 
 									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
 		
 		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
@@ -102,17 +111,30 @@ public class ClassificazionePortlet1Controller {
 		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		
-		System.out.println("AN1: " + navigaAggregata.toString());
-		model.addAttribute("navigaAggregata", navigaAggregata);
+		modelMap.addAttribute("navigaAggregata", navigaAggregata);
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
+		session.setAttribute("navigaAggregata", navigaAggregata);
+		
+		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
+			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
+			try {
+				aResponse.sendRedirect( renderURL.toString() );
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
-										Model model,
+										ModelMap modelMap, 
 										@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
-		
-		System.out.println("RM1: " + navigaAggregata.toString());
+
+		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ) {
+			navigaAggregata.setIdCategoriaIntervento("0");
+		}
 		
 		int index = calcolaIndicePagina(navigaAggregata);
 		
@@ -146,18 +168,16 @@ public class ClassificazionePortlet1Controller {
 																						searchContainerDettaglio.getOrderByType() );
 		
 		searchContainerDettaglio.setTotal( listaAggregataDTO.size() );
-		
-		
-		
+
 		List<AggregataDTO> subListaAggregataDTO = ListUtil.subList(listaAggregataDTO, searchContainerDettaglio.getStart(), searchContainerDettaglio.getEnd());       
 		
-		String anchorPortlet = "#natura-portlet2";
-		impostaLinkURL(renderRequest, navigaAggregata, index, subListaAggregataDTO, anchorPortlet);
+		String anchorPortlet = "#classificazione-portlet2";
+		impostaLinkURL(renderRequest, navigaAggregata, subListaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
 		
 		searchContainerDettaglio.setResults(subListaAggregataDTO);
 		
-		model.addAttribute("searchContainerDettaglio", searchContainerDettaglio);
-		model.addAttribute("navigaPer", navigaPer[index]);
+		modelMap.addAttribute("searchContainerDettaglio", searchContainerDettaglio);
+		modelMap.addAttribute("navigaPer", navigaPer[index]);
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -181,65 +201,42 @@ public class ClassificazionePortlet1Controller {
 		retval.add(new DescrizioneValore("IMPORTO FINANZIAMENTI", impoImportoFinanziato));
 		
 		searchContainerRiepilogo.setResults(retval);
-		model.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
+		modelMap.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Calcolo l'url per elenco progetti
-		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		String portletId = (String) renderRequest.getAttribute(WebKeys.PORTLET_ID);
-		
-		//PortletDisplay portletDisplay= themeDisplay.getPortletDisplay();
-		LiferayPortletURL renderURL = null;
-		String localHost = themeDisplay.getPortalURL();		
-		List<Layout> layouts = null;
-		try {
-			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
-			for(Layout layout : layouts){
-				
-				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
-				
-				//Viene ricercato l'URL esatto per la pagina successiva
-				if(nodeNameRemoved.indexOf("natelencoprogetti")>0){
-					renderURL = PortletURLFactoryUtil.create(renderRequest, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
-					renderURL.setWindowState(WindowState.NORMAL);
-					renderURL.setPortletMode(PortletMode.VIEW);
-					model.addAttribute("linkURLElencoProgetti", renderURL.toString());
-					break;
-				}
-			}
-		} catch (SystemException e) {
-			e.printStackTrace();
-		} catch (WindowStateException e) {
-			e.printStackTrace();
-		} catch (PortletModeException e) {
-			e.printStackTrace();
-		} catch (PortalException e) {
-			e.printStackTrace();
-		}
+		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, navigaAggregata.getPagElencoProgetti());
+		modelMap.addAttribute("linkURLElencoProgetti", renderURL.toString());
 		
 		impostaDesFiltriImpostati(navigaAggregata);
+		
+		modelMap.addAttribute("navigaAggregata", navigaAggregata);
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
+		session.setAttribute("navigaAggregata", navigaAggregata);
+		
+		// MASCHERA RICERCA //
+		initInModelMascheraRicerca(modelMap, navigaAggregata);
 		
 		return "classificazione-view";
 	}
 	
-	@ResourceMapping(value =  "aggregati4Pie")	
+	@ResourceMapping(value = "aggregati4Pie")	
 	public View caricaDati4Pie(	ResourceRequest request, 
 								@RequestParam("pattern") String pattern, 
+								ModelMap modelMap,
 								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata ){
-		
-		System.out.println("CD1: " + navigaAggregata.toString());
 		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
-		int index = calcolaIndicePagina(navigaAggregata);
-		
-		String anchorPortlet = "#natura-portlet1";
-		impostaLinkURL(request, navigaAggregata, index, listaAggregataDTO, anchorPortlet);
+		String anchorPortlet = "#classificazione-portlet1";
+		impostaLinkURL(request, navigaAggregata, listaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
 
 		MappingJacksonJsonView view = new MappingJacksonJsonView();
 		D3PieConverter conv = null;
-
 		for (AggregataDTO aggregataDTO: listaAggregataDTO){
 			conv = new D3PieConverter();
 			conv.setId(aggregataDTO.getId().toString());
@@ -265,85 +262,61 @@ public class ClassificazionePortlet1Controller {
 			}
 			
 			conv.setLinkURL(aggregataDTO.getLinkURL());
-			conv.setColor(getRandomColor());
+//			conv.setColor(getColor(indiceColore++));
 			converter.add(conv);
 		}
 
 		view.addStaticAttribute("aggregati4Pie", converter);
+		
+		modelMap.addAttribute("navigaAggregata", navigaAggregata);
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+		session.setAttribute("navigaAggregata", navigaAggregata);
+		
 		return view;
 	}
 	
 	private void impostaLinkURL(	PortletRequest request, 
 									NavigaAggregata sessionAttrNav, 
-									int index, 
 									List<AggregataDTO> listaAggregataDTO, 
-									String anchorPortlet) {
+									String anchorPortlet,
+									String pageTo) {
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo);
+		String rowIdLiv1URL = "", rowIdLiv2URL = "", rowIdLiv3URL = "", rowIdLiv4URL = "";
+		
+		for(AggregataDTO tmp : listaAggregataDTO){		
 
-		//PortletDisplay portletDisplay= themeDisplay.getPortletDisplay();
-		LiferayPortletURL renderURL = null;
+			//Per ogni elemento oltre a caricare la descrizione e i valori
+			//viene generato un linkURL che punta alla pagina successiva
 
-		String localHost = themeDisplay.getPortalURL();		
-		List<Layout> layouts = null;
-		try {
-			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
-			String rowIdLiv1URL = "", rowIdLiv2URL = "", rowIdLiv3URL = "", rowIdLiv4URL = "";
-			for(Layout layout : layouts){
+			rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
+			rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdAreaIntervento());
+			rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
+			rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
 
-				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
-
-				//Viene ricercato l'URL esatto per la pagina successiva
-				if(nodeNameRemoved.indexOf(pageLiv[index])>0){
-
-					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
-					renderURL.setWindowState(WindowState.NORMAL);
-					renderURL.setPortletMode(PortletMode.VIEW);
-
-					for(AggregataDTO tmp : listaAggregataDTO){		
-
-						//Per ogni elemento oltre a caricare la descrizione e i valori
-						//viene generato un linkURL che punta alla pagina successiva
-
-						rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
-						rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdAreaIntervento());
-						rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
-						rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
-
-						if( sessionAttrNav.getIdCategoriaIntervento().equals("0") ){
-							rowIdLiv4URL = tmp.getIdCategoriaIntervento().toString(); 
-							tmp.setDescURL( tmp.getDesCategoriaIntervento() );
-						}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
-							rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
-							rowIdLiv4URL = "0";
-							tmp.setDescURL( tmp.getDesSottoSettore() );
-						}else if( sessionAttrNav.getIdAreaIntervento().equals("0") ){
-							rowIdLiv2URL = tmp.getIdArea().toString(); 
-							rowIdLiv3URL = "0";
-							rowIdLiv4URL = "-1";
-							tmp.setDescURL( tmp.getDesArea() );
-						}
-
-						renderURL.setParameter("rowIdLiv1", rowIdLiv1URL); 
-						renderURL.setParameter("rowIdLiv2", rowIdLiv2URL); 
-						renderURL.setParameter("rowIdLiv3", rowIdLiv3URL); 
-						renderURL.setParameter("rowIdLiv4", rowIdLiv4URL); 
-
-						renderURL.setParameter("action", "navigazione");
-
-						tmp.setLinkURL(renderURL.toString()+anchorPortlet);
-					}
-				}
+			if( sessionAttrNav.getIdCategoriaIntervento().equals("0") ){
+				rowIdLiv4URL = tmp.getIdCategoriaIntervento().toString(); 
+				tmp.setDescURL( tmp.getDesCategoriaIntervento() );
+			}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
+				rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
+				rowIdLiv4URL = "0";
+				tmp.setDescURL( tmp.getDesSottoSettore() );
+			}else if( sessionAttrNav.getIdAreaIntervento().equals("0") ){
+				rowIdLiv2URL = tmp.getIdArea().toString(); 
+				rowIdLiv3URL = "0";
+				rowIdLiv4URL = "-1";
+				tmp.setDescURL( tmp.getDesArea() );
 			}
-		} catch (SystemException e) {
-			e.printStackTrace();
-		} catch (WindowStateException e) {
-			e.printStackTrace();
-		} catch (PortletModeException e) {
-			e.printStackTrace();
-		} catch (PortalException e) {
-			e.printStackTrace();
+
+			renderURL.setParameter("rowIdLiv1", rowIdLiv1URL); 
+			renderURL.setParameter("rowIdLiv2", rowIdLiv2URL); 
+			renderURL.setParameter("rowIdLiv3", rowIdLiv3URL); 
+			renderURL.setParameter("rowIdLiv4", rowIdLiv4URL); 
+
+			renderURL.setParameter("action", "navigazione");
+
+			tmp.setLinkURL(renderURL.toString() + anchorPortlet);
 		}
 	}
 	
@@ -388,14 +361,112 @@ public class ClassificazionePortlet1Controller {
 		}
 		return index;
 	}
+
+//	public static String getRandomColor() {
+//		String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+//		String color = "#";
+//		for (int i = 0; i < 6; i++ ) {
+//			color += letters[(int) Math.round(Math.random() * 15)];
+//		}
+//		return color;
+//	}
 	
-	public static String getRandomColor() {
-		String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
-		String color = "#";
-		for (int i = 0; i < 6; i++ ) {
-			color += letters[(int) Math.round(Math.random() * 15)];
+	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage) {
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		LiferayPortletURL renderURL = null;
+		String localHost = themeDisplay.getPortalURL();		
+		List<Layout> layouts = null;
+		try{
+			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+			for(Layout layout : layouts){
+
+				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+
+				//Viene ricercato l'URL esatto per la pagina successiva
+				if(nodeNameRemoved.indexOf(toPage)>0){
+
+					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
+					renderURL.setWindowState(WindowState.NORMAL);
+					renderURL.setPortletMode(PortletMode.VIEW);
+					
+					break;
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return color;
+		return renderURL;
+	}
+	
+	private void initInModelMascheraRicerca(ModelMap modelMap, NavigaAggregata filtro ) {
+		
+		//Carico la lista delle regioni
+		List<AreaGeografica> listAreaGeografica = aggregataFacade.findAreaGeografica();
+		modelMap.addAttribute("listAreaGeografica", listAreaGeografica);
+		
+		if( (! "-1".equals( filtro.getIdAreaGeografica() )) && (! "0".equals( filtro.getIdAreaGeografica() )) ){
+			//Regione selezionata carico le Province
+			List<Regione> listRegione = aggregataFacade.findRegioniByIdAreaGeografica(Integer.valueOf( filtro.getIdAreaGeografica() ));
+			modelMap.addAttribute("listRegione", listRegione);
+		}
+		
+		if( (! "-1".equals( filtro.getIdRegione() )) && (! "0".equals( filtro.getIdRegione() )) ){
+			//Regione selezionata carico le Province
+			List<Provincia> listProvincia = aggregataFacade.findProvinciaByIdRegione(Integer.valueOf( filtro.getIdRegione() ));
+			modelMap.addAttribute("listProvincia", listProvincia);
+		}
+		
+		if( (! "-1".equals( filtro.getIdProvincia() )) && (! "0".equals( filtro.getIdProvincia() )) ){
+			//Provincia selezionata carico i Comuni
+			List<Comune> listComune = aggregataFacade.findComuneByIdProvincia(Integer.valueOf( filtro.getIdProvincia() ));
+			modelMap.addAttribute("listComune", listComune);
+		}
+		
+		//Carico la lista degli Anni Aggregata
+		List<AnnoAggregato> listaAnnoAggregato = aggregataFacade.findAnnoAggregato();
+		modelMap.addAttribute("listaAnnoAggregato", listaAnnoAggregato);
+		
+		//Carico la lista delle Tipologia Intervento
+		List<TipologiaIntervento> listaTipologiaIntervento = aggregataFacade.findTipologiaIntervento();
+		modelMap.addAttribute("listaTipologiaIntervento", listaTipologiaIntervento);
+		
+		//Carico la lista degli Stato Progetto
+		List<StatoProgetto> listaStatoProgetto = aggregataFacade.findStatoProgetto();
+		modelMap.addAttribute("listaStatoProgetto", listaStatoProgetto);
+		
+		//Carico la lista della Categoria Soggetto
+		List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggetto();
+		modelMap.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
+	
+		if( (! "-1".equals( filtro.getIdCategoriaSoggetto() )) && (! "0".equals( filtro.getIdCategoriaSoggetto() )) ){
+			//Carico la lista della Sottocategoria Soggetto
+			List<SottocategoriaSoggetto> listSottoCategoriaSoggetto = aggregataFacade.findSottocategoriaSoggetto(Integer.valueOf( filtro.getIdCategoriaSoggetto() ));
+			modelMap.addAttribute("listSottoCategoriaSoggetto", listSottoCategoriaSoggetto);
+		}
+		
+		//Carico le Aree d'intervednto
+		List<AreaIntervento> listAreaIntervento = aggregataFacade.findAreaIntervento();
+		modelMap.addAttribute("listAreaIntervento", listAreaIntervento);
+		
+		if( (! "-1".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdAreaIntervento() )) ){
+			//Settore intervento selezionata carico i sottosettori
+			List<SottosettoreIntervento> listSottosettoreIntervento = aggregataFacade.findSottosettoreByArea(Integer.valueOf( filtro.getIdAreaIntervento() ));
+			modelMap.addAttribute("listSottosettoreIntervento", listSottosettoreIntervento);
+		}
+		
+		if( 
+				((! "-1".equals( filtro.getIdAreaIntervento() )) && (! "-1".equals( filtro.getIdSottosettoreIntervento() )))
+				&&
+				((! "0".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdSottosettoreIntervento() )))
+				){
+			//Settore intervento e sottosettore intervento selezionati carico le categorie
+			List<CategoriaIntervento> listaCategoriaIntervento = aggregataFacade.findCategoriaInterventoByAreaSottosettore(Integer.valueOf( filtro.getIdAreaIntervento() ), Integer.valueOf( filtro.getIdSottosettoreIntervento() ));
+			modelMap.addAttribute("listaCategoriaIntervento", listaCategoriaIntervento);
+		}
+		
 	}
 	
 }
