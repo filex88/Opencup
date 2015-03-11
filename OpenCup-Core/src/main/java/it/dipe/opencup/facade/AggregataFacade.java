@@ -117,7 +117,6 @@ public class AggregataFacade {
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
-		
 		Criteria criteria = aggregataDAO.newCriteria();
 		
 		criteria.createAlias("classificazione", "classificazione");

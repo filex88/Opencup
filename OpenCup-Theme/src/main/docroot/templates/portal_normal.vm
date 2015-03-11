@@ -16,6 +16,11 @@
 	<script type="text/javascript" src="$javascript_folder/d3pie.js" charset="utf-8"></script>
 	<script type="application/json" src="$javascript_folder/italy_macroareas.json"></script>
 	<script type="application/json" src="$javascript_folder/all_province.json"></script>
+	<script type="application/json" src="$javascript_folder/area_C.json"></script>
+	<script type="application/json" src="$javascript_folder/area_I.json"></script>
+	<script type="application/json" src="$javascript_folder/area_S.json"></script>
+	<script type="application/json" src="$javascript_folder/area_NE.json"></script>
+	<script type="application/json" src="$javascript_folder/area_NO.json"></script>
 	<!--[if lte IE 8]><script src="$javascript_folder/r2d3.js" charset="utf-8"></script><![endif]-->
     <!--[if gte IE 9]><!-->
     <script src="$javascript_folder/d3.min.js"></script>
