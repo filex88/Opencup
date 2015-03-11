@@ -15,7 +15,6 @@
 	<script type="text/javascript" src="$javascript_folder/d3.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="$javascript_folder/d3pie.js" charset="utf-8"></script>
 	<script type="application/json" src="$javascript_folder/italy_macroareas.json"></script>
-	<script type="application/json" src="$javascript_folder/all_province.json"></script>
 	<script type="application/json" src="$javascript_folder/area_C.json"></script>
 	<script type="application/json" src="$javascript_folder/area_I.json"></script>
 	<script type="application/json" src="$javascript_folder/area_S.json"></script>
