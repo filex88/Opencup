@@ -84,6 +84,14 @@
 		<css-class-wrapper>localizzazione-portlet3</css-class-wrapper>
 	</portlet>
 	
+	<portlet>
+		<portlet-name>localizzazione-portlet4</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/localizzazione-portlet4.js</footer-portlet-javascript>
+		<css-class-wrapper>localizzazione-portlet3</css-class-wrapper>
+	</portlet>
+	
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>
