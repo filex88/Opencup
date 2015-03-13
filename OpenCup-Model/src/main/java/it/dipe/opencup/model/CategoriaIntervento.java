@@ -34,11 +34,11 @@ public class CategoriaIntervento extends AbstractCommonEntity implements Seriali
 	private String descCategoriaIntervento;
 	 
 	@ManyToOne(targetEntity = SettoreIntervento.class)
-	@JoinColumn(name = "FK_DCAI_ESIN_ID", referencedColumnName = "SEQU_DSIN_ID")
+	@JoinColumn(name = "FK_DCAI_DSIN_ID", referencedColumnName = "SEQU_DSIN_ID")
 	private SettoreIntervento settoreIntervento;
 	
 	@ManyToOne(targetEntity = SottosettoreIntervento.class)
-	@JoinColumn(name = "FK_DCAI_ESSI_ID", referencedColumnName = "SEQU_DSSI_ID")
+	@JoinColumn(name = "FK_DCAI_DSSI_ID", referencedColumnName = "SEQU_DSSI_ID")
 	private SottosettoreIntervento sottosettoreIntervento;
 
 	public Integer getId() {

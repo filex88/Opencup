@@ -28,7 +28,7 @@ Progetti progetti = (Progetti)row.getObject();
 		
 		<div>
 			<p>
-				<strong>........</strong>
+				<strong><%= progetti.getSoggettoTitolare().getDescSoggettoTitolare() %></strong>
 			</p>
 		</div>
 		
@@ -57,14 +57,20 @@ Progetti progetti = (Progetti)row.getObject();
 	
 	<div class="span4" style="text-align: center;">
 
-		<liferay-portlet:renderURL var="linkURLdettaglioprogetto" portletName="dettaglioprogettoportlet_WAR_OpenCupPortletsportlet" portletMode="view" windowState="maximized">
-			<liferay-portlet:param name="idProgettoDettaglio" value="<%= progetti.getId().toString() %>"/>
-		</liferay-portlet:renderURL>
+		<portlet:actionURL var="linkURLdettaglioprogetto" name="">
+		   	<portlet:param name="action" value="dettaglio"></portlet:param>
+		   	<portlet:param name="idProgettoDettaglio" value="<%= progetti.getId().toString() %>"></portlet:param>
+		</portlet:actionURL>
 		
-		<form method="POST" action="<%= linkURLdettaglioprogetto %>">
-			<aui:button cssClass="btn-dett-progetto" data-id-progetto="<%= progetti.getId().toString() %>" value="DETTAGLIO PROGETTO" />
-		</form>
+		<aui:form 
+			action="${linkURLdettaglioprogetto}" 
+			method="post">
 			
+			<aui:button cssClass="btn-dett-progetto" data-id-progetto="<%= progetti.getId().toString() %>" value="DETTAGLIO PROGETTO" />
+		
+		</aui:form>
+	
+	
 	</div>
 	
 </div>

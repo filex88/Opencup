@@ -350,7 +350,7 @@
 					
 				</liferay-ui:search-container-row>
 				
-				<liferay-ui:search-iterator searchContainer="${searchContainerRiepilogo}"/>
+				<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerRiepilogo}"/>
 				
 			</liferay-ui:search-container>
 		

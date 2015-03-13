@@ -22,10 +22,10 @@ public class AreaIntervento extends AbstractCommonEntity implements Serializable
 	@Column(name = "SEQU_DAIN_ID")
 	private Integer id;
 
-	@Column(name = "CODI_EAIN_AREA_INTERVENTO", length = 2)
+	@Column(name = "CODI_DAIN_AREA_INTERVENTO", length = 2)
 	private String codiAreaIntervento;
 	
-	@Column(name = "DESC_EAIN_AREA_INTERVENTO", length = 100)
+	@Column(name = "DESC_DAIN_AREA_INTERVENTO", length = 100)
 	private String descAreaIntervento;
 
 	public Integer getId() {

@@ -37,7 +37,6 @@
 	<portlet>
 		<portlet-name>natura-portlet-ricerca</portlet-name>
 		<icon>/icon.png</icon>
-		<header-portlet-css>/css/bootstrap-multiselect.css</header-portlet-css>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/natura-portlet-ricerca.js</footer-portlet-javascript>
 		<css-class-wrapper>natura-portlet-ricerca</css-class-wrapper>
@@ -51,6 +50,14 @@
 		<footer-portlet-javascript>/js/elenco-progetti-portlet.js</footer-portlet-javascript>
 		<css-class-wrapper>elenco-progetti-portlet</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>dettaglio-progetto-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<footer-portlet-css>/css/main.css</footer-portlet-css>
+		<footer-portlet-javascript>/js/dettaglio-progetto-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>dettaglio-progetto-portlet</css-class-wrapper>
 	</portlet>
 	
 	<portlet>

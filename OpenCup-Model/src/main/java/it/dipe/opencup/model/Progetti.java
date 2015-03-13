@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -74,15 +75,11 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	@JoinColumn(name = "FK_FPRG_DGRA_ID", referencedColumnName = "SEQU_DGRA_ID")
 	private GruppoAteco gruppoAteco;
 
-	@ManyToOne(targetEntity = Cpv.class)
-	@JoinColumn(name = "FK_FPRG_DCPV_ID", referencedColumnName = "SEQU_DCPV_ID")
-	private Cpv cpv;
-
-	@ManyToOne(targetEntity = AnagraficaCup.class)
-	@JoinColumn(name = "FK_FPRG_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
-	private AnagraficaCup anagraficaCup;
+//	@ManyToOne(targetEntity = AnagraficaCup.class, fetch=FetchType.LAZY)
+//	@JoinColumn(name = "FK_FPRG_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
+//	private AnagraficaCup anagraficaCup;
 	
-	@ManyToOne(targetEntity = AreaIntervento.class)
+	@ManyToOne(targetEntity = AreaIntervento.class, fetch=FetchType.LAZY)
 	@JoinColumn(name = "FK_FPRG_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
 	private AreaIntervento areaIntervento;
 
@@ -217,21 +214,13 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 		this.gruppoAteco = gruppoAteco;
 	}
 
-	public Cpv getCpv() {
-		return cpv;
-	}
-
-	public void setCpv(Cpv cpv) {
-		this.cpv = cpv;
-	}
-
-	public AnagraficaCup getAnagraficaCup() {
-		return anagraficaCup;
-	}
-
-	public void setAnagraficaCup(AnagraficaCup anagraficaCup) {
-		this.anagraficaCup = anagraficaCup;
-	}
+//	public AnagraficaCup getAnagraficaCup() {
+//		return anagraficaCup;
+//	}
+//
+//	public void setAnagraficaCup(AnagraficaCup anagraficaCup) {
+//		this.anagraficaCup = anagraficaCup;
+//	}
 
 //	public String getTextCoperFinanz() {
 //		return textCoperFinanz;

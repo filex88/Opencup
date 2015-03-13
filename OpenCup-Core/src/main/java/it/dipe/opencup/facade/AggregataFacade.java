@@ -118,6 +118,7 @@ public class AggregataFacade {
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
+		System.out.println( "FBC: " + navigaAggregata.toString() );
 		
 		Criteria criteria = aggregataDAO.newCriteria();
 		
@@ -298,7 +299,7 @@ public class AggregataFacade {
 		}else{
 			criteria.addOrder(Order.desc(orderByCol));
 		}
-		
+
 		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
 		
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);

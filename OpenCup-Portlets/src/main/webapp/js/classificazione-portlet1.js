@@ -266,6 +266,9 @@ AUI().use(
 							//Show the tooltip
 							tooltip.classed("hidden", false); 
 							tooltip.transition().duration(500).style("opacity", 100);
+						
+							//var mouse = d3.mouse(d3.select("body").node()).map( function(d) { return parseInt(d); } );
+							//tooltip.style("left", mouse[0] + "px");
 							
 						},
 						onMouseoutSegment: function(info) {
@@ -288,11 +291,12 @@ AUI().use(
 				SVGRoot.addEventListener('mousemove',
 						function(evt){
 					var loc = cursorPoint(evt)
+					console.log(evt);
 					var tooltip = d3.select("#tooltip-classificazione-portlet1");
-					tooltip.style("left", (loc.x ) + "px");
-					tooltip.style("top", (loc.y) + "px");
+					tooltip.style("left", (evt.pageX - 10) + "px");
+					tooltip.style("top", (loc.y - 10) + "px");
 				}, false);
-
+				
 				//// Get point in global SVG space
 				function cursorPoint(evt){
 					pt.x = evt.clientX; 

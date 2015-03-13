@@ -362,6 +362,21 @@ public abstract class AbstractCommonDAO <T extends AbstractCommonEntity> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<T> findByCriteria(Criteria criteria, int startResult, int endResult)
+	{
+		log.debug("finding all instances by criteria");
+		try {
+			
+			criteria = criteria.setFirstResult(startResult).setMaxResults(endResult);
+			
+			return criteria.list();
+		} catch (Exception re) {
+			log.error("find all  instances by criteria failed", re);
+			throw new DatabaseException(re);
+		}
+	}
+	
 	public int countByCriteria(Criteria criteria) {
 		log.debug("count all instances by pattern");
 		try {

@@ -19,6 +19,7 @@ public class NavigaAggregata implements Serializable{
 	private String pagDettaglioProgetto;
 	
 	private String naviga;
+	private boolean importaInNavigaProgetti;
 	private String distribuzione;
 	
 	private String idNatura;
@@ -134,6 +135,8 @@ public class NavigaAggregata implements Serializable{
 		toString = toString + "pagElencoProgetti: (" + pagElencoProgetti + "); ";
 		toString = toString + "pagDettaglioProgetto" + pagDettaglioProgetto + "); ";
 		toString = toString + "distribuzione: (" + distribuzione + "); ";
+		toString = toString + "importaInNavigaProgetti: (" + importaInNavigaProgetti + "); ";
+		
 		return toString;
 	}
 
@@ -272,6 +275,13 @@ public class NavigaAggregata implements Serializable{
 	}
 
 
+	public boolean isImportaInNavigaProgetti() {
+		return importaInNavigaProgetti;
+	}
+
+	public void setImportaInNavigaProgetti(boolean importaInNavigaProgetti) {
+		this.importaInNavigaProgetti = importaInNavigaProgetti;
+	}
 
 	public String getIdAreaIntervento() {
 		return idAreaIntervento;
@@ -512,288 +522,4 @@ public class NavigaAggregata implements Serializable{
 	public void setPagDettaglioProgetto(String pagDettaglioProgetto) {
 		this.pagDettaglioProgetto = pagDettaglioProgetto;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((descAnnoAggregatos == null) ? 0 : descAnnoAggregatos
-						.hashCode());
-		result = prime
-				* result
-				+ ((descAreaGeografica == null) ? 0 : descAreaGeografica
-						.hashCode());
-		result = prime
-				* result
-				+ ((descAreaIntervento == null) ? 0 : descAreaIntervento
-						.hashCode());
-		result = prime
-				* result
-				+ ((descCategoriaIntervento == null) ? 0
-						: descCategoriaIntervento.hashCode());
-		result = prime
-				* result
-				+ ((descCategoriaSoggetto == null) ? 0 : descCategoriaSoggetto
-						.hashCode());
-		result = prime * result
-				+ ((descComune == null) ? 0 : descComune.hashCode());
-		result = prime * result
-				+ ((descNatura == null) ? 0 : descNatura.hashCode());
-		result = prime * result
-				+ ((descProvincia == null) ? 0 : descProvincia.hashCode());
-		result = prime * result
-				+ ((descRegione == null) ? 0 : descRegione.hashCode());
-		result = prime
-				* result
-				+ ((descSottoCategoriaSoggetto == null) ? 0
-						: descSottoCategoriaSoggetto.hashCode());
-		result = prime
-				* result
-				+ ((descSottosettoreIntervento == null) ? 0
-						: descSottosettoreIntervento.hashCode());
-		result = prime * result
-				+ ((descStato == null) ? 0 : descStato.hashCode());
-		result = prime
-				* result
-				+ ((descStatoProgetto == null) ? 0 : descStatoProgetto
-						.hashCode());
-		result = prime
-				* result
-				+ ((descTipologiaIntervento == null) ? 0
-						: descTipologiaIntervento.hashCode());
-		result = prime * result
-				+ ((distribuzione == null) ? 0 : distribuzione.hashCode());
-		result = prime
-				* result
-				+ ((idAnnoAggregatos == null) ? 0 : idAnnoAggregatos.hashCode());
-		result = prime
-				* result
-				+ ((idAreaGeografica == null) ? 0 : idAreaGeografica.hashCode());
-		result = prime
-				* result
-				+ ((idAreaIntervento == null) ? 0 : idAreaIntervento.hashCode());
-		result = prime
-				* result
-				+ ((idCategoriaIntervento == null) ? 0 : idCategoriaIntervento
-						.hashCode());
-		result = prime
-				* result
-				+ ((idCategoriaSoggetto == null) ? 0 : idCategoriaSoggetto
-						.hashCode());
-		result = prime * result
-				+ ((idComune == null) ? 0 : idComune.hashCode());
-		result = prime * result
-				+ ((idNatura == null) ? 0 : idNatura.hashCode());
-		result = prime * result
-				+ ((idProvincia == null) ? 0 : idProvincia.hashCode());
-		result = prime * result
-				+ ((idRegione == null) ? 0 : idRegione.hashCode());
-		result = prime
-				* result
-				+ ((idSottoCategoriaSoggetto == null) ? 0
-						: idSottoCategoriaSoggetto.hashCode());
-		result = prime
-				* result
-				+ ((idSottosettoreIntervento == null) ? 0
-						: idSottosettoreIntervento.hashCode());
-		result = prime * result
-				+ ((idStatoProgetto == null) ? 0 : idStatoProgetto.hashCode());
-		result = prime
-				* result
-				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
-						.hashCode());
-		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
-		result = prime * result
-				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
-		result = prime
-				* result
-				+ ((pagDettaglioProgetto == null) ? 0 : pagDettaglioProgetto
-						.hashCode());
-		result = prime
-				* result
-				+ ((pagElencoProgetti == null) ? 0 : pagElencoProgetti
-						.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		NavigaAggregata other = (NavigaAggregata) obj;
-		if (descAnnoAggregatos == null) {
-			if (other.descAnnoAggregatos != null)
-				return false;
-		} else if (!descAnnoAggregatos.equals(other.descAnnoAggregatos))
-			return false;
-		if (descAreaGeografica == null) {
-			if (other.descAreaGeografica != null)
-				return false;
-		} else if (!descAreaGeografica.equals(other.descAreaGeografica))
-			return false;
-		if (descAreaIntervento == null) {
-			if (other.descAreaIntervento != null)
-				return false;
-		} else if (!descAreaIntervento.equals(other.descAreaIntervento))
-			return false;
-		if (descCategoriaIntervento == null) {
-			if (other.descCategoriaIntervento != null)
-				return false;
-		} else if (!descCategoriaIntervento
-				.equals(other.descCategoriaIntervento))
-			return false;
-		if (descCategoriaSoggetto == null) {
-			if (other.descCategoriaSoggetto != null)
-				return false;
-		} else if (!descCategoriaSoggetto.equals(other.descCategoriaSoggetto))
-			return false;
-		if (descComune == null) {
-			if (other.descComune != null)
-				return false;
-		} else if (!descComune.equals(other.descComune))
-			return false;
-		if (descNatura == null) {
-			if (other.descNatura != null)
-				return false;
-		} else if (!descNatura.equals(other.descNatura))
-			return false;
-		if (descProvincia == null) {
-			if (other.descProvincia != null)
-				return false;
-		} else if (!descProvincia.equals(other.descProvincia))
-			return false;
-		if (descRegione == null) {
-			if (other.descRegione != null)
-				return false;
-		} else if (!descRegione.equals(other.descRegione))
-			return false;
-		if (descSottoCategoriaSoggetto == null) {
-			if (other.descSottoCategoriaSoggetto != null)
-				return false;
-		} else if (!descSottoCategoriaSoggetto
-				.equals(other.descSottoCategoriaSoggetto))
-			return false;
-		if (descSottosettoreIntervento == null) {
-			if (other.descSottosettoreIntervento != null)
-				return false;
-		} else if (!descSottosettoreIntervento
-				.equals(other.descSottosettoreIntervento))
-			return false;
-		if (descStato == null) {
-			if (other.descStato != null)
-				return false;
-		} else if (!descStato.equals(other.descStato))
-			return false;
-		if (descStatoProgetto == null) {
-			if (other.descStatoProgetto != null)
-				return false;
-		} else if (!descStatoProgetto.equals(other.descStatoProgetto))
-			return false;
-		if (descTipologiaIntervento == null) {
-			if (other.descTipologiaIntervento != null)
-				return false;
-		} else if (!descTipologiaIntervento
-				.equals(other.descTipologiaIntervento))
-			return false;
-		if (distribuzione == null) {
-			if (other.distribuzione != null)
-				return false;
-		} else if (!distribuzione.equals(other.distribuzione))
-			return false;
-		if (idAnnoAggregatos == null) {
-			if (other.idAnnoAggregatos != null)
-				return false;
-		} else if (!idAnnoAggregatos.equals(other.idAnnoAggregatos))
-			return false;
-		if (idAreaGeografica == null) {
-			if (other.idAreaGeografica != null)
-				return false;
-		} else if (!idAreaGeografica.equals(other.idAreaGeografica))
-			return false;
-		if (idAreaIntervento == null) {
-			if (other.idAreaIntervento != null)
-				return false;
-		} else if (!idAreaIntervento.equals(other.idAreaIntervento))
-			return false;
-		if (idCategoriaIntervento == null) {
-			if (other.idCategoriaIntervento != null)
-				return false;
-		} else if (!idCategoriaIntervento.equals(other.idCategoriaIntervento))
-			return false;
-		if (idCategoriaSoggetto == null) {
-			if (other.idCategoriaSoggetto != null)
-				return false;
-		} else if (!idCategoriaSoggetto.equals(other.idCategoriaSoggetto))
-			return false;
-		if (idComune == null) {
-			if (other.idComune != null)
-				return false;
-		} else if (!idComune.equals(other.idComune))
-			return false;
-		if (idNatura == null) {
-			if (other.idNatura != null)
-				return false;
-		} else if (!idNatura.equals(other.idNatura))
-			return false;
-		if (idProvincia == null) {
-			if (other.idProvincia != null)
-				return false;
-		} else if (!idProvincia.equals(other.idProvincia))
-			return false;
-		if (idRegione == null) {
-			if (other.idRegione != null)
-				return false;
-		} else if (!idRegione.equals(other.idRegione))
-			return false;
-		if (idSottoCategoriaSoggetto == null) {
-			if (other.idSottoCategoriaSoggetto != null)
-				return false;
-		} else if (!idSottoCategoriaSoggetto
-				.equals(other.idSottoCategoriaSoggetto))
-			return false;
-		if (idSottosettoreIntervento == null) {
-			if (other.idSottosettoreIntervento != null)
-				return false;
-		} else if (!idSottosettoreIntervento
-				.equals(other.idSottosettoreIntervento))
-			return false;
-		if (idStatoProgetto == null) {
-			if (other.idStatoProgetto != null)
-				return false;
-		} else if (!idStatoProgetto.equals(other.idStatoProgetto))
-			return false;
-		if (idTipologiaIntervento == null) {
-			if (other.idTipologiaIntervento != null)
-				return false;
-		} else if (!idTipologiaIntervento.equals(other.idTipologiaIntervento))
-			return false;
-		if (naviga == null) {
-			if (other.naviga != null)
-				return false;
-		} else if (!naviga.equals(other.naviga))
-			return false;
-		if (pagAggregata == null) {
-			if (other.pagAggregata != null)
-				return false;
-		} else if (!pagAggregata.equals(other.pagAggregata))
-			return false;
-		if (pagDettaglioProgetto == null) {
-			if (other.pagDettaglioProgetto != null)
-				return false;
-		} else if (!pagDettaglioProgetto.equals(other.pagDettaglioProgetto))
-			return false;
-		if (pagElencoProgetti == null) {
-			if (other.pagElencoProgetti != null)
-				return false;
-		} else if (!pagElencoProgetti.equals(other.pagElencoProgetti))
-			return false;
-		return true;
-	}
-
 }

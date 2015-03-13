@@ -1,5 +1,6 @@
 package it.dipe.opencup.controllers;
 
+import it.dipe.opencup.controllers.common.FiltriCommonController;
 import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
@@ -24,8 +25,11 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletMode;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.WindowState;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,29 +38,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.Layout;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.WebKeys;
+import com.liferay.portlet.PortletURLFactoryUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class ElencoProgettiController {
+@SessionAttributes({"navigaProgetti"})
+public class ElencoProgettiController extends FiltriCommonController {
 	
 	@Value("#{config['paginazione.risultatiPerPagina']}")
-	protected int maxResult;
+	private int maxResult;
 	
 	@Autowired
-	protected ProgettiFacade progettiFacade;
+	private ProgettiFacade progettiFacade;
 	
 	@Autowired
-	protected AggregataFacade aggregataFacade;
-
-	protected final String pagDettaglioProgetto = "natdettaglioprogetto";
+	private AggregataFacade aggregataFacade;
 	
 	@ModelAttribute("navigaProgetti")
 	public NavigaProgetti modelAttrNavigaProgetti() {
@@ -69,12 +79,18 @@ public class ElencoProgettiController {
 										ModelMap modelMap, 
 										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){	
 		
+		System.out.println( "RM1: " + navigaProgetti.toString() );
+		
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
 		NavigaAggregata navigaAggregata = (NavigaAggregata) session.getAttribute("navigaAggregata"); 
 		
-		if( ! navigaAggregata.getNaviga().equals(navigaProgetti.getNaviga()) ){
+		if( navigaAggregata.isImportaInNavigaProgetti() ){
 			navigaProgetti.importa( navigaAggregata );
+			navigaAggregata.setImportaInNavigaProgetti(false);
+			session.setAttribute("navigaAggregata", navigaAggregata); 
 		}
+		
+		System.out.println( "RM2: " + navigaProgetti.toString() );
 		
 		// LISTA PROGETTI //
 		
@@ -102,25 +118,30 @@ public class ElencoProgettiController {
 		
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
+		int size =  progettiFacade.sizeElencoProgetti( navigaProgetti );
 
+		searchContainerElenco.setTotal(size);
+		
 		List<Progetti> elencoProgetti = progettiFacade.findElencoProgetti(	navigaProgetti, 
 																			searchContainerElenco.getOrderByCol(), 
-																			searchContainerElenco.getOrderByType());	
+																			searchContainerElenco.getOrderByType(),
+																			searchContainerElenco.getStart(), 
+																			searchContainerElenco.getEnd());	
+
+//		elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd() );       
 		
-		searchContainerElenco.setTotal(elencoProgetti.size());
-		
-		elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd());       
 		searchContainerElenco.setResults(elencoProgetti);
 		
 		modelMap.addAttribute("searchContainerElenco", searchContainerElenco);
+		
+		modelMap.addAttribute("pagDettaglioProgetto", navigaProgetti.getPagDettaglioProgetto());
 		
 		// FINE LISTA PROGETTI //
 		
 		// MASCHERA RICERCA PROGETTI //
 		initInModelMascheraRicerca(modelMap, navigaProgetti);
 		
-		modelMap.addAttribute("filtriProgetti", navigaProgetti);
-		modelMap.addAttribute("navigaAggregata", navigaAggregata);
+		modelMap.addAttribute("navigaProgetti", navigaProgetti);
 		// FINE RICERCA PROGETTI //
 		
 		
@@ -129,18 +150,16 @@ public class ElencoProgettiController {
 		searchContainerRiepilogo.setDelta(maxResult);
 		searchContainerRiepilogo.setTotal(3);
 		
-		Integer numeProgetti = 0;
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		
 		for(Progetti aggregataDTO : elencoProgetti){
-			numeProgetti++;
 			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetto();
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
 		
 		List<DescrizioneValore> retval = new ArrayList<DescrizioneValore>();
-		retval.add(new DescrizioneValore("VOLUME DEI PROGETTI", numeProgetti));
+		retval.add(new DescrizioneValore("VOLUME DEI PROGETTI", size));
 		retval.add(new DescrizioneValore("COSTO DEI PROGETTI", impoCostoProgetti));
 		retval.add(new DescrizioneValore("IMPORTO FINANZIAMENTI", impoImportoFinanziato));
 		
@@ -151,13 +170,47 @@ public class ElencoProgettiController {
 		return "elenco-progetti-view";
 	}
 	
+	@ActionMapping(params="action=dettaglio")
+	public void actionDettaglio(	ActionRequest aRequest, 
+									ActionResponse aResponse, 
+									ModelMap modelMap, 
+									@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti, 
+									@RequestParam(value = "idProgettoDettaglio") String idProgettoDettaglio){
+		/*
+		NavigaProgetti navigaProgetti = new NavigaProgetti();
+		
+		navigaProgetti.setIdProgetto(idProgettoDettaglio);
+		navigaProgetti.setPagElencoProgetti(pagDettaglioProgetto);
+        
+        QName eventName = new QName( "http:eventDettaglioProgetto/events", "event.dettaglioProgetto");
+        aResponse.setEvent(eventName, navigaProgetti);
+		*/
+
+		
+		navigaProgetti.setIdProgetto( idProgettoDettaglio );
+		
+		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
+		session.setAttribute("navigaProgetti", navigaProgetti);
+		
+		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaProgetti.getPagDettaglioProgetto());
+		
+		try {
+			aResponse.sendRedirect( renderURL.toString() );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@ActionMapping(params="action=ricerca")
-	public void publishEvent(	ActionRequest aRequest, 
+	public void actionRicerca(	ActionRequest aRequest, 
 								ActionResponse aResponse, 
 								ModelMap modelMap, 
 								@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){
 		
-		modelMap.addAttribute("filtriProgetti", navigaProgetti);
+		System.out.println( "AM: " + navigaProgetti.toString() );
+		
+		modelMap.addAttribute("navigaProgetti", navigaProgetti);
 	}
 	
 	private void initInModelMascheraRicerca(ModelMap modelMap, NavigaProgetti filtro) {
@@ -227,4 +280,36 @@ public class ElencoProgettiController {
 		}
 		
 	}
+	
+	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage) {
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		LiferayPortletURL renderURL = null;
+		String localHost = themeDisplay.getPortalURL();		
+		List<Layout> layouts = null;
+		try{
+			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+			
+			for(Layout layout : layouts){
+
+				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+				
+				//Viene ricercato l'URL esatto per la pagina successiva
+				if(nodeNameRemoved.indexOf(toPage)>0){
+					
+					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
+					renderURL.setWindowState(WindowState.NORMAL);
+					renderURL.setPortletMode(PortletMode.VIEW);
+					
+					break;
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return renderURL;
+	}
+	
 }

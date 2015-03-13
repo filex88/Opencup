@@ -4,11 +4,8 @@
 <display>
 	<category name="Open CUP">
 		<portlet id="classificazione-portlet1" />
-		<portlet id="natura-portlet1" />
-		<portlet id="natura-portlet2" />
-		<portlet id="natura-portlet3" />
 		<portlet id="elenco-progetti-portlet" />
-		<portlet id="natura-portlet-ricerca" />
+		<portlet id="dettaglio-progetto-portlet" />
 		<portlet id="localizzazione-portlet1" />
 		<portlet id="localizzazione-portlet2" />
 		<portlet id="localizzazione-portlet3" />

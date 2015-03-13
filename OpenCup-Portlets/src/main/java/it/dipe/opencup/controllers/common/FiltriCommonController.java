@@ -1,8 +1,5 @@
 package it.dipe.opencup.controllers.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettiFacade;
@@ -13,23 +10,22 @@ import it.dipe.opencup.model.Regione;
 import it.dipe.opencup.model.SottocategoriaSoggetto;
 import it.dipe.opencup.model.SottosettoreIntervento;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-public class ClassificazionePortletCommonController {
-	
-	@Value("#{config['paginazione.risultatiPerPagina']}")
-	protected int maxResult;
+public class FiltriCommonController {
 	
 	@Autowired
-	protected ProgettiFacade progettiFacade;
+	private ProgettiFacade progettiFacade;
 	
 	@Autowired
-	protected AggregataFacade aggregataFacade;
+	private AggregataFacade aggregataFacade;
 	
 	@ResourceMapping(value =  "loadRegioneByAreaGeografica")	
 	protected View loadRegioneByAreaGeografica(@RequestParam("pattern") Integer pattern){

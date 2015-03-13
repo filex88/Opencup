@@ -1,10 +1,12 @@
 package it.dipe.opencup.controllers;
 
-import it.dipe.opencup.controllers.common.ClassificazionePortletCommonController;
+import it.dipe.opencup.controllers.common.FiltriCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
+import it.dipe.opencup.facade.AggregataFacade;
+import it.dipe.opencup.facade.ProgettiFacade;
 import it.dipe.opencup.model.AnnoAggregato;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
@@ -31,6 +33,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -59,7 +62,16 @@ import com.liferay.portlet.PortletURLFactoryUtil;
 @Controller
 @RequestMapping("VIEW")
 @SessionAttributes({"navigaAggregata"})
-public class ClassificazionePortlet1Controller extends ClassificazionePortletCommonController {
+public class ClassificazionePortlet1Controller extends FiltriCommonController {
+	
+	@Value("#{config['paginazione.risultatiPerPagina']}")
+	private int maxResult;
+	
+	@Autowired
+	private ProgettiFacade progettiFacade;
+	
+	@Autowired
+	private AggregataFacade aggregataFacade;
 	
 	@Value("#{config['codice.natura.open.cup']}")
 	private String codiNaturaOpenCUP;
@@ -84,8 +96,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		
 		modelMap.addAttribute("navigaAggregata", navigaAggregata);
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
-		session.setAttribute("navigaAggregata", navigaAggregata);
+		setNavigaAggregataInSession(aRequest, navigaAggregata);
 	}
 	
 	@ActionMapping(params="action=affinaricerca")
@@ -96,8 +107,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		
 		modelMap.addAttribute("navigaAggregata", navigaAggregata);
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
-		session.setAttribute("navigaAggregata", navigaAggregata);
+		setNavigaAggregataInSession(aRequest, navigaAggregata);
 	}
 	
 	@ActionMapping(params="action=navigazione")
@@ -113,8 +123,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		
 		modelMap.addAttribute("navigaAggregata", navigaAggregata);
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
-		session.setAttribute("navigaAggregata", navigaAggregata);
+		setNavigaAggregataInSession(aRequest, navigaAggregata);
 		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
 			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
@@ -213,8 +222,7 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		
 		modelMap.addAttribute("navigaAggregata", navigaAggregata);
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
-		session.setAttribute("navigaAggregata", navigaAggregata);
+		setNavigaAggregataInSession(renderRequest, navigaAggregata);
 		
 		// MASCHERA RICERCA //
 		initInModelMascheraRicerca(modelMap, navigaAggregata);
@@ -270,10 +278,15 @@ public class ClassificazionePortlet1Controller extends ClassificazionePortletCom
 		
 		modelMap.addAttribute("navigaAggregata", navigaAggregata);
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		session.setAttribute("navigaAggregata", navigaAggregata);
+		setNavigaAggregataInSession(request, navigaAggregata);
 		
 		return view;
+	}
+
+	private void setNavigaAggregataInSession(PortletRequest request, NavigaAggregata navigaAggregata) {
+		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+		navigaAggregata.setImportaInNavigaProgetti(true);
+		session.setAttribute("navigaAggregata", navigaAggregata);
 	}
 	
 	private void impostaLinkURL(	PortletRequest request, 

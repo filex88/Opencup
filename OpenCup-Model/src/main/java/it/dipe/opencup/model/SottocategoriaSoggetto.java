@@ -34,7 +34,7 @@ public class SottocategoriaSoggetto extends AbstractCommonEntity implements Seri
 	 
 
 	@ManyToOne(targetEntity = CategoriaSoggetto.class)
-	@JoinColumn(name = "FK_DSCS_ECSO_ID", referencedColumnName = "SEQU_DCSO_ID")
+	@JoinColumn(name = "FK_DSCS_DCSO_ID", referencedColumnName = "SEQU_DCSO_ID")
 	private CategoriaSoggetto categoriaSoggetto;
 	
 
