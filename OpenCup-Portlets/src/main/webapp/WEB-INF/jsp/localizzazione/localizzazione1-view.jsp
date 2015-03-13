@@ -54,6 +54,9 @@
 	<liferay-ui:search-iterator searchContainer="${searchContainerSummary}"/>
 	
 </liferay-ui:search-container>
+<div>
+	<a href="${linkallregioni}">SUDDIVISIONE PER REGIONI</a>
+</div>
 </div>
 
 <div  class="mapContainer">
@@ -109,6 +112,9 @@
 	<liferay-ui:search-iterator searchContainer="${searchContainerDistinct}"/>
 
 </liferay-ui:search-container>
+
+
+
 </div>
 <script>
 	var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
