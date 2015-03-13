@@ -118,8 +118,8 @@ public class AggregataFacade {
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
-		//System.out.println( "FBC: " + navigaAggregata.toString() );
-		
+		System.out.println( "FBC: " + navigaAggregata.toString() );
+
 		Criteria criteria = aggregataDAO.newCriteria();
 		
 		criteria.createAlias("classificazione", "classificazione");
