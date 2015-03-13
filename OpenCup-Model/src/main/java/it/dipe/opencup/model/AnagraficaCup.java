@@ -124,11 +124,9 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	@JoinColumn(name="FK_DCUP_DCUP_ID_MASTER", referencedColumnName = "SEQU_DCUP_ID", insertable = false, updatable = false)
 	private AnagraficaCup anagraficaCup;
 
-
 //	@OneToMany(targetEntity=AnagraficaCup.class, mappedBy="anagraficaCup")
 //	@Fetch(value = FetchMode.SUBSELECT)
 //	private List<AnagraficaCup> subordinatesCupList;
-	
 	
 	@OneToMany(targetEntity=CupLocalizzazione.class, mappedBy="anagraficaCup")
 	private List<CupLocalizzazione> cupLocalizzazioneList;
