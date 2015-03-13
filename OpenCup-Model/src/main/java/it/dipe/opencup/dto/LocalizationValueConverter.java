@@ -11,16 +11,18 @@ public class LocalizationValueConverter implements Serializable{
 	private double importoValue;
 	private Integer volumeValue;
 	private String detailUrl;
+	private String fullLabel;
 	
 	public LocalizationValueConverter() {
 	}
 	public LocalizationValueConverter(String localizationLabel,double importoValue,double costoValue,
-			Integer volumeValue,  String detailUrl) {
+			Integer volumeValue,  String detailUrl,String fullLabel) {
 		this.localizationLabel = localizationLabel;
 		this.importoValue = importoValue;
 		this.costoValue=costoValue;
 		this.volumeValue=volumeValue;
 		this.detailUrl = detailUrl;
+		this.fullLabel=fullLabel;
 	}
 	public String getLocalizationLabel() {
 		return localizationLabel;
@@ -52,6 +54,12 @@ public class LocalizationValueConverter implements Serializable{
 	}
 	public void setDetailUrl(String detailUrl) {
 		this.detailUrl = detailUrl;
+	}
+	public String getFullLabel() {
+		return fullLabel;
+	}
+	public void setFullLabel(String fullLabel) {
+		this.fullLabel = fullLabel;
 	}
 
 }

@@ -12,8 +12,51 @@
 
 <portlet:defineObjects />
 
-<h1>Per area geografica</h1>
+<fmt:setLocale value="it_IT"/>
 
+<div class="localizzazioneSubtitle">
+<strong>Localizzazione dei progetti</strong>
+</div>
+
+<div class="summaryContainer">
+	<div style="text-align: justify;">
+	La sintesi per Localizzazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati aggregati navigando nelle ulteriori classificazioni:
+	Regione > Provincia
+	</div>
+	<div style="text-align: right; padding-top: 15px">
+	<a href="#">
+		Vedi Elenco Progetti <i class="icon-list"></i>
+	</a>
+</div>
+	<liferay-ui:search-container searchContainer="${searchContainerSummary}" delta="${searchContainerSummary.delta}" deltaParam="aggregata_delta">
+	
+	<liferay-ui:search-container-results results="${searchContainerSummary.results}" total="${searchContainerSummary.total}"/>    
+	
+	<liferay-ui:search-container-row className="it.dipe.opencup.dto.DescrizioneValore" modelVar="descrizioneValore">
+		
+		<liferay-ui:search-container-column-text name="SINTESI PROGETTI">
+			${descrizioneValore.label}
+		</liferay-ui:search-container-column-text>
+		
+		<liferay-ui:search-container-column-text>
+			<c:choose>
+				<c:when test="${'VOLUME DEI PROGETTI' eq descrizioneValore.label}">
+					<span class="pull-right"><fmt:formatNumber value="${descrizioneValore.value}" type="number" minIntegerDigits="1"/></span>
+				</c:when>
+				<c:otherwise>
+					<span class="pull-right"><fmt:formatNumber value="${descrizioneValore.value}" type="currency" minIntegerDigits="1" minFractionDigits="2"/></span>
+				</c:otherwise>
+			</c:choose>
+		</liferay-ui:search-container-column-text>
+		
+	</liferay-ui:search-container-row>
+	
+	<liferay-ui:search-iterator searchContainer="${searchContainerSummary}"/>
+	
+</liferay-ui:search-container>
+</div>
+
+<div  class="mapContainer">
 <div id="italybymacroareas"></div>
 <div id="dimensions">
 	<ul>
@@ -29,266 +72,44 @@
 	</ul>
 </div>
 
+</div>
 
+<div class="clear"></div>
 
+<div class="detailContainer">
+
+<div style="text-align: justify;">
+	Continua la navigazione selezionando <strong>l'area geografica</strong> dei progetti
+</div>
+
+<liferay-ui:search-container searchContainer="${searchContainerDistinct}" delta="${searchContainerDistinct.delta}" orderByType="${searchContainerDistinct.orderByType}" deltaParam="delta">
+
+	<liferay-ui:search-container-results results="${searchContainerDistinct.results}" total="${searchContainerDistinct.total}"/>    
+
+    <liferay-ui:search-container-row className="it.dipe.opencup.dto.LocalizationValueConverter" keyProperty="localizationLabel" modelVar="localizzazioneValue">
+			
+		<liferay-ui:search-container-column-text name="AREA GEOGRAFICA">
+			<a href="${localizzazioneValue.detailUrl}"  class="link-url-naviga-selezione">${localizzazioneValue.fullLabel}</a>
+		</liferay-ui:search-container-column-text>
+		
+		<liferay-ui:search-container-column-text name="VOLUME PROGETTI" orderableProperty="volumeValue" orderable="true">
+			<span class="pull-right"><fmt:formatNumber value="${localizzazioneValue.volumeValue}" type="number" minIntegerDigits="1"/></span>
+		</liferay-ui:search-container-column-text>
+		
+		<liferay-ui:search-container-column-text name="COSTO" orderableProperty="costoValue" orderable="true">
+			<span class="pull-right"><fmt:formatNumber value="${localizzazioneValue.costoValue}" type="currency" minIntegerDigits="1" minFractionDigits="2"/></span>
+		</liferay-ui:search-container-column-text>
+		
+		<liferay-ui:search-container-column-text name="IMPORTO FINANZIATO" orderableProperty="importoValue" orderable="true">
+			<span class="pull-right"><fmt:formatNumber value="${localizzazioneValue.importoValue}" type="currency" minIntegerDigits="1"  minFractionDigits="2"/></span>
+		</liferay-ui:search-container-column-text>
+	
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator searchContainer="${searchContainerDistinct}"/>
+
+</liferay-ui:search-container>
+</div>
 <script>
-
-var namespace = "<portlet:namespace/>";
-namespace = namespace.substring(1,namespace.length - 1);
-
-var allTerritoryValues=null;
-
-var selectedDimension='volume';
-d3.select("#volumeLabel").select("input").classed("active",true);
-
-
-var baseColor1="rgb(209,226,242)";
-
-var baseColor2="rgb(114,178,215)";
-
-var baseColor3="rgb(8,64,131)";
-
-AUI().use('liferay-portlet-url', 'aui-base', 'aui-io-deprecated', function( A ) {
-    
-    var resourceURL = Liferay.PortletURL.createResourceURL();
-    resourceURL.setPortletId(namespace);
-    resourceURL.setResourceId("allTerritoryResource");
-    resourceURL.setCopyCurrentRenderParameters(true);
-    console.log(resourceURL.toString());
-     
-    A.io.request( resourceURL.toString(), {
-        dataType: 'json',
-        on: {
-            	success: function(event, id, obj) 
-            	{
-            		allTerritoryValues = this.get('responseData');
-           		 	drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
-           		 	
-           		 	d3.select("#volumeLabel").select("input")
-					.on("click",function(d){
-						d3.select("#italybymacroareas").select("svg").remove();
-						d3.selectAll("div.selectiontip").remove();
-						selectedDimension='volume';
-						d3.selectAll("input").attr("class",null);
-						d3.select("#volumeLabel").select("input").classed("active",true);
-						drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
-					});
-	
-					d3.select("#costoLabel").select("input")
-					.on("click",function(d){
-						d3.select("#italybymacroareas").select("svg").remove();
-						d3.selectAll("div.selectiontip").remove();
-						selectedDimension='costo';
-						d3.selectAll("input").attr("class",null);
-						d3.select("#costoLabel").select("input").classed("active",true);
-						drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
-					});
-					
-					d3.select("#importoLabel").select("input")
-					.on("click",function(d){
-						d3.select("#italybymacroareas").select("svg").remove();
-						d3.selectAll("div.selectiontip").remove();
-						selectedDimension='importo';
-						d3.selectAll("input").attr("class",null);
-						d3.select("#importoLabel").select("input").classed("active",true);
-						drawGraphTerritori(selectedDimension,allTerritoryValues.allTerritoryValues);
-					});
-           		}
-        	}
-    	});
-	});
-
-
-
-function drawGraphTerritori(dimension,calculated_json){
-
-	console.log(dimension);
-		
-	// min mid, max valori calcolati 
-	var minData=d3.min(calculated_json,function(d){
-		if( dimension=='volume'){
-			return d.volumeValue;
-		}
-		else if(dimension=='costo'){
-			return d.costoValue;
-		}
-		else{
-			return d.importoValue;
-		}
-	});
-	console.log(minData);
-
-	var midData=d3.mean(calculated_json,function(d){
-		var result=null;
-		if( dimension=='volume'){
-			return d.volumeValue;
-		}
-		else if(dimension=='costo'){
-			return d.costoValue;
-		}
-		else{
-			return d.importoValue;
-		}
-	})
-	console.log(midData);
-
-	var maxData=d3.max(calculated_json,function(d){
-		var result=null;
-		if( dimension=='volume'){
-			return d.volumeValue;
-		}
-		else if(dimension=='costo'){
-			return d.costoValue;
-		}
-		else{
-			return d.importoValue;
-		}
-		
-	})
-	console.log(maxData);
-
-
-	// scala colori in base a valori calcolati
-	var color = d3.scale.linear().domain([minData,midData,maxData])
-	.range([baseColor1,baseColor2,baseColor3]);
-
-	var width = 500,
-    height = 500,
-    border=1
-    bordercolor='none',
-    smallrectW=50,
-    smallrectH=50;
-
-	var svg = d3.select("#italybymacroareas").append("svg")
-   	 	.attr("width", width)
-    	.attr("height", height)
-   		.attr("border",border);
-   	
-   	var borderPath = svg.append("rect")
-		.attr("height", height)
-       	.attr("width", width)
-       	.style("stroke", bordercolor)
-       	.style("fill", "none")
-       	.style("stroke-width", border);
-       	
- 	 var tooltip = d3.select("#italybymacroareas").append("div")
-    	.attr("class", "selectiontip nascosto");
-
-	d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", function(error, it) {
-	
-		var territory_topojson=it.objects.sub.geometries;
-	
-		// unisco i dati
-		for (var i=0;i < territory_topojson.length;i++){
-			var label_toposon=territory_topojson[i].properties.TERR;
-			for (var j=0;j<calculated_json.length;j++){
-				if (label_toposon==calculated_json[j].localizationLabel){
-					var valore_volume=calculated_json[j].volumeValue;
-					var valore_costo=calculated_json[j].costoValue;
-					var valore_importo=calculated_json[j].importoValue;
-					var link=calculated_json[j].detailUrl;
-					territory_topojson[i].properties.VALORE_VOLUME=valore_volume;
-					territory_topojson[i].properties.VALORE_COSTO=valore_costo;
-					territory_topojson[i].properties.VALORE_IMPORTO=valore_importo;
-					territory_topojson[i].properties.LINK=link;
-					break;
-				}
-			}
-		}
-
-    var projection = d3.geo.albers()
-        .center([0, 41])
-        .rotate([347, 0])
-        .parallels([35, 45])
-        .scale(2000)
-        .translate([width / 2, height / 2]);
- 
-    var path = d3.geo.path()
-        .projection(projection);
-     
-                
-     svg.selectAll("path").data(topojson.feature(it, it.objects.sub).features)
-     	.enter().append("path")
-    	.attr("class",function(d) { return d.properties.TERR; })
-    	.attr("d",path)
-    	.attr ("id",function(d) { 
-    		return d.properties.ID_REG_TER; })
-    	.style("fill", function(d){
-    		if( dimension=='volume'){
-				return color(d.properties.VALORE_VOLUME);
-			}
-			else if(dimension=='costo'){
-				return color(d.properties.VALORE_COSTO);
-			}
-			else{
-				return color(d.properties.VALORE_IMPORTO);
-			}
-    	})  
-    	.on("click", function(d){
-    		window.location = d.properties.LINK;
-   		})
-    	.on("mouseover",function(a){
-    		svg.selectAll("path")
-    		.style("fill",function (d){
-    		if (d.properties.TERR==a.properties.TERR){
-    			return "#FFFFCC";}
-    		else{
-    			if( dimension=='volume'){
-					return color(d.properties.VALORE_VOLUME);
-				}
-				else if(dimension=='costo'){
-					return color(d.properties.VALORE_COSTO);
-				}
-				else{
-					return color(d.properties.VALORE_IMPORTO);
-				}
-    			
-    		  }
-    		});
-    		var mouse = d3.mouse(svg.node()).map( function(d) { 
-    			return parseInt(d); 
-    		});
-    		var labelToShow=null;
-    		var valueToShow=null;
-    			if( dimension=='volume'){
-    				labelToShow="VOLUME:";
-    				valueToShow=a.properties.VALORE_VOLUME;
-				}
-				else if(dimension=='costo'){
-					labelToShow="COSTO:";
-    				valueToShow='&euro;&nbsp;'+a.properties.VALORE_COSTO.toFixed(2);
-				}
-				else{
-					labelToShow="IMPORTO FINANZIATO:";
-    				valueToShow='&euro;&nbsp;'+a.properties.VALORE_IMPORTO.toFixed(2);
-				}
-				
-    		tooltip.classed("nascosto", false)
-        	 .attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+height-50)+"px")
-        	 .html('<p><strong>AREA GEOGRAFICA: </strong>'+a.properties.TERR_DESC+'</p>'
-        	 +'<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
-    	})
-    	.on("mouseout",function(a){
-    		svg.selectAll("."+a.properties.TERR)
-    		.style("fill",function(d){
-    			if( dimension=='volume'){
-					return color(d.properties.VALORE_VOLUME);
-				}
-				else if(dimension=='costo'){
-					return color(d.properties.VALORE_COSTO);
-				}
-				else{
-					return color(d.properties.VALORE_IMPORTO);
-				}
-    		});
-    		
-    	 	tooltip.classed("nascosto", true)
-    	});
-  
-	});
-	
-}
-
+	var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
 </script>
-
-

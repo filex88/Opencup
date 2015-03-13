@@ -25,9 +25,32 @@
 	line-height: 20px;
 }
 
-#italybymacroareas {text-align: left;}
-#dimensions{width:500px; text-align:center;}
+.summaryContainer{
+	width: 50%;
+	float: left;
+}
+
+.mapContainer{
+	width: 50%;
+	float: right;	
+}
+
+.clear{
+	clear: both;
+}
+.detailContainer{
+	width: 100%;
+}
+
+.localizzazioneSubtitle{
+	font-size: 1.6em;
+	padding-bottom: 20px;
+}
+
+#italybymacroareas {text-align: center;}
+#dimensions{ text-align:center;}
 #dimensions ul li{display: inline-block;list-style: none;}
+
 
 #italybymacroareas svg{stroke:#000; stroke-width:1px;}
 

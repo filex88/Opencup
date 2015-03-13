@@ -1,5 +1,8 @@
 package it.dipe.opencup.controllers.common;
 
+import it.dipe.opencup.dto.LocalizationValueConverter;
+
+import java.io.IOException;
 import java.util.List;
 
 import javax.portlet.PortletMode;
@@ -7,6 +10,11 @@ import javax.portlet.PortletModeException;
 import javax.portlet.PortletRequest;
 import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -19,6 +27,13 @@ import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.PortletURLFactoryUtil;
 
 public class LocalizzazionePortletCommonController {
+	
+	@Value("#{config['paginazione.risultatiPerPagina.localizzazione']}")
+	protected int maxResult;
+	
+	@Value("#{config['codice.natura.open.cup']}")
+	protected String codNaturaOpenCUP;
+	
 	
 	protected String calcolaUrlLocalizzazioneByLivello(PortletRequest request,String friendlyUrlEnd){
 		LiferayPortletURL renderURL = null;
@@ -52,4 +67,20 @@ public class LocalizzazionePortletCommonController {
 		return returnUrl;
 	}
 
+	protected String createJsonStringFromQueryResult(List<LocalizationValueConverter> formattedResult){
+		ObjectMapper mapper= new ObjectMapper();
+		String jsonString=null;
+		try {
+			jsonString = mapper.writeValueAsString(formattedResult);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
 }
