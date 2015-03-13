@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -75,31 +74,13 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	@JoinColumn(name = "FK_FPRG_DGRA_ID", referencedColumnName = "SEQU_DGRA_ID")
 	private GruppoAteco gruppoAteco;
 
-//	@ManyToOne(targetEntity = AnagraficaCup.class, fetch=FetchType.LAZY)
-//	@JoinColumn(name = "FK_FPRG_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
-//	private AnagraficaCup anagraficaCup;
+	@ManyToOne(targetEntity = AnagraficaCup.class)
+	@JoinColumn(name = "FK_FPRG_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
+	private AnagraficaCup anagraficaCup;
 	
-	@ManyToOne(targetEntity = AreaIntervento.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity = AreaIntervento.class)
 	@JoinColumn(name = "FK_FPRG_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
 	private AreaIntervento areaIntervento;
-
-//	@Column(name = "TEXT_FPRG_COPER_FINANZ", length = 255)
-//	private String textCoperFinanz;
-//
-//	@Column(name = "TEXT_FPRG_COMUNE", length = 255)
-//	private String textComune;
-//
-//	@Column(name = "TEXT_FPRG_PROVINCIA", length = 255)
-//	private String textProvincia;
-//
-//	@Column(name = "TEXT_FPRG_REGIONE", length = 255)
-//	private String textRegione;
-//
-//	@Column(name = "TEXT_FPRG_STATO", length = 255)
-//	private String textStato;
-//
-//	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
-//	private String annoAnnoDecisione;
 
 	public Integer getId() {
 		return id;
@@ -214,61 +195,13 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 		this.gruppoAteco = gruppoAteco;
 	}
 
-//	public AnagraficaCup getAnagraficaCup() {
-//		return anagraficaCup;
-//	}
-//
-//	public void setAnagraficaCup(AnagraficaCup anagraficaCup) {
-//		this.anagraficaCup = anagraficaCup;
-//	}
+	public AnagraficaCup getAnagraficaCup() {
+		return anagraficaCup;
+	}
 
-//	public String getTextCoperFinanz() {
-//		return textCoperFinanz;
-//	}
-//
-//	public void setTextCoperFinanz(String textCoperFinanz) {
-//		this.textCoperFinanz = textCoperFinanz;
-//	}
-//
-//	public String getTextComune() {
-//		return textComune;
-//	}
-//
-//	public void setTextComune(String textComune) {
-//		this.textComune = textComune;
-//	}
-//
-//	public String getTextProvincia() {
-//		return textProvincia;
-//	}
-//
-//	public void setTextProvincia(String textProvincia) {
-//		this.textProvincia = textProvincia;
-//	}
-//
-//	public String getTextRegione() {
-//		return textRegione;
-//	}
-//
-//	public void setTextRegione(String textRegione) {
-//		this.textRegione = textRegione;
-//	}
-//
-//	public String getTextStato() {
-//		return textStato;
-//	}
-//
-//	public void setTextStato(String textStato) {
-//		this.textStato = textStato;
-//	}
-//
-//	public String getAnnoAnnoDecisione() {
-//		return annoAnnoDecisione;
-//	}
-//
-//	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
-//		this.annoAnnoDecisione = annoAnnoDecisione;
-//	}
+	public void setAnagraficaCup(AnagraficaCup anagraficaCup) {
+		this.anagraficaCup = anagraficaCup;
+	}
 
 	@Override
 	public int hashCode() {

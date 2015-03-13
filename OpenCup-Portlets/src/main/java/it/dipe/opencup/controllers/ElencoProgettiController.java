@@ -79,8 +79,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 										ModelMap modelMap, 
 										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){	
 		
-		System.out.println( "RM1: " + navigaProgetti.toString() );
-		
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
 		NavigaAggregata navigaAggregata = (NavigaAggregata) session.getAttribute("navigaAggregata"); 
 		
@@ -89,8 +87,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 			navigaAggregata.setImportaInNavigaProgetti(false);
 			session.setAttribute("navigaAggregata", navigaAggregata); 
 		}
-		
-		System.out.println( "RM2: " + navigaProgetti.toString() );
 		
 		// LISTA PROGETTI //
 		
@@ -207,8 +203,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 								ActionResponse aResponse, 
 								ModelMap modelMap, 
 								@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){
-		
-		System.out.println( "AM: " + navigaProgetti.toString() );
 		
 		modelMap.addAttribute("navigaProgetti", navigaProgetti);
 	}

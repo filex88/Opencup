@@ -15,9 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 @Entity
 @Table(name = "S_DMA_DCUP_ANAGRAFICA_CUP")
 public class AnagraficaCup extends AbstractCommonEntity implements Serializable {
@@ -123,19 +120,18 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	@Column(name = "FK_DCUP_DCUP_ID_MASTER")
 	private Integer fkDcupDcupIdMaster;
 
-	@ManyToOne(targetEntity = AnagraficaCup.class, cascade={CascadeType.ALL})
+	@ManyToOne(targetEntity = AnagraficaCup.class, cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name="FK_DCUP_DCUP_ID_MASTER", referencedColumnName = "SEQU_DCUP_ID", insertable = false, updatable = false)
 	private AnagraficaCup anagraficaCup;
 
 
-	@OneToMany(targetEntity=AnagraficaCup.class, fetch=FetchType.EAGER, mappedBy="anagraficaCup")
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<AnagraficaCup> subordinatesCup;
+//	@OneToMany(targetEntity=AnagraficaCup.class, mappedBy="anagraficaCup")
+//	@Fetch(value = FetchMode.SUBSELECT)
+//	private List<AnagraficaCup> subordinatesCupList;
 	
 	
-	@OneToMany(targetEntity=CupLocalizzazione.class, fetch=FetchType.EAGER, mappedBy="anagraficaCup")
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<CupLocalizzazione> cupLocalizzazione;
+	@OneToMany(targetEntity=CupLocalizzazione.class, mappedBy="anagraficaCup")
+	private List<CupLocalizzazione> cupLocalizzazioneList;
 	
 
 	public Integer getId() {
@@ -338,20 +334,21 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 		this.anagraficaCup = anagraficaCup;
 	}
 
-	public List<AnagraficaCup> getSubordinatesCup() {
-		return subordinatesCup;
+//	public List<AnagraficaCup> getSubordinatesCupList() {
+//		return subordinatesCupList;
+//	}
+//
+//	public void setSubordinatesCupList(List<AnagraficaCup> subordinatesCupList) {
+//		this.subordinatesCupList = subordinatesCupList;
+//	}
+
+	public List<CupLocalizzazione> getCupLocalizzazioneList() {
+		return cupLocalizzazioneList;
 	}
 
-	public void setSubordinatesCup(List<AnagraficaCup> subordinatesCup) {
-		this.subordinatesCup = subordinatesCup;
-	}
-
-	public List<CupLocalizzazione> getCupLocalizzazione() {
-		return cupLocalizzazione;
-	}
-
-	public void setCupLocalizzazione(List<CupLocalizzazione> cupLocalizzazione) {
-		this.cupLocalizzazione = cupLocalizzazione;
+	public void setCupLocalizzazioneList(
+			List<CupLocalizzazione> cupLocalizzazioneList) {
+		this.cupLocalizzazioneList = cupLocalizzazioneList;
 	}
 
 	@Override

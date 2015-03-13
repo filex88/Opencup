@@ -54,22 +54,8 @@ public class ProgettiFacade {
 				.add(Projections.groupProperty("impoCostoProgetto"))
 				.add(Projections.groupProperty("impoImportoFinanziato"))
 				.add(Projections.groupProperty("gruppoAteco"))
-				.add(Projections.groupProperty("anagraficaCup"))
-//				.add(Projections.groupProperty("textCoperFinanz"))
-//				.add(Projections.groupProperty("textComune"))
-//				.add(Projections.groupProperty("textProvincia"))
-//				.add(Projections.groupProperty("textRegione"))
-//				.add(Projections.groupProperty("textStato"))
-//				.add(Projections.groupProperty("annoAnnoDecisione"))
-				);
-
-		
-//		criteria.setProjection(	Projections.projectionList()
-//				                
-//								.add(Projections.groupProperty("someColumn"))
-//				                .add(Projections.max("someColumn"))
-//				                .add(Projections.min("someColumn"))
-//				                .add(Projections.count("someColumn")));          
+//				.add(Projections.groupProperty("anagraficaCup"))
+				);      
 		
 		//CLASSIFICAZIONE
 		criteria.createAlias("natura", "natura");
@@ -81,6 +67,12 @@ public class ProgettiFacade {
 		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
 		
 		//LOALIZZAZIONE
+		criteria.createAlias("anagraficaCup", "anagraficaCup");
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList", "anagraficaCup.cupLocalizzazioneList");
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.stato", "stato");
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.regione", "regione");
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.provincia", "provincia");
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.comune", "comune");
 		
 		//ANNO DECISIONE
 		criteria.createAlias("annoDecisione", "annoDecisione");
@@ -90,8 +82,6 @@ public class ProgettiFacade {
 		
 		//STATO INTERVENTO
 		criteria.createAlias("statoProgetto", "statoProgetto");
-		
-		
 		
 		//CLASSIFICAZIONE
 		criteria.add( Restrictions.eq("natura.id", Integer.valueOf(navigaProgetti.getIdNatura())) );
@@ -129,6 +119,26 @@ public class ProgettiFacade {
 		}
 		
 		//LOALIZZAZIONE
+		criteria.add( Restrictions.eq("stato.descStato", navigaProgetti.getDescStato() ) );
+		
+		if( navigaProgetti.getIdRegione().equals("0") ){
+			criteria.add( Restrictions.ge("regione.id", Integer.valueOf(navigaProgetti.getIdRegione())) );
+		}else if(!"-1".equals(navigaProgetti.getIdRegione())){
+			criteria.add( Restrictions.eq("regione.id", Integer.valueOf(navigaProgetti.getIdRegione())) );
+		}
+		
+		if( navigaProgetti.getIdProvincia().equals("0") ){
+			criteria.add( Restrictions.ge("provincia.id", Integer.valueOf(navigaProgetti.getIdProvincia())) );
+		}else if(!"-1".equals(navigaProgetti.getIdProvincia())){
+			criteria.add( Restrictions.eq("provincia.id", Integer.valueOf(navigaProgetti.getIdProvincia())) );
+		}
+		
+		if( navigaProgetti.getIdComune().equals("0") ){
+			criteria.add( Restrictions.ge("comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
+		}else if(!"-1".equals(navigaProgetti.getIdComune())){
+			criteria.add( Restrictions.eq("comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
+		}
+
 		
 		//ANNO DECISIONE
 		if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0 ){
