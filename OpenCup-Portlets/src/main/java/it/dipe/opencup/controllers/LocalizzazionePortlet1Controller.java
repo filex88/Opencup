@@ -41,6 +41,7 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		double impoCostoProgetti = 0.0;
 		double impoImportoFinanziato = 0.0;
 		String nestedDetailUrl=calcolaUrlLocalizzazioneByLivello(request, "localizzazioneregioni");
+		String allRegioniUrl=calcolaUrlLocalizzazioneByLivello(request, "localizzazioneregioniall");
 		NavigaAggregata filtro = new NavigaAggregata();
 		filtro.setIdAreaGeografica("0");
 		Natura naturaOpenCup=aggregataFacade.findNaturaByCod(codNaturaOpenCUP);
@@ -63,7 +64,7 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 			valori.add(areaGeo);
 		}
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringFromQueryResult(valori));
-		
+		model.addAttribute("linkallregioni",allRegioniUrl);
 		//orderByCol is the column name passed in the request while sorting
 		String orderByCol = ParamUtil.getString(request, "orderByCol"); 
 		if(Validator.isNull(orderByCol)  || Validator.equals("", orderByCol)){
