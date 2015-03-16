@@ -12,7 +12,6 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,74 +37,61 @@ public class ProgettiFacade {
 	private Criteria buildCriteria(NavigaProgetti navigaProgetti) {
 		
 		Criteria criteria = progettiDAO.newCriteria();
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
-		criteria.setProjection(	Projections.projectionList()
-				.add(Projections.groupProperty("id"))
-				.add(Projections.groupProperty("annoDecisione"))
-				.add(Projections.groupProperty("soggettoTitolare"))
-				.add(Projections.groupProperty("unitaOrganizzativa"))
-				.add(Projections.groupProperty("natura"))
-				.add(Projections.groupProperty("tipologiaIntervento"))
-				.add(Projections.groupProperty("settoreIntervento"))
-				.add(Projections.groupProperty("sottosettoreIntervento"))
-				.add(Projections.groupProperty("categoriaIntervento"))
-				.add(Projections.groupProperty("strumentoProgr"))
-				.add(Projections.groupProperty("statoProgetto"))
-				.add(Projections.groupProperty("impoCostoProgetto"))
-				.add(Projections.groupProperty("impoImportoFinanziato"))
-				.add(Projections.groupProperty("gruppoAteco"))
+//		criteria.setProjection(	Projections.projectionList()
+//				.add(Projections.groupProperty("id"))
+//				.add(Projections.groupProperty("annoDecisione"))
+//				.add(Projections.groupProperty("soggettoTitolare"))
+//				.add(Projections.groupProperty("unitaOrganizzativa"))
+//				.add(Projections.groupProperty("natura"))
+//				.add(Projections.groupProperty("tipologiaIntervento"))
+//				.add(Projections.groupProperty("settoreIntervento"))
+//				.add(Projections.groupProperty("sottosettoreIntervento"))
+//				.add(Projections.groupProperty("categoriaIntervento"))
+//				.add(Projections.groupProperty("strumentoProgr"))
+//				.add(Projections.groupProperty("statoProgetto"))
+//				.add(Projections.groupProperty("gruppoAteco"))
 //				.add(Projections.groupProperty("anagraficaCup"))
-				);      
+//				.add(Projections.groupProperty("areaIntervento"))
+//				.add(Projections.groupProperty("impoCostoProgetto"))
+//				.add(Projections.groupProperty("impoImportoFinanziato"))
+//				.add(Projections.groupProperty("annoAnnoDecisione"))
+//				);      
 		
 		//CLASSIFICAZIONE
 		criteria.createAlias("natura", "natura");
-		criteria.createAlias("areaIntervento", "areaIntervento");
-		criteria.createAlias("sottosettoreIntervento", "sottosettoreIntervento");
-		criteria.createAlias("categoriaIntervento", "categoriaIntervento");
-		
-		//GERARCHIA SOGETTO
-		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
-		
-		//LOALIZZAZIONE
-		criteria.createAlias("anagraficaCup", "anagraficaCup");
-		criteria.createAlias("anagraficaCup.cupLocalizzazioneList", "anagraficaCup.cupLocalizzazioneList");
-		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.stato", "stato");
-		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.regione", "regione");
-		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.provincia", "provincia");
-		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.comune", "comune");
-		
-		//ANNO DECISIONE
-		criteria.createAlias("annoDecisione", "annoDecisione");
-		
-		//TIPOLOGIA INTERVENTO
-		criteria.createAlias("tipologiaIntervento", "tipologiaIntervento");
-		
-		//STATO INTERVENTO
-		criteria.createAlias("statoProgetto", "statoProgetto");
-		
-		//CLASSIFICAZIONE
 		criteria.add( Restrictions.eq("natura.id", Integer.valueOf(navigaProgetti.getIdNatura())) );
 		 
 		if( navigaProgetti.getIdAreaIntervento().equals("0") ){
+			criteria.createAlias("areaIntervento", "areaIntervento");
 			criteria.add( Restrictions.ge("areaIntervento.id", Integer.valueOf(navigaProgetti.getIdAreaIntervento())) );
 		}else if(!"-1".equals(navigaProgetti.getIdAreaIntervento())){
+			criteria.createAlias("areaIntervento", "areaIntervento");
 			criteria.add( Restrictions.eq("areaIntervento.id", Integer.valueOf(navigaProgetti.getIdAreaIntervento())) );
 		}
 		
 		if( navigaProgetti.getIdSottosettoreIntervento().equals("0") ){
+			criteria.createAlias("sottosettoreIntervento", "sottosettoreIntervento");
 			criteria.add( Restrictions.ge("sottosettoreIntervento.id", Integer.valueOf(navigaProgetti.getIdSottosettoreIntervento())) );
 		}else if(!"-1".equals(navigaProgetti.getIdSottosettoreIntervento())){
+			criteria.createAlias("sottosettoreIntervento", "sottosettoreIntervento");
 			criteria.add( Restrictions.eq("sottosettoreIntervento.id", Integer.valueOf(navigaProgetti.getIdSottosettoreIntervento())) );
 		}
 		
 		if( navigaProgetti.getIdCategoriaIntervento().equals("0") ){
+			criteria.createAlias("categoriaIntervento", "categoriaIntervento");
 			criteria.add( Restrictions.ge("categoriaIntervento.id", Integer.valueOf(navigaProgetti.getIdCategoriaIntervento())) );
 		}else if(!"-1".equals(navigaProgetti.getIdCategoriaIntervento())){
+			criteria.createAlias("categoriaIntervento", "categoriaIntervento");
 			criteria.add( Restrictions.eq("categoriaIntervento.id", Integer.valueOf(navigaProgetti.getIdCategoriaIntervento())) );
 		}
 		
 		
 		//GERARCHIA SOGETTO
+		if( ( !"-1".equals(navigaProgetti.getIdCategoriaSoggetto()) ) || (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())) ){
+			criteria.createAlias("soggettoTitolare", "soggettoTitolare");
+		}
 		if( navigaProgetti.getIdCategoriaSoggetto().equals("0") ){
 			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdCategoriaSoggetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdCategoriaSoggetto())){
@@ -117,32 +103,42 @@ public class ProgettiFacade {
 		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
 			criteria.add( Restrictions.eq("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
 		}
-		
+
 		//LOALIZZAZIONE
+		criteria.createAlias("anagraficaCup", "anagraficaCup");
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList", "anagraficaCup.cupLocalizzazioneList");
+		
+		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.stato", "stato");
 		criteria.add( Restrictions.eq("stato.descStato", navigaProgetti.getDescStato() ) );
 		
 		if( navigaProgetti.getIdRegione().equals("0") ){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.regione", "regione");
 			criteria.add( Restrictions.ge("regione.id", Integer.valueOf(navigaProgetti.getIdRegione())) );
 		}else if(!"-1".equals(navigaProgetti.getIdRegione())){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.regione", "regione");
 			criteria.add( Restrictions.eq("regione.id", Integer.valueOf(navigaProgetti.getIdRegione())) );
-		}
+		} 
 		
 		if( navigaProgetti.getIdProvincia().equals("0") ){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.provincia", "provincia");
 			criteria.add( Restrictions.ge("provincia.id", Integer.valueOf(navigaProgetti.getIdProvincia())) );
 		}else if(!"-1".equals(navigaProgetti.getIdProvincia())){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.provincia", "provincia");
 			criteria.add( Restrictions.eq("provincia.id", Integer.valueOf(navigaProgetti.getIdProvincia())) );
 		}
 		
 		if( navigaProgetti.getIdComune().equals("0") ){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.comune", "comune");
 			criteria.add( Restrictions.ge("comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
 		}else if(!"-1".equals(navigaProgetti.getIdComune())){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.comune", "comune");
 			criteria.add( Restrictions.eq("comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
 		}
-
 		
 		//ANNO DECISIONE
 		if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0 ){
 			if( ! navigaProgetti.getIdAnnoDecisiones().contains("-1") ){
+				criteria.createAlias("annoDecisione", "annoDecisione");
 				Disjunction or = Restrictions.disjunction();
 				for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
 					or.add(Restrictions.eq("annoDecisione.id", Integer.valueOf( tmp )) );
@@ -153,15 +149,19 @@ public class ProgettiFacade {
 		
 		//TIPOLOGIA INTERVENTO
 		if( navigaProgetti.getIdTipologiaIntervento().equals("0") ){
+			criteria.createAlias("tipologiaIntervento", "tipologiaIntervento");
 			criteria.add( Restrictions.ge("tipologiaIntervento.id", Integer.valueOf(navigaProgetti.getIdTipologiaIntervento())) );
 		}else if(!"-1".equals(navigaProgetti.getIdTipologiaIntervento())){
+			criteria.createAlias("tipologiaIntervento", "tipologiaIntervento");
 			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaProgetti.getIdTipologiaIntervento())) );
 		}	
 		
 		//STATO INTERVENTO
 		if( navigaProgetti.getIdStatoProgetto().equals("0") ){
+			criteria.createAlias("statoProgetto", "statoProgetto");
 			criteria.add( Restrictions.ge("statoProgetto.id", Integer.valueOf(navigaProgetti.getIdStatoProgetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdStatoProgetto())){
+			criteria.createAlias("statoProgetto", "statoProgetto");
 			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaProgetti.getIdStatoProgetto())) );
 		}	
 		
@@ -217,16 +217,18 @@ public class ProgettiFacade {
 	}
 
 	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
-	public List<Progetti> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, int startResult, int endResult) {
+	public List<Progetti> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, Integer startResult, Integer endResult) {
 		
-		Criteria criteria = buildCriteria(filtri);
+		Criteria criteria = buildCriteria(filtri)
+				.setFirstResult(startResult.intValue())
+				.setMaxResults(endResult.intValue());
 
 		if("asc".equals(orderByType))
 			criteria.addOrder(Order.asc(orderByCol));
 		else
 			criteria.addOrder(Order.desc(orderByCol));
-
-		List<Progetti> retval = progettiDAO.findByCriteria(criteria, startResult, endResult );
+		
+		List<Progetti> retval = progettiDAO.findByCriteria(criteria);
 		
 //		List<Progetti> retval = new ArrayList<Progetti>(); 		
 //		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

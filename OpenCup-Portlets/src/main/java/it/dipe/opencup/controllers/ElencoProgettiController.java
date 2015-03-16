@@ -45,6 +45,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.Layout;
@@ -124,7 +125,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 																			searchContainerElenco.getStart(), 
 																			searchContainerElenco.getEnd());	
 
-//		elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd() );       
+		elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd() );       
 		
 		searchContainerElenco.setResults(elencoProgetti);
 		
