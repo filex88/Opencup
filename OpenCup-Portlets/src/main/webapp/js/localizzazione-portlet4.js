@@ -40,8 +40,7 @@ d3.select("#importoLabel")
 
 function drawAllRegions(dimension,calculated_json){
 	
-	// hide portlet title
-	d3.selectAll(".portlet-topper").remove();
+
 	// elimina paginazione
 	d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
 	
@@ -172,7 +171,7 @@ function drawAllRegions(dimension,calculated_json){
     		var idSelected=a.properties.COD_REG;
     		svg.selectAll("#"+a.properties.TERR+"_"+idSelected)
     		.style("fill","#FFFFCC");
-    		 var mouse = d3.mouse(d3.select("body").node()).map( function(d) { return parseInt(d); } );
+    		 var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
     		
     		 var labelToShow=null;
     		 var valueToShow=null;
@@ -190,7 +189,7 @@ function drawAllRegions(dimension,calculated_json){
 				}
     		 
     		 tooltip.classed("nascosto", false)
-        	.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]+10)+"px")
+        	.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]-40)+"px")
          	.html('<p><strong>REGIONE: </strong>'+a.properties.REGIONE+'</p>'
          	 + '<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
    		 	})

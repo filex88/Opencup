@@ -6,7 +6,7 @@ var baseColor1="rgb(209,226,242)";
 var baseColor2="rgb(114,178,215)";
 var baseColor3="rgb(8,64,131)";
 
-drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo);
+drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
             	
 d3.select("#volumeLabel")
 	.on("click",function(d){
@@ -15,7 +15,7 @@ d3.select("#volumeLabel")
 		selectedDimension='volume';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
-		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo);
+		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
 	});
 	
 d3.select("#costoLabel")
@@ -25,7 +25,7 @@ d3.select("#costoLabel")
 		selectedDimension='costo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
-		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo);
+		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
 	});
 					
 d3.select("#importoLabel")
@@ -35,13 +35,24 @@ d3.select("#importoLabel")
 		selectedDimension='importo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
-		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo);
+		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
 	});
 
-function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel){
+function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel,areeGeoLink,regioniLink){
 	
-	// hide portlet title
-	d3.selectAll(".portlet-topper").remove();
+	
+	d3.select("#eliminaFiltroRegione")
+	.on("click",function(d){
+		window.location = regioniLink;
+	});
+	
+	d3.select("#eliminaFiltroArea")
+	.on("click",function(d){
+		window.location = areeGeoLink;
+	});
+	
+	// elimina paginazione
+	d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
 
 	// min mid, max valori calcolati 
 	var minData=d3.min(calculated_json,function(d){
@@ -176,7 +187,7 @@ function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel){
     		svg.selectAll("#"+a.properties.TR_REG_PRO)
     		.style("fill","#FFFFCC");
     		
-    		var mouse = d3.mouse(d3.select("body").node()).map( function(d) { return parseInt(d); } );
+    		var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
     		var labelToShow=null;
     		var valueToShow=null;
     			if( dimension=='volume'){
@@ -194,7 +205,7 @@ function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel){
     		
     		var nome_prov=a.properties.NOME.toUpperCase();
     		tooltip.classed("nascosto", false)
-        	.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]+10)+"px")
+        	.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]-40)+"px")
          	.html('<p><strong>PROVINCIA: </strong>'+nome_prov+'</p>'
          	+'<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
     	})
