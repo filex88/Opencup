@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -120,18 +119,19 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	@Column(name = "FK_DCUP_DCUP_ID_MASTER")
 	private Integer fkDcupDcupIdMaster;
 
-	@ManyToOne(targetEntity = AnagraficaCup.class, cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity = AnagraficaCup.class, cascade={CascadeType.ALL})
 	@JoinColumn(name="FK_DCUP_DCUP_ID_MASTER", referencedColumnName = "SEQU_DCUP_ID", insertable = false, updatable = false)
 	private AnagraficaCup anagraficaCup;
 
 //	@OneToMany(targetEntity=AnagraficaCup.class, mappedBy="anagraficaCup")
 //	@Fetch(value = FetchMode.SUBSELECT)
 //	private List<AnagraficaCup> subordinatesCupList;
-	
-	@OneToMany(targetEntity=CupLocalizzazione.class, mappedBy="anagraficaCup")
-	private List<CupLocalizzazione> cupLocalizzazioneList;
-	
 
+	@OneToMany(targetEntity=CupLocalizzazione.class, mappedBy="anagraficaCup")
+//	@Fetch(value = FetchMode.SUBSELECT)
+	private List<CupLocalizzazione> cupLocalizzazioneList;
+
+	
 	public Integer getId() {
 		return id;
 	}
@@ -340,6 +340,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 //		this.subordinatesCupList = subordinatesCupList;
 //	}
 
+
 	public List<CupLocalizzazione> getCupLocalizzazioneList() {
 		return cupLocalizzazioneList;
 	}
@@ -349,6 +350,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 		this.cupLocalizzazioneList = cupLocalizzazioneList;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -23,10 +23,6 @@ public class CupLocalizzazione extends AbstractCommonEntity implements Serializa
 	@Id
 	@Column(name = "SEQU_ACLO_ID")
 	private Integer id;
-	
-	@ManyToOne(targetEntity = Progetti.class)
-	@JoinColumn(name = "FK_ACLO_FPRG_ID", referencedColumnName = "SEQU_FPRG_ID")
-	private Progetti progetti;
 
 	
 	@ManyToOne(targetEntity = Comune.class)
@@ -65,16 +61,6 @@ public class CupLocalizzazione extends AbstractCommonEntity implements Serializa
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-
-	public Progetti getProgetti() {
-		return progetti;
-	}
-
-
-	public void setProgetti(Progetti progetti) {
-		this.progetti = progetti;
 	}
 
 

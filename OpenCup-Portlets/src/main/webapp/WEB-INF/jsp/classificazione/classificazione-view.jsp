@@ -17,7 +17,7 @@
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- NAVIGAZIONE --		
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-		<div class="span10">
+		<div class="span10" style="float: left;">
 			
 			<c:if test="${ navigaAggregata.descNatura != null }">
 				<ul class="inline">
@@ -47,7 +47,7 @@
 			
 		</div>
 		
-		<div class="header toggler-header-collapsed">
+		<div class="header toggler-header-collapsed" style="float: right;">
 			<div id="affina-ricerca-classificazione" class="affina-ricerca-div affina-ricerca cursor-pointer">
 				AFFINA RICERCA
 				<span>
