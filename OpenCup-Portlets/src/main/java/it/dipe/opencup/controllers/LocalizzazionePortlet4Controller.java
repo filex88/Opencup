@@ -59,10 +59,11 @@ public class LocalizzazionePortlet4Controller extends LocalizzazionePortletCommo
 			impoCostoProgetti+=valoreByRegione.getCostoValue();
 			valoreByRegione.setImportoValue(aggregata.getImpoImportoFinanziato());
 			impoImportoFinanziato+=valoreByRegione.getImportoValue();
-			valoreByRegione.setDetailUrl(nestedDetailUrl+"&codReg="+codiceRegione);
+			valoreByRegione.setDetailUrl(nestedDetailUrl+"&codReg="+codiceRegione+"&noAree=si");
 			valoreByRegione.setFullLabel(nomeRegione.replace("'", "$"));
 			valori.add(valoreByRegione);
 		}
+		model.addAttribute("statoSelected",filtro.getDescStato());
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringFromQueryResult(valori));
 		model.addAttribute("linkAreeGeo",areeGeoUrl);
 		

@@ -81,6 +81,8 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 			valoreByRegione.setFullLabel(nomeRegione.replace("'", "$"));
 			valori.add(valoreByRegione);
 		}
+		model.addAttribute("statoSelected",filtro.getDescStato());
+		model.addAttribute("areeGeoBackLink",calcolaUrlLocalizzazioneByLivello(request, "localizzazione"));
 		model.addAttribute("selectedTerritoryName", descAreaGeo);
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringFromQueryResult(valori));
 		
