@@ -183,6 +183,8 @@
 				<value>SottosettoreIntervento</value>
 				<value>CategoriaIntervento</value>
 				<value>AreaGeografica</value>
+				<value>Progetti</value>
+				<value>SizeDTO</value>
 			</list>
 		</property>
 		

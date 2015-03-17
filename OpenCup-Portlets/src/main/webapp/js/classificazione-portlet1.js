@@ -290,12 +290,11 @@ AUI().use(
 				
 				SVGRoot.addEventListener('mousemove',
 						function(evt){
-					var loc = cursorPoint(evt)
-					console.log(evt);
-					var tooltip = d3.select("#tooltip-classificazione-portlet1");
-					tooltip.style("left", (evt.pageX - 10) + "px");
-					tooltip.style("top", (loc.y - 10) + "px");
-				}, false);
+							var loc = cursorPoint(evt)
+							var tooltip = d3.select("#tooltip-classificazione-portlet1");
+							tooltip.style("left", (evt.pageX - 10) + "px");
+							tooltip.style("top", (loc.y - 10) + "px");
+						}, false);
 				
 				//// Get point in global SVG space
 				function cursorPoint(evt){

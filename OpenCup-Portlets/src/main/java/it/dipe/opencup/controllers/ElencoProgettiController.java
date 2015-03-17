@@ -115,7 +115,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
-		int size =  progettiFacade.sizeElencoProgetti( navigaProgetti );
+		int size =  progettiFacade.sizeElencoProgetti( navigaProgetti ).getSize();
 
 		searchContainerElenco.setTotal(size);
 		

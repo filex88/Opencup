@@ -5,6 +5,7 @@ import it.dipe.opencup.dao.ProgettiDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaProgetti;
+import it.dipe.opencup.dto.SizeDTO;
 import it.dipe.opencup.model.Progetti;
 
 import java.util.List;
@@ -209,13 +210,13 @@ public class ProgettiFacade {
 //		
 //	}
 	
-	@Cacheable(value = "portletCache")
-	public int sizeElencoProgetti(NavigaProgetti filtri) {
+	@Cacheable(value = "SizeDTO")
+	public SizeDTO sizeElencoProgetti(NavigaProgetti filtri) {
 		Criteria criteria = buildCriteria(filtri);	
-		return progettiDAO.countByCriteria(criteria);
+		return new SizeDTO(progettiDAO.countByCriteria(criteria));
 	}
 
-	@Cacheable(value = "portletCache")
+	@Cacheable(value = "Progetti")
 	public List<Progetti> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, Integer startResult, Integer endResult) {
 		
 		Criteria criteria = buildCriteria(filtri)
@@ -293,7 +294,7 @@ public class ProgettiFacade {
 		return retval;
 	}
 
-	@Cacheable(value = "portletCache")
+	@Cacheable(value = "Progetti")
 	public Progetti findProgettoById(Integer id) {
 		Progetti p = progettiDAO.findById(id);
 		
