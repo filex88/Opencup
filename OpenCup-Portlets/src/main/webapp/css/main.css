@@ -274,7 +274,7 @@
 	border-width: 1px 0;
 	border-style: solid;
 	border-color: #FFFFFF;
-	background: #b2c6ff;
+	background: #f0f0f0;
 }
 
 .dettaglio-progetto-portlet .copertura-finanziamento{
@@ -294,29 +294,34 @@
     font-family: sans-serif;
     font-size: 11px;
 }
-.dettaglio-progetto-portlet #tooltip {
-    position: absolute;
-    text-align: center;
-    width: 40px;
-    height: auto;
-    padding: 10px;
-    background-color: white;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    pointer-events: none;
+
+
+
+.dettaglio-progetto-portlet #tooltip-classificazione-portlet1 {
+	position: absolute;
+	width: auto;
+	height: auto;
+	padding: 10px;
+	background-color: #ffffff;
+	border: 2px solid #5b5955;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;
 }
-.dettaglio-progetto-portlet #tooltip.hidden {
-    display: none;
+
+.dettaglio-progetto-portlet #tooltip-classificazione-portlet1.hidden {
+	display: none;
 }
-.dettaglio-progetto-portlet #tooltip p {
-    margin: 0;
-    font-family: sans-serif;
-    font-size: 16px;
-    line-height: 20px;
+
+.dettaglio-progetto-portlet #tooltip-classificazione-portlet1 p {
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 20px;
 }
 
 .dettaglio-progetto-portlet .axis path, 

@@ -5,13 +5,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <portlet:defineObjects />
-
 <liferay-theme:defineObjects />
+<fmt:setLocale value="it_IT"/>
 
 <c:if test="${not empty dettProgetto}">
-	
+	<fmt:formatDate value="${dettProgetto.anagraficaCup.dataGenerazione}" var="dataGenerazione" pattern="dd/MM/yyyy" />
 	<div>
 		<div class="span8">
 			<div>
@@ -22,9 +23,9 @@
 			<div>
 				<p>
 					<span class="dett-label">CUP:</span>
-					<span class="dett-value">XXXXX</span>
+					<span class="dett-value">${  dettProgetto.anagraficaCup.codiCup  }</span>
 					<span class="dett-label">generato il:</span>
-					<span class="dett-value">xx/xx/xxxx</span>
+					<span class="dett-value">${ dataGenerazione }</span>
 					<span class="dett-label">Anno decisione:</span>
 					<span class="dett-value">${ dettProgetto.annoDecisione.annoDadeAnnoDecisione }</span>
 				</p>
@@ -42,7 +43,7 @@
 					<span class="dett-label">Natura:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.natura.descNatura }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -50,15 +51,15 @@
 					<span class="dett-label">Tipo:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.tipologiaIntervento.descTipologiaIntervento }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
 				<div class="span3 offset1">
-					<span class="dett-label">Settore:</span>
+					<span class="dett-label">Area:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.areaIntervento.descAreaIntervento }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -66,7 +67,7 @@
 					<span class="dett-label">Sotto-settore:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.sottosettoreIntervento.descSottosettoreInt }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -74,19 +75,20 @@
 					<span class="dett-label">Categoria:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.categoriaIntervento.descCategoriaIntervento }</span>
 				</div>
 			</div>
 			
 			<p>
 				<span class="dett-titolo">DATI LOCALIZZAZIONE DEL PROGETTO</span>
 			</p>
+						
 			<div class="row dettaglio">
 				<div class="span3 offset1">
 					<span class="dett-label">Comune:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ comuniProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -94,7 +96,7 @@
 					<span class="dett-label">Provincia:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ provinceProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -102,7 +104,7 @@
 					<span class="dett-label">Regione:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ regioneProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -110,7 +112,7 @@
 					<span class="dett-label">Stato:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">Italia</span>
 				</div>
 			</div>
 			
@@ -122,15 +124,15 @@
 					<span class="dett-label">Soggetto Titolare:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.soggettoTitolare.descSoggettoTitolare }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
 				<div class="span3 offset1">
-					<span class="dett-label">Tipologia:</span>
+					<span class="dett-label">Area:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.soggettoTitolare.categoriaSoggetto.areaSoggetto.descAreaSoggetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -138,7 +140,7 @@
 					<span class="dett-label">Categoria:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.soggettoTitolare.categoriaSoggetto.descCategoriaSoggetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -146,7 +148,7 @@
 					<span class="dett-label">Sotto-categoria:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">xxxx</span>
+					<span class="dett-value">${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.descSottocategSoggetto }</span>
 				</div>
 			</div>
 			
@@ -162,7 +164,7 @@
 					<span class="dett-label">Costo Progetto:</span>
 				</div>
 				<div class="span3">
-					<span class="dett-value" style="text-align: right;">123.412,34</span>
+					<span class="dett-value pull-right"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
 				</div>
 			</div>
 			<div class="row importo">
@@ -170,7 +172,7 @@
 					<span class="dett-label">Importo Finanziato:</span>
 				</div>
 				<div class="span3">
-					<span class="dett-value" style="text-align: right;">23.412,34</span>
+					<span class="dett-value pull-right"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
 				</div>
 			</div>
 			
@@ -179,7 +181,7 @@
 					<p>
 						<span class="dett-titolo2">Copertura Finanziamento</span>
 					</p>
-					<h2>56%</h2>
+					<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
 				</div>
 				<div class="span7">
 					<div id="tooltip" class="hidden">
@@ -187,6 +189,73 @@
 					    </p>
 					</div>
 					<svg class="chart"></svg>
+				</div>
+			</div>
+			
+			
+			<fmt:formatDate value="${ maxDataModifica }" var="dataUltimaModifica" pattern="dd/MM/yyyy" />
+			<p>
+				<span class="dett-titolo">DATI AGGIUDICATIVI DEL PROGETTO</span>
+			</p>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">Data Ultima Modifica:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">${ dataUltimaModifica }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">CUP Master:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">${ dettProgetto.anagraficaCup.anagraficaCup.codiCup }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">Legge Obiettivo:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">
+						<c:choose>
+							<c:when test="${ 'S' eq dettProgetto.anagraficaCup.flagLeggeObiettivo }">SI</c:when>
+							<c:otherwise>NO</c:otherwise>
+						</c:choose>
+					</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">Numero e Anno Delibera CIPE:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">${ dettProgetto.anagraficaCup.numeDeliberaCipe } del ${ dettProgetto.anagraficaCup.annoAnnoDelibera }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">Soggetto Richiedente:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">${ dettProgetto.anagraficaCup.descSoggettoRichiedente }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">Stato Finanza di Progetto:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">${ dettProgetto.anagraficaCup.descFinanzaProgetto }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3 offset1">
+					<span class="dett-label">Tipo Copertura Finanziaria:</span>
+				</div>
+				<div class="span8">
+					<span class="dett-value">${ dettProgetto.anagraficaCup.descTipoCup }</span>
 				</div>
 			</div>
 			
@@ -213,12 +282,12 @@
 		    dataset = [{
 		        data: [{
 		            etichetta: 'Costo Progetto',
-		            valore: 1234445,
-		            valoreformattato: '12.344,45'
+		            valore: '${ dettProgetto.impoCostoProgetto }',
+		            valoreformattato: '<fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
 		        }, {
 		            etichetta: 'Importo Finanziato',
-		            valore: 234445,
-		            valoreformattato: '2.344,45'
+		            valore: '${ dettProgetto.impoImportoFinanziato }',
+		            valoreformattato: '<fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
 		        }],
 		        name: 'Importi'
 		    }
@@ -314,7 +383,12 @@
 		        })
 		        .attr('width', function (d) {
 		        return xScale(d.x);
-		    })
+		    }).on('mouseout', function () {
+		        d3.select('#tooltip').classed('hidden', true);
+		    });
+		    
+		    
+		    /*
 		    .on('mouseover', function (d) {
 		        var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
 		        var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() / 2;
@@ -327,11 +401,28 @@
 		        
 		        d3.select('#tooltip').classed('hidden', false);
 		    })
-		    .on('mouseout', function () {
-		        d3.select('#tooltip').classed('hidden', true);
-		    })
-
-		    svg.append('g')
+		    
+			*/
+			
+			var pt = svg.createSVGPoint();
+			
+			svg.addEventListener('mousemove',
+					function(evt){
+				var loc = cursorPoint(evt)
+				console.log(evt);
+				var tooltip = d3.select("#tooltip");
+				tooltip.style("left", (evt.pageX - 10) + "px");
+				tooltip.style("top", (loc.y - 10) + "px");
+			}, false);
+			
+			//// Get point in global SVG space
+			function cursorPoint(evt){
+				pt.x = evt.clientX; 
+				pt.y = evt.clientY;
+				return pt.matrixTransform(SVGRoot.getScreenCTM().inverse());
+			}
+		    
+			svg.append('g')
 		        .attr('class', 'axis')
 		        .attr('transform', 'translate(0,' + height + ')')
 		        .call(xAxis);

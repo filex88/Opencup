@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,55 +24,55 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	@Column(name = "SEQU_FPRG_ID")
 	private Integer id;
 
-	@ManyToOne(targetEntity = AnnoDecisione.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = AnnoDecisione.class)
 	@JoinColumn(name = "FK_FPRG_DADE_ID", referencedColumnName = "SEQU_DADE_ID")
 	private AnnoDecisione annoDecisione;
 
-	@ManyToOne(targetEntity = SoggettoTitolare.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = SoggettoTitolare.class)
 	@JoinColumn(name = "FK_FPRG_DSOG_ID", referencedColumnName = "SEQU_DSOG_ID")
 	private SoggettoTitolare soggettoTitolare;
 
-	@ManyToOne(targetEntity = UnitaOrganizzativa.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = UnitaOrganizzativa.class)
 	@JoinColumn(name = "FK_FPRG_DUOR_ID", referencedColumnName = "SEQU_DUOR_ID")
 	private UnitaOrganizzativa unitaOrganizzativa;
 
-	@ManyToOne(targetEntity = Natura.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Natura.class)
 	@JoinColumn(name = "FK_FPRG_DNAT_ID", referencedColumnName = "SEQU_DNAT_ID")
 	private Natura natura;
 	
-	@ManyToOne(targetEntity = TipologiaIntervento.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = TipologiaIntervento.class)
 	@JoinColumn(name = "FK_FPRG_DTIN_ID", referencedColumnName = "SEQU_DTIN_ID")
 	private TipologiaIntervento tipologiaIntervento;
 
-	@ManyToOne(targetEntity = SettoreIntervento.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = SettoreIntervento.class)
 	@JoinColumn(name = "FK_FPRG_DSIN_ID", referencedColumnName = "SEQU_DSIN_ID")
 	private SettoreIntervento settoreIntervento;
 
-	@ManyToOne(targetEntity = SottosettoreIntervento.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = SottosettoreIntervento.class)
 	@JoinColumn(name = "FK_FPRG_DSSI_ID", referencedColumnName = "SEQU_DSSI_ID")
 	private SottosettoreIntervento sottosettoreIntervento;
 	
-	@ManyToOne(targetEntity = CategoriaIntervento.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = CategoriaIntervento.class)
 	@JoinColumn(name = "FK_FPRG_DCAI_ID", referencedColumnName = "SEQU_DCAI_ID")
 	private CategoriaIntervento categoriaIntervento;
 	
-	@ManyToOne(targetEntity = StrumentoProgr.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = StrumentoProgr.class)
 	@JoinColumn(name = "FK_FPRG_DSTP_ID", referencedColumnName = "SEQU_DSTP_ID")
 	private StrumentoProgr strumentoProgr;
 
-	@ManyToOne(targetEntity = StatoProgetto.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = StatoProgetto.class)
 	@JoinColumn(name = "FK_FPRG_DSPR_ID", referencedColumnName = "SEQU_DSPR_ID")
 	private StatoProgetto statoProgetto;
 	
-	@ManyToOne(targetEntity = GruppoAteco.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = GruppoAteco.class)
 	@JoinColumn(name = "FK_FPRG_DGRA_ID", referencedColumnName = "SEQU_DGRA_ID")
 	private GruppoAteco gruppoAteco;
 	
-	@ManyToOne(targetEntity = AnagraficaCup.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = AnagraficaCup.class)
 	@JoinColumn(name = "FK_FPRG_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
 	private AnagraficaCup anagraficaCup;
 
-	@ManyToOne(targetEntity = AreaIntervento.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = AreaIntervento.class)
 	@JoinColumn(name = "FK_FPRG_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
 	private AreaIntervento areaIntervento;
 	

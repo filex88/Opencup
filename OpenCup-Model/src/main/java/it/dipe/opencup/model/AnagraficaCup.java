@@ -3,16 +3,22 @@ package it.dipe.opencup.model;
 import it.dipe.opencup.model.common.AbstractCommonEntity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "S_DMA_DCUP_ANAGRAFICA_CUP")
@@ -118,6 +124,25 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 
 	@Column(name = "FK_DCUP_DCUP_ID_MASTER")
 	private Integer fkDcupDcupIdMaster;
+	
+	
+	@Column(name = "DATA_DCUP_GENERAZIONE")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(style = "M-")
+	private Date dataGenerazione;
+	
+	
+	@Column(name = "DATA_DCUP_ULTIMA_MODIFICA_SSC")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(style = "M-")
+	private Date dataUltimaModSSC;
+	
+	
+	@Column(name = "DATA_DCUP_ULTIMA_MOD_UTENTE")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(style = "M-")
+	private Date dataUltimaModUtente;
+	
 
 	@ManyToOne(targetEntity = AnagraficaCup.class, cascade={CascadeType.ALL})
 	@JoinColumn(name="FK_DCUP_DCUP_ID_MASTER", referencedColumnName = "SEQU_DCUP_ID", insertable = false, updatable = false)
@@ -127,7 +152,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 //	@Fetch(value = FetchMode.SUBSELECT)
 //	private List<AnagraficaCup> subordinatesCupList;
 
-	@OneToMany(targetEntity=CupLocalizzazione.class, mappedBy="anagraficaCup")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity=CupLocalizzazione.class, mappedBy="anagraficaCup")
 //	@Fetch(value = FetchMode.SUBSELECT)
 	private List<CupLocalizzazione> cupLocalizzazioneList;
 
@@ -345,12 +370,35 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 		return cupLocalizzazioneList;
 	}
 
+	public Date getDataGenerazione() {
+		return dataGenerazione;
+	}
+
+	public void setDataGenerazione(Date dataGenerazione) {
+		this.dataGenerazione = dataGenerazione;
+	}
+
 	public void setCupLocalizzazioneList(
 			List<CupLocalizzazione> cupLocalizzazioneList) {
 		this.cupLocalizzazioneList = cupLocalizzazioneList;
 	}
-
 	
+	public Date getDataUltimaModSSC() {
+		return dataUltimaModSSC;
+	}
+
+	public void setDataUltimaModSSC(Date dataUltimaModSSC) {
+		this.dataUltimaModSSC = dataUltimaModSSC;
+	}
+
+	public Date getDataUltimaModUtente() {
+		return dataUltimaModUtente;
+	}
+
+	public void setDataUltimaModUtente(Date dataUltimaModUtente) {
+		this.dataUltimaModUtente = dataUltimaModUtente;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
