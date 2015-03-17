@@ -78,19 +78,19 @@ $theme.include($body_top_include)
 			-->
 			
 			<h2 class="page-title">
-				<div>
+				<div class="mainHeadContainer">
 					<div class="left w25">
 							<div>
-								<span>OPENCUP</span>
+								<img src="$opencup_logo" alt="logo_opencup" class="w150px"></img>
 							</div>
-							<div>
+							<div class="h20px">
 								<span class="smaller">
 									Lorem ipsum dolor sit amet, consectetur adipiscing
 								</span>
 							</div>
 						
 					</div>
-					<div class="left w75">
+					<div class="left w75 ptop50px">
 						<div class="h50px">
 							<ul id="topLinks" class="h90">
 							
