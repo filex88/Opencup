@@ -14,10 +14,9 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.googlecode.ehcache.annotations.KeyGenerator;
 
 @Component("progettiFacade")
 public class ProgettiFacade {
@@ -210,13 +209,13 @@ public class ProgettiFacade {
 //		
 //	}
 	
-	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	@Cacheable(value = "portletCache")
 	public int sizeElencoProgetti(NavigaProgetti filtri) {
 		Criteria criteria = buildCriteria(filtri);	
 		return progettiDAO.countByCriteria(criteria);
 	}
 
-	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	@Cacheable(value = "portletCache")
 	public List<Progetti> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, Integer startResult, Integer endResult) {
 		
 		Criteria criteria = buildCriteria(filtri)
@@ -294,7 +293,7 @@ public class ProgettiFacade {
 		return retval;
 	}
 
-	@Cacheable(cacheName = "portletCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator"))
+	@Cacheable(value = "portletCache")
 	public Progetti findProgettoById(Integer id) {
 		Progetti p = progettiDAO.findById(id);
 		

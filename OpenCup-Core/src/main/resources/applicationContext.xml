@@ -8,7 +8,7 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:util="http://www.springframework.org/schema/util"	
 	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd 
 						http://www.springframework.org/schema/tx 
@@ -21,8 +21,9 @@
 						http://www.springframework.org/schema/jee/spring-jee.xsd
 						http://www.springframework.org/schema/util 
 						http://www.springframework.org/schema/util/spring-util.xsd
-						http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
-     					http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+						http://www.springframework.org/schema/cache 
+						http://www.springframework.org/schema/cache/spring-cache.xsd
+						">
 
 	<util:properties id="config" location="classpath:/openCupPortlets.cfg" />
 
@@ -139,7 +140,7 @@
 	FINE DAO E FACADE
 	++++++++++++++++++++++++++++++++++++++++++++++	
 	 -->
-<!-- 
+	<!-- 
 	++++++++++++++++++++++++++++++++++++++++++++++
 	UTILS
 	++++++++++++++++++++++++++++++++++++++++++++++	
@@ -157,16 +158,41 @@
 	++++++++++++++++++++++++++++++++++++++++++++++
 	EHCACHE
 	++++++++++++++++++++++++++++++++++++++++++++++	
-	 --> 
-	<!--  
-	<ehcache:annotation-driven cache-manager="ehCacheManager" create-missing-caches="true"/>
-	 
-	<ehcache:config cache-manager="ehCacheManager" />
-	 
-	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" >
-		<property name="configLocation" value="classpath:ehcache.xml" />
-	</bean>	 
- 	-->
+	 -->
+
+	<cache:annotation-driven cache-manager="cacheManager" />
+
+	<bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+		<property name="cacheBuilder" ref="cacheBuilder" />
+		<property name="cacheNames">
+			<list>
+				<value>AggregataDTO</value>
+				<value>CategoriaSoggetto</value>
+				<value>SottocategoriaSoggetto</value>
+				<value>Aggregata</value>
+				<value>Regione</value>
+				<value>Provincia</value>
+				<value>Comune</value>
+				<value>StatoProgetto</value>
+				<value>AnnoDecisione</value>
+				<value>AnnoAggregato</value>
+				<value>TipologiaIntervento</value>
+				<value>Natura</value>
+				<value>SettoreIntervento</value>
+				<value>AreaIntervento</value>
+				<value>SottosettoreIntervento</value>
+				<value>CategoriaIntervento</value>
+				<value>AreaGeografica</value>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder"
+      	factory-method="from">
+    	<constructor-arg value="maximumSize=10000, expireAfterAccess=12h, expireAfterWrite=12h" />
+	</bean>
+
 	<!-- 
 	++++++++++++++++++++++++++++++++++++++++++++++
 	FINE EHCACHE

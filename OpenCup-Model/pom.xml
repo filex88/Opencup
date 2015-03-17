@@ -24,6 +24,7 @@
 	          <target>1.6</target>
 	        </configuration>
 	      </plugin>
+
 	  </plugins>
   </build>
   <dependencies>
@@ -44,9 +45,9 @@
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-context</artifactId>
-		<version>3.0.7.RELEASE</version>
-		<scope>provided</scope>
-	</dependency>    
+		<version>4.0.9.RELEASE</version>
+	</dependency>
+ 
     
   </dependencies>
 </project>
