@@ -44,15 +44,24 @@ public class LocalizzazionePortlet3Controller extends LocalizzazionePortletCommo
 	public String handleRenderRequest(RenderRequest request, RenderResponse response,Model model){
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
 		String codReg=httpServletRequest.getParameter("codReg")!=null?httpServletRequest.getParameter("codReg").toString():"";
+		String noAree=httpServletRequest.getParameter("noAree")!=null?httpServletRequest.getParameter("noAree").toString():"";
 		
 		// se non vengo dalla prima request
 		if (Validator.isNull(codReg)  || Validator.equals("", codReg)){
 			codReg=ParamUtil.getString(request, "codReg");
 		}
 		
+		// se non vengo dalla prima request e provengo dal link diretto per regione
+		if (Validator.isNull(noAree)  || Validator.equals("", noAree)){
+			noAree=ParamUtil.getString(request, "noAree");
+		}
+		
 		PortletURL portletURL = response.createRenderURL();
 		portletURL.setParameter("codReg",codReg);
 		model.addAttribute("selectedRegion", codReg);
+		portletURL.setParameter("noAree",noAree);
+		
+	
 		
 		Integer numeProgetti = 0;
 		double impoCostoProgetti = 0.0;
@@ -82,9 +91,23 @@ public class LocalizzazionePortlet3Controller extends LocalizzazionePortletCommo
 			valoreByProvincia.setFullLabel(strNomeProvincia.replace("'", "$"));
 			valori.add(valoreByProvincia);
 		}
+		model.addAttribute("statoSelected",filtro.getDescStato());
+		model.addAttribute("isDirect", (noAree!=null && noAree!="")?true:false);
 		model.addAttribute("regionName", strNomeRegione);
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringFromQueryResult(valori));
-		model.addAttribute("areaGEO", regione.getAreaGeografica().getCodiAreaGeografica());
+		
+		String strCodAreaGeo=regione.getAreaGeografica().getCodiAreaGeografica();
+		model.addAttribute("areaGEO",strCodAreaGeo);
+		model.addAttribute("selectedTerritoryName",regione.getAreaGeografica().getDescAreaGeografica());
+		
+		String strLinkBackAreaGeo=calcolaUrlLocalizzazioneByLivello(request, "localizzazioneregioni")+"&idTerr="+strCodAreaGeo;
+		String strLinkBackDaAreaGeo=calcolaUrlLocalizzazioneByLivello(request, "localizzazione");
+		String strLinkBackAllRegioni=calcolaUrlLocalizzazioneByLivello(request, "localizzazioneregioniall");
+		String regioniLinkBack=(noAree!=null && noAree!="")?strLinkBackAllRegioni:strLinkBackAreaGeo;
+		
+		model.addAttribute("regioniBackLink",regioniLinkBack);
+		model.addAttribute("areeGeoBackLink",strLinkBackDaAreaGeo);
+		
 		
 		//orderByCol is the column name passed in the request while sorting
 		String orderByCol = ParamUtil.getString(request, "orderByCol"); 

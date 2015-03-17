@@ -14,6 +14,19 @@
 
 <fmt:setLocale value="it_IT"/>
 
+<div id="my-toggler-affina-ricerca-localizzazione">
+		<div class="span10">
+				<ul class="inline">
+					<li>Naviga per</li>
+					<li><span class="label label-info riepilogo-filtri">Stato: ${ statoSelected }
+						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
+					</span></li>			
+				</ul>			
+		</div>
+</div>
+
+<div class="clear"></div>
+
 <div class="localizzazioneSubtitle">
 <strong>Localizzazione dei progetti</strong>
 </div>

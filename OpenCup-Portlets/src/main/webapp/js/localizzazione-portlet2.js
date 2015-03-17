@@ -5,7 +5,7 @@ var baseColor1="rgb(209,226,242)";
 var baseColor2="rgb(114,178,215)";
 var baseColor3="rgb(8,64,131)";
 
-drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato);
+drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 d3.select("#volumeLabel")
 	.on("click",function(d){
 		d3.select("#italybymacroareas").select("svg").remove();
@@ -13,7 +13,7 @@ d3.select("#volumeLabel")
 		selectedDimension='volume';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
-		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato);
+		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 	});
 	
 d3.select("#costoLabel")
@@ -23,7 +23,7 @@ d3.select("#costoLabel")
 		selectedDimension='costo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
-		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato);
+		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 	});
 					
 d3.select("#importoLabel")
@@ -33,14 +33,19 @@ d3.select("#importoLabel")
 		selectedDimension='importo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
-		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato);
+		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 	});
             	
 
-function drawRegionsByTerritory(dimension,calculated_json,territorioSel){
+function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoLink){
 	
-	// hide portlet title
-	d3.selectAll(".portlet-topper").remove();
+	// handling og back links
+	d3.select("#eliminaFiltroArea")
+		.on("click",function(d){
+			window.location = areeGeoLink;
+		});
+	
+
 	// elimina paginazione
 	d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
 	
@@ -175,7 +180,7 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel){
     		var idSelected=a.properties.COD_REG;
     		svg.selectAll("#"+territorioSel+"_"+idSelected)
     		.style("fill","#FFFFCC");
-    		 var mouse = d3.mouse(d3.select("body").node()).map( function(d) { return parseInt(d); } );
+    		 var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
     		
     		 var labelToShow=null;
     		 var valueToShow=null;
@@ -193,7 +198,7 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel){
 				}
     		 
     		 tooltip.classed("nascosto", false)
-        	.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]+10)+"px")
+        	.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]-40)+"px")
          	.html('<p><strong>REGIONE: </strong>'+a.properties.REGIONE+'</p>'
          	 + '<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
    		 	})

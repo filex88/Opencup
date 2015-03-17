@@ -41,9 +41,6 @@ d3.select("#importoLabel").select("input")
 	});
 
 function drawGraphTerritori(dimension,calculated_json){
-
-	// hide portlet title
-	d3.selectAll(".portlet-topper").remove();
 		
 	// min mid, max valori calcolati 
 	var minData=d3.min(calculated_json,function(d){
@@ -184,7 +181,7 @@ function drawGraphTerritori(dimension,calculated_json){
     		  }
     		});
     		
-    		var mouse = d3.mouse(d3.select("body").node()).map( function(d) { return parseInt(d); } );
+    		var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
     		var labelToShow=null;
     		var valueToShow=null;
     			if( dimension=='volume'){
@@ -201,7 +198,7 @@ function drawGraphTerritori(dimension,calculated_json){
 				}
 				
     		tooltip.classed("nascosto", false)
-        	 .attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]+10)+"px")
+        	 .attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]-40)+"px")
         	 .html('<p><strong>AREA GEOGRAFICA: </strong>'+a.properties.TERR_DESC+'</p>'
         	 +'<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
     	})

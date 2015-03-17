@@ -11,6 +11,48 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
 <portlet:defineObjects />
+<div id="my-toggler-affina-ricerca-localizzazione">
+		<div class="span10">
+				<ul class="inline">
+					<li>Naviga per</li>
+					<li>
+						<span class="label label-info riepilogo-filtri">Stato: ${ statoSelected }
+						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
+						</span>
+					</li>
+					<c:choose>
+						<c:when test="${isDirect}">
+							<li>
+								<span class="label label-info riepilogo-filtri">
+									Regione: ${regionName} 
+									&nbsp;<i id="eliminaFiltroRegione" class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x " title="Rimuovi filtro regione"></i>
+								</span>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li>
+								<span class="label label-info riepilogo-filtri">
+									Area geografica: ${ selectedTerritoryName } 
+									&nbsp;<i id="eliminaFiltroArea" class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x " title="Rimuovi filtro area geografica"></i>
+								</span>
+							</li>
+							<li>
+								<span class="label label-info riepilogo-filtri">
+									Regione: ${ regionName } 
+									&nbsp;<i id="eliminaFiltroRegione" class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x " title="Rimuovi filtro regione"></i>
+								</span>
+							</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+</div>
+
+<div class="clear"></div>
+
+
+
+
 
 <div class="localizzazioneSubtitle">
 <strong>Localizzazione dei progetti: </strong><span>Regione ${regionName}</span>
@@ -114,4 +156,8 @@
 var regioneSelezionata="${selectedRegion}";
 var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
 var areaGeo="${areaGEO}";
+var regioniBack="${regioniBackLink}"
+var areeGeoBack="${areeGeoBackLink}";
+d3.selectAll(".current-parent.breadcrumb-truncate").remove();
+d3.selectAll(".active.last.breadcrumb-truncate").remove();
 </script>

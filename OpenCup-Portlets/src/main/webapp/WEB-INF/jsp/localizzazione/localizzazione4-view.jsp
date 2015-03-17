@@ -17,6 +17,19 @@
 
 <fmt:setLocale value="it_IT"/>
 
+<div id="my-toggler-affina-ricerca-localizzazione">
+		<div class="span10">
+				<ul class="inline">
+					<li>Naviga per</li>
+					<li><span class="label label-info riepilogo-filtri">Stato: ${ statoSelected }
+						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
+					</span></li>			
+				</ul>
+		</div>
+</div>
+
+<div class="clear"></div>
+
 <div class="summaryContainer">
 	<div style="text-align: justify;">
 	La sintesi per Localizzazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati aggregati navigando nelle ulteriori classificazioni:
@@ -119,4 +132,5 @@
 </div>
 <script>
 var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
+d3.selectAll(".active.last.breadcrumb-truncate").remove();
 </script>

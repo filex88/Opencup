@@ -63,6 +63,7 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 			areaGeo.setFullLabel(nomeAreaGeo);
 			valori.add(areaGeo);
 		}
+		model.addAttribute("statoSelected",filtro.getDescStato());
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringFromQueryResult(valori));
 		model.addAttribute("linkallregioni",allRegioniUrl);
 		//orderByCol is the column name passed in the request while sorting
