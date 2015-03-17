@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
@@ -183,10 +184,10 @@
 					</p>
 					<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
 				</div>
-				<div class="span7">
-					<div id="tooltip" class="hidden">
-					    <p><span id="value"></span>
-					    </p>
+				<div class="span7 chart-fianziamento">
+					<div id="tooltip" class="tooltip hidden">
+						<p><span id="label"></span></p>
+						<p><span id="value"></span></p>
 					</div>
 					<svg class="chart"></svg>
 				</div>
@@ -403,51 +404,33 @@
 							        	function (d) {
 							        		return xScale(d.x);
 							        	})
+							        .on('mousemove',
+							        		function (d){
+									        	var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
+									    		
+									    		/*
+									    		var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
+									    		var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() / 2;
+									    		*/
+									    		var xPos = (mouse[0]+10);
+									    		var yPos = (mouse[1]-40);
+									    		
+									    		d3.select('#tooltip')
+									    			.style('left', xPos + 'px')
+									    			.style('top', yPos + 'px')
+									    			.select('#value')
+									    			.text(d.z)
+									    			.select('#label')
+									    			.text(d.x);
+							        })
 								    .on('mouseover', 
-								    	function (d) {
-									    	
-								    		d3.select('#tooltip')		
-							    				.select('#value')
-							    				.text(d.z);
-								    		
-								    		/*
-								    		var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
-								    		var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() / 2;
-								        
-								    		d3.select('#tooltip')
-								    			.style('left', xPos + 'px')
-								    			.style('top', yPos + 'px')
-								    			.select('#value')
-								    			.text(d.z);
-					        				*/
-									        d3.select('#tooltip').classed('hidden', false);
+								    		function (d) {
+										        d3.select('#tooltip').classed('hidden', false);
 									    })
 									.on('mouseout', 
-										function () {
-									        d3.select('#tooltip').classed('hidden', true);
-									    });
-					
-					var SVGRoot = document.getElementsByTagName("svg")[0];
-					console.log(SVGRoot);
-					
-					var pt = SVGRoot.createSVGPoint();
-					console.log(pt);
-					
-					rects.addEventListener('mousemove',
-									function(evt){
-										var loc = cursorPoint(evt)
-										console.log(evt);
-										var tooltip = d3.select("#tooltip");
-										tooltip.style("left", (evt.pageX - 10) + "px");
-										tooltip.style("top", (loc.y - 10) + "px");
-									}, false);
-					
-					//// Get point in global SVG space
-					function cursorPoint(evt){
-						pt.x = evt.clientX; 
-						pt.y = evt.clientY;
-						return pt.matrixTransform(SVGRoot.getScreenCTM().inverse());
-					}
+											function () {
+										        d3.select('#tooltip').classed('hidden', true);
+										    });
 					
 					svg.append('g')
 					        .attr('class', 'axis')

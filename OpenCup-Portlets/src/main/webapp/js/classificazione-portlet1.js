@@ -41,7 +41,7 @@ AUI().use(
 					});
 
 			
-			new A.TogglerDelegate({
+			var toggler = new A.TogglerDelegate({
 				        animated: true,
 				        closeAllOnExpand: true,
 				        container: '#my-toggler-affina-ricerca-classificazione',
@@ -290,10 +290,11 @@ AUI().use(
 				
 				SVGRoot.addEventListener('mousemove',
 						function(evt){
+							var heightTogglerContent = d3.select('.toggler-content').node().getBoundingClientRect().height;
 							var loc = cursorPoint(evt)
 							var tooltip = d3.select("#tooltip-classificazione-portlet1");
-							tooltip.style("left", (evt.pageX - 10) + "px");
-							tooltip.style("top", (loc.y - 10) + "px");
+							tooltip.style("left", (evt.pageX - 50) + "px");
+							tooltip.style("top", (loc.y - 50 + heightTogglerContent) + "px");
 						}, false);
 				
 				//// Get point in global SVG space
