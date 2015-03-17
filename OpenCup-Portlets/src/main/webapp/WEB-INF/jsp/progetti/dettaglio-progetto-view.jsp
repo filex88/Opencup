@@ -386,8 +386,7 @@
 		    }).on('mouseout', function () {
 		        d3.select('#tooltip').classed('hidden', true);
 		    });
-		    
-		    
+		    		    
 		    /*
 		    .on('mouseover', function (d) {
 		        var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
@@ -401,7 +400,6 @@
 		        
 		        d3.select('#tooltip').classed('hidden', false);
 		    })
-		    
 			*/
 			
 			var pt = svg.createSVGPoint();
