@@ -66,6 +66,7 @@ public class DettaglioProgettoController {
 			}else{
 				multiLocalizzazione = "S";
 			}
+			
 			sTmp = progetto.getProvinceProgetto();
 			if(sTmp.indexOf( "," ) == -1){
 				if( ! StringUtils.isEmpty( sTmp ) ){
