@@ -280,7 +280,7 @@
  
  	var lat = 0;
  	var lng = 0;
- 	var address = '${addressMap}';//{zipcode} or {city and state};
+ 	var address = "${addressMap}"; //{zipcode} or {city and state};
  	var zoomMap = ${zoomMap};
 	
 	function initialize() {
