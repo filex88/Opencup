@@ -507,6 +507,44 @@
 
 	</portlet>
 
+	<portlet id="ricercalibera-portlet">
+		<portlet-name>ricercalibera-portlet</portlet-name>
+		<display-name>Ricerca Libera</display-name>
+
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/ricercalibera-portlet.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>RicercaLibera-language</resource-bundle>
+		<portlet-info>
+			<title>Ricerca Libera</title>
+			<short-title></short-title>
+			<keywords>Ricerca Libera</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>portlet-setup-show-borders</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
 	
 	
 	<event-definition>

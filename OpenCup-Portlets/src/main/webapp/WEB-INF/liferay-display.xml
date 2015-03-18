@@ -10,5 +10,6 @@
 		<portlet id="localizzazione-portlet2" />
 		<portlet id="localizzazione-portlet3" />
 		<portlet id="localizzazione-portlet4" />
+		<portlet id="ricercalibera-portlet" />
 	</category>
 </display>

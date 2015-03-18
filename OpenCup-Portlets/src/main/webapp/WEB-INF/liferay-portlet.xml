@@ -91,6 +91,15 @@
 		<css-class-wrapper>localizzazione-portlet3</css-class-wrapper>
 	</portlet>
 	
+	<portlet>
+		<portlet-name>ricercalibera-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<instanceable>true</instanceable>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/ricercalibera-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>ricercalibera-portlet</css-class-wrapper>
+	</portlet>
+	
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>

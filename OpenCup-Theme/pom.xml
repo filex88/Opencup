@@ -5,6 +5,7 @@
   <version>1.0.0</version>
   <packaging>war</packaging>
   <build>
+  	<finalName>OpenCup-Theme-theme</finalName>
     <plugins>
 		<plugin>
 			<groupId>com.liferay.maven.plugins</groupId>

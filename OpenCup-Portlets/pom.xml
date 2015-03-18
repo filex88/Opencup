@@ -8,7 +8,7 @@
   <name>opencup-portlets Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <build>
-    <finalName>opencup-portlets</finalName>
+    <finalName>OpenCup-Portlets-portlet</finalName>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
