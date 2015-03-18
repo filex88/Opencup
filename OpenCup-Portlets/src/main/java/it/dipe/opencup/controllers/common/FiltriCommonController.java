@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 public class FiltriCommonController {
 	
@@ -30,7 +30,7 @@ public class FiltriCommonController {
 	@ResourceMapping(value =  "loadRegioneByAreaGeografica")	
 	protected View loadRegioneByAreaGeografica(@RequestParam("pattern") Integer pattern){
 		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
@@ -48,7 +48,7 @@ public class FiltriCommonController {
 	@ResourceMapping(value =  "loadProvinciaByRegione")	
 	protected View loadProvinciaByRegione(@RequestParam("pattern") Integer pattern){
 		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
@@ -66,7 +66,7 @@ public class FiltriCommonController {
 	@ResourceMapping(value =  "loadComuniByProvincia")	
 	protected View loadComuniByProvincia(@RequestParam("pattern") Integer pattern){
 		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
@@ -84,7 +84,7 @@ public class FiltriCommonController {
 	@ResourceMapping(value =  "loadSottosettoreInterventoByArea")	
 	protected View loadSottosettoreInterventoBySettore(@RequestParam("pattern") Integer pattern){
 
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
@@ -101,7 +101,7 @@ public class FiltriCommonController {
 	@ResourceMapping(value =  "loadCategoriaInterventoByAreaSottosettore")	
 	protected View loadCategoriaInterventoByAreaSottosettore(@RequestParam("pattern") Integer pattern, @RequestParam("pattern2") Integer pattern2){
 		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
@@ -119,7 +119,7 @@ public class FiltriCommonController {
 	@ResourceMapping(value =  "loadSottoCategoriaSoggettoByCategoriaSoggetto")	
 	protected View loadSottoCategoriaSoggettoByCategoriaSoggetto(@RequestParam("pattern") Integer pattern){
 		
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;

@@ -128,7 +128,7 @@ AUI().use(
 	       			on: {
 	           			success: function(event, id, obj) {
 	           				aggregate = this.get('responseData');
-	           				
+	           				console.log(aggregate);
 	           			    if(aggregate.aggregati4Pie!=null && aggregate.aggregati4Pie!=""){
 	           			    	drawPie();
 	           			    }else{

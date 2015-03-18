@@ -45,7 +45,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
@@ -242,8 +242,8 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		impostaLinkURL(request, navigaAggregata, listaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
-
-		MappingJacksonJsonView view = new MappingJacksonJsonView();
+		
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		D3PieConverter conv = null;
 		for (AggregataDTO aggregataDTO: listaAggregataDTO){
 			conv = new D3PieConverter();
