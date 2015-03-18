@@ -1,11 +1,10 @@
 package it.dipe.opencup.controllers;
 
-import java.util.Date;
-
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.facade.ProgettiFacade;
-import it.dipe.opencup.model.CupLocalizzazione;
 import it.dipe.opencup.model.Progetti;
+
+import java.util.Date;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -13,7 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
@@ -29,43 +29,65 @@ public class DettaglioProgettoController {
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
-										ModelMap modelMap){
+										Model model){
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
 		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
 		
 		if( sessionNavigaProgetti != null && (! sessionNavigaProgetti.getIdProgetto().isEmpty()) ){
 			Progetti progetto = progettiFacade.findProgettoById( Integer.valueOf( sessionNavigaProgetti.getIdProgetto() ) );
-			modelMap.addAttribute("dettProgetto", progetto);
+			model.addAttribute("dettProgetto", progetto);
 			
 			double impFinanziato = progetto.getImpoImportoFinanziato().doubleValue();
 			double costoProgetto = progetto.getImpoCostoProgetto().doubleValue();
-			double percentage = (impFinanziato * 100.0) / costoProgetto;
-			//double temp = Math.pow(10, 3);
-			//percentage = Math.round(percentage * temp) / temp; 
-			modelMap.addAttribute("coperturaPercentuale", percentage );
 			
-			String comuniProgetto = "";
-			for( CupLocalizzazione c : progetto.getAnagraficaCup().getCupLocalizzazioneList() ){
-				comuniProgetto = ( "".equals(comuniProgetto) )? c.getComune().getDescComune() : comuniProgetto + ", " + c.getComune().getDescComune();
+			double percentage = 0.0;
+			if( impFinanziato > 0.0 && costoProgetto > 0.0 ){
+				percentage = (impFinanziato * 100.0) / costoProgetto;
 			}
-			modelMap.addAttribute("comuniProgetto", comuniProgetto);
+			model.addAttribute("coperturaPercentuale", percentage );
 			
-			String provinceProgetto = "";
-			for( CupLocalizzazione c : progetto.getAnagraficaCup().getCupLocalizzazioneList() ){
-				if( provinceProgetto.indexOf( c.getProvincia().getDescProvincia() ) == 0 ){
-					provinceProgetto = ( "".equals(provinceProgetto) )? c.getProvincia().getDescProvincia() : provinceProgetto + ", " + c.getProvincia().getDescProvincia();
+			Double impoCostoProgetto = (progetto.getImpoCostoProgetto() < 0.0)?0.0:progetto.getImpoCostoProgetto();
+			Double impoImportoFinanziato = (progetto.getImpoImportoFinanziato() < 0.0)?0.0:progetto.getImpoImportoFinanziato();
+			
+			model.addAttribute("impoCostoProgetto", impoCostoProgetto );
+			model.addAttribute("impoImportoFinanziato", impoImportoFinanziato );
+
+			String addressMap = "Italia";
+			String zoomMap = "5";
+			String multiLocalizzazione = "N";
+			
+			String sTmp = progetto.getRegioneProgetto();
+			if(sTmp.indexOf( "," ) == -1){
+				if( ! StringUtils.isEmpty( sTmp ) ){
+					addressMap = addressMap + ", " + sTmp;
+					zoomMap = "7";
 				}
+			}else{
+				multiLocalizzazione = "S";
 			}
-			modelMap.addAttribute("provinceProgetto", provinceProgetto);
-			
-			String regioneProgetto = "";
-			for( CupLocalizzazione c : progetto.getAnagraficaCup().getCupLocalizzazioneList() ){
-				if( regioneProgetto.indexOf( c.getRegione().getDescRegione() ) == 0 ){
-					regioneProgetto = ( "".equals(regioneProgetto) )? c.getRegione().getDescRegione() : regioneProgetto + ", " + c.getRegione().getDescRegione();
+			sTmp = progetto.getProvinceProgetto();
+			if(sTmp.indexOf( "," ) == -1){
+				if( ! StringUtils.isEmpty( sTmp ) ){
+					addressMap = addressMap + ", " + sTmp;
+					zoomMap = "9";
 				}
+			}else{
+				multiLocalizzazione = "S";
 			}
-			modelMap.addAttribute("regioneProgetto", regioneProgetto);
+			sTmp = progetto.getComuniProgetto();
+			if(sTmp.indexOf( "," ) == -1){
+				if( ! StringUtils.isEmpty( sTmp ) ){
+					addressMap = addressMap + ", " + sTmp;
+					zoomMap = "9";
+				}
+			}else{
+				multiLocalizzazione = "S";
+			}
+			
+			model.addAttribute("addressMap", addressMap);
+			model.addAttribute("zoomMap", zoomMap);
+			model.addAttribute("multiLocalizzazione", multiLocalizzazione);
 			
 			Date maxDataModifica = null;
 			if( progetto.getAnagraficaCup().getDataUltimaModSSC() != null && progetto.getAnagraficaCup().getDataUltimaModUtente() == null ){
@@ -79,7 +101,7 @@ public class DettaglioProgettoController {
 					maxDataModifica = progetto.getAnagraficaCup().getDataUltimaModUtente();
 				}
 			}
-			modelMap.addAttribute("maxDataModifica", maxDataModifica);
+			model.addAttribute("maxDataModifica", maxDataModifica);
 			
 		}
 

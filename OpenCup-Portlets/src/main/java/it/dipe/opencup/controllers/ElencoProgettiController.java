@@ -35,7 +35,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +45,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.Layout;
@@ -77,7 +76,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
-										ModelMap modelMap, 
+										Model model, 
 										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){	
 		
 		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
@@ -125,20 +124,20 @@ public class ElencoProgettiController extends FiltriCommonController {
 																			searchContainerElenco.getStart(), 
 																			searchContainerElenco.getEnd());	
 
-		elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd() );       
+		//elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd() );       
 		
 		searchContainerElenco.setResults(elencoProgetti);
 		
-		modelMap.addAttribute("searchContainerElenco", searchContainerElenco);
+		model.addAttribute("searchContainerElenco", searchContainerElenco);
 		
-		modelMap.addAttribute("pagDettaglioProgetto", navigaProgetti.getPagDettaglioProgetto());
+		model.addAttribute("pagDettaglioProgetto", navigaProgetti.getPagDettaglioProgetto());
 		
 		// FINE LISTA PROGETTI //
 		
 		// MASCHERA RICERCA PROGETTI //
-		initInModelMascheraRicerca(modelMap, navigaProgetti);
+		initInModelMascheraRicerca(model, navigaProgetti);
 		
-		modelMap.addAttribute("navigaProgetti", navigaProgetti);
+		model.addAttribute("navigaProgetti", navigaProgetti);
 		// FINE RICERCA PROGETTI //
 		
 		
@@ -161,7 +160,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		retval.add(new DescrizioneValore("IMPORTO FINANZIAMENTI", impoImportoFinanziato));
 		
 		searchContainerRiepilogo.setResults(retval);
-		modelMap.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
+		model.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
 		// FINE RIEPILOGO //
 		
 		return "elenco-progetti-view";
@@ -170,7 +169,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 	@ActionMapping(params="action=dettaglio")
 	public void actionDettaglio(	ActionRequest aRequest, 
 									ActionResponse aResponse, 
-									ModelMap modelMap, 
+									Model model, 
 									@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti, 
 									@RequestParam(value = "idProgettoDettaglio") String idProgettoDettaglio){
 		/*
@@ -202,66 +201,66 @@ public class ElencoProgettiController extends FiltriCommonController {
 	@ActionMapping(params="action=ricerca")
 	public void actionRicerca(	ActionRequest aRequest, 
 								ActionResponse aResponse, 
-								ModelMap modelMap, 
+								Model model, 
 								@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){
 		
-		modelMap.addAttribute("navigaProgetti", navigaProgetti);
+		model.addAttribute("navigaProgetti", navigaProgetti);
 	}
 	
-	private void initInModelMascheraRicerca(ModelMap modelMap, NavigaProgetti filtro) {
+	private void initInModelMascheraRicerca(Model model, NavigaProgetti filtro) {
 		
 		//Carico la lista delle regioni
 		List<AreaGeografica> listAreaGeografica = aggregataFacade.findAreaGeografica();
-		modelMap.addAttribute("listAreaGeografica", listAreaGeografica);
+		model.addAttribute("listAreaGeografica", listAreaGeografica);
 		
 		if( (! "-1".equals( filtro.getIdAreaGeografica() )) && (! "0".equals( filtro.getIdAreaGeografica() )) ){
 			//Regione selezionata carico le Province
 			List<Regione> listRegione = aggregataFacade.findRegioniByIdAreaGeografica(Integer.valueOf( filtro.getIdAreaGeografica() ));
-			modelMap.addAttribute("listRegione", listRegione);
+			model.addAttribute("listRegione", listRegione);
 		}
 		
 		if( (! "-1".equals( filtro.getIdRegione() )) && (! "0".equals( filtro.getIdRegione() )) ){
 			//Regione selezionata carico le Province
 			List<Provincia> listProvincia = aggregataFacade.findProvinciaByIdRegione(Integer.valueOf( filtro.getIdRegione() ));
-			modelMap.addAttribute("listProvincia", listProvincia);
+			model.addAttribute("listProvincia", listProvincia);
 		}
 		
 		if( (! "-1".equals( filtro.getIdProvincia() )) && (! "0".equals( filtro.getIdProvincia() )) ){
 			//Provincia selezionata carico i Comuni
 			List<Comune> listComune = aggregataFacade.findComuneByIdProvincia(Integer.valueOf( filtro.getIdProvincia() ));
-			modelMap.addAttribute("listComune", listComune);
+			model.addAttribute("listComune", listComune);
 		}
 		
 		//Carico la lista degli Anni Decisione
 		List<AnnoDecisione> listaAnnoDecisione = aggregataFacade.findAnniDecisione();
-		modelMap.addAttribute("listaAnnoDecisione", listaAnnoDecisione);
+		model.addAttribute("listaAnnoDecisione", listaAnnoDecisione);
 		
 		//Carico la lista delle Tipologia Intervento
 		List<TipologiaIntervento> listaTipologiaIntervento = aggregataFacade.findTipologiaIntervento();
-		modelMap.addAttribute("listaTipologiaIntervento", listaTipologiaIntervento);
+		model.addAttribute("listaTipologiaIntervento", listaTipologiaIntervento);
 		
 		//Carico la lista degli Stato Progetto
 		List<StatoProgetto> listaStatoProgetto = aggregataFacade.findStatoProgetto();
-		modelMap.addAttribute("listaStatoProgetto", listaStatoProgetto);
+		model.addAttribute("listaStatoProgetto", listaStatoProgetto);
 		
 		//Carico la lista della Categoria Soggetto
 		List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggetto();
-		modelMap.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
+		model.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
 	
 		if( (! "-1".equals( filtro.getIdCategoriaSoggetto() )) && (! "0".equals( filtro.getIdCategoriaSoggetto() )) ){
 			//Carico la lista della Sottocategoria Soggetto
 			List<SottocategoriaSoggetto> listSottoCategoriaSoggetto = aggregataFacade.findSottocategoriaSoggetto(Integer.valueOf( filtro.getIdCategoriaSoggetto() ));
-			modelMap.addAttribute("listSottoCategoriaSoggetto", listSottoCategoriaSoggetto);
+			model.addAttribute("listSottoCategoriaSoggetto", listSottoCategoriaSoggetto);
 		}
 		
 		//Carico le Aree d'intervednto
 		List<AreaIntervento> listAreaIntervento = aggregataFacade.findAreaIntervento();
-		modelMap.addAttribute("listAreaIntervento", listAreaIntervento);
+		model.addAttribute("listAreaIntervento", listAreaIntervento);
 		
 		if( (! "-1".equals( filtro.getIdAreaIntervento() )) && (! "0".equals( filtro.getIdAreaIntervento() )) ){
 			//Settore intervento selezionata carico i sottosettori
 			List<SottosettoreIntervento> listSottosettoreIntervento = aggregataFacade.findSottosettoreByArea(Integer.valueOf( filtro.getIdAreaIntervento() ));
-			modelMap.addAttribute("listSottosettoreIntervento", listSottosettoreIntervento);
+			model.addAttribute("listSottosettoreIntervento", listSottosettoreIntervento);
 		}
 		
 		if( 
@@ -271,7 +270,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 				){
 			//Settore intervento e sottosettore intervento selezionati carico le categorie
 			List<CategoriaIntervento> listaCategoriaIntervento = aggregataFacade.findCategoriaInterventoByAreaSottosettore(Integer.valueOf( filtro.getIdAreaIntervento() ), Integer.valueOf( filtro.getIdSottosettoreIntervento() ));
-			modelMap.addAttribute("listaCategoriaIntervento", listaCategoriaIntervento);
+			model.addAttribute("listaCategoriaIntervento", listaCategoriaIntervento);
 		}
 		
 	}

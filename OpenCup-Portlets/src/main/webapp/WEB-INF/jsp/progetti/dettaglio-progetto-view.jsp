@@ -89,7 +89,7 @@
 					<span class="dett-label">Comune:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">${ comuniProgetto }</span>
+					<span class="dett-value">${ dettProgetto.comuniProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -97,7 +97,7 @@
 					<span class="dett-label">Provincia:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">${ provinceProgetto }</span>
+					<span class="dett-value">${ dettProgetto.provinceProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -105,7 +105,7 @@
 					<span class="dett-label">Regione:</span>
 				</div>
 				<div class="span8">
-					<span class="dett-value">${ regioneProgetto }</span>
+					<span class="dett-value">${ dettProgetto.regioneProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -193,6 +193,12 @@
 				</div>
 			</div>
 			
+			<div class="row" style="text-align: center">
+				<div id="map-canvas"></div>
+				<c:choose>
+					<c:when test="${ 'S' eq multiLocalizzazione }">Progetto Multi-localizzato</c:when>
+				</c:choose>
+			</div>
 			
 			<fmt:formatDate value="${ maxDataModifica }" var="dataUltimaModifica" pattern="dd/MM/yyyy" />
 			<p>
@@ -264,21 +270,75 @@
 		
 	</div>
 
-	<script type="text/javascript">
-		
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
 
+	<script type="text/javascript">
+	      
+/*
+ * MAPPA
+ */
+ 
+ 	var lat = 0;
+ 	var lng = 0;
+ 	var address = '${addressMap}';//{zipcode} or {city and state};
+ 	var zoomMap = ${zoomMap};
+	
+	function initialize() {
+		var mapCanvas = document.getElementById('map-canvas');
+		var mapOptions = {
+			center: new google.maps.LatLng(lat, lng),
+         	disableDefaultUI: true,
+         	disableDoubleClickZoom: true,
+         	draggable: false,
+         	keyboardShortcuts: false,
+         	zoom: zoomMap,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		
+		var map = new google.maps.Map(mapCanvas, mapOptions);
+     	
+		var marker = new google.maps.Marker({
+        										map: map,
+                                   				position: map.getCenter()
+                                       		});
+     	var infowindow = new google.maps.InfoWindow();
+     	infowindow.setContent('<b>'+address+'</b>');
+     	google.maps.event.addListener(marker, 'click', 
+     			function() {
+         			infowindow.open(map, marker);
+     			});
+	}
+	
+	google.maps.event.addDomListener(window, 'load', initialize);
+	
+	var geocoder = new google.maps.Geocoder();
+	
+	geocoder.geocode({'address': address}, 
+				    function(results, status) {
+				        if (status == google.maps.GeocoderStatus.OK) {
+						    lat = results[0].geometry.location.lat();
+						    lng = results[0].geometry.location.lng();
+							initialize();
+                     	} else {
+							alert("Geocode was not successful for the following reason: " + status);
+						}
+					});
+ 
+/*
+ * FINE MAPPA
+ */
 		AUI().use(
 			'aui-base', 
 			function( A ) {
 				var dataset = [{
 	        		data: [{
 			            	etichetta: 'Costo Progetto',
-			            	valore: '${ dettProgetto.impoCostoProgetto }',
-			            	valoreformattato: '<fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
+			            	valore: '${ impoCostoProgetto }',
+			            	valoreformattato: '<fmt:formatNumber value="${ impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
 			        	}, {
 			            	etichetta: 'Importo Finanziato',
-			            	valore: '${ dettProgetto.impoImportoFinanziato }',
-			            	valoreformattato: '<fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
+			            	valore: '${ impoImportoFinanziato }',
+			            	valoreformattato: '<fmt:formatNumber value="${ impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
 			        	}],
 			        name: 'Importi'
 			    }];

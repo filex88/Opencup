@@ -45,13 +45,7 @@ Progetti progetti = (Progetti)row.getObject();
 		</div>
 		
 		<div>
-			<p> Comune:
-				<c:forEach items="${ progetti.anagraficaCup.cupLocalizzazione }" var="localizzazione"> 
-					<span>${ localizzazione.comune.descComune }</span>
-				</c:forEach>
-				
-				
-			</p>
+			<span>Comune: <%= progetti.getComuniProgetto() %></span>
 		</div>
 	</div>
 	

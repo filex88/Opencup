@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.util.StringUtils;
+
 @Entity
 @Table(name = "S_DMA_FPRG_PROGETTI")
 public class Progetti extends AbstractCommonEntity implements Serializable {
@@ -84,6 +86,38 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 
 	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
 	private String annoAnnoDecisione;
+	
+	public String getComuniProgetto(){
+		String comuniProgetto = "";
+		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
+			if( comuniProgetto.indexOf( c.getComune().getDescComune() ) == -1 ){
+				comuniProgetto = ( StringUtils.isEmpty(comuniProgetto) )? c.getComune().getDescComune() : comuniProgetto + ", " + c.getComune().getDescComune();
+			}
+		}
+		return comuniProgetto;
+	}
+
+	public String getProvinceProgetto(){
+		String provinceProgetto = "";
+		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
+			if( provinceProgetto.indexOf( c.getProvincia().getDescProvincia() ) == -1 ){
+				provinceProgetto = ( StringUtils.isEmpty(provinceProgetto) )? c.getProvincia().getDescProvincia() : provinceProgetto + ", " + c.getProvincia().getDescProvincia();
+			}
+		}
+		return provinceProgetto;
+	}
+	
+	public String getRegioneProgetto(){
+		String regioneProgetto = "";
+		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
+			if( regioneProgetto.indexOf( c.getRegione().getDescRegione() ) == -1 ){
+				regioneProgetto = ( StringUtils.isEmpty(regioneProgetto) )? c.getRegione().getDescRegione() : regioneProgetto + ", " + c.getRegione().getDescRegione();
+			}
+		}
+		return regioneProgetto;
+	}
+	
+	
 
 	public Integer getId() {
 		return id;
