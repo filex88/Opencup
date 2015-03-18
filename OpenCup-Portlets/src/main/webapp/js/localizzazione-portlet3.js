@@ -101,7 +101,7 @@ function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel,a
 
 	var width = 500,
    		height = 500,
-   		border=1
+   		border=0.5
     	bordercolor='none',
     	smallrectW=50,
     	smallrectH=50;

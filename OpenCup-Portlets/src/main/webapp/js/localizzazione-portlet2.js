@@ -95,7 +95,7 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoL
 
 	var width = 500,
     	height = 500,
-    	border=1
+    	border=0.5
     	bordercolor='none',
     	smallrectW=50,
     	smallrectH=50;
@@ -240,7 +240,7 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoL
     	var ySecondTranslation=(height/2)-(currentH*(maxScale/2));
    
     	// 2.4 =Max fattore di scalea della pag 	
-		// sposta all'angolo, poi scalo, poi sposta al centro
+		// sposta all'angolo, poi scalo, poi sposta al centro e tiro su
 		selection.attr("transform", "translate("+xSecondTranslation+","+ySecondTranslation+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
 	
 		// porporzione del bordo
