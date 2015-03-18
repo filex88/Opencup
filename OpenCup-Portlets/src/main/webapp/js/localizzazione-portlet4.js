@@ -90,7 +90,7 @@ function drawAllRegions(dimension,calculated_json){
 
 	var width = 500,
     	height = 500,
-    	border=1
+    	border=0.5
     	bordercolor='none',
     	smallrectW=50,
     	smallrectH=50;
@@ -98,7 +98,8 @@ function drawAllRegions(dimension,calculated_json){
 	var svg = d3.select("#italybymacroareas").append("svg")
     	.attr("width", width)
     	.attr("height", height)
-   		.attr("border",border);
+   		.attr("border",border)
+   		.style("stroke-width",border);
    	
    	var borderPath = svg.append("rect")
 		.attr("height", height)
@@ -141,7 +142,7 @@ function drawAllRegions(dimension,calculated_json){
  
     	var path = d3.geo.path()
         	.projection(projection);
-
+    	
      	svg.append("g")
      	.attr("id","territorioSel");
         
@@ -209,5 +210,8 @@ function drawAllRegions(dimension,calculated_json){
     		})
     	 	tooltip.classed("nascosto", true)
     	});
+     	
+     	var territorio=d3.selectAll("#territorioSel");
+     	territorio.style("stroke-width",border);
 	});
 }

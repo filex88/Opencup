@@ -89,7 +89,7 @@ function drawGraphTerritori(dimension,calculated_json){
 
 	var width = 500,
     height = 500,
-    border=1
+    border=0.5
     bordercolor='none',
     smallrectW=50,
     smallrectH=50;
@@ -140,9 +140,11 @@ function drawGraphTerritori(dimension,calculated_json){
  
     var path = d3.geo.path()
         .projection(projection);
+    
+    svg.append("g")
+ 	.attr("id","territorioSel");
      
-                
-     svg.selectAll("path").data(topojson.feature(it, it.objects.sub).features)
+     svg.selectAll("g").selectAll("path").data(topojson.feature(it, it.objects.sub).features)
      	.enter().append("path")
     	.attr("class",function(d) { return d.properties.TERR; })
     	.attr("d",path)
@@ -218,8 +220,11 @@ function drawGraphTerritori(dimension,calculated_json){
     		
     	 	tooltip.classed("nascosto", true)
     	});
-  
+     
+     var territorio=d3.selectAll("#territorioSel");
+ 	 territorio.style("stroke-width",border);
 	});
+	
 	
 }
 
