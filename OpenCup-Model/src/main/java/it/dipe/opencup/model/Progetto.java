@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "S_DMA_FPRG_PROGETTI")
-public class Progetti extends AbstractCommonEntity implements Serializable {
+public class Progetto extends AbstractCommonEntity implements Serializable {
 
 	/**
 	 * 
@@ -272,7 +272,7 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Progetti other = (Progetti) obj;
+		Progetto other = (Progetto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

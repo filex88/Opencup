@@ -12,7 +12,7 @@ import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.LocalizzazioneDAO;
 import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.NaturaSettoreDAO;
-import it.dipe.opencup.dao.ProgettiDAO;
+import it.dipe.opencup.dao.ProgettoDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dao.SettoreInterventoDAO;
@@ -55,7 +55,7 @@ import org.springframework.stereotype.Component;
 public class AggregataFacade {
 	
 	@Autowired
-	private ProgettiDAO progettiDAO;
+	private ProgettoDAO progettoDAO;
 	
 	@Autowired
 	private AggregataDAO aggregataDAO;

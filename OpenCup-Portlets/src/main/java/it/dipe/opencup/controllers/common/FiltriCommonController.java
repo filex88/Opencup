@@ -2,7 +2,7 @@ package it.dipe.opencup.controllers.common;
 
 import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
-import it.dipe.opencup.facade.ProgettiFacade;
+import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class FiltriCommonController {
 	
 	@Autowired
-	private ProgettiFacade progettiFacade;
+	private ProgettoFacade progettoFacade;
 	
 	@Autowired
 	private AggregataFacade aggregataFacade;

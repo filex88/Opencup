@@ -7,7 +7,7 @@
 <%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="it.dipe.opencup.model.Progetti" %>
+<%@ page import="it.dipe.opencup.model.Progetto" %>
 <%@ page import="com.liferay.portal.service.UserLocalServiceUtil" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 <%@ page import="javax.portlet.PortletURL" %>
@@ -19,7 +19,7 @@
 
 <%
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
-Progetti progetti = (Progetti)row.getObject();
+Progetto progetti = (Progetto)row.getObject();
 %>
 
 <div>

@@ -6,7 +6,7 @@ import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
-import it.dipe.opencup.facade.ProgettiFacade;
+import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.AnnoAggregato;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
@@ -68,7 +68,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 	private int maxResult;
 	
 	@Autowired
-	private ProgettiFacade progettiFacade;
+	private ProgettoFacade progettoFacade;
 	
 	@Autowired
 	private AggregataFacade aggregataFacade;

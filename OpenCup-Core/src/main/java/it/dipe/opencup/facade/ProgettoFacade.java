@@ -1,12 +1,12 @@
 package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.ComuneDAO;
-import it.dipe.opencup.dao.ProgettiDAO;
+import it.dipe.opencup.dao.ProgettoDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.dto.SizeDTO;
-import it.dipe.opencup.model.Progetti;
+import it.dipe.opencup.model.Progetto;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 
-@Component("progettiFacade")
-public class ProgettiFacade {
+@Component("progettoFacade")
+public class ProgettoFacade {
 	
 	@Autowired
-	private ProgettiDAO progettiDAO;
+	private ProgettoDAO progettoDAO;
 	
 	@Autowired
 	private RegioneDAO regioneDAO;
@@ -36,7 +36,7 @@ public class ProgettiFacade {
 	
 	private Criteria buildCriteria(NavigaProgetti navigaProgetti) {
 		
-		Criteria criteria = progettiDAO.newCriteria();
+		Criteria criteria = progettoDAO.newCriteria();
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 //		criteria.setProjection(	Projections.projectionList()
@@ -213,11 +213,11 @@ public class ProgettiFacade {
 	@Cacheable(value = "SizeDTO")
 	public SizeDTO sizeElencoProgetti(NavigaProgetti filtri) {
 		Criteria criteria = buildCriteria(filtri);	
-		return new SizeDTO(progettiDAO.countByCriteria(criteria));
+		return new SizeDTO(progettoDAO.countByCriteria(criteria));
 	}
 
-	@Cacheable(value = "Progetti")
-	public List<Progetti> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, Integer startResult, Integer endResult) {
+	@Cacheable(value = "Progetto")
+	public List<Progetto> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, Integer startResult, Integer endResult) {
 		
 		Criteria criteria = buildCriteria(filtri)
 				.setFirstResult(startResult.intValue())
@@ -228,7 +228,7 @@ public class ProgettiFacade {
 		else
 			criteria.addOrder(Order.desc(orderByCol));
 		
-		List<Progetti> retval = progettiDAO.findByCriteria(criteria);
+		List<Progetto> retval = progettoDAO.findByCriteria(criteria);
 		
 //		List<Progetti> retval = new ArrayList<Progetti>(); 		
 //		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,9 +294,9 @@ public class ProgettiFacade {
 		return retval;
 	}
 
-	@Cacheable(value = "Progetti")
-	public Progetti findProgettoById(Integer id) {
-		Progetti p = progettiDAO.findById(id);
+	@Cacheable(value = "Progetto")
+	public Progetto findProgettoById(Integer id) {
+		Progetto p = progettoDAO.findById(id);
 		
 //		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		

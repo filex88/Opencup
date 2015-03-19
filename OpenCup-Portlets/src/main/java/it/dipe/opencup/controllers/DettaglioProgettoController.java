@@ -1,8 +1,8 @@
 package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.dto.NavigaProgetti;
-import it.dipe.opencup.facade.ProgettiFacade;
-import it.dipe.opencup.model.Progetti;
+import it.dipe.opencup.facade.ProgettoFacade;
+import it.dipe.opencup.model.Progetto;
 
 import java.util.Date;
 
@@ -24,7 +24,7 @@ import com.liferay.portal.util.PortalUtil;
 public class DettaglioProgettoController {
 	
 	@Autowired
-	ProgettiFacade progettiFacade;
+	ProgettoFacade progettoFacade;
 	
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
@@ -35,7 +35,7 @@ public class DettaglioProgettoController {
 		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
 		
 		if( sessionNavigaProgetti != null && (! sessionNavigaProgetti.getIdProgetto().isEmpty()) ){
-			Progetti progetto = progettiFacade.findProgettoById( Integer.valueOf( sessionNavigaProgetti.getIdProgetto() ) );
+			Progetto progetto = progettoFacade.findProgettoById( Integer.valueOf( sessionNavigaProgetti.getIdProgetto() ) );
 			model.addAttribute("dettProgetto", progetto);
 			
 			double impFinanziato = progetto.getImpoImportoFinanziato().doubleValue();

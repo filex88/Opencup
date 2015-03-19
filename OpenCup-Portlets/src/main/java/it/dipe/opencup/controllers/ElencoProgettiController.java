@@ -5,14 +5,14 @@ import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.facade.AggregataFacade;
-import it.dipe.opencup.facade.ProgettiFacade;
+import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
 import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
-import it.dipe.opencup.model.Progetti;
+import it.dipe.opencup.model.Progetto;
 import it.dipe.opencup.model.Provincia;
 import it.dipe.opencup.model.Regione;
 import it.dipe.opencup.model.SottocategoriaSoggetto;
@@ -63,7 +63,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 	private int maxResult;
 	
 	@Autowired
-	private ProgettiFacade progettiFacade;
+	private ProgettoFacade progettoFacade;
 	
 	@Autowired
 	private AggregataFacade aggregataFacade;
@@ -109,16 +109,16 @@ public class ElencoProgettiController extends FiltriCommonController {
 		    delta = Integer.parseInt(sDelta);
 		}
 
-		SearchContainer<Progetti> searchContainerElenco = new SearchContainer<Progetti>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+		SearchContainer<Progetto> searchContainerElenco = new SearchContainer<Progetto>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
 		searchContainerElenco.setDelta(delta);
 		
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
-		int size =  progettiFacade.sizeElencoProgetti( navigaProgetti ).getSize();
+		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
 
 		searchContainerElenco.setTotal(size);
 		
-		List<Progetti> elencoProgetti = progettiFacade.findElencoProgetti(	navigaProgetti, 
+		List<Progetto> elencoProgetti = progettoFacade.findElencoProgetti(	navigaProgetti, 
 																			searchContainerElenco.getOrderByCol(), 
 																			searchContainerElenco.getOrderByType(),
 																			searchContainerElenco.getStart(), 
@@ -149,7 +149,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		
-		for(Progetti aggregataDTO : elencoProgetti){
+		for(Progetto aggregataDTO : elencoProgetti){
 			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetto();
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}

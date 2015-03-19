@@ -61,7 +61,7 @@
 		
 			<liferay-ui:search-container-results results="${searchContainerElenco.results}" total="${searchContainerElenco.total}"/>    
 			
-			<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetti" keyProperty="id" modelVar="progetti">
+			<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetto" keyProperty="id" modelVar="progetti">
 				
 				<liferay-ui:search-container-column-jsp name="aggregato-des" align="right" path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
 				

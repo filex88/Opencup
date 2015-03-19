@@ -1,12 +1,12 @@
 package it.dipe.opencup.dao;
 
 import it.dipe.opencup.dao.common.AbstractCommonDAO;
-import it.dipe.opencup.model.Progetti;
+import it.dipe.opencup.model.Progetto;
 
 import org.springframework.stereotype.Component;
 
 
-@Component("progettiDAO")
-public class ProgettiDAO extends AbstractCommonDAO<Progetti> {
+@Component("progettoDAO")
+public class ProgettoDAO extends AbstractCommonDAO<Progetto> {
 
 }

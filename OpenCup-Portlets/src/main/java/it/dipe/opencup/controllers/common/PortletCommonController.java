@@ -1,12 +1,9 @@
 package it.dipe.opencup.controllers.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
-import it.dipe.opencup.facade.ProgettiFacade;
+import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.CategoriaIntervento;
@@ -20,6 +17,9 @@ import it.dipe.opencup.model.SottocategoriaSoggetto;
 import it.dipe.opencup.model.SottosettoreIntervento;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ public class PortletCommonController {
 	protected int maxResult;
 	
 	@Autowired
-	protected ProgettiFacade progettiFacade;
+	protected ProgettoFacade progettoFacade;
 	
 	@Autowired
 	protected AggregataFacade aggregataFacade;
