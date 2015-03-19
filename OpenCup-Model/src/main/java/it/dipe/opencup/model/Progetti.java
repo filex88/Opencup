@@ -90,7 +90,7 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	public String getComuniProgetto(){
 		String comuniProgetto = "";
 		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
-			if( comuniProgetto.indexOf( c.getComune().getDescComune() ) == -1 ){
+			if( comuniProgetto.toLowerCase().indexOf( c.getComune().getDescComune().toLowerCase() ) == -1 ){
 				comuniProgetto = ( StringUtils.isEmpty(comuniProgetto) )? c.getComune().getDescComune() : comuniProgetto + ", " + c.getComune().getDescComune();
 			}
 		}
@@ -100,7 +100,7 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	public String getProvinceProgetto(){
 		String provinceProgetto = "";
 		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
-			if( provinceProgetto.indexOf( c.getProvincia().getDescProvincia() ) == -1 ){
+			if( provinceProgetto.toLowerCase().indexOf( c.getProvincia().getDescProvincia().toLowerCase() ) == -1 ){
 				provinceProgetto = ( StringUtils.isEmpty(provinceProgetto) )? c.getProvincia().getDescProvincia() : provinceProgetto + ", " + c.getProvincia().getDescProvincia();
 			}
 		}
@@ -110,7 +110,7 @@ public class Progetti extends AbstractCommonEntity implements Serializable {
 	public String getRegioneProgetto(){
 		String regioneProgetto = "";
 		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
-			if( regioneProgetto.indexOf( c.getRegione().getDescRegione() ) == -1 ){
+			if( regioneProgetto.toLowerCase().indexOf( c.getRegione().getDescRegione().toLowerCase() ) == -1 ){
 				regioneProgetto = ( StringUtils.isEmpty(regioneProgetto) )? c.getRegione().getDescRegione() : regioneProgetto + ", " + c.getRegione().getDescRegione();
 			}
 		}

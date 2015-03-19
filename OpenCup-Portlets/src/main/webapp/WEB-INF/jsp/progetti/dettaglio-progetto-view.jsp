@@ -485,10 +485,12 @@
 							        })
 								    .on('mouseover', 
 								    		function (d) {
-										        d3.select('#tooltip').classed('hidden', false);
+								    			d3.select('#tooltip').transition().duration(500).style("opacity", 100); 
+								    			d3.select('#tooltip').classed('hidden', false);
 									    })
 									.on('mouseout', 
 											function () {
+												d3.select('#tooltip').transition().duration(500).style("opacity", 0); 
 										        d3.select('#tooltip').classed('hidden', true);
 										    });
 					

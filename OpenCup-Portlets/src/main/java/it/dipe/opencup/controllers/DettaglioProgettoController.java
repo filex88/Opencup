@@ -58,7 +58,7 @@ public class DettaglioProgettoController {
 			String multiLocalizzazione = "N";
 			
 			String sTmp = progetto.getRegioneProgetto();
-			if(sTmp.indexOf( "," ) == -1){
+			if(sTmp.indexOf( "," ) == -1 && sTmp.toLowerCase().indexOf("tutt") == -1){
 				if( ! StringUtils.isEmpty( sTmp ) ){
 					addressMap = addressMap + ", " + sTmp;
 					zoomMap = "7";
@@ -68,7 +68,7 @@ public class DettaglioProgettoController {
 			}
 			
 			sTmp = progetto.getProvinceProgetto();
-			if(sTmp.indexOf( "," ) == -1){
+			if(sTmp.indexOf( "," ) == -1 && sTmp.toLowerCase().indexOf("tutt") == -1){
 				if( ! StringUtils.isEmpty( sTmp ) ){
 					addressMap = addressMap + ", " + sTmp;
 					zoomMap = "9";
@@ -77,7 +77,7 @@ public class DettaglioProgettoController {
 				multiLocalizzazione = "S";
 			}
 			sTmp = progetto.getComuniProgetto();
-			if(sTmp.indexOf( "," ) == -1){
+			if(sTmp.indexOf( "," ) == -1 && sTmp.toLowerCase().indexOf("tutt") == -1){
 				if( ! StringUtils.isEmpty( sTmp ) ){
 					addressMap = addressMap + ", " + sTmp;
 					zoomMap = "9";

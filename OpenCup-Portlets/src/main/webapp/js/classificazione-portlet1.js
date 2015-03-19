@@ -128,7 +128,7 @@ AUI().use(
 	       			on: {
 	           			success: function(event, id, obj) {
 	           				aggregate = this.get('responseData');
-	           				console.log(aggregate);
+	           				//console.log(aggregate);
 	           			    if(aggregate.aggregati4Pie!=null && aggregate.aggregati4Pie!=""){
 	           			    	drawPie();
 	           			    }else{
@@ -285,7 +285,8 @@ AUI().use(
 					}
 				});
 				
-				var SVGRoot = document.getElementsByTagName("svg")[0];
+				//var SVGRoot = document.getElementsByTagName("svg")[0];
+				var SVGRoot = d3.select('#pieChartClassificazione').select('svg')[0][0];
 				var pt = SVGRoot.createSVGPoint();
 				
 				SVGRoot.addEventListener('mousemove',
@@ -319,9 +320,6 @@ AUI().use(
 				resourceURL.setParameter("pattern", pattern);
 				resourceURL.setParameter("pattern2", pattern2);
 				resourceURL.setCopyCurrentRenderParameters(true);
-				
-				console.log(resourceURL.toString());
-				
 				A.io.request( resourceURL.toString(), {
 	   				method: 'GET',
 	       			dataType: 'json',
@@ -357,9 +355,7 @@ AUI().use(
 				resourceURL.setResourceId(resourceId);
 				resourceURL.setParameter("pattern", pattern);
 				resourceURL.setCopyCurrentRenderParameters(true);
-				
-				console.log(resourceURL.toString());
-				
+
 				A.io.request( resourceURL.toString(), {
 	   				method: 'GET',
 	       			dataType: 'json',
