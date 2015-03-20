@@ -5,6 +5,7 @@ import it.dipe.opencup.dao.AnnoAggregatoDAO;
 import it.dipe.opencup.dao.AnnoDecisioneDAO;
 import it.dipe.opencup.dao.AreaGeograficaDAO;
 import it.dipe.opencup.dao.AreaInterventoDAO;
+import it.dipe.opencup.dao.AreaSoggettoDAO;
 import it.dipe.opencup.dao.CategoriaInterventoDAO;
 import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
@@ -27,6 +28,7 @@ import it.dipe.opencup.model.AnnoAggregato;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
+import it.dipe.opencup.model.AreaSoggetto;
 import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
@@ -113,6 +115,9 @@ public class AggregataFacade {
 
 	@Autowired
 	private CategoriaInterventoDAO categoriaInterventoDAO;
+	
+	@Autowired
+	private AreaSoggettoDAO areaSoggettoDAO;
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
@@ -295,9 +300,7 @@ public class AggregataFacade {
 	}
 	
 	@Cacheable(value = "AggregataDTO")
-	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
-
-		System.out.println( navigaAggregata.toString() );
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {
 		
 		Criteria criteria = buildCriteria(navigaAggregata);
 		if("asc".equals(orderByType)){
@@ -698,6 +701,39 @@ public class AggregataFacade {
 			regioneRecuperata=retval.get(0);
 		}
 		return regioneRecuperata;
+	}
+	
+	@Cacheable(value = "AreaSoggetto")
+	public List<AreaSoggetto> findAreaSoggetto() {
+		List<AreaSoggetto> retval = new ArrayList<AreaSoggetto>();
+		
+		Criteria criteria = areaSoggettoDAO.newCriteria();
+		criteria.add( Restrictions.ne("id", -1) );
+		criteria.addOrder(Order.asc("descAreaSoggetto"));
+		
+		retval = areaSoggettoDAO.findByCriteria(criteria);
+		
+		return retval;
+	}
+	
+	@Cacheable(value = "CategoriaSoggetto")
+	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto(Integer idAreaSoggetto) {
+		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
+		
+		Criteria criteria = categoriaSoggettoDAO.newCriteria();
+		
+		criteria.createAlias("areaSoggetto", "areaSoggetto");
+		
+		criteria.add( Restrictions.ne("codiCategoriaSoggetto", "0000") );
+		criteria.add( Restrictions.ne("id", -1) );
+		
+		criteria.add( Restrictions.eq("areaSoggetto.id", idAreaSoggetto) );
+		
+		criteria.addOrder(Order.asc("descCategoriaSoggetto"));
+		
+		retval = categoriaSoggettoDAO.findByCriteria(criteria);
+		
+		return retval;
 	}
 	
 }

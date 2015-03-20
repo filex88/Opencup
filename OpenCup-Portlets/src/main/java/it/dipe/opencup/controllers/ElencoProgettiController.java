@@ -9,6 +9,7 @@ import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
+import it.dipe.opencup.model.AreaSoggetto;
 import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
@@ -243,9 +244,16 @@ public class ElencoProgettiController extends FiltriCommonController {
 		List<StatoProgetto> listaStatoProgetto = aggregataFacade.findStatoProgetto();
 		model.addAttribute("listaStatoProgetto", listaStatoProgetto);
 		
-		//Carico la lista della Categoria Soggetto
-		List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggetto();
-		model.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
+		
+		//Carico la lista della Aree Soggetto
+		List<AreaSoggetto> listAreaSoggetto = aggregataFacade.findAreaSoggetto();
+		model.addAttribute("listAreaSoggetto", listAreaSoggetto);
+		
+		if( (! "-1".equals( filtro.getIdAreaSoggetto() )) && (! "0".equals( filtro.getIdAreaSoggetto() )) ){
+			//Carico la lista della Categoria Soggetto
+			List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggettoByIdAreaSoggetto(Integer.valueOf( filtro.getIdAreaSoggetto() ));
+			model.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
+		}
 	
 		if( (! "-1".equals( filtro.getIdCategoriaSoggetto() )) && (! "0".equals( filtro.getIdCategoriaSoggetto() )) ){
 			//Carico la lista della Sottocategoria Soggetto

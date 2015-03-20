@@ -28,10 +28,10 @@ AUI().use(
 				    	// pulisco i campi
 				    	A.one('.regione').val(-1);
 				    	A.one('.provincia').val(-1);
-				    	A.one('.sotto-categoria-soggetto').val(-1);
 				    	A.one('.area-geografica').val(-1);
 				    	A.one('.regione').val(-1);
 				    	A.one('.provincia').val(-1);
+				    	A.one('.area-soggetto').val(-1);
 				    	A.one('.categoria-soggetto').val(-1);
 				    	A.one('.sotto-categoria-soggetto').val(-1);
 				    	A.one('.anno').val(-1);
@@ -424,6 +424,14 @@ AUI().use(
 //				});
 //		
 		///////////// GERARCHIA SOGGETTO /////////////
+		A.one('.area-soggetto').on(
+			    'change',
+			    function(event) {
+			    	A.one('.categoria-soggetto').val(-1);
+			    	A.one('.sotto-categoria-soggetto').val(-1);
+			    	caricaCombo(namespaceRicerca, "loadCategoriaSoggettoByAreaSoggetto", this.val(), namespaceRicerca4js+"categoria-soggetto");
+				});
+		
 		A.one('.categoria-soggetto').on(
 			    'change',
 			    function(event) {
@@ -461,6 +469,14 @@ AUI().use(
 //			    function(event) {
 //			    	A.one('.comune').val(-1);
 //				});
+		
+		A.one('.pulisciElementoAreaSoggetto').on(
+			    'click',
+			    function(event) {
+			    	A.one('.area-soggetto').val(-1);
+			    	A.one('.categoria-soggetto').val(-1);
+			    	A.one('.sotto-categoria-soggetto').val(-1);
+				});
 		
 		A.one('.pulisciElementoCategoriaSoggetto').on(
 			    'click',

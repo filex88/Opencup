@@ -19,6 +19,10 @@
 <div>
 
 	<div class="span6">
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
+	</div>
+		
+	<div class="span6">
 	
 		<fmt:setLocale value="it_IT"/>
 		
@@ -158,6 +162,19 @@
 			<div class="control-group no-margin-bottom">
 				<strong class="control-label">Gerarchia Soggetto</strong>
 				<div class="controls">&nbsp;</div>
+			</div>
+			
+			<div class="control-group no-margin-bottom" id="area-soggetto-div">
+				<label class="control-label" for="area-soggetto">Area</label>
+				<div class="controls">
+					<aui:select inlineField="true" cssClass="input-large area-soggetto" label="" bean="navigaAggregata" name="idAreaSoggetto" id="area-soggetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${navigaAggregata.idAreaSoggetto == -1}"/>
+						<c:forEach items="${listAreaSoggetto}" var="areasoggetto" >
+				            <aui:option value="${areasoggetto.id}" label="${areasoggetto.descAreaSoggetto}" selected="${navigaAggregata.idAreaSoggetto == areasoggetto.id}"/>
+				        </c:forEach>
+					</aui:select>
+					<i class="icon-remove-circle pulisciElementoAreaSoggetto" style="cursor: pointer;"></i>
+				</div>
 			</div>
 		
 			<div class="control-group no-margin-bottom" id="categoria-soggetto-div">

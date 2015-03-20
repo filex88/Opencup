@@ -4,6 +4,7 @@ import it.dipe.opencup.dto.FiltroRicercaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.CategoriaIntervento;
+import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Provincia;
 import it.dipe.opencup.model.Regione;
@@ -109,6 +110,24 @@ public class FiltriCommonController {
 			ele = new FiltroRicercaDTO();
 			ele.setId( categoriaIntervento.getId() );
 			ele.setLabel( categoriaIntervento.getDescCategoriaIntervento() );
+			lista.add(ele);
+		}
+		
+		view.addStaticAttribute("lista", lista);
+		return view;
+	}
+	
+	@ResourceMapping(value =  "loadCategoriaSoggettoByAreaSoggetto")	
+	protected View loadCategoriaSoggettoByAreaSoggetto(@RequestParam("pattern") Integer pattern){
+		
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
+		
+		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
+		FiltroRicercaDTO ele = null;
+		for(CategoriaSoggetto categoriaSoggetto : aggregataFacade.findCategoriaSoggettoByIdAreaSoggetto(pattern)){
+			ele = new FiltroRicercaDTO();
+			ele.setId( categoriaSoggetto.getId() );
+			ele.setLabel( categoriaSoggetto.getDescCategoriaSoggetto() );
 			lista.add(ele);
 		}
 		
