@@ -17,33 +17,31 @@
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- NAVIGAZIONE --		
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-		<div class="span10" style="float: left;">
-			
-			<c:if test="${ navigaAggregata.descNatura != null }">
-				<ul class="inline">
-					<li>Naviga per</li>
-					<li><span class="label label-info riepilogo-filtri">Natura: ${ navigaAggregata.descNatura }
-						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
-					</span></li>			
-			</c:if>
-			<c:if test="${ navigaAggregata.descAreaIntervento != null }">																		
-				<li><span class="label label-info riepilogo-filtri">Area Intervento: ${ navigaAggregata.descAreaIntervento } 
-					&nbsp;<i class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x" data-parent1="idAreaIntervento" data-parent2="idSottosettoreIntervento" data-parent3="idCategoriaIntervento" ></i>
-				</span></li>
-			</c:if>
-			<c:if test="${ navigaAggregata.descSottosettoreIntervento != null }">	
-				<li><span class="label label-info riepilogo-filtri">Sottosettore Intervento: ${ navigaAggregata.descSottosettoreIntervento } 
-					&nbsp;<i class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x" data-parent1="idSottosettoreIntervento" data-parent2="idCategoriaIntervento"  ></i>
-				</span></li>
-			</c:if>
-			<c:if test="${ navigaAggregata.descCategoriaIntervento != null }">																								
-				<li><span class="label label-info riepilogo-filtri">Categoria Intervento: ${ navigaAggregata.descCategoriaIntervento } 
-					&nbsp;<i class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x" data-parent1="idCategoriaIntervento" ></i>
-				</span></li>
-			</c:if>
-			<c:if test="${ navigaAggregata.descNatura != null }">
-				</ul>
-			</c:if>
+		<div class="span10 navigazione-div-container" style="float: left;">
+			<ul class="inline barra-navigazione">
+				<li>Naviga per</li>
+				<c:if test="${ navigaAggregata.descNatura != null }">
+						<li><span class="label label-info riepilogo-filtri">Natura: ${ navigaAggregata.descNatura }
+							&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
+						</span></li>			
+				</c:if>
+				<c:if test="${ navigaAggregata.descAreaIntervento != null }">																		
+					<li><span class="label label-info riepilogo-filtri">Area Intervento: ${ navigaAggregata.descAreaIntervento } 
+						&nbsp;<i class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x" data-parent1="idAreaIntervento" data-parent2="idSottosettoreIntervento" data-parent3="idCategoriaIntervento" ></i>
+					</span></li>
+				</c:if>
+				<c:if test="${ navigaAggregata.descSottosettoreIntervento != null }">	
+					<li><span class="label label-info riepilogo-filtri">Sottosettore Intervento: ${ navigaAggregata.descSottosettoreIntervento } 
+						&nbsp;<i class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x" data-parent1="idSottosettoreIntervento" data-parent2="idCategoriaIntervento"  ></i>
+					</span></li>
+				</c:if>
+				<c:if test="${ navigaAggregata.descCategoriaIntervento != null }">																								
+					<li><span class="label label-info riepilogo-filtri">Categoria Intervento: ${ navigaAggregata.descCategoriaIntervento } 
+						&nbsp;<i class="icon-remove-circle vertical-align-middle cursor-pointer pulisci icon-2x" data-parent1="idCategoriaIntervento" ></i>
+					</span></li>
+				</c:if>
+			</ul>
+
 			
 		</div>
 		
@@ -62,13 +60,8 @@
 				</span>
 			</div>
 		</div>
-		<br/>&nbsp;
-		<br/>&nbsp;
-		<!-- 	
-		<br/>&nbsp;
-		<aui:button id="affina-ricerca-classificazione" cssClass="header toggler-header-collapsed" value="AFFINA LA RICERCA <i class='icon-filter'></i>"></aui:button>
-		<br/>&nbsp;
-		 -->
+		
+		<div class="affina-ricerca-div-spazio" style="height: 30px"></div>
 		
 		<div class="content toggler-content-collapsed">
 			

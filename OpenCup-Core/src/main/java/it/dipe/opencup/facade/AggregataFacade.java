@@ -120,7 +120,7 @@ public class AggregataFacade {
 		
 		criteria.createAlias("classificazione", "classificazione");
 		criteria.createAlias("localizzazione", "localizzazione");
-		criteria.createAlias("localizzazione.stato", "stato");
+		//criteria.createAlias("localizzazione.stato", "stato");
 		criteria.createAlias("annoAggregato", "annoAggregato");
 		criteria.createAlias("gerarchiaSoggetto", "gerarchiaSoggetto");
 		
@@ -156,7 +156,9 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", Integer.valueOf(navigaAggregata.getIdAreaGeografica())) );
 		}
 
-		criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
+		criteria.add( Restrictions.eq("localizzazione.descStato", navigaAggregata.getDescStato() ) );
+		
+		//criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
 		
 		if( navigaAggregata.getIdNatura().equals("0") ){
 			criteria.add( Restrictions.ge("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
@@ -204,6 +206,12 @@ public class AggregataFacade {
 			criteria.add( Restrictions.ge("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
 		}else{
 			criteria.add( Restrictions.eq("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
+		}
+		
+		if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("gerarchiaSoggetto.areaSoggetto.id", Integer.valueOf(navigaAggregata.getIdAreaSoggetto())) );
+		}else{
+			criteria.add( Restrictions.eq("gerarchiaSoggetto.areaSoggetto.id", Integer.valueOf(navigaAggregata.getIdAreaSoggetto())) );
 		}
 		
 		return criteria;
@@ -289,6 +297,8 @@ public class AggregataFacade {
 	@Cacheable(value = "AggregataDTO")
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {		
 
+		System.out.println( navigaAggregata.toString() );
+		
 		Criteria criteria = buildCriteria(navigaAggregata);
 		if("asc".equals(orderByType)){
 			criteria.addOrder(Order.asc(orderByCol));

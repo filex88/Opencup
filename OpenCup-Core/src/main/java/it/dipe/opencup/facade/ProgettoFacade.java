@@ -89,7 +89,7 @@ public class ProgettoFacade {
 		
 		
 		//GERARCHIA SOGETTO
-		if( ( !"-1".equals(navigaProgetti.getIdCategoriaSoggetto()) ) || (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())) ){
+		if( ( !"-1".equals(navigaProgetti.getIdCategoriaSoggetto()) ) || (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())) || (!"-1".equals(navigaProgetti.getIdAreaSoggetto())) ){
 			criteria.createAlias("soggettoTitolare", "soggettoTitolare");
 		}
 		if( navigaProgetti.getIdCategoriaSoggetto().equals("0") ){
@@ -102,6 +102,12 @@ public class ProgettoFacade {
 			criteria.add( Restrictions.ge("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
 			criteria.add( Restrictions.eq("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
+		}
+		
+		if( navigaProgetti.getIdAreaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
+		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
+			criteria.add( Restrictions.eq("soggettoTitolare.categoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
 		}
 
 		//LOALIZZAZIONE

@@ -9,6 +9,9 @@ AUI().use(
 		'aui-toggler',
 		function( A ) {
 			
+			var heightNavigazioneDivContainer = d3.select('.navigazione-div-container').node().getBoundingClientRect().height;
+			d3.select('.affina-ricerca-div-spazio').attr("style", "height: " + (heightNavigazioneDivContainer + 10) + "px");
+			
 			var myFormEmpty = A.one(".filtri-form");
 			var myFormAffinaRicerca = A.one(".affina-ricerca-form");
 			

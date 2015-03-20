@@ -176,6 +176,10 @@
 	border-color: #004383;
 }
 
+.classificazione-portlet1 .barra-navigazione li {
+	border: 2px solid white;
+}
+
 .classificazione-portlet1 .ricerca .control-group .control-label {
 	padding-top:inherit;
 	font-weight: bold;
