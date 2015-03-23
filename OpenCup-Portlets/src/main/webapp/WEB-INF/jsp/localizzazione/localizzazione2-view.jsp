@@ -36,9 +36,7 @@
 
 
 
-<div class="localizzazioneSubtitle">
-<strong>Localizzazione dei progetti: </strong><span>Area geografica ${selectedTerritoryName}</span>
-</div>
+
 
 <fmt:setLocale value="it_IT"/>
 
