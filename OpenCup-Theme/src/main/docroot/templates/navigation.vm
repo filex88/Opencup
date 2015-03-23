@@ -55,7 +55,13 @@
 			</ul>
 			<ul id="searchBar" class="w45 right">
 				<li>
-					$theme.search()
+					#set ($VOID = $velocityPortletPreferences.setValue('display-style', '1'))
+					#set ($VOID = $velocityPortletPreferences.setValue('portlet-setup-show-borders', 'false'))
+					#set ($instanceId = 'HUYe')
+					#set ($myPortletId = "ricercaliberaportlet_WAR_OpenCupPortletsportlet_INSTANCE_${instanceId}")
+					## #set ($myPortletId = "ricercaliberaportlet_WAR_OpenCupPortletsportlet")
+					$theme.runtime($myPortletId, '', $velocityPortletPreferences.toString())
+					#set ($VOID = $velocityPortletPreferences.reset())
 				</li>
 			</ul>
 		</div>
