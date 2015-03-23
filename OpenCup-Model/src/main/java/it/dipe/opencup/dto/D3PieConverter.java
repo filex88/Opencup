@@ -6,11 +6,11 @@ import java.io.Serializable;
 public class D3PieConverter implements Serializable{
 
 	private static final long serialVersionUID = -7162369296034046712L;
-	private String id;
-	private String label;
-	private double value;
-//	private String color;
-	private String linkURL;
+	private String id = "0";
+	private String label = "";
+	private double value = 0.0;
+	private String percentage = "0%";
+	private String linkURL = "";
 	
 	public String getId() {
 		return id;
@@ -31,12 +31,13 @@ public class D3PieConverter implements Serializable{
 	public void setValue(double value) {
 		this.value = value;
 	}
-//	public String getColor() {
-//		return color;
-//	}
-//	public void setColor(String color) {
-//		this.color = color;
-//	}
+
+	public String getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(String percentage) {
+		this.percentage = percentage;
+	}
 	public String getLinkURL() {
 		return linkURL;
 	}

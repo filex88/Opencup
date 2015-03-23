@@ -244,9 +244,24 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
 		
+		double totale = 0.0;
+		for (AggregataDTO aggregataDTO: listaAggregataDTO){
+			if("VOLUME".equals(pattern)){
+				totale = totale + Double.valueOf( aggregataDTO.getNumeProgetti()).doubleValue();
+			}else if("COSTO".equals(pattern)){
+				totale = totale + aggregataDTO.getImpoCostoProgetti().doubleValue();
+			}else if("IMPORTO".equals(pattern)){
+				totale = totale + aggregataDTO.getImpoImportoFinanziato().doubleValue();
+			}else {
+				totale = totale + 0.0;
+			}
+		}
+		
 		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		D3PieConverter conv = null;
+		double value = 0.0;
 		for (AggregataDTO aggregataDTO: listaAggregataDTO){
+			
 			conv = new D3PieConverter();
 			conv.setId(aggregataDTO.getId().toString());
 			
@@ -261,15 +276,22 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 			}
 
 			if("VOLUME".equals(pattern)){
-				conv.setValue(Double.valueOf( aggregataDTO.getNumeProgetti() ));
+				value = Double.valueOf( aggregataDTO.getNumeProgetti() );
 			}else if("COSTO".equals(pattern)){
-				conv.setValue(aggregataDTO.getImpoCostoProgetti());
+				value = aggregataDTO.getImpoCostoProgetti();
 			}else if("IMPORTO".equals(pattern)){
-				conv.setValue(aggregataDTO.getImpoImportoFinanziato());
+				value = aggregataDTO.getImpoImportoFinanziato();
 			}else {
-				conv.setValue(0.0);
+				value = 0.0;
 			}
 			
+			double percentage = 0.0;
+			if( value > 0 ){
+				percentage = round( ((value * 100.0) / totale), 2);
+			}
+			
+			conv.setPercentage( String.valueOf( percentage ) + "%" );
+			conv.setValue( value );
 			conv.setLinkURL(aggregataDTO.getLinkURL());
 //			conv.setColor(getColor(indiceColore++));
 			converter.add(conv);
@@ -282,6 +304,15 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		setNavigaAggregataInSession(request, navigaAggregata);
 		
 		return view;
+	}
+	
+	private double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 
 	private void setNavigaAggregataInSession(PortletRequest request, NavigaAggregata navigaAggregata) {
