@@ -59,6 +59,8 @@
 
 .ptop50px{padding-top: 50px;}
 
+.aui .navbar{overflow: visible;margin-bottom: 0px;}
+
 .aui .navbar-inner {background-color: #1780c2;background-image: inherit;}
 
 .aui .navbar .nav li{text-align: center!important;}

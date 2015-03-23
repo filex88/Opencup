@@ -11,9 +11,7 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
 <portlet:defineObjects />
-<div class="localizzazioneSubtitle">
-<strong>Localizzazione dei progetti: </strong><span>Tutte le regioni</span>
-</div>
+
 
 <fmt:setLocale value="it_IT"/>
 

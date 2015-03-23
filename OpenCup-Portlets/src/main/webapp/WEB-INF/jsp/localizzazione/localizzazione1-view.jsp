@@ -27,9 +27,7 @@
 
 <div class="clear"></div>
 
-<div class="localizzazioneSubtitle">
-<strong>Localizzazione dei progetti</strong>
-</div>
+
 
 <div class="summaryContainer">
 	<div style="text-align: justify;">

@@ -52,12 +52,6 @@
 
 
 
-
-
-<div class="localizzazioneSubtitle">
-<strong>Localizzazione dei progetti: </strong><span>Regione ${regionName}</span>
-</div>
-
 <fmt:setLocale value="it_IT"/>
 
 <div class="summaryContainer">

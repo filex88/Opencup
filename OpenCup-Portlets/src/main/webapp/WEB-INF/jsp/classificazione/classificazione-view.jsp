@@ -19,7 +19,6 @@
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<div class="span10 navigazione-div-container" style="float: left;">
 			<ul class="inline barra-navigazione">
-				<li>Naviga per</li>
 				<c:if test="${ navigaAggregata.descNatura != null }">
 						<li><span class="label label-info riepilogo-filtri">Natura: ${ navigaAggregata.descNatura }
 							&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
@@ -47,7 +46,7 @@
 		
 		<div class="header toggler-header-collapsed" style="float: right;">
 			<div id="affina-ricerca-classificazione" class="affina-ricerca-div affina-ricerca cursor-pointer">
-				AFFINA RICERCA
+				AFFINA LA RICERCA
 				<span>
 					<i class="icon-filter"> 
 						<c:if test="${ navigaAggregata.countAffRicerca4Natura != null }">
@@ -320,7 +319,7 @@
 		<div class="span6">
 		
 			<div style="text-align: justify;">
-				La sintesi per Natura mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati 
+				La sintesi per Classificazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati 
 				aggregati navigando nelle ulteriori classificazioni:
 				Area Intervento > Sottosettori > Categoria
 			</div>
@@ -369,14 +368,20 @@
 		
 			<a name="classificazione-portlet1"></a>
 
-			<div id="tooltip-classificazione-portlet1" class="tooltip-classificazione-portlet1 hidden">
+			<div class="div_pie_chart" id="pie_chart_1">
+            	<div class="chart" id="pieChartClassificazione" style="text-align: center"></div>
+            </div>
+            
+            <div id="tooltip-classificazione-portlet1" class="tooltip-classificazione-portlet1 hidden">
 				<p><span id="label-tooltip-classificazione-portlet1"></span></p>
 				<p>&nbsp;</p>
 				<p><strong><span id="labelvalue-tooltip-classificazione-portlet1"></span>:&nbsp;</strong><span id="value-tooltip-classificazione-portlet1"></span><span class="hidden" id="umvalue-tooltip-classificazione-portlet1">&euro;</span></p>
 			</div>
-
+			
+			<%-- 
 			<div id="pieChartClassificazione" style="text-align: center">
 			</div>
+			--%>
 			
 			<div class="alert alert-info pieChartClassificazioneEmpty" id="pieChartClassificazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
 			
@@ -419,7 +424,7 @@
 			    <liferay-ui:search-container-row className="it.dipe.opencup.dto.AggregataDTO" keyProperty="id" modelVar="aggregataDTO">
 						
 					<liferay-ui:search-container-column-text name="aggregato-des">
-						<a href="#" onclick="return false;" data-url="${aggregataDTO.linkURL}" class="link-url-naviga-dettaglio">${aggregataDTO.descURL}</a>
+						<a href="#" data-id="${aggregataDTO.id}" onclick="return false;" data-url="${aggregataDTO.linkURL}" class="link-url-naviga-dettaglio">${aggregataDTO.descURL}</a>
 					</liferay-ui:search-container-column-text>
 					
 					<liferay-ui:search-container-column-text name="aggregato-volume" orderableProperty="numeProgetti" orderable="true">

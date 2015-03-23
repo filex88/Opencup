@@ -180,21 +180,21 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoL
     		var idSelected=a.properties.COD_REG;
     		svg.selectAll("#"+territorioSel+"_"+idSelected)
     		.style("fill","#FFFFCC");
-    		 var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
+    		 var mouse = d3.mouse(d3.select("#content").node()).map( function(d) { return parseInt(d); } );
     		
     		 var labelToShow=null;
     		 var valueToShow=null;
     			if( dimension=='volume'){
     				labelToShow="VOLUME:";
-    				valueToShow=a.properties.VALORE_VOLUME;
+    				valueToShow=formatInteger(a.properties.VALORE_VOLUME);
 				}
 				else if(dimension=='costo'){
 					labelToShow="COSTO:";
-    				valueToShow='&euro;&nbsp;'+a.properties.VALORE_COSTO.toFixed(2);
+    				valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
 				}
 				else{
 					labelToShow="IMPORTO FINANZIATO:";
-    				valueToShow='&euro;&nbsp;'+a.properties.VALORE_IMPORTO.toFixed(2);
+    				valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_IMPORTO);
 				}
     		 
     		 tooltip.classed("nascosto", false)
@@ -249,4 +249,29 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoL
 	
   
 	});
+}
+
+function formatEuro(number)
+{
+	var numberStr = parseFloat(number).toFixed(2).toString();
+	var numFormatDec = numberStr.slice(-2); /*decimal 00*/
+	numberStr = numberStr.substring(0, numberStr.length-3); /*cut last 3 strings*/
+	var numFormat = new Array;
+	while (numberStr.length > 3) {
+		numFormat.unshift(numberStr.slice(-3));
+		numberStr = numberStr.substring(0, numberStr.length-3);
+	}
+	numFormat.unshift(numberStr);
+	return numFormat.join('.')+','+numFormatDec; /*format 000.000.000,00 */
+}
+
+function formatInteger(importoNumerico){
+	  
+	  var importo = importoNumerico.toString();
+	  
+	  if(importo.length>3){
+	    importo = importo.split('',importo.length).reverse().join('').replace(/([0-9]{3})/g,'$1.');
+	    importo = importo.split('',importo.length).reverse().join('');
+	  }
+	  return importo.replace(/^\./, "");  // elimina il primo punto se presente
 }
