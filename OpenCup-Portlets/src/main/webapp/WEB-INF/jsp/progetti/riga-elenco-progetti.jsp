@@ -28,7 +28,7 @@ Progetto progetti = (Progetto)row.getObject();
 		
 		<div>
 			<p>
-				<strong><%= progetti.getSoggettoTitolare().getDescSoggettoTitolare() %></strong>
+				<strong><%= progetti.getAnagraficaCup().getDescCup() %></strong>
 			</p>
 		</div>
 		

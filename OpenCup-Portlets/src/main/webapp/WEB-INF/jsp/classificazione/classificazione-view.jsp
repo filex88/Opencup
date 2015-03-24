@@ -364,7 +364,7 @@
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- TORTA --		
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-		<div class="span6">
+		<div class="span6 div_pie_chart_1">
 		
 			<a name="classificazione-portlet1"></a>
 
@@ -374,8 +374,14 @@
             
             <div id="tooltip-classificazione-portlet1" class="tooltip-classificazione-portlet1 hidden">
 				<p><span id="label-tooltip-classificazione-portlet1"></span></p>
-				<p>&nbsp;</p>
-				<p><strong><span id="labelvalue-tooltip-classificazione-portlet1"></span>:&nbsp;</strong><span id="value-tooltip-classificazione-portlet1"></span><span class="hidden" id="umvalue-tooltip-classificazione-portlet1">&euro;</span></p>
+				<p>
+					<strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-classificazione-portlet1"></span>
+				</p>
+				<p>
+					<strong><span id="labelvalue-tooltip-classificazione-portlet1"></span>:&nbsp;</strong>
+					<span id="value-tooltip-classificazione-portlet1"></span>
+					<span class="hidden" id="umvalue-tooltip-classificazione-portlet1">&euro;</span>
+				</p>
 			</div>
 			
 			<%-- 

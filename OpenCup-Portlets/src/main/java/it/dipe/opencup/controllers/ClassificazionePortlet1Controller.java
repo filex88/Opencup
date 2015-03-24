@@ -285,15 +285,14 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 				value = 0.0;
 			}
 			
-			double percentage = 0.0;
+			int percentage = 0;
 			if( value > 0 ){
-				percentage = round( ((value * 100.0) / totale), 2);
+				percentage = (int) round( ((value * 100) / totale), 0);
 			}
 			
-			conv.setPercentage( String.valueOf( percentage ) + "%" );
+			conv.setPercentage( String.valueOf( percentage ) );
 			conv.setValue( value );
 			conv.setLinkURL(aggregataDTO.getLinkURL());
-//			conv.setColor(getColor(indiceColore++));
 			converter.add(conv);
 		}
 
