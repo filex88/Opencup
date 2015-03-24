@@ -1,6 +1,27 @@
+	// clear breadcrumb
+var fatherUl=d3.selectAll("li.first").node().parentNode;
+	d3.select(fatherUl).insert("li",":first-child")
+	.attr("style","padding: 0 5px;")
+	.text("Sei in: ");
+	
+	d3.selectAll(".divider").each(function(){
+		var c=d3.select(this).node().parentNode;
+		d3.select(c)
+			.style("font-weight","bold")
+			.append("i")
+			.attr("class","icon-caret-right")
+			.attr("style","padding: 0 5px;");
+		d3.select(c).select("span").remove();
+	});
+	d3.selectAll("li.active.last").selectAll("i").remove();
+
 
 var selectedDimension='volume';
 d3.select("#volumeLabel").select("input").classed("active",true);
+d3.select("#volumeLabel")
+	.insert("i",":first-child")
+	.attr("class","icon-caret-up")
+	.append("br");
 
 var baseColor1="rgb(209,226,242)";
 
@@ -17,6 +38,12 @@ d3.select("#volumeLabel").select("input")
 		selectedDimension='volume';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
+		d3.select("#areeLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#volumeLabel")
+		.insert("i",":first-child")
+		.attr("class","icon-caret-up")
+		.append("br");
 		drawGraphTerritori(selectedDimension,jsonResultLocalizzazione);
 	});
 	
@@ -27,6 +54,12 @@ d3.select("#costoLabel").select("input")
 		selectedDimension='costo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
+		d3.select("#areeLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#costoLabel")
+			.insert("i",":first-child")
+			.attr("class","icon-caret-up")
+			.append("br");
 		drawGraphTerritori(selectedDimension,jsonResultLocalizzazione);
 	});
 					
@@ -37,8 +70,25 @@ d3.select("#importoLabel").select("input")
 		selectedDimension='importo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
+		d3.select("#areeLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#importoLabel")
+		.insert("i",":first-child")
+		.attr("class","icon-caret-up")
+		.append("br");
 		drawGraphTerritori(selectedDimension,jsonResultLocalizzazione);
 	});
+
+d3.select("#areeLabel").select("input")
+	.on("click",function(d){
+		window.location ="#italybymacroareas";
+	});
+
+d3.select("#regioniLabel").select("input")
+	.on("click",function(d){
+		window.location =linkAllRegioni;
+	});
+
 
 function drawGraphTerritori(dimension,calculated_json){
 		
@@ -83,6 +133,8 @@ function drawGraphTerritori(dimension,calculated_json){
 		
 	})
 
+
+	
 	// scala colori in base a valori calcolati
 	var color = d3.scale.linear().domain([minData,midData,maxData])
 	.range([baseColor1,baseColor2,baseColor3]);
@@ -223,6 +275,15 @@ function drawGraphTerritori(dimension,calculated_json){
      
      var territorio=d3.selectAll("#territorioSel");
  	 territorio.style("stroke-width",border);
+ 	 
+ 
+ 	var currentY=territorio[0][0].getBBox().y;
+	var ytransl=-currentY;
+ 	
+	
+	territorio.attr("transform","translate(0,"+ytransl+")");
+ 	 
+	d3.selectAll("#dimensions").attr("style","margin-top:"+(ytransl*2)+"px");
 	});
 	
 	

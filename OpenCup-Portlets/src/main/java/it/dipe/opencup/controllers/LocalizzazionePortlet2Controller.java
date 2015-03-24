@@ -95,7 +95,7 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 		//orderByType is passed in the request while sorting. It can be either asc or desc
 		String orderByType = ParamUtil.getString(request, "orderByType");
 		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
-				  orderByType = "asc";
+				  orderByType = "desc";
 		}
 				
 		//delta
