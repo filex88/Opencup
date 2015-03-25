@@ -12,17 +12,33 @@
 
 <portlet:defineObjects />
 
+<script>
+	var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
+	var linkAllRegioni="${linkallregioni}"
+</script>
+
 <fmt:setLocale value="it_IT"/>
 
 <div id="my-toggler-affina-ricerca-localizzazione">
 		<div class="span10">
 				<ul class="inline">
-					<li>Naviga per</li>
+					
 					<li><span class="label label-info riepilogo-filtri">Stato: ${ statoSelected }
 						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
 					</span></li>			
-				</ul>			
+				</ul>		
 		</div>
+</div>
+
+<div id="detailItaly" >
+  	<ul > 
+		<li id="areeLabel">
+			<input type="button" value="AREE" class="active">
+		</li>
+		<li id="regioniLabel">
+			<input type="button" value="REGIONI">
+		</li>
+	</ul>
 </div>
 
 <div class="clear"></div>
@@ -65,9 +81,7 @@
 	<liferay-ui:search-iterator searchContainer="${searchContainerSummary}"/>
 	
 </liferay-ui:search-container>
-<div>
-	<a href="${linkallregioni}">SUDDIVISIONE PER REGIONI</a>
-</div>
+
 </div>
 
 <div  class="mapContainer">
@@ -127,6 +141,3 @@
 
 
 </div>
-<script>
-	var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
-</script>

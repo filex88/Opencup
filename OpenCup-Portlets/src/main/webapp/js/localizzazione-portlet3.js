@@ -1,6 +1,34 @@
 
+// elimina paginazione
+d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
+
+// clear breadcrumb
+var fatherUl=d3.selectAll("li.first").node().parentNode;
+	d3.select(fatherUl).insert("li",":first-child")
+	.attr("style","padding: 0 5px;")
+	.text("Sei in: ");
+		
+	d3.selectAll(".divider").each(function(){
+		var c=d3.select(this).node().parentNode;
+			d3.select(c)
+			.style("font-weight","bold")
+			.append("i")
+			.attr("class","icon-caret-right")
+			.attr("style","padding: 0 5px;");
+		d3.select(c).select("span").remove();
+	});
+	var second=d3.selectAll("li.current-parent.breadcrumb-truncate").node().parentNode;
+		var allchilds=d3.select(second).node().childNodes;
+		d3.select(allchilds[3]).selectAll("i").remove();
+		d3.selectAll("li.current-parent.breadcrumb-truncate").remove();
+		d3.selectAll(".active.last.breadcrumb-truncate").remove();
+
 var selectedDimension='volume';
 d3.select("#volumeLabel").select("input").classed("active",true);
+d3.select("#volumeLabel")
+	.insert("i",":first-child")
+	.attr("class","icon-caret-up")
+	.append("br");
 
 var baseColor1="rgb(209,226,242)";
 var baseColor2="rgb(114,178,215)";
@@ -15,6 +43,11 @@ d3.select("#volumeLabel")
 		selectedDimension='volume';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#volumeLabel")
+		.insert("i",":first-child")
+		.attr("class","icon-caret-up")
+		.append("br");
 		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
 	});
 	
@@ -25,6 +58,11 @@ d3.select("#costoLabel")
 		selectedDimension='costo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#costoLabel")
+		.insert("i",":first-child")
+		.attr("class","icon-caret-up")
+		.append("br");
 		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
 	});
 					
@@ -35,6 +73,11 @@ d3.select("#importoLabel")
 		selectedDimension='importo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#importoLabel")
+		.insert("i",":first-child")
+		.attr("class","icon-caret-up")
+		.append("br");
 		drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
 	});
 
@@ -51,8 +94,7 @@ function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel,a
 		window.location = areeGeoLink;
 	});
 	
-	// elimina paginazione
-	d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
+
 
 	// min mid, max valori calcolati 
 	var minData=d3.min(calculated_json,function(d){
@@ -255,10 +297,12 @@ function drawProvinceByRegione(dimension,calculated_json,regioneSel,areaGEOSel,a
     	}
     	
 		// sposta all'angolo, poi quintuplica, poi sposta al centro
-		selection.attr("transform", "translate("+xSecondTranslation+","+ySecondTranslation+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
+		selection.attr("transform", "translate("+xSecondTranslation+","+0+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
   		var newBorder=border/maxScale;
 		selection.style("stroke-width",newBorder);
-  
+		
+		d3.selectAll("#dimensions").attr("style","margin-top:"+(-ySecondTranslation*2)+"px");
+		
 		});
 
 	}

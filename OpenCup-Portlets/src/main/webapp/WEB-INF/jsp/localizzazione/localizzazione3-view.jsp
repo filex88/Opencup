@@ -14,7 +14,7 @@
 <div id="my-toggler-affina-ricerca-localizzazione">
 		<div class="span10">
 				<ul class="inline">
-					<li>Naviga per</li>
+					
 					<li>
 						<span class="label label-info riepilogo-filtri">Stato: ${ statoSelected }
 						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
@@ -152,6 +152,7 @@ var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
 var areaGeo="${areaGEO}";
 var regioniBack="${regioniBackLink}"
 var areeGeoBack="${areeGeoBackLink}";
-d3.selectAll(".current-parent.breadcrumb-truncate").remove();
-d3.selectAll(".active.last.breadcrumb-truncate").remove();
+var second=d3.selectAll("li.current-parent.breadcrumb-truncate").node().parentNode;
+		
+		
 </script>

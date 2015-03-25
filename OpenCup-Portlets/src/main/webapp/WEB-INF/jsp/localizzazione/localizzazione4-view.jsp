@@ -18,14 +18,23 @@
 <div id="my-toggler-affina-ricerca-localizzazione">
 		<div class="span10">
 				<ul class="inline">
-					<li>Naviga per</li>
+					
 					<li><span class="label label-info riepilogo-filtri">Stato: ${ statoSelected }
 						&nbsp;<i class="icon-ok-circle vertical-align-middle icon-2x"></i>
 					</span></li>			
 				</ul>
 		</div>
 </div>
-
+<div id="detailItaly" >
+  	<ul > 
+		<li id="areeLabel">
+			<input type="button" value="AREE" >
+		</li>
+		<li id="regioniLabel">
+			<input type="button" value="REGIONI" class="active">
+		</li>
+	</ul>
+</div>
 <div class="clear"></div>
 
 <div class="summaryContainer">
@@ -64,11 +73,6 @@
 	<liferay-ui:search-iterator searchContainer="${searchContainerSummary}"/>
 	
 </liferay-ui:search-container>
-
-<div>
-	<a href="${linkAreeGeo}">SUDDIVISIONE PER AREE GEOGRAFICHE</a>
-</div>
-
 
 </div>
 
@@ -130,5 +134,5 @@
 </div>
 <script>
 var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
-d3.selectAll(".active.last.breadcrumb-truncate").remove();
+var linkAreeGeo="${linkAreeGeo}";
 </script>

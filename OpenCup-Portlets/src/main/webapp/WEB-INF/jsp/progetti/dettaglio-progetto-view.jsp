@@ -18,7 +18,7 @@
 		<div class="span8">
 			<div>
 				<p>
-					<span class="dett-titolo">${ dettProgetto.soggettoTitolare.descSoggettoTitolare }</span>
+					<span class="dett-titolo">${ dettProgetto.anagraficaCup.descCup }</span>
 				</p>
 			</div>
 			<div>

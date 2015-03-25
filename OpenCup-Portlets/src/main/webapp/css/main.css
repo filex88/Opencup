@@ -48,8 +48,8 @@
 }
 
 #italybymacroareas {text-align: center;}
-#dimensions{ text-align:center;}
-#dimensions ul li{display: inline-block;list-style: none;}
+#dimensions,#detailItaly{ text-align:center;}
+#dimensions ul li,#detailItaly ul li{display: inline-block;list-style: none;}
 
 
 #italybymacroareas svg{stroke:#000; stroke-width:1px;}
@@ -93,9 +93,9 @@
 	margin-bottom: 5px;
 }
 
+#detailItaly{float:right;}
 
-
-#dimensions ul li input[type=button]{
+#dimensions ul li input[type=button],#detailItaly ul li input[type=button]{
 	display: inline-block;
 	padding:4px 12px;
 	margin-bottom:0;
@@ -111,18 +111,24 @@
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 	border: 1px solid #cfcfcf;
 	border-bottom-color: #b5b5b5;
+	border-radius:1em;
+	width: 110px;
 }
 
-#dimensions ul li input[type=button]:hover,#dimensions ul li input[type=button]:focus{
+#dimensions ul li input[type=button]:hover,#dimensions ul li input[type=button]:focus,
+#detailItaly ul li input[type=button]:hover, #detailItaly ul li input[type=button]:focus{
 	color: #333;
     text-decoration: none;
     background-position: 0 -15px;
 }
 
-#dimensions ul li input[type=button]:active, #dimensions ul li input[type=button].active{
+#dimensions ul li input[type=button]:active, #dimensions ul li input[type=button].active,
+#detailItaly ul li input[type=button]:active, #detailItaly ul li input[type=button].active
+{
 	background-image: none;
     outline: 0;
     box-shadow:inset 0 2px 4px rgba(0,0,0,.40), 0 1px 2px rgba(0,0,0,.05);
+    background-color: #ccc;
 }
 
 .no-margin-bottom {
@@ -146,7 +152,7 @@
 
 .classificazione-portlet1 #tooltip-classificazione-portlet1 {
 	position: absolute;
-	width: 200px;
+	width: 300px;
 	height: auto;
 	padding: 10px;
 	background-color: #ffffff;

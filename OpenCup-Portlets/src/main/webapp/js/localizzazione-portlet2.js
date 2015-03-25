@@ -1,5 +1,30 @@
+// clear breadcrumb
+	var fatherUl=d3.selectAll("li.first").node().parentNode;
+		d3.select(fatherUl).insert("li",":first-child")
+		.attr("style","padding: 0 5px;")
+		.text("Sei in: ");
+		
+		d3.selectAll(".divider").each(function(){
+			var c=d3.select(this).node().parentNode;
+			d3.select(c)
+				.style("font-weight","bold")
+				.append("i")
+				.attr("class","icon-caret-right")
+				.attr("style","padding: 0 5px;");
+			d3.select(c).select("span").remove();
+		});
+		d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+		d3.selectAll("li.active.last.breadcrumb-truncate").remove();
+
+	// elimina paginazione
+	d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
+
 var selectedDimension='volume';
 d3.select("#volumeLabel").select("input").classed("active",true);
+d3.select("#volumeLabel")
+	.insert("i",":first-child")
+	.attr("class","icon-caret-up")
+	.append("br");
 
 var baseColor1="rgb(209,226,242)";
 var baseColor2="rgb(114,178,215)";
@@ -13,6 +38,11 @@ d3.select("#volumeLabel")
 		selectedDimension='volume';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#volumeLabel")
+		.insert("i",":first-child")
+		.attr("class","icon-caret-up")
+		.append("br");
 		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 	});
 	
@@ -23,6 +53,11 @@ d3.select("#costoLabel")
 		selectedDimension='costo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#costoLabel")
+			.insert("i",":first-child")
+			.attr("class","icon-caret-up")
+			.append("br");
 		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 	});
 					
@@ -33,6 +68,11 @@ d3.select("#importoLabel")
 		selectedDimension='importo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
+		d3.selectAll(".icon-caret-up").remove();
+		d3.select("#importoLabel")
+			.insert("i",":first-child")
+			.attr("class","icon-caret-up")
+			.append("br");
 		drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
 	});
             	
@@ -45,9 +85,7 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoL
 			window.location = areeGeoLink;
 		});
 	
-
-	// elimina paginazione
-	d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
+	
 	
 	// min mid, max valori calcolati 
 	var minData=d3.min(calculated_json,function(d){
@@ -241,12 +279,13 @@ function drawRegionsByTerritory(dimension,calculated_json,territorioSel,areeGeoL
    
     	// 2.4 =Max fattore di scalea della pag 	
 		// sposta all'angolo, poi scalo, poi sposta al centro e tiro su
-		selection.attr("transform", "translate("+xSecondTranslation+","+ySecondTranslation+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
+		selection.attr("transform", "translate("+xSecondTranslation+","+0+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
 	
 		// porporzione del bordo
 		var newBorder=border/maxScale;
 		selection.style("stroke-width",newBorder);
-	
+		
+		d3.selectAll("#dimensions").attr("style","margin-top:"+(-ySecondTranslation*2)+"px");
   
 	});
 }

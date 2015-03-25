@@ -86,6 +86,12 @@ AUI().use(
 				myFormEmpty.submit();
 			}	
 
+			Number.prototype.format = function(n, x, s, c) {
+			    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+			        num = this.toFixed(Math.max(0, ~~n));
+			    return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+			};
+			
 			A.all('.link-url-naviga-dettaglio').each(
 					function() {
 						this.on('click', function(){
@@ -101,17 +107,36 @@ AUI().use(
 							var selectedArc = d3.select(arcSelector);
 							selectedArc.style("fill", "Maroon");
 							
-							console.log(selectedArc);
+							var dataLabel = selectedArc[0][0].getAttribute("data_label");
+							var dataValue = parseInt(selectedArc[0][0].getAttribute("data_value"));
+							var dataPercentage = parseInt(selectedArc[0][0].getAttribute("data_percentage")) + "%";
 							
+							var tooltip = d3.select("#tooltip-classificazione-portlet1");
+							//Update the tooltip position and value
+							tooltip.select("#label-tooltip-classificazione-portlet1").text(dataLabel);
+							tooltip.select("#labelvalue-tooltip-classificazione-portlet1").text(tipoAggregazione);
+							tooltip.select("#percentuale-tooltip-classificazione-portlet1").text(dataPercentage);
+							if( tipoAggregazione == "VOLUME" ){
+								tooltip.select("#value-tooltip-classificazione-portlet1").text(formattaIntero(dataValue));
+								tooltip.select("#umvalue-tooltip-classificazione-portlet1").classed("hidden", true);
+							}else{
+								tooltip.select("#value-tooltip-classificazione-portlet1").text(formattaImporto(dataValue));
+								tooltip.select("#umvalue-tooltip-classificazione-portlet1").classed("hidden", false);
+							}
+
 							//Show the tooltip
-//							var tooltip = d3.select("#tooltip-classificazione-portlet1");
-//							tooltip.classed("hidden", false); 
-//							tooltip.transition().duration(500).style("opacity", 100);
-//							
-//							tooltip.select("#label-tooltip-classificazione-portlet1").text(this.val());
+							var tooltip = d3.select("#tooltip-classificazione-portlet1");
+							tooltip.classed("hidden", false); 
+							tooltip.transition().duration(500).style("opacity", 100);
 							
-//							tooltip.style("left", + selectedArc.getAttribute( 'x1' ) + "px");
-//							tooltip.style("top", + selectedArc.getAttribute( 'y1' ) + "px");
+							var bbox = selectedArc[0][0].getBBox();
+							 
+							var xPos = bbox.x + (bbox.width/2) + selectedArc[0][0].offsetParent.offsetLeft + 50;
+							
+							var yPos = bbox.y + (bbox.height/2) + selectedArc[0][0].offsetParent.offsetTop + 50;
+							
+							tooltip.style("left", + xPos + "px");
+							tooltip.style("top", + yPos + "px");
 							
 						});
 						
@@ -124,10 +149,10 @@ AUI().use(
 							selectedArc.style("fill", colorValue);
 							
 							//Hide the tooltip
-//							var tooltip = d3.select("#tooltip-classificazione-portlet1");
-//						    tooltip.transition().duration(500).style("opacity", 0);   
-//						    tooltip.classed("hidden", true);
-//						    
+							var tooltip = d3.select("#tooltip-classificazione-portlet1");
+						    tooltip.transition().duration(500).style("opacity", 0);   
+						    tooltip.classed("hidden", true);
+						    
 						});
 						
 					});
@@ -171,7 +196,7 @@ AUI().use(
 	           				//console.log(aggregate);
 	           			    if(aggregate.aggregati4Pie!=null && aggregate.aggregati4Pie!=""){
 	           			    	//drawPie();
-	           			    	drawPie("Pie1", aggregate.aggregati4Pie, "#pie_chart_1 .chart", "segments", 10, 155, 5, 0);
+	           			    	drawPie("Pie1", aggregate.aggregati4Pie, "#pie_chart_1 .chart", "segments", 10, 155, ".div_pie_chart_1", 5, 0);
 	           			    }else{
 	           			  	        A.one(".pieChartClassificazioneEmpty").setStyles({
 	           			    		display: 'block'
@@ -573,7 +598,7 @@ AUI().use(
 		///////////////////////////////////////////
 		
 		
-		function drawPie( pieName, dataSet, selectString, colors, margin, outerRadius, innerRadius, sortArcs ) {
+		function drawPie( pieName, dataSet, selectString, colors, margin, outerRadius, divPieChart, innerRadius, sortArcs ) {
 
 			// pieName => A unique drawing identifier that has no spaces, no "." and no "#" characters.
 			// dataSet => Input Data for the chart, itself.
@@ -620,9 +645,15 @@ AUI().use(
 				colorScale = d3.scale.category20c();
 			};
 			
-			
+			var wigthDivPieChart = d3.select(divPieChart).node().getBoundingClientRect().width			
 			var pieWidthTotal = outerRadius * 2;
-			var pieCenterX = outerRadius + margin/2;
+			
+			var marginX = margin;
+			if( wigthDivPieChart > pieWidthTotal ){
+				marginX = (wigthDivPieChart - pieWidthTotal);
+			}
+			
+			var pieCenterX = outerRadius + marginX/2;
 			var pieCenterY = outerRadius + margin/2;
 			var legendBulletOffset = 30;
 			var legendVerticalOffset = outerRadius - margin;
@@ -630,7 +661,7 @@ AUI().use(
 			var textVerticalSpace = 20;
 			
 			var canvasHeight = 0;
-			var canvasWidth = 0;
+			var canvasWidth = wigthDivPieChart;
 			
 			var canvasHeight = 0;
 			var pieDrivenHeight = outerRadius*2 + margin*2;
@@ -644,7 +675,6 @@ AUI().use(
 			{
 				canvasHeight = legendTextDrivenHeight;
 			}
-			canvasWidth = canvasHeight;
 			
 			var x = d3.scale.linear().domain([0, d3.max(dataSet, function(d) { return d.value; })]).rangeRound([0, pieWidthTotal]);
 			var y = d3.scale.linear().domain([0, dataSet.length]).range([0, (dataSet.length * 20)]);
@@ -663,6 +693,7 @@ AUI().use(
 				//Update the tooltip position and value
 				tooltip.select("#label-tooltip-classificazione-portlet1").text(info.data.label);
 				tooltip.select("#labelvalue-tooltip-classificazione-portlet1").text(tipoAggregazione);
+				tooltip.select("#percentuale-tooltip-classificazione-portlet1").text((info.data.percentage) + "%");
 				if( tipoAggregazione == "VOLUME" ){
 					tooltip.select("#value-tooltip-classificazione-portlet1").text(formattaIntero(info.data.value));
 					tooltip.select("#umvalue-tooltip-classificazione-portlet1").classed("hidden", true);
@@ -756,8 +787,8 @@ AUI().use(
 			.attr("class", "slice")    //allow us to style things in the slices (like text)
 			// Set the color for each slice to be chosen from the color function defined above
 			// This creates the actual SVG path using the associated data (pie) with the arc drawing function
-			//.style("stroke", "White" )
-			.style("stroke", "#0932a3" )
+			.style("stroke", "White" )
+			//.style("stroke", "#0932a3" )
 			.attr("d", arc);
 
 			arcs.append("svg:path")
@@ -766,6 +797,10 @@ AUI().use(
 			.attr("fill", function(d, i) { return colorScale(i); } )
 			.attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 			.attr("index_value", function(d, i) { return "index-" + d.data.id; })
+			.attr("data_value", function(d) { return d.data.value })
+			.attr("data_label", function(d) { return d.data.label })
+			.attr("data_percentage", function(d) { return d.data.percentage })
+			.attr("data-pos", function(d, i) { return i })
 			.attr("class", function(d, i) { return "pie-" + pieName + "-arc-index-" + d.data.id; })
 			.style("stroke", "White" )
 			.attr("d", arc)
@@ -787,10 +822,9 @@ AUI().use(
 				d.outerRadius = outerRadius; // Set Outer Coordinate
 				d.innerRadius = innerRadius; // Set Inner Coordinate
 				return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
-			})
-			.style("fill", "White")
-			.style("font", "normal 10px Arial")
-			.text(function(d) { return d.data.percentage; });
+			}).style("fill", "White")
+			.style("font", "normal 18px Arial")
+			.text(function(d) { return (d.data.percentage) + "%"; });
 
 			// Computes the angle of an arc, converting from radians to degrees.
 			function angle(d) {
