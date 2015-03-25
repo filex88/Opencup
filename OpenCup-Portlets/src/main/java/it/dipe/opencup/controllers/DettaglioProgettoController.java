@@ -4,11 +4,12 @@ import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.Progetto;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.util.PortalUtil;
 
 @Controller
@@ -31,8 +35,12 @@ public class DettaglioProgettoController {
 										RenderResponse renderResponse,
 										Model model){
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
-		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
+//		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
+//		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
+		
+		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
+		String jsonnavigaaggregata=httpServletRequest.getParameter("jsonnavigaprogetti")!=null?httpServletRequest.getParameter("jsonnavigaprogetti").toString():"";
+		NavigaProgetti sessionNavigaProgetti = createModelFromJsonString(jsonnavigaaggregata);
 		
 		if( sessionNavigaProgetti != null && (! sessionNavigaProgetti.getIdProgetto().isEmpty()) ){
 			Progetto progetto = progettoFacade.findProgettoById( Integer.valueOf( sessionNavigaProgetti.getIdProgetto() ) );
@@ -107,6 +115,21 @@ public class DettaglioProgettoController {
 		}
 
 		return "dettaglio-progetto-view";
+	}
+
+	private NavigaProgetti createModelFromJsonString(String jsonString) {
+		ObjectMapper mapper= new ObjectMapper();
+		NavigaProgetti model=null;
+		try {
+			model = mapper.readValue(jsonString, NavigaProgetti.class);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return model;
 	}
 	
 //	@EventMapping(value = "event.dettaglioProgetto")

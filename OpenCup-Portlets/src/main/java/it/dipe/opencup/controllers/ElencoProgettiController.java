@@ -21,6 +21,7 @@ import it.dipe.opencup.model.SottosettoreIntervento;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +32,13 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +46,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -80,13 +85,21 @@ public class ElencoProgettiController extends FiltriCommonController {
 										Model model, 
 										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){	
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
-		NavigaAggregata navigaAggregata = (NavigaAggregata) session.getAttribute("navigaAggregata"); 
+//		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
+//		NavigaAggregata navigaAggregata = (NavigaAggregata) session.getAttribute("navigaAggregata"); 
+//		
+//		if( navigaAggregata.isImportaInNavigaProgetti() ){
+//			navigaProgetti.importa( navigaAggregata );
+//			navigaAggregata.setImportaInNavigaProgetti(false);
+//			session.setAttribute("navigaAggregata", navigaAggregata); 
+//		}
 		
-		if( navigaAggregata.isImportaInNavigaProgetti() ){
+		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
+		String jsonnavigaaggregata=httpServletRequest.getParameter("jsonnavigaaggregata")!=null?httpServletRequest.getParameter("jsonnavigaaggregata").toString():"";
+		if(!StringUtils.isEmpty(jsonnavigaaggregata)){
+			NavigaAggregata navigaAggregata = createModelFromJsonString(jsonnavigaaggregata);
 			navigaProgetti.importa( navigaAggregata );
 			navigaAggregata.setImportaInNavigaProgetti(false);
-			session.setAttribute("navigaAggregata", navigaAggregata); 
 		}
 		
 		// LISTA PROGETTI //
@@ -167,6 +180,21 @@ public class ElencoProgettiController extends FiltriCommonController {
 		return "elenco-progetti-view";
 	}
 	
+	protected NavigaAggregata createModelFromJsonString(String jsonString){
+		ObjectMapper mapper= new ObjectMapper();
+		NavigaAggregata model=null;
+		try {
+			model = mapper.readValue(jsonString, NavigaAggregata.class);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
 	@ActionMapping(params="action=dettaglio")
 	public void actionDettaglio(	ActionRequest aRequest, 
 									ActionResponse aResponse, 
@@ -186,17 +214,38 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		navigaProgetti.setIdProgetto( idProgettoDettaglio );
 		
-		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
-		session.setAttribute("navigaProgetti", navigaProgetti);
+//		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
+//		session.setAttribute("navigaProgetti", navigaProgetti);
 		
 		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaProgetti.getPagDettaglioProgetto());
 		
+		String jsonnavigaprogetti = createJsonStringFromModelAttribute( navigaProgetti );
+		
 		try {
-			aResponse.sendRedirect( renderURL.toString() );
+			aResponse.sendRedirect( renderURL.toString()  + "&jsonnavigaprogetti="+jsonnavigaprogetti  );
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	protected String createJsonStringFromModelAttribute(NavigaProgetti filtro){
+		ObjectMapper mapper= new ObjectMapper();
+
+		String jsonString=null;
+		try {
+			jsonString = mapper.writeValueAsString(filtro);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		return jsonString;
 	}
 	
 	@ActionMapping(params="action=ricerca")

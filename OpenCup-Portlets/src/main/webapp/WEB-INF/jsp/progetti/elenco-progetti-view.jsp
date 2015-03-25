@@ -167,10 +167,10 @@
 			<div class="control-group no-margin-bottom" id="area-soggetto-div">
 				<label class="control-label" for="area-soggetto">Area</label>
 				<div class="controls">
-					<aui:select inlineField="true" cssClass="input-large area-soggetto" label="" bean="navigaAggregata" name="idAreaSoggetto" id="area-soggetto">
-						<aui:option value="-1" label="ricerca.tutte" selected="${navigaAggregata.idAreaSoggetto == -1}"/>
+					<aui:select inlineField="true" cssClass="input-large area-soggetto" label="" bean="navigaProgetti" name="idAreaSoggetto" id="area-soggetto">
+						<aui:option value="-1" label="ricerca.tutte" selected="${navigaProgetti.idAreaSoggetto == -1}"/>
 						<c:forEach items="${listAreaSoggetto}" var="areasoggetto" >
-				            <aui:option value="${areasoggetto.id}" label="${areasoggetto.descAreaSoggetto}" selected="${navigaAggregata.idAreaSoggetto == areasoggetto.id}"/>
+				            <aui:option value="${areasoggetto.id}" label="${areasoggetto.descAreaSoggetto}" selected="${navigaProgetti.idAreaSoggetto == areasoggetto.id}"/>
 				        </c:forEach>
 					</aui:select>
 					<i class="icon-remove-circle pulisciElementoAreaSoggetto" style="cursor: pointer;"></i>
