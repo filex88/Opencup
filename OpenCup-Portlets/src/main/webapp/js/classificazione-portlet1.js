@@ -29,8 +29,6 @@ AUI().use(
 				    	A.one('.regione').val(-1);
 				    	A.one('.provincia').val(-1);
 				    	A.one('.area-geografica').val(-1);
-				    	A.one('.regione').val(-1);
-				    	A.one('.provincia').val(-1);
 				    	A.one('.area-soggetto').val(-1);
 				    	A.one('.categoria-soggetto').val(-1);
 				    	A.one('.sotto-categoria-soggetto').val(-1);
@@ -38,7 +36,6 @@ AUI().use(
 				    	A.one('.tipologia').val(-1);
 				    	A.one('.statoprogetto').val(-1);
 
-				    	
 				    	// submit
 				    	myFormAffinaRicerca.submit();
 					});
@@ -807,7 +804,8 @@ AUI().use(
 			.on('mouseover', synchronizedMouseOver)
 			.on("mouseout", synchronizedMouseOut)
 			.transition()
-			.ease("bounce")
+			.ease("linear")
+//			.ease("bounce")
 			.duration(2000)
 			.delay(function(d, i) { return i * 50; })
 			.attrTween("d", tweenPie);
@@ -821,7 +819,8 @@ AUI().use(
 				//we have to make sure to set these before calling arc.centroid
 				d.outerRadius = outerRadius; // Set Outer Coordinate
 				d.innerRadius = innerRadius; // Set Inner Coordinate
-				return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+				return "translate(" + arc.centroid(d) + ")";
+//				return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
 			}).style("fill", "White")
 			.style("font", "normal 18px Arial")
 			.text(function(d) { return (d.data.percentage) + "%"; });

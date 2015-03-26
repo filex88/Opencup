@@ -21,6 +21,7 @@ import it.dipe.opencup.model.SottosettoreIntervento;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +33,12 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.WindowState;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +49,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -96,8 +100,9 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
+//		setNavigaAggregataInSession(aRequest, navigaAggregata);
+		aResponse.setRenderParameter("render", "action");
 		
-		setNavigaAggregataInSession(aRequest, navigaAggregata);
 	}
 	
 	@ActionMapping(params="action=affinaricerca")
@@ -108,7 +113,10 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
-		setNavigaAggregataInSession(aRequest, navigaAggregata);
+//		setNavigaAggregataInSession(aRequest, navigaAggregata);
+		
+		aResponse.setRenderParameter("render", "action");
+		
 	}
 	
 	@ActionMapping(params="action=navigazione")
@@ -124,24 +132,68 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
-		setNavigaAggregataInSession(aRequest, navigaAggregata);
+//		setNavigaAggregataInSession(aRequest, navigaAggregata);
 		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
 			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
+			
+			String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
+
 			try {
-				aResponse.sendRedirect( renderURL.toString() );
+				aResponse.sendRedirect( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata );
+				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		
+		aResponse.setRenderParameter("render", "action");
+		
+	}
+	
+	protected String createJsonStringFromModelAttribute(NavigaAggregata filtro){
+		ObjectMapper mapper= new ObjectMapper();
+
+		String jsonString=null;
+		try {
+			jsonString = mapper.writeValueAsString(filtro);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		return jsonString;
 	}
 
 	@RenderMapping
+	public String renderRequest(RenderRequest renderRequest, 
+								RenderResponse renderResponse,
+								Model model, 
+								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
+		
+		String orderByCol = ParamUtil.getString(renderRequest, "orderByCol"); 
+		String orderByType = ParamUtil.getString(renderRequest, "orderByType");
+		String sDelta = ParamUtil.getString(renderRequest, "delta");
+
+		if( 
+			StringUtils.isEmpty( orderByCol ) && 
+			StringUtils.isEmpty( orderByType ) && 
+			StringUtils.isEmpty( sDelta )
+		){
+			navigaAggregata = navigaAggregata();	
+		}
+		return handleRenderRequest(renderRequest, renderResponse, model, navigaAggregata);
+	}
+	@RenderMapping(params="render=action")
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
 										Model model, 
 										@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
-
+		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ) {
 			navigaAggregata.setIdCategoriaIntervento("0");
 		}
@@ -217,13 +269,14 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		
 		//Calcolo l'url per elenco progetti
 		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, navigaAggregata.getPagElencoProgetti());
-		model.addAttribute("linkURLElencoProgetti", renderURL.toString());
+		String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
+		model.addAttribute("linkURLElencoProgetti", renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata );
 		
 		impostaDesFiltriImpostati(navigaAggregata);
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
-		setNavigaAggregataInSession(renderRequest, navigaAggregata);
+//		setNavigaAggregataInSession(renderRequest, navigaAggregata);
 		
 		// MASCHERA RICERCA //
 		initInModelMascheraRicerca(model, navigaAggregata);
@@ -300,7 +353,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
-		setNavigaAggregataInSession(request, navigaAggregata);
+//		setNavigaAggregataInSession(request, navigaAggregata);
 		
 		return view;
 	}
@@ -314,11 +367,11 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 	    return (double) tmp / factor;
 	}
 
-	private void setNavigaAggregataInSession(PortletRequest request, NavigaAggregata navigaAggregata) {
-		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
-		navigaAggregata.setImportaInNavigaProgetti(true);
-		session.setAttribute("navigaAggregata", navigaAggregata);
-	}
+//	private void setNavigaAggregataInSession(PortletRequest request, NavigaAggregata navigaAggregata) {
+//		HttpSession session = PortalUtil.getHttpServletRequest(request).getSession(false);
+//		navigaAggregata.setImportaInNavigaProgetti(true);
+//		session.setAttribute("navigaAggregata", navigaAggregata);
+//	}
 	
 	private void impostaLinkURL(	PortletRequest request, 
 									NavigaAggregata sessionAttrNav, 
@@ -418,6 +471,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage) {
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		
 		LiferayPortletURL renderURL = null;
 		String localHost = themeDisplay.getPortalURL();		
 		List<Layout> layouts = null;

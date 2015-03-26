@@ -52,9 +52,9 @@ public class NavigaProgetti implements Serializable{
 		this.idSottosettoreIntervento = navigaAggregata.getIdSottosettoreIntervento();
 		this.idCategoriaIntervento = navigaAggregata.getIdCategoriaIntervento();
 		
+		this.idAreaSoggetto = navigaAggregata.getIdAreaSoggetto();
 		this.idCategoriaSoggetto = navigaAggregata.getIdCategoriaSoggetto();
 		this.idSottoCategoriaSoggetto = navigaAggregata.getIdSottoCategoriaSoggetto();
-		this.idAreaSoggetto = navigaAggregata.getIdAreaSoggetto();
 		
 		this.idTipologiaIntervento = navigaAggregata.getIdTipologiaIntervento();
 		this.idStatoProgetto = navigaAggregata.getIdStatoProgetto();

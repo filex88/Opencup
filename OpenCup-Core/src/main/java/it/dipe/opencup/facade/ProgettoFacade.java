@@ -91,7 +91,15 @@ public class ProgettoFacade {
 		//GERARCHIA SOGETTO
 		if( ( !"-1".equals(navigaProgetti.getIdCategoriaSoggetto()) ) || (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())) || (!"-1".equals(navigaProgetti.getIdAreaSoggetto())) ){
 			criteria.createAlias("soggettoTitolare", "soggettoTitolare");
+			criteria.createAlias("soggettoTitolare.categoriaSoggetto", "categoriaSoggetto");
 		}
+		
+		if( navigaProgetti.getIdAreaSoggetto().equals("0") ){
+			criteria.add( Restrictions.ge("categoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
+		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
+			criteria.add( Restrictions.eq("categoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
+		}
+		
 		if( navigaProgetti.getIdCategoriaSoggetto().equals("0") ){
 			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdCategoriaSoggetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdCategoriaSoggetto())){
@@ -102,12 +110,6 @@ public class ProgettoFacade {
 			criteria.add( Restrictions.ge("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
 			criteria.add( Restrictions.eq("soggettoTitolare.sottocategoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdSottoCategoriaSoggetto())) );
-		}
-		
-		if( navigaProgetti.getIdAreaSoggetto().equals("0") ){
-			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
-		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
-			criteria.add( Restrictions.eq("soggettoTitolare.categoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
 		}
 
 		//LOALIZZAZIONE

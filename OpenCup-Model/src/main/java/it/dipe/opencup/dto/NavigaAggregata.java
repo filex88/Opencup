@@ -61,7 +61,17 @@ public class NavigaAggregata implements Serializable{
 	
 	private String descTipologiaIntervento;
 	private String descStatoProgetto;
-	
+	@SuppressWarnings("unused")
+	private boolean filtroClassificazione;
+	@SuppressWarnings("unused")
+	private String countAffRicercaLocalizzazione;
+	@SuppressWarnings("unused")
+	private String countAffRicerca4Natura;
+
+	public void setCountAffRicerca4Natura(String countAffRicerca4Natura) {
+		this.countAffRicerca4Natura = countAffRicerca4Natura;
+	}
+
 	public NavigaAggregata(String naviga, String id){
 		this.naviga = naviga;
 		this.distribuzione = "VOLUME";
@@ -269,6 +279,60 @@ public class NavigaAggregata implements Serializable{
 		return sRetval;
 	}
 
+public String getCountAffRicercaLocalizzazione(){
+		
+		String sRetval = null;
+		int retval = 0;
+		
+		if( idAnnoAggregatos.size() == 1 && (!idAnnoAggregatos.contains("-1")) ){
+			 retval++;
+		}else
+		if( idAnnoAggregatos.size() > 1 ){
+			retval++;
+		}
+		
+		if(! "-1".equals( idAreaIntervento ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idSottosettoreIntervento ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idCategoriaIntervento ) ){
+			 retval++;
+		}
+		
+		
+
+		if(! "-1".equals( idCategoriaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idSottoCategoriaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idAreaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idTipologiaIntervento ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idStatoProgetto ) ){
+			 retval++;
+		}
+		
+		if( retval > 0 ){
+			sRetval = String.valueOf(retval);
+		}
+		
+		return sRetval;
+	}
+	
+	
 	public String getNaviga() {
 		return naviga;
 	}
@@ -540,6 +604,17 @@ public class NavigaAggregata implements Serializable{
 
 	public void setIdAreaSoggetto(String idAreaSoggetto) {
 		this.idAreaSoggetto = idAreaSoggetto;
+	}
+	
+	
+	public void setFiltroClassificazione(boolean filtroClassificazione) {
+		this.filtroClassificazione = filtroClassificazione;
+	}
+	
+	
+	public void setCountAffRicercaLocalizzazione(
+			String countAffRicercaLocalizzazione) {
+		this.countAffRicercaLocalizzazione = countAffRicercaLocalizzazione;
 	}
 
 	@Override
@@ -834,6 +909,7 @@ public class NavigaAggregata implements Serializable{
 			return false;
 		return true;
 	}
-
+	
+	
 	
 }
