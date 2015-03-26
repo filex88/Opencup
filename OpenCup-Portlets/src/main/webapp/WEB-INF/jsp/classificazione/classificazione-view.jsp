@@ -60,7 +60,7 @@
 			</div>
 		</div>
 		
-		<div class="affina-ricerca-div-spazio" style="height: 30px"></div>
+		<div class="clear"></div>
 		
 		<div class="content toggler-content-collapsed">
 			
@@ -324,14 +324,40 @@
 				Area Intervento > Sottosettori > Categoria
 			</div>
 
-			<div style="text-align: right; padding-top: 15px">
-				<aui:a href="${linkURLElencoProgetti}">
+			<div class="card">
+				<div class="card-title">
+	            	<span class="title">Dati di sintesi</span>
+	        	</div>
+	        	<div class="card-content">
+					<div>
+						<fmt:setLocale value="it_IT"/>
+						<div class="span4 dati_sitesi dati_sitesi_verde">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Volume</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_arancio">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Costo</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_lilla">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="link_elenco-progetti span4">
+				<aui:a href="${linkURLElencoProgetti}" cssClass="block">
 					Vedi Elenco Progetti <i class="icon-list"></i>
 				</aui:a>
 			</div>
 			
-			<fmt:setLocale value="it_IT"/>
-			
+			<!-- 
 			<liferay-ui:search-container searchContainer="${searchContainerRiepilogo}" delta="${searchContainerRiepilogo.delta}" deltaParam="aggregata_delta">
 				
 				<liferay-ui:search-container-results results="${searchContainerRiepilogo.results}" total="${searchContainerRiepilogo.total}"/>    
@@ -358,7 +384,7 @@
 				<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerRiepilogo}"/>
 				
 			</liferay-ui:search-container>
-		
+			-->
 		</div>
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -367,37 +393,66 @@
 		<div class="span6 div_pie_chart_1">
 		
 			<a name="classificazione-portlet1"></a>
+			<div class="card">
+				<div class="card-title">
+	            	<span class="title">Distribuzione Percentuale</span>
+	        	</div>
+	        	<div class="card-content" style="height: 397px">
 
-			<div class="div_pie_chart" id="pie_chart_1">
-            	<div class="chart" id="pieChartClassificazione" style="text-align: center"></div>
-            </div>
-            
-            <div id="tooltip-classificazione-portlet1" class="tooltip-classificazione-portlet1 hidden">
-				<p><span id="label-tooltip-classificazione-portlet1"></span></p>
-				<p>
-					<strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-classificazione-portlet1"></span>
-				</p>
-				<p>
-					<strong><span id="labelvalue-tooltip-classificazione-portlet1"></span>:&nbsp;</strong>
-					<span id="value-tooltip-classificazione-portlet1"></span>
-					<span class="hidden" id="umvalue-tooltip-classificazione-portlet1">&euro;</span>
-				</p>
+					<div class="div_pie_chart" id="pie_chart_1">
+		            	<div class="chart" id="pieChartClassificazione" style="text-align: center"></div>
+		            </div>
+           
+		            <div id="tooltip-classificazione-portlet1" class="tooltip-classificazione-portlet1 hidden">
+						<p><span id="label-tooltip-classificazione-portlet1"></span></p>
+						<p>
+							<strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-classificazione-portlet1"></span>
+						</p>
+						<p>
+							<strong><span id="labelvalue-tooltip-classificazione-portlet1"></span>:&nbsp;</strong>
+							<span id="value-tooltip-classificazione-portlet1"></span>
+							<span class="hidden" id="umvalue-tooltip-classificazione-portlet1">&euro;</span>
+						</p>
+					</div>
+		
+					<%-- 
+					<div id="pieChartClassificazione" style="text-align: center">
+					</div>
+					--%>
+		
+					<div class="alert alert-info pieChartClassificazioneEmpty" id="pieChartClassificazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
+
+				</div>
+				
+				<div class="card-action pieChartClassificazioneToolBar" id="pieChartClassificazioneToolBar">
+					<div class="btn-carica-distribuzione span4 classificazione-sel-btn block" data-classificazione="VOLUME">
+						<aui:a href="#" onClick="return false" cssClass="block">
+							VOLUME
+						</aui:a>
+					</div>
+					<div class="btn-carica-distribuzione span4 classificazione-sel-btn" data-classificazione="COSTO">
+						<aui:a href="#" onClick="return false" cssClass="block">
+							COSTO
+						</aui:a>
+					</div>
+					<div class="btn-carica-distribuzione span4 classificazione-sel-btn" data-classificazione="IMPORTO">
+						<aui:a href="#" onClick="return false" cssClass="block">
+							IMPORTO
+						</aui:a>
+					</div>
+					<div class="clear"></div>
+				</div>	
+				<!-- 
+				<div class="card-action pieChartClassificazioneToolBar" id="pieChartClassificazioneToolBar">
+					<aui:button-row cssClass="btn-group btn-group-justified">
+						<aui:button cssClass="classificazione-sel-btn btn btn-default" data-classificazione="VOLUME" value="VOLUME" />
+						<aui:button cssClass="classificazione-sel-btn btn btn-default" data-classificazione="COSTO" value="COSTO" />
+						<aui:button cssClass="classificazione-sel-btn btn btn-default" data-classificazione="IMPORTO" value="IMPORTO" />
+					</aui:button-row>
+				</div>	
+				 -->
 			</div>
 			
-			<%-- 
-			<div id="pieChartClassificazione" style="text-align: center">
-			</div>
-			--%>
-			
-			<div class="alert alert-info pieChartClassificazioneEmpty" id="pieChartClassificazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
-			
-			<div style="text-align: center" class="pieChartClassificazioneToolBar" id="pieChartClassificazioneToolBar">
-				<aui:button-row cssClass="btn-group btn-group-justified">
-					<aui:button cssClass="classificazione-sel-btn btn btn-default" data-classificazione="VOLUME" value="VOLUME" />
-					<aui:button cssClass="classificazione-sel-btn btn btn-default" data-classificazione="COSTO" value="COSTO" />
-					<aui:button cssClass="classificazione-sel-btn btn btn-default" data-classificazione="IMPORTO" value="IMPORTO" />
-				</aui:button-row>
-			</div>
 			
 			<script type="text/javascript">
 			
@@ -418,7 +473,7 @@
 		<div class="span12">
 		
 			<div style="text-align: justify;">
-				Continua la navigazione selezionando la <strong>${navigaPer}</strong> dei progetti
+				Continua la navigazione selezionando ${artNavigaPer} <strong>${navigaPer}</strong> dei progetti
 			</div>
 			
 			<fmt:setLocale value="it_IT"/>

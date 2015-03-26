@@ -9,8 +9,8 @@ AUI().use(
 		'aui-toggler',
 		function( A ) {
 			
-			var heightNavigazioneDivContainer = d3.select('.navigazione-div-container').node().getBoundingClientRect().height;
-			d3.select('.affina-ricerca-div-spazio').attr("style", "height: " + (heightNavigazioneDivContainer + 10) + "px");
+			//var heightNavigazioneDivContainer = d3.select('.navigazione-div-container').node().getBoundingClientRect().height;
+			//d3.select('.affina-ricerca-div-spazio').attr("style", "height: " + (heightNavigazioneDivContainer + 10) + "px");
 			
 			var myFormEmpty = A.one(".filtri-form");
 			var myFormAffinaRicerca = A.one(".affina-ricerca-form");
@@ -102,7 +102,7 @@ AUI().use(
 							var indexValue = this.getAttribute("data-id");
 							var arcSelector = ".pie-Pie1-arc-index-"+indexValue;
 							var selectedArc = d3.select(arcSelector);
-							selectedArc.style("fill", "Maroon");
+							selectedArc.style("fill", "#f08c00");
 							
 							var dataLabel = selectedArc[0][0].getAttribute("data_label");
 							var dataValue = parseInt(selectedArc[0][0].getAttribute("data_value"));
@@ -175,8 +175,10 @@ AUI().use(
 			function loadPie(pattern, button){
 				
 				A.one('#pieChartClassificazione').empty();
-				A.all('.classificazione-sel-btn').replaceClass('active', '');
-				button.replaceClass('btn-default', 'btn-default active');
+				A.all('.classificazione-sel-btn').replaceClass('attiva', '');
+				A.all('.classificazione-sel-btn').replaceClass('non-attiva', '');
+				A.all('.classificazione-sel-btn').replaceClass('btn-carica-distribuzione', 'btn-carica-distribuzione non-attiva');
+				button.replaceClass('non-attiva', 'attiva');
 				tipoAggregazione = pattern;
 				var resourceURL = Liferay.PortletURL.createResourceURL();
 				resourceURL.setPortletId(namespace);
@@ -193,7 +195,7 @@ AUI().use(
 	           				//console.log(aggregate);
 	           			    if(aggregate.aggregati4Pie!=null && aggregate.aggregati4Pie!=""){
 	           			    	//drawPie();
-	           			    	drawPie("Pie1", aggregate.aggregati4Pie, "#pie_chart_1 .chart", "segments", 10, 155, ".div_pie_chart_1", 5, 0);
+	           			    	drawPie("Pie1", aggregate.aggregati4Pie, "#pie_chart_1 .chart", "segments", 10, 155, ".div_pie_chart_1", 0, 0);
 	           			    }else{
 	           			  	        A.one(".pieChartClassificazioneEmpty").setStyles({
 	           			    		display: 'block'
@@ -684,7 +686,7 @@ AUI().use(
 
 		        var arcSelector = "." + "pie-" + pieName + "-arc-" + indexValue;
 		        var selectedArc = d3.selectAll(arcSelector);
-		        selectedArc.style("fill", "Maroon");
+		        selectedArc.style("fill", "#f08c00");
 				
 				var tooltip = d3.select("#tooltip-classificazione-portlet1");
 				//Update the tooltip position and value
@@ -706,11 +708,11 @@ AUI().use(
 				/*
 				var bulletSelector = "." + "pie-" + pieName + "-legendBullet-" + indexValue;
 				var selectedLegendBullet = d3.selectAll(bulletSelector);
-				selectedLegendBullet.style("fill", "Maroon");
+				selectedLegendBullet.style("fill", "#f08c00");
 
 				var textSelector = "." + "pie-" + pieName + "-legendText-" + indexValue;
 				var selectedLegendText = d3.selectAll(textSelector);
-				selectedLegendText.style("fill", "Maroon");
+				selectedLegendText.style("fill", "#f08c00");
 				*/
 			};
 			
