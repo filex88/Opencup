@@ -79,7 +79,7 @@ public class LocalizzazionePortlet3Controller extends LocalizzazionePortletCommo
 		}else{
 			if (model.asMap().get("navigaAggregata")==null && (Validator.isNull(ParamUtil.getString(request,"filtroAsString")) || "".equals(ParamUtil.getString(request,"filtroAsString")))){
 			// caricamento full senza filtri
-				filtro=new NavigaAggregata();
+				filtro=new NavigaAggregata(NavigaAggregata.NAVIGA_LOCALIZZAZIONE,"0");
 				filtro.setIdProvincia("0");
 				filtro.setIdRegione(strIdRegione);
 				filtro.setIdAreaGeografica(strIdAreaGeografica);
@@ -144,6 +144,12 @@ public class LocalizzazionePortlet3Controller extends LocalizzazionePortletCommo
 		model.addAttribute("areeGeoBackLink",HttpUtil.encodeParameters(strLinkBackDaAreaGeo));
 		super.inizializzaFiltriRicercaLocalizzazione(filtro,model);
 		model.addAttribute("navigaAggregata", filtro);
+		
+
+		// link elenco progetti
+		String urlElencoProgetti=super.calcolaUrlLocalizzazioneByLivello(request, filtro.getPagElencoProgetti());
+		urlElencoProgetti+="&jsonnavigaaggregata="+createJsonStringFromModelAttribute(filtro);
+		model.addAttribute("linkElencoProgetti", HttpUtil.encodeParameters(urlElencoProgetti));
 		
 		//orderByCol is the column name passed in the request while sorting
 		String orderByCol = ParamUtil.getString(request, "orderByCol"); 
