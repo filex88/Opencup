@@ -82,7 +82,16 @@ public class NavigaAggregata implements Serializable{
 			this.pagAggregata = "natura";
 			this.pagElencoProgetti = "natelencoprogetti";
 			this.pagDettaglioProgetto = "natdettaglioprogetto";
-		}else{
+		}
+		else if(NAVIGA_LOCALIZZAZIONE.equals(this.naviga)){
+			this.idNatura = "-1";
+			this.idAreaIntervento = "-1";
+			this.pagAggregata = "localizzazione";
+			this.pagElencoProgetti = "locelencoprogetti";
+			this.pagDettaglioProgetto = "locdettaglioprogetto";
+		}
+		
+		else{
 			this.idNatura = "-1";
 			this.idAreaIntervento = "-1";
 		}
