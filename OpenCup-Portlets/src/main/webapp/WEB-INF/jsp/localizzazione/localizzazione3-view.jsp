@@ -79,6 +79,8 @@
 				id="affina-ricerca-form"
 				cssClass="affina-ricerca-form form-horizontal">
 					<aui:input type="hidden" bean="navigaAggregata" name="naviga" value="${navigaAggregata.naviga}" />
+					<aui:input type="hidden" bean="navigaAggregata" name="pagElencoProgetti" value="${navigaAggregata.pagElencoProgetti}" />
+					<aui:input type="hidden" bean="navigaAggregata" name="pagDettaglioProgetto" value="${navigaAggregata.pagDettaglioProgetto}" />
 					<aui:input type="hidden" bean="navigaAggregata" name="idComune" value="${navigaAggregata.idComune}" />
 					<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" />
 					<aui:input type="hidden" bean="navigaAggregata" name="idAreaGeografica" value="${navigaAggregata.idAreaGeografica}" />
@@ -267,7 +269,7 @@
 	Regione > Provincia
 	</div>
 	<div style="text-align: right; padding-top: 15px">
-	<a href="#">
+	<a href="${linkElencoProgetti}">
 		Vedi Elenco Progetti <i class="icon-list"></i>
 	</a>
 </div>
