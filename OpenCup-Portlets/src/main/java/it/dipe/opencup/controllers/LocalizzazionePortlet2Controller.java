@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -22,10 +24,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
@@ -41,29 +46,55 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 	public String handleRenderRequest(RenderRequest request, RenderResponse response,Model model){
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
 		String idTerr=httpServletRequest.getParameter("idTerr")!=null?httpServletRequest.getParameter("idTerr").toString():"";
-		
+		String filtriPrec=httpServletRequest.getParameter("filtri")!=null?httpServletRequest.getParameter("filtri").toString():"";
+		NavigaAggregata filtro= null;
+		PortletURL portletURL = response.createRenderURL();
 		// se non vengo dalla prima request
 		if (Validator.isNull(idTerr)  || Validator.equals("", idTerr)){
 			idTerr=ParamUtil.getString(request, "idTerr");
 		}
 
-		PortletURL portletURL = response.createRenderURL();
+		AreaGeografica areaSelezionata =aggregataFacade.findAreaGeograficaByCodiceArea(idTerr);
+		String strIdAreaSel=areaSelezionata!=null?areaSelezionata.getId().toString():"0";
+		String descAreaGeo=areaSelezionata!=null?areaSelezionata.getDescAreaGeografica().toUpperCase():"";
+		
+		// se ho parametri impostati (solo al primo caricamento)
+		if (!Validator.isNull(filtriPrec)  && !Validator.equals("", filtriPrec)){
+			filtro=super.createModelFromJsonString(filtriPrec);
+			filtro.setIdRegione("0");
+			filtro.setIdProvincia("-1");
+			filtro.setIdAreaGeografica(strIdAreaSel);
+			String jsonString=createJsonStringFromModelAttribute(filtro);
+			portletURL.setParameter("filtroAsString", jsonString);
+		}else{
+			if (model.asMap().get("navigaAggregata")==null && (Validator.isNull(ParamUtil.getString(request,"filtroAsString")) || "".equals(ParamUtil.getString(request,"filtroAsString")))){
+				// caricamento full senza filtri
+				filtro=new NavigaAggregata();
+				filtro.setIdRegione("0");
+				filtro.setIdAreaGeografica(strIdAreaSel);
+				Natura naturaOpenCup=aggregataFacade.findNaturaByCod(codNaturaOpenCUP);
+				filtro.setIdNatura(naturaOpenCup.getId().toString());
+				filtro.setDescNatura(naturaOpenCup.getDescNatura());
+			}else{
+				if (model.asMap().get("navigaAggregata")!=null)
+				{
+					filtro=(NavigaAggregata)model.asMap().get("navigaAggregata");
+				}else{ // lo prendo dal json
+					filtro=super.createModelFromJsonString(ParamUtil.getString(request,"filtroAsString"));
+				}
+				String jsonString=createJsonStringFromModelAttribute(filtro);
+				portletURL.setParameter("filtroAsString", jsonString);
+			}
+		}
+		
+		
 		portletURL.setParameter("idTerr",idTerr);
-
 		model.addAttribute("selectedTerritory", idTerr);
 		
 		Integer numeProgetti = 0;
 		double impoCostoProgetti = 0.0;
 		double impoImportoFinanziato = 0.0;
 		String nestedDetailUrl=calcolaUrlLocalizzazioneByLivello(request, "localizzazioneprovince");
-		NavigaAggregata filtro = new NavigaAggregata();
-		filtro.setIdRegione("0");
-		AreaGeografica areaSelezionata =aggregataFacade.findAreaGeograficaByCodiceArea(idTerr);
-		String strIdAreaSel=areaSelezionata!=null?areaSelezionata.getId().toString():"0";
-		filtro.setIdAreaGeografica(strIdAreaSel);
-		String descAreaGeo=areaSelezionata!=null?areaSelezionata.getDescAreaGeografica().toUpperCase():"";
-		Natura naturaOpenCup=aggregataFacade.findNaturaByCod(codNaturaOpenCUP);
-		filtro.setIdNatura(naturaOpenCup.getId().toString());
 		List<Aggregata> risultati=aggregataFacade.findAggregataByLocalizzazione(filtro);
 		List<LocalizationValueConverter> valori= new ArrayList<LocalizationValueConverter>();
 		for (Aggregata aggregata:risultati){
@@ -77,15 +108,24 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 			impoCostoProgetti+=valoreByRegione.getCostoValue();
 			valoreByRegione.setImportoValue(aggregata.getImpoImportoFinanziato());
 			impoImportoFinanziato+=valoreByRegione.getImportoValue();
-			valoreByRegione.setDetailUrl(nestedDetailUrl+"&codReg="+codiceRegione);
+			String detailUrl=nestedDetailUrl+"&codReg="+codiceRegione;
+			if (filtro.getCountAffRicercaLocalizzazione()!=null){
+				detailUrl+="&filtri="+createJsonStringFromModelAttribute(filtro);
+			}
+			valoreByRegione.setDetailUrl(HttpUtil.encodeParameters(detailUrl));
 			valoreByRegione.setFullLabel(nomeRegione.replace("'", "$"));
 			valori.add(valoreByRegione);
 		}
 		model.addAttribute("statoSelected",filtro.getDescStato());
-		model.addAttribute("areeGeoBackLink",calcolaUrlLocalizzazioneByLivello(request, "localizzazione"));
+		String strAreeBackLink=calcolaUrlLocalizzazioneByLivello(request, "localizzazione");
+		if (filtro.getCountAffRicercaLocalizzazione()!=null){
+			strAreeBackLink+="&filtri="+createJsonStringFromModelAttribute(filtro);
+		}
+		model.addAttribute("areeGeoBackLink",HttpUtil.encodeParameters(strAreeBackLink));
 		model.addAttribute("selectedTerritoryName", descAreaGeo);
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringFromQueryResult(valori));
-		
+		super.inizializzaFiltriRicercaLocalizzazione(filtro,model);
+		model.addAttribute("navigaAggregata", filtro);
 		//orderByCol is the column name passed in the request while sorting
 		String orderByCol = ParamUtil.getString(request, "orderByCol"); 
 		if(Validator.isNull(orderByCol)  || Validator.equals("", orderByCol)){
@@ -130,5 +170,12 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 		
 		
 		return "localizzazione2-view";
+	}
+	
+	@ActionMapping(params="action=affinaricerca")
+	public void actionAffinaRicerca(ActionRequest aRequest, ActionResponse aResponse, Model model, @ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		AreaGeografica areaSel=aggregataFacade.findAreaGeografica(Integer.valueOf(navigaAggregata.getIdAreaGeografica()));
+		aResponse.setRenderParameter("idTerr",areaSel.getCodiAreaGeografica());
 	}
 }
