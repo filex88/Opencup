@@ -366,18 +366,13 @@
 				</div>
 			</div>
 			
-			
 			<!-- 
 			<liferay-ui:search-container searchContainer="${searchContainerRiepilogo}" delta="${searchContainerRiepilogo.delta}" deltaParam="aggregata_delta">
-				
 				<liferay-ui:search-container-results results="${searchContainerRiepilogo.results}" total="${searchContainerRiepilogo.total}"/>    
-				
 				<liferay-ui:search-container-row className="it.dipe.opencup.dto.DescrizioneValore" modelVar="descrizioneValore">
-					
 					<liferay-ui:search-container-column-text name="sintesi-progetti">
 						${descrizioneValore.label}
 					</liferay-ui:search-container-column-text>
-					
 					<liferay-ui:search-container-column-text>
 						<c:choose>
 							<c:when test="${'VOLUME DEI PROGETTI' eq descrizioneValore.label}">
@@ -388,11 +383,8 @@
 							</c:otherwise>
 						</c:choose>
 					</liferay-ui:search-container-column-text>
-					
 				</liferay-ui:search-container-row>
-				
 				<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerRiepilogo}"/>
-				
 			</liferay-ui:search-container>
 			-->
 		</div>
