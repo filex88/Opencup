@@ -317,13 +317,20 @@
 		 -- RIEPILOGO --		
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<div class="span6">
-		
-			<div style="text-align: justify;">
-				La sintesi per Classificazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati 
-				aggregati navigando nelle ulteriori classificazioni:
-				Area Intervento > Sottosettori > Categoria
+			
+			<div class="card">
+				<div class="card-title">
+	            	<span class="title">Naviga Classificazione</span>
+	       		</div>
+				<div class="card-content">
+					<div style="text-align: justify;">
+						La sintesi per Classificazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati 
+						aggregati navigando nelle ulteriori classificazioni:
+						Area Intervento > Sottosettori > Categoria
+					</div>
+				</div>
 			</div>
-
+			
 			<div class="card">
 				<div class="card-title">
 	            	<span class="title">Dati di sintesi</span>
@@ -349,13 +356,16 @@
 						<div class="clear"></div>
 					</div>
 				</div>
+				<div class="card-action">
+					<div class="link_elenco-progetti span4 offset8">
+						<aui:a href="${linkURLElencoProgetti}" cssClass="block">
+							Vai a Elenco Progetti <i class="icon-list"></i>
+						</aui:a>
+					</div>
+					<div class="clear"></div>
+				</div>
 			</div>
-			<br/>
-			<div class="link_elenco-progetti span4">
-				<aui:a href="${linkURLElencoProgetti}" cssClass="block">
-					Vedi Elenco Progetti <i class="icon-list"></i>
-				</aui:a>
-			</div>
+			
 			
 			<!-- 
 			<liferay-ui:search-container searchContainer="${searchContainerRiepilogo}" delta="${searchContainerRiepilogo.delta}" deltaParam="aggregata_delta">
@@ -452,14 +462,6 @@
 				</div>	
 				 -->
 			</div>
-			
-			
-			<script type="text/javascript">
-			
-				var namespace = "<portlet:namespace/>";
-				namespace = namespace.substring(1, namespace.length - 1);
-				
-			</script>
 
 		</div>
 		
@@ -468,46 +470,55 @@
 	<div>
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		 -- TORTA --		
+		 -- TABELLA --		
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<div class="span12">
 		
-			<div style="text-align: justify;">
-				Continua la navigazione selezionando ${artNavigaPer} <strong>${navigaPer}</strong> dei progetti
-			</div>
-			
-			<fmt:setLocale value="it_IT"/>
+			<div class="card">
+				<div class="card-title">
+	            	<span class="title">Dettaglio Distribuzione</span>
+	       		</div>
+				<div class="card-content">
+					
+					<div style="text-align: justify;">
+						Continua la navigazione selezionando ${artNavigaPer} <strong>${navigaPer}</strong> dei progetti
+					</div>
+					
+					<fmt:setLocale value="it_IT"/>
 
-			<liferay-ui:search-container searchContainer="${searchContainerDettaglio}" delta="${searchContainerDettaglio.delta}" orderByType="${searchContainerDettaglio.orderByType}" deltaParam="delta">
-			
-				<liferay-ui:search-container-results results="${searchContainerDettaglio.results}" total="${searchContainerDettaglio.total}"/>    
-			
-			    <liferay-ui:search-container-row className="it.dipe.opencup.dto.AggregataDTO" keyProperty="id" modelVar="aggregataDTO">
+					<liferay-ui:search-container searchContainer="${searchContainerDettaglio}" delta="${searchContainerDettaglio.delta}" orderByType="${searchContainerDettaglio.orderByType}" deltaParam="delta">
+					
+						<liferay-ui:search-container-results results="${searchContainerDettaglio.results}" total="${searchContainerDettaglio.total}"/>    
+					
+					    <liferay-ui:search-container-row className="it.dipe.opencup.dto.AggregataDTO" keyProperty="id" modelVar="aggregataDTO">
+								
+							<liferay-ui:search-container-column-text name="aggregato-des">
+								<a href="#" data-id="${aggregataDTO.id}" onclick="return false;" data-url="${aggregataDTO.linkURL}" class="link-url-naviga-dettaglio">${aggregataDTO.descURL}</a>
+							</liferay-ui:search-container-column-text>
+							
+							<liferay-ui:search-container-column-text name="aggregato-volume" orderableProperty="numeProgetti" orderable="true">
+								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.numeProgetti}" type="number" minIntegerDigits="1"/></span>
+							</liferay-ui:search-container-column-text>
+							
+							<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetti" orderable="true">
+								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
+							</liferay-ui:search-container-column-text>
+							
+							<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="3"/></span>
+							</liferay-ui:search-container-column-text>
 						
-					<liferay-ui:search-container-column-text name="aggregato-des">
-						<a href="#" data-id="${aggregataDTO.id}" onclick="return false;" data-url="${aggregataDTO.linkURL}" class="link-url-naviga-dettaglio">${aggregataDTO.descURL}</a>
-					</liferay-ui:search-container-column-text>
+						</liferay-ui:search-container-row>
 					
-					<liferay-ui:search-container-column-text name="aggregato-volume" orderableProperty="numeProgetti" orderable="true">
-						<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.numeProgetti}" type="number" minIntegerDigits="1"/></span>
-					</liferay-ui:search-container-column-text>
+						<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerDettaglio}"/>
 					
-					<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetti" orderable="true">
-						<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
-					</liferay-ui:search-container-column-text>
+					</liferay-ui:search-container>
 					
-					<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
-						<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="3"/></span>
-					</liferay-ui:search-container-column-text>
-				
-				</liferay-ui:search-container-row>
-			
-				<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerDettaglio}"/>
-			
-			</liferay-ui:search-container>
-			
-			<a name="classificazione-portlet2"></a>
-		
+					<a name="classificazione-portlet2"></a>
+					
+				</div>
+			</div>
+
 		</div>
 	</div>
 	
@@ -543,7 +554,10 @@
 </aui:form>
 
 <script type="text/javascript">
-
+			
+	var namespace = "<portlet:namespace/>";
+	namespace = namespace.substring(1, namespace.length - 1);
+				
 	var namespaceRicerca4js = "<portlet:namespace/>";
 	
 	var namespaceRicerca = "<portlet:namespace/>";

@@ -470,6 +470,7 @@
 .card {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   margin-top: 10px;
+  margin-bottom: 50px;
   box-sizing: border-box;
   border-radius: 2px;
   background-clip: padding-box;
@@ -501,16 +502,15 @@
 
 .link_elenco-progetti a.block { 
     display:block;
-    padding:16px; 
     border: 0px; 
     text-decoration: none;
-    border-radius: 3px;
-    background-color: #004383;
-    color: white;
-    font-size: 14px;
+    color: #737373;
+    background-color: inherit;
     text-align: center;
+    margin-top: 5px;
 }
 
+/*
 .link_elenco-progetti a.block:hover, 
 .link_elenco-progetti a.block:focus { 
     background-color:#f08c00; 
@@ -519,6 +519,7 @@
 .link_elenco-progetti a.block:active { 
     background-color:#009600; 
 }
+*/
 
 .classificazione-portlet1 .btn-carica-distribuzione { 
     border-radius: 3px;
@@ -555,6 +556,7 @@
 .classificazione-portlet1 .intestazione-tab,
 .classificazione-portlet1 .table-columns th { 
 	text-align: center;
+	background: #F0F0F0;
 }
 
 .larger{
