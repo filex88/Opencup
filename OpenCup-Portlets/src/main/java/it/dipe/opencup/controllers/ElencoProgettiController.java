@@ -1,7 +1,6 @@
 package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.FiltriCommonController;
-import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.facade.AggregataFacade;
@@ -22,7 +21,6 @@ import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -114,7 +112,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		//orderByType is passed in the request while sorting. It can be either asc or desc
 		String orderByType = ParamUtil.getString(renderRequest, "orderByType");
 		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
-		    orderByType = "asc";
+		    orderByType = "desc";
 		}
 		
 		//delta
@@ -157,9 +155,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		
 		// RIEPILOGO //
-		SearchContainer<DescrizioneValore> searchContainerRiepilogo = new SearchContainer<DescrizioneValore>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-		searchContainerRiepilogo.setDelta(maxResult);
-		searchContainerRiepilogo.setTotal(3);
 		
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
@@ -168,6 +163,10 @@ public class ElencoProgettiController extends FiltriCommonController {
 			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetto();
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
+		/*
+		SearchContainer<DescrizioneValore> searchContainerRiepilogo = new SearchContainer<DescrizioneValore>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+		searchContainerRiepilogo.setDelta(maxResult);
+		searchContainerRiepilogo.setTotal(3);
 		
 		List<DescrizioneValore> retval = new ArrayList<DescrizioneValore>();
 		retval.add(new DescrizioneValore("VOLUME DEI PROGETTI", size));
@@ -176,6 +175,11 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		searchContainerRiepilogo.setResults(retval);
 		model.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
+		*/
+		
+		model.addAttribute("volumeDeiProgetti", size);
+		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
+		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		// FINE RIEPILOGO //
 		
 		return "elenco-progetti-view";

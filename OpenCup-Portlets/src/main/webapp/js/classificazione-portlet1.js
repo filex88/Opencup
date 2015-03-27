@@ -49,7 +49,7 @@ AUI().use(
 				        expanded: false,
 				        header: '.header',
 				        transition: {
-				          duration: 0.2,
+				          duration: 0.6,
 				          easing: 'cubic-bezier(0, 0.1, 0, 1)'
 				        }
 				      });
