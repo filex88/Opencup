@@ -302,7 +302,7 @@
 			var newBorder=border/maxScale;
 			selection.style("stroke-width",newBorder);
 			
-			d3.selectAll("#dimensions").attr("style","margin-top:"+(-ySecondTranslation*2)+10+"px");
+			d3.selectAll("#dimensions").attr("style","margin-top:"+(-ySecondTranslation*2)+15+"px");
 			
 			d3.selectAll("#tabRisultati").selectAll("td.table-cell.first").selectAll("a")
 			.on("mouseover",function(a){
