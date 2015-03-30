@@ -26,7 +26,7 @@
 }
 
 .summaryContainer{
-	width: 50%;
+	width: 48%;
 	float: left;
 }
 
@@ -76,7 +76,7 @@
 }
 
 #italybymacroareas div.selectiontip p strong{
-	color:green;
+	color:#F08C00;
 }
 
 .natura-portlet-ricerca .underline {
@@ -93,42 +93,49 @@
 	margin-bottom: 5px;
 }
 
-#detailItaly{float:right;}
+#detailItaly{float:right;width: 18%;text-align: right;}
 
-#dimensions ul li input[type=button],#detailItaly ul li input[type=button]{
-	display: inline-block;
-	padding:4px 12px;
-	margin-bottom:0;
-	line-height:20px;
-	text-align:center;
-	vertical-align:middle;
-	color: #333333;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-	background-color: #f1f1f1;
-	background-image: linear-gradient(to bottom, #f6f6f6, #eaeaea);
-	background-repeat: repeat-x;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-	border: 1px solid #cfcfcf;
-	border-bottom-color: #b5b5b5;
-	border-radius:1em;
-	width: 110px;
+#dimensions ul,#detailItaly ul{width: 100%;margin-left: 0px;}
+
+#dimensions ul li{width:31%;}
+
+#detailItaly ul li{width:45%;}
+
+#dimensions ul li input[type=button]{
+	 display:block;
+    padding:16px; 
+    border: 0px;  
+    text-decoration: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    width:95%;
+    background-color: #004383;
+}
+
+#detailItaly ul li input[type=button]{
+	 display:block;
+    padding:16px; 
+    border: 0px;  
+    text-decoration: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    width:100%;
+    background-color: #004383;
 }
 
 #dimensions ul li input[type=button]:hover,#dimensions ul li input[type=button]:focus,
 #detailItaly ul li input[type=button]:hover, #detailItaly ul li input[type=button]:focus{
-	color: #333;
-    text-decoration: none;
-    background-position: 0 -15px;
+	 background-color:#f08c00; 
 }
 
 #dimensions ul li input[type=button]:active, #dimensions ul li input[type=button].active,
 #detailItaly ul li input[type=button]:active, #detailItaly ul li input[type=button].active
 {
-	background-image: none;
-    outline: 0;
-    box-shadow:inset 0 2px 4px rgba(0,0,0,.40), 0 1px 2px rgba(0,0,0,.05);
-    background-color: #ccc;
+	 background-color:#f08c00; 
 }
 
 .no-margin-bottom {
@@ -387,7 +394,8 @@
     to {background-color: #009600;}
 }
 
-div.dati_sitesi_verde {
+
+.classificazione-portlet1 div.dati_sitesi_verde,.summaryContainer div.dati_sitesi_verde {
     background-color: #009600;
     -webkit-animation-name: cambiacoloreto_verde; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
@@ -409,7 +417,9 @@ div.dati_sitesi_verde {
     to {background-color: #f08c00;}
 }
 
-div.dati_sitesi_arancio {
+
+.classificazione-portlet1 div.dati_sitesi_arancio, .summaryContainer div.dati_sitesi_arancio {
+
     background-color: #f08c00;
     -webkit-animation-name: cambiacoloreto_arancio; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
@@ -431,7 +441,8 @@ div.dati_sitesi_arancio {
     to {background-color: #c90061;}
 }
 
-div.dati_sitesi_lilla {
+.classificazione-portlet1 div.dati_sitesi_lilla,.summaryContainer div.dati_sitesi_lilla {
+
     background-color: #c90061;
     -webkit-animation-name: cambiacoloreto_lilla; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 6s; /* Chrome, Safari, Opera */
@@ -441,18 +452,23 @@ div.dati_sitesi_lilla {
     animation-iteration-count: 1;
 }
 
-div.dati_sitesi {
+
+.classificazione-portlet1 div.dati_sitesi,.summaryContainer div.dati_sitesi {
+
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
 
-div.celle_dati_sitesi {
+
+.classificazione-portlet1 div.celle_dati_sitesi,.summaryContainer div.celle_dati_sitesi{
+
 	text-align: center;
 	display: block;
 	color: white;
 	padding: 5px;
 }
+
 
 .font-size1em {
     font-size: 1em;
@@ -462,7 +478,17 @@ div.celle_dati_sitesi {
     font-size: 1.5em;
 }
 
-.font-size3em {
+
+.classificazione-portlet1 .font-size1em, .summaryContainer .font-size1em{
+    font-size: 1em;
+}
+
+.classificazione-portlet1 .font-size2em, .summaryContainer .font-size2em {
+    font-size: 1.5em;
+}
+
+.classificazione-portlet1 .font-size3em, .summaryContainer .font-size3em {
+
     font-size: 3em;
 }
 
@@ -520,7 +546,7 @@ div.celle_dati_sitesi {
 }
 */
 
-.classificazione-portlet1 .btn-carica-distribuzione { 
+.classificazione-portlet1 .btn-carica-distribuzione{ 
     border-radius: 3px;
 }
 
@@ -528,7 +554,9 @@ div.celle_dati_sitesi {
     padding: 5px;
 }
 
-.classificazione-portlet1 .btn-carica-distribuzione .block { 
+
+.classificazione-portlet1 .btn-carica-distribuzione .block{ 
+
     display:block;
     padding:16px; 
     border: 0px;  
@@ -543,12 +571,14 @@ div.celle_dati_sitesi {
 	background-color: #f08c00; 
 }
 
-.classificazione-portlet1 .non-attiva { 
+.classificazione-portlet1 .non-attiva{ 
     background-color: #004383;
 }
 
 .classificazione-portlet1 .btn-carica-distribuzione a.block:hover, 
-.classificazione-portlet1 .btn-carica-distribuzione a.block:focus { 
+.classificazione-portlet1 .btn-carica-distribuzione a.block:focus
+
+{ 
     background-color:#f08c00; 
 }
  
@@ -558,8 +588,11 @@ div.celle_dati_sitesi {
 
 .classificazione-portlet1 .intestazione-tab,
 .classificazione-portlet1 .table-columns th,
+
 .elenco-progetti-portlet .intestazione-tab,
-.elenco-progetti-portlet .table-columns th { 
+.elenco-progetti-portlet .table-columns th,
+#tabRisultati .intestazione-tab, #tabRisultati .table-columns th
+ { 
 	text-align: center;
 	background: #F0F0F0;
 }
