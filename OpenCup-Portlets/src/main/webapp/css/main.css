@@ -258,7 +258,7 @@
 }
 
 .dettaglio-progetto-portlet .dett-label {
-	color: #cccccc;
+	color: #777777;
 }
 
 .dettaglio-progetto-portlet .dett-value {
@@ -387,7 +387,7 @@
     to {background-color: #009600;}
 }
 
-.classificazione-portlet1 div.dati_sitesi_verde {
+div.dati_sitesi_verde {
     background-color: #009600;
     -webkit-animation-name: cambiacoloreto_verde; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
@@ -409,7 +409,7 @@
     to {background-color: #f08c00;}
 }
 
-.classificazione-portlet1 div.dati_sitesi_arancio {
+div.dati_sitesi_arancio {
     background-color: #f08c00;
     -webkit-animation-name: cambiacoloreto_arancio; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
@@ -431,7 +431,7 @@
     to {background-color: #c90061;}
 }
 
-.classificazione-portlet1 div.dati_sitesi_lilla {
+div.dati_sitesi_lilla {
     background-color: #c90061;
     -webkit-animation-name: cambiacoloreto_lilla; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 6s; /* Chrome, Safari, Opera */
@@ -441,28 +441,28 @@
     animation-iteration-count: 1;
 }
 
-.classificazione-portlet1 div.dati_sitesi {
+div.dati_sitesi {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
 
-.classificazione-portlet1 div.celle_dati_sitesi {
+div.celle_dati_sitesi {
 	text-align: center;
 	display: block;
 	color: white;
 	padding: 5px;
 }
 
-.classificazione-portlet1 .font-size1em {
+.font-size1em {
     font-size: 1em;
 }
 
-.classificazione-portlet1 .font-size2em {
+.font-size2em {
     font-size: 1.5em;
 }
 
-.classificazione-portlet1 .font-size3em {
+.font-size3em {
     font-size: 3em;
 }
 
@@ -470,6 +470,7 @@
 .card {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   margin-top: 10px;
+  margin-bottom: 50px;
   box-sizing: border-box;
   border-radius: 2px;
   background-clip: padding-box;
@@ -501,16 +502,14 @@
 
 .link_elenco-progetti a.block { 
     display:block;
-    padding:16px; 
     border: 0px; 
     text-decoration: none;
-    border-radius: 3px;
-    background-color: #004383;
-    color: white;
-    font-size: 14px;
+    color: #737373;
+    background-color: inherit;
     text-align: center;
+    margin-top: 5px;
 }
-
+/*
 .link_elenco-progetti a.block:hover, 
 .link_elenco-progetti a.block:focus { 
     background-color:#f08c00; 
@@ -519,9 +518,14 @@
 .link_elenco-progetti a.block:active { 
     background-color:#009600; 
 }
+*/
 
 .classificazione-portlet1 .btn-carica-distribuzione { 
     border-radius: 3px;
+}
+
+.classificazione-portlet1 .form-ricerca-padding { 
+    padding: 5px;
 }
 
 .classificazione-portlet1 .btn-carica-distribuzione .block { 
@@ -553,11 +557,69 @@
 }
 
 .classificazione-portlet1 .intestazione-tab,
-.classificazione-portlet1 .table-columns th { 
+.classificazione-portlet1 .table-columns th,
+.elenco-progetti-portlet .intestazione-tab,
+.elenco-progetti-portlet .table-columns th { 
 	text-align: center;
+	background: #F0F0F0;
 }
 
 .larger{
 	width:340px;
 	
+}
+
+.row-no-wrap{
+	white-space: nowrap;
+}
+
+.elenco-progetti-portlet .colonne-block { 
+    padding:5px; 
+    border: 0px;  
+    text-decoration: none;
+    font-size: 1em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+
+.loader {
+  margin: 6em auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(240,140,0,1);
+  border-right: 1.1em solid rgba(240,140,0,0.3);
+  border-bottom: 1.1em solid rgba(240,140,0,1);
+  border-left: 1.1em solid rgba(240,140,0,0.3);
+  -webkit-animation: load8 2s infinite linear;
+  animation: load8 2s infinite linear;
+}
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }

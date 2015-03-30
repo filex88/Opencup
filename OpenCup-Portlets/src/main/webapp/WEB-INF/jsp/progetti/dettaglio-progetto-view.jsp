@@ -34,48 +34,48 @@
 		</div>
 	</div>	
 	<div>
-		<div class="span6">
+		<div class="span6" style="padding-right: 5px;">
 		
 			<p>
 				<span class="dett-titolo">DATI CLASSIFICAZIONE PROGETTO</span>
 			</p>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Natura:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.natura.descNatura }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Tipo:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.tipologiaIntervento.descTipologiaIntervento }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Area:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.areaIntervento.descAreaIntervento }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Sotto-settore:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.sottosettoreIntervento.descSottosettoreInt }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Categoria:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.categoriaIntervento.descCategoriaIntervento }</span>
 				</div>
 			</div>
@@ -85,34 +85,34 @@
 			</p>
 						
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Comune:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.comuniProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Provincia:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.provinceProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Regione:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.regioneProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Stato:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">Italia</span>
 				</div>
 			</div>
@@ -121,74 +121,79 @@
 				<span class="dett-titolo">DATI SOGGETTO TITOLARE</span>
 			</p>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Soggetto Titolare:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.soggettoTitolare.descSoggettoTitolare }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Area:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.soggettoTitolare.categoriaSoggetto.areaSoggetto.descAreaSoggetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Categoria:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.soggettoTitolare.categoriaSoggetto.descCategoriaSoggetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Sotto-categoria:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.descSottocategSoggetto }</span>
 				</div>
 			</div>
 			
 		</div>
 		
-		<div class="span5 offset1">
-			<p>
-				<span class="dett-titolo">COSTI E IMPORTI</span>
-			</p>
+		<div class="span6" style="padding-left: 5px;">
 			
-			<div class="row importo">
-				<div class="span3 offset1">
-					<span class="dett-label">Costo Progetto:</span>
-				</div>
-				<div class="span3">
-					<span class="dett-value pull-right"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
-				</div>
-			</div>
-			<div class="row importo">
-				<div class="span3 offset1">
-					<span class="dett-label">Importo Finanziato:</span>
-				</div>
-				<div class="span3">
-					<span class="dett-value pull-right"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
+			
+			<div class="card">
+				<div class="card-title">
+	            	<span class="title">COSTI E IMPORTI</span>
+	        	</div>
+	        	<div class="card-content">
+					<div >
+						<fmt:setLocale value="it_IT"/>
+						<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2" maxFractionDigits="2" minFractionDigits="2"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_lilla">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2" maxFractionDigits="2" minFractionDigits="2"/></div>
+						</div>
+						<div class="clear"></div>
+					</div>
 				</div>
 			</div>
 			
 			<div>
-				<div class="span5 copertura-finanziamento">
+				<div class="span4 copertura-finanziamento">
 					<p>
-						<span class="dett-titolo2">Copertura Finanziamento</span>
+						<span class="dett-titolo2 row-no-wrap">Copertura Finanziamento</span>
 					</p>
 					<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
 				</div>
-				<div class="span7 chart-fianziamento">
+				<div class="span8 chart-fianziamento">
+					<%-- 
 					<div id="tooltip" class="tooltip hidden">
 						<p><span id="label"></span></p>
 						<p><span id="value"></span></p>
 					</div>
+					--%>
 					<svg class="chart"></svg>
 				</div>
 			</div>
@@ -202,29 +207,29 @@
 			
 			<fmt:formatDate value="${ maxDataModifica }" var="dataUltimaModifica" pattern="dd/MM/yyyy" />
 			<p>
-				<span class="dett-titolo">DATI AGGIUDICATIVI DEL PROGETTO</span>
+				<span class="dett-titolo">DATI AGGIUNTIVI DEL PROGETTO</span>
 			</p>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Data Ultima Modifica:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dataUltimaModifica }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">CUP Master:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.anagraficaCup.anagraficaCup.codiCup }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Legge Obiettivo:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">
 						<c:choose>
 							<c:when test="${ 'S' eq dettProgetto.anagraficaCup.flagLeggeObiettivo }">SI</c:when>
@@ -234,34 +239,43 @@
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Numero e Anno Delibera CIPE:</span>
 				</div>
-				<div class="span8">
-					<span class="dett-value">${ dettProgetto.anagraficaCup.numeDeliberaCipe } del ${ dettProgetto.anagraficaCup.annoAnnoDelibera }</span>
+				<div class="span9">
+					<span class="dett-value">
+					<c:choose>
+						<c:when test=" ${ (not empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (not empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
+							${ dettProgetto.anagraficaCup.numeDeliberaCipe } del ${ dettProgetto.anagraficaCup.annoAnnoDelibera }
+						</c:when>
+						<c:otherwise>
+							${ dettProgetto.anagraficaCup.numeDeliberaCipe } ${ dettProgetto.anagraficaCup.annoAnnoDelibera }
+						</c:otherwise>
+					</c:choose>
+					</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Soggetto Richiedente:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.anagraficaCup.descSoggettoRichiedente }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Stato Finanza di Progetto:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.anagraficaCup.descFinanzaProgetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
-				<div class="span3 offset1">
+				<div class="span3">
 					<span class="dett-label">Tipo Copertura Finanziaria:</span>
 				</div>
-				<div class="span8">
+				<div class="span9">
 					<span class="dett-value">${ dettProgetto.anagraficaCup.descTipoCup }</span>
 				</div>
 			</div>
@@ -273,10 +287,33 @@
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
 
 	<script type="text/javascript">
+	
+	// clear breadcrumb
+	var fatherUl=d3.selectAll("li.first").node().parentNode;
+
+	d3.select(fatherUl).insert("li",":first-child")
+		.attr("style","padding: 0 5px;")
+		.text("Sei in: ");
+
+	d3.selectAll(".divider").each(
+			function(){
+				var c=d3.select(this).node().parentNode;
+				d3.select(c)
+					.style("font-weight","bold")
+					.append("i")
+					.attr("class","icon-caret-right")
+					.attr("style","padding: 0 5px;");
+			
+					d3.select(c).select("span").remove();
+			});
+
+	d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+	d3.selectAll("li.active.last.breadcrumb-truncate").remove();
 	      
-/*
- * MAPPA
- */
+	
+	/*
+	 * MAPPA
+	 */
  
  	var lat = 0;
  	var lng = 0;
@@ -288,8 +325,8 @@
 		var mapOptions = {
 			center: new google.maps.LatLng(lat, lng),
          	disableDefaultUI: true,
-         	disableDoubleClickZoom: true,
-         	draggable: false,
+         	disableDoubleClickZoom: false,
+         	draggable: true,
          	keyboardShortcuts: false,
          	zoom: zoomMap,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -334,19 +371,21 @@
 	        		data: [{
 			            	etichetta: 'Costo Progetto',
 			            	valore: '${ impoCostoProgetto }',
-			            	valoreformattato: '<fmt:formatNumber value="${ impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
+			            	valoreformattato: '<fmt:formatNumber value="${ impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>'
 			        	}, {
 			            	etichetta: 'Importo Finanziato',
 			            	valore: '${ impoImportoFinanziato }',
-			            	valoreformattato: '<fmt:formatNumber value="${ impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
+			            	valoreformattato: '<fmt:formatNumber value="${ impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>'
 			        	}],
 			        name: 'Importi'
 			    }];
 				
+				var widthChartContent  = d3.select('.chart').node().getBoundingClientRect().width;
+				
 				var margins = {
 					    top: 5,
-					    left: 120,
-					    right: 5,
+					    left: 5,
+					    right: 0,
 					    bottom: 5
 					},
 					    
@@ -354,7 +393,7 @@
 					    width: 0
 					},
 					    
-					width = 500 - margins.left - margins.right - legendPanel.width,
+					width = widthChartContent - margins.left - margins.right - legendPanel.width,
 					height = 100 - margins.top - margins.bottom,
 					
 					series = dataset.map(
@@ -466,32 +505,35 @@
 							        	})
 							        .on('mousemove',
 							        		function (d){
-									        	var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
-									    		
+									        	
+							        			
 									    		/*
 									    		var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
 									    		var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() / 2;
 									    		*/
-									    		var xPos = (mouse[0]+10);
-									    		var yPos = (mouse[1]-40);
 									    		
-									    		d3.select('#tooltip')
-									    			.style('left', xPos + 'px')
-									    			.style('top', yPos + 'px')
-									    			.select('#value')
-									    			.text(d.z)
-									    			.select('#label')
-									    			.text(d.x);
+									    		//var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
+									    		//
+									    		//var xPos = (mouse[0]+10);
+									    		//var yPos = (mouse[1]-40);
+									    		//
+									    		//d3.select('#tooltip')
+									    		//	.style('left', xPos + 'px')
+									    		//	.style('top', yPos + 'px')
+									    		//	.select('#value')
+									    		//	.text(d.z)
+									    		//	.select('#label')
+									    		//	.text(d.x);
 							        })
 								    .on('mouseover', 
 								    		function (d) {
-								    			d3.select('#tooltip').transition().duration(500).style("opacity", 100); 
-								    			d3.select('#tooltip').classed('hidden', false);
+								    			//d3.select('#tooltip').transition().duration(500).style("opacity", 100); 
+								    			//d3.select('#tooltip').classed('hidden', false);
 									    })
 									.on('mouseout', 
 											function () {
-												d3.select('#tooltip').transition().duration(500).style("opacity", 0); 
-										        d3.select('#tooltip').classed('hidden', true);
+												//d3.select('#tooltip').transition().duration(500).style("opacity", 0); 
+										        //d3.select('#tooltip').classed('hidden', true);
 										    });
 					
 					svg.append('g')

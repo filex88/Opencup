@@ -1,6 +1,27 @@
 
-var svg = null;
+// clear breadcrumb
+var fatherUl=d3.selectAll("li.first").node().parentNode;
 
+d3.select(fatherUl).insert("li",":first-child")
+	.attr("style","padding: 0 5px;")
+	.text("Sei in: ");
+
+d3.selectAll(".divider").each(
+		function(){
+			var c=d3.select(this).node().parentNode;
+			d3.select(c)
+				.style("font-weight","bold")
+				.append("i")
+				.attr("class","icon-caret-right")
+				.attr("style","padding: 0 5px;");
+		
+				d3.select(c).select("span").remove();
+		});
+
+d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+d3.selectAll("li.active.last.breadcrumb-truncate").remove();
+
+//var svg = null;
 AUI().use(
 		'liferay-portlet-url', 
 		'aui-base', 
@@ -49,7 +70,7 @@ AUI().use(
 				        expanded: false,
 				        header: '.header',
 				        transition: {
-				          duration: 0.2,
+				          duration: 0.6,
 				          easing: 'cubic-bezier(0, 0.1, 0, 1)'
 				        }
 				      });
@@ -173,7 +194,6 @@ AUI().use(
 			}
    			
 			function loadPie(pattern, button){
-				
 				A.one('#pieChartClassificazione').empty();
 				A.all('.classificazione-sel-btn').replaceClass('attiva', '');
 				A.all('.classificazione-sel-btn').replaceClass('non-attiva', '');
@@ -195,6 +215,9 @@ AUI().use(
 	           				//console.log(aggregate);
 	           			    if(aggregate.aggregati4Pie!=null && aggregate.aggregati4Pie!=""){
 	           			    	//drawPie();
+	           			    	A.one(".loader").setStyles({
+	           			    		display: 'none'
+	           			    	});
 	           			    	drawPie("Pie1", aggregate.aggregati4Pie, "#pie_chart_1 .chart", "segments", 10, 155, ".div_pie_chart_1", 0, 0);
 	           			    }else{
 	           			  	        A.one(".pieChartClassificazioneEmpty").setStyles({
