@@ -213,5 +213,6 @@ public class LocalizzazionePortletCommonController extends FiltriCommonControlle
 			model.addAttribute("listaCategoriaIntervento", listaCategoriaIntervento);
 		}
 	}
+
 	
 }
