@@ -279,14 +279,16 @@
 						<div class="clear"></div>
 					</div>
 				</div>
+				<div class="card-action">
+					<div class="link_elenco-progetti span4 offset8">
+						<aui:a href="${linkElencoProgetti}" cssClass="block">
+							Vai a Elenco Progetti <i class="icon-list"></i>
+						</aui:a>
+					</div>
+					<div class="clear"></div>
+				</div>
 			</div>
-			<br/>
-			<div class="link_elenco-progetti span4">
-				<aui:a href="${linkElencoProgetti}" cssClass="block">
-					Vedi Elenco Progetti <i class="icon-list"></i>
-				</aui:a>
-			</div>
-
+			
 </div>
 
 <div  class="mapContainer">
