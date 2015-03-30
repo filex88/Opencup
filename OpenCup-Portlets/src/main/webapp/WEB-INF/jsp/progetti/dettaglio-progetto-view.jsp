@@ -168,12 +168,12 @@
 						<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="2"/></div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2" maxFractionDigits="2" minFractionDigits="2"/></div>
 						</div>
 						<div class="span4 dati_sitesi dati_sitesi_lilla">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="2"/></div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2" maxFractionDigits="2" minFractionDigits="2"/></div>
 						</div>
 						<div class="clear"></div>
 					</div>
@@ -188,10 +188,12 @@
 					<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
 				</div>
 				<div class="span8 chart-fianziamento">
+					<%-- 
 					<div id="tooltip" class="tooltip hidden">
 						<p><span id="label"></span></p>
 						<p><span id="value"></span></p>
 					</div>
+					--%>
 					<svg class="chart"></svg>
 				</div>
 			</div>
@@ -285,10 +287,33 @@
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
 
 	<script type="text/javascript">
+	
+	// clear breadcrumb
+	var fatherUl=d3.selectAll("li.first").node().parentNode;
+
+	d3.select(fatherUl).insert("li",":first-child")
+		.attr("style","padding: 0 5px;")
+		.text("Sei in: ");
+
+	d3.selectAll(".divider").each(
+			function(){
+				var c=d3.select(this).node().parentNode;
+				d3.select(c)
+					.style("font-weight","bold")
+					.append("i")
+					.attr("class","icon-caret-right")
+					.attr("style","padding: 0 5px;");
+			
+					d3.select(c).select("span").remove();
+			});
+
+	d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+	d3.selectAll("li.active.last.breadcrumb-truncate").remove();
 	      
-/*
- * MAPPA
- */
+	
+	/*
+	 * MAPPA
+	 */
  
  	var lat = 0;
  	var lng = 0;
@@ -346,11 +371,11 @@
 	        		data: [{
 			            	etichetta: 'Costo Progetto',
 			            	valore: '${ impoCostoProgetto }',
-			            	valoreformattato: '<fmt:formatNumber value="${ impoCostoProgetto }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
+			            	valoreformattato: '<fmt:formatNumber value="${ impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>'
 			        	}, {
 			            	etichetta: 'Importo Finanziato',
 			            	valore: '${ impoImportoFinanziato }',
-			            	valoreformattato: '<fmt:formatNumber value="${ impoImportoFinanziato }" type="currency" minIntegerDigits="1" minFractionDigits="3"/>'
+			            	valoreformattato: '<fmt:formatNumber value="${ impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>'
 			        	}],
 			        name: 'Importi'
 			    }];
@@ -480,32 +505,35 @@
 							        	})
 							        .on('mousemove',
 							        		function (d){
-									        	var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
-									    		
+									        	
+							        			
 									    		/*
 									    		var xPos = parseFloat(d3.select(this).attr('x')) / 2 + width / 2;
 									    		var yPos = parseFloat(d3.select(this).attr('y')) + yScale.rangeBand() / 2;
 									    		*/
-									    		var xPos = (mouse[0]+10);
-									    		var yPos = (mouse[1]-40);
 									    		
-									    		d3.select('#tooltip')
-									    			.style('left', xPos + 'px')
-									    			.style('top', yPos + 'px')
-									    			.select('#value')
-									    			.text(d.z)
-									    			.select('#label')
-									    			.text(d.x);
+									    		//var mouse = d3.mouse(d3.select(".portlet-body").node()).map( function(d) { return parseInt(d); } );
+									    		//
+									    		//var xPos = (mouse[0]+10);
+									    		//var yPos = (mouse[1]-40);
+									    		//
+									    		//d3.select('#tooltip')
+									    		//	.style('left', xPos + 'px')
+									    		//	.style('top', yPos + 'px')
+									    		//	.select('#value')
+									    		//	.text(d.z)
+									    		//	.select('#label')
+									    		//	.text(d.x);
 							        })
 								    .on('mouseover', 
 								    		function (d) {
-								    			d3.select('#tooltip').transition().duration(500).style("opacity", 100); 
-								    			d3.select('#tooltip').classed('hidden', false);
+								    			//d3.select('#tooltip').transition().duration(500).style("opacity", 100); 
+								    			//d3.select('#tooltip').classed('hidden', false);
 									    })
 									.on('mouseout', 
 											function () {
-												d3.select('#tooltip').transition().duration(500).style("opacity", 0); 
-										        d3.select('#tooltip').classed('hidden', true);
+												//d3.select('#tooltip').transition().duration(500).style("opacity", 0); 
+										        //d3.select('#tooltip').classed('hidden', true);
 										    });
 					
 					svg.append('g')

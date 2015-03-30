@@ -358,12 +358,12 @@
 						<div class="span4 dati_sitesi dati_sitesi_arancio">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Costo</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" maxFractionDigits="0"/></div>
 						</div>
 						<div class="span4 dati_sitesi dati_sitesi_lilla">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" maxFractionDigits="0"/></div>
 						</div>
 						<div class="clear"></div>
 					</div>
@@ -433,6 +433,8 @@
 					<div id="pieChartClassificazione" style="text-align: center">
 					</div>
 					--%>
+
+					<div class="loader">Loading...</div>
 		
 					<div class="alert alert-info pieChartClassificazioneEmpty" id="pieChartClassificazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
 
@@ -505,11 +507,11 @@
 							</liferay-ui:search-container-column-text>
 							
 							<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetti" orderable="true">
-								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
+								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoCostoProgetti}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
 							</liferay-ui:search-container-column-text>
 							
 							<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
-								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="3"/></span>
+								<span class="pull-right"><fmt:formatNumber value="${aggregataDTO.impoImportoFinanziato}" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></span>
 							</liferay-ui:search-container-column-text>
 						
 						</liferay-ui:search-container-row>
