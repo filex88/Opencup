@@ -214,22 +214,41 @@ function drawGraphTerritori(dimension,calculated_json){
 			}
     	})  
     	.on("click", function(d){
-    		window.location = d.properties.LINK;
+    		if (typeof d.properties.LINK!=="undefined")
+    		{
+    			window.location = d.properties.LINK;
+    		}else{
+    			window.location="#italybymacroareas";
+    		}
+    		
    		})
     	.on("mouseover",function(a){
     		svg.selectAll("path")
     		.style("fill",function (d){
     		if (d.properties.TERR==a.properties.TERR){
-    			return "#FFFFCC";}
+    			return "#F08C00";}
     		else{
     			if( dimension=='volume'){
-					return color(d.properties.VALORE_VOLUME);
+    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
+    					return color(d.properties.VALORE_VOLUME);
+    				}else{
+    					return "#fff";
+    				}
 				}
 				else if(dimension=='costo'){
-					return color(d.properties.VALORE_COSTO);
+					if (typeof d.properties.VALORE_COSTO!=="undefined"){
+						return color(d.properties.VALORE_COSTO);
+					}else{
+						return "#fff";
+					}
 				}
 				else{
-					return color(d.properties.VALORE_IMPORTO);
+					
+					if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
+						return color(d.properties.VALORE_IMPORTO);
+					}else{
+						return "#fff";
+					}
 				}
     			
     		  }
@@ -238,17 +257,31 @@ function drawGraphTerritori(dimension,calculated_json){
     		var mouse = d3.mouse(d3.select("#content").node()).map( function(d) { return parseInt(d); } );
     		var labelToShow=null;
     		var valueToShow=null;
-    			if( dimension=='volume'){
+    			if( dimension=='volume' ){
     				labelToShow="VOLUME:";
-    				valueToShow=formatInteger(a.properties.VALORE_VOLUME);
+    				if (typeof a.properties.VALORE_VOLUME !== "undefined"){
+    					valueToShow=formatInteger(a.properties.VALORE_VOLUME);
+    				}else{
+    					valueToShow='0';
+    				}
 				}
 				else if(dimension=='costo'){
 					labelToShow="COSTO:";
-    				valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
+					if (typeof a.properties.VALORE_COSTO!=="undefined"){
+						valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
+					}else{
+						valueToShow='&euro;&nbsp;0,00';
+					}
+    				
 				}
 				else{
 					labelToShow="IMPORTO FINANZIATO:";
-    				valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_IMPORTO);
+					if (typeof a.properties.VALORE_IMPORTO!=="undefined"){
+						valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_IMPORTO);
+					}else{
+						valueToShow='&euro;&nbsp;0,00';
+					}
+    				
 				}
 				
     		tooltip.classed("nascosto", false)
@@ -260,13 +293,27 @@ function drawGraphTerritori(dimension,calculated_json){
     		svg.selectAll("."+a.properties.TERR)
     		.style("fill",function(d){
     			if( dimension=='volume'){
-					return color(d.properties.VALORE_VOLUME);
+    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
+    					return color(d.properties.VALORE_VOLUME);
+    				}else{
+    					return "#fff";
+    				}
+					
 				}
 				else if(dimension=='costo'){
-					return color(d.properties.VALORE_COSTO);
+					if (typeof d.properties.VALORE_COSTO!=="undefined"){
+						return color(d.properties.VALORE_COSTO);
+					}else{
+						return "#fff";
+					}
+					
 				}
 				else{
-					return color(d.properties.VALORE_IMPORTO);
+					if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
+						return color(d.properties.VALORE_IMPORTO);
+					}else{
+						return "#fff";
+					}
 				}
     		});
     		

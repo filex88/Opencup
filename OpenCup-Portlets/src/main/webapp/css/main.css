@@ -258,7 +258,7 @@
 }
 
 .dettaglio-progetto-portlet .dett-label {
-	color: #cccccc;
+	color: #777777;
 }
 
 .dettaglio-progetto-portlet .dett-value {
@@ -373,4 +373,211 @@
 .classificazione-portlet1 svg {
 	font: 10px sans-serif;
 	display: block;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes cambiacoloreto_verde {
+    from {background-color: white;}
+    to {background-color: #009600;}
+}
+
+/* Standard syntax */
+@keyframes cambiacoloreto_verde {
+    from {background-color: white;}
+    to {background-color: #009600;}
+}
+
+div.dati_sitesi_verde {
+    background-color: #009600;
+    -webkit-animation-name: cambiacoloreto_verde; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: 1; /* Chrome, Safari, Opera */
+    animation-name: cambiacoloreto_verde;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes cambiacoloreto_arancio {
+    from {background-color: white;}
+    to {background-color: #f08c00;}
+}
+
+/* Standard syntax */
+@keyframes cambiacoloreto_arancio {
+    from {background-color: white;}
+    to {background-color: #f08c00;}
+}
+
+div.dati_sitesi_arancio {
+    background-color: #f08c00;
+    -webkit-animation-name: cambiacoloreto_arancio; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: 1; /* Chrome, Safari, Opera */
+    animation-name: cambiacoloreto_arancio;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes cambiacoloreto_lilla {
+    from {background-color: white;}
+    to {background-color: #c90061;}
+}
+
+/* Standard syntax */
+@keyframes cambiacoloreto_lilla {
+    from {background-color: white;}
+    to {background-color: #c90061;}
+}
+
+div.dati_sitesi_lilla {
+    background-color: #c90061;
+    -webkit-animation-name: cambiacoloreto_lilla; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 6s; /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: 1; /* Chrome, Safari, Opera */
+    animation-name: cambiacoloreto_lilla;
+    animation-duration: 6s;
+    animation-iteration-count: 1;
+}
+
+div.dati_sitesi {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+div.celle_dati_sitesi {
+	text-align: center;
+	display: block;
+	color: white;
+	padding: 5px;
+}
+
+.font-size1em {
+    font-size: 1em;
+}
+
+.font-size2em {
+    font-size: 1.5em;
+}
+
+.font-size3em {
+    font-size: 3em;
+}
+
+
+.card {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  margin-top: 10px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  background-clip: padding-box;
+}
+
+.card .card-title {
+  position: relative;
+  overflow: hidden;
+  padding: 12px;
+  background: #F0F0F0;
+}
+
+.card .card-title span.title {
+    font-size: 18px;
+}
+
+.card .card-content {
+  padding: 16px;
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(160, 160, 160, 0.2);
+}
+
+.card .card-action {
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+    padding: 16px;
+}
+
+.link_elenco-progetti a.block { 
+    display:block;
+    border: 0px; 
+    text-decoration: none;
+    color: #737373;
+    background-color: inherit;
+    text-align: center;
+    margin-top: 5px;
+}
+/*
+.link_elenco-progetti a.block:hover, 
+.link_elenco-progetti a.block:focus { 
+    background-color:#f08c00; 
+}
+ 
+.link_elenco-progetti a.block:active { 
+    background-color:#009600; 
+}
+*/
+
+.classificazione-portlet1 .btn-carica-distribuzione { 
+    border-radius: 3px;
+}
+
+.classificazione-portlet1 .form-ricerca-padding { 
+    padding: 5px;
+}
+
+.classificazione-portlet1 .btn-carica-distribuzione .block { 
+    display:block;
+    padding:16px; 
+    border: 0px;  
+    text-decoration: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+.classificazione-portlet1 .attiva { 
+	background-color: #f08c00; 
+}
+
+.classificazione-portlet1 .non-attiva { 
+    background-color: #004383;
+}
+
+.classificazione-portlet1 .btn-carica-distribuzione a.block:hover, 
+.classificazione-portlet1 .btn-carica-distribuzione a.block:focus { 
+    background-color:#f08c00; 
+}
+ 
+.classificazione-portlet1 .btn-carica-distribuzione a.block:active { 
+    background-color:#009600; 
+}
+
+.classificazione-portlet1 .intestazione-tab,
+.classificazione-portlet1 .table-columns th,
+.elenco-progetti-portlet .intestazione-tab,
+.elenco-progetti-portlet .table-columns th { 
+	text-align: center;
+	background: #F0F0F0;
+}
+
+.larger{
+	width:340px;
+	
+}
+
+.row-no-wrap{
+	white-space: nowrap;
+}
+
+.elenco-progetti-portlet .colonne-block { 
+    padding:5px; 
+    border: 0px;  
+    text-decoration: none;
+    font-size: 1em;
+    text-align: center;
+    white-space: nowrap;
 }

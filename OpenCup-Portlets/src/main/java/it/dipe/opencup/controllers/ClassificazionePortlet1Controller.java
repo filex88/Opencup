@@ -3,7 +3,6 @@ package it.dipe.opencup.controllers;
 import it.dipe.opencup.controllers.common.FiltriCommonController;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
-import it.dipe.opencup.dto.DescrizioneValore;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
@@ -54,6 +53,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -83,6 +83,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 
 	//Array per la personalizzazione della voce di navigazione
 	private final String[] navigaPer = {"Area Intervento", "Sottosettore", "Categoria Intervento"};
+	private final String[] artNavigaPer = {"l'", "il", "la"};
 	
 	@ModelAttribute("navigaAggregata")
 	public NavigaAggregata navigaAggregata() {
@@ -138,9 +139,9 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
 			
 			String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
-
+			
 			try {
-				aResponse.sendRedirect( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata );
+				aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata ) );
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -188,6 +189,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		}
 		return handleRenderRequest(renderRequest, renderResponse, model, navigaAggregata);
 	}
+	
 	@RenderMapping(params="render=action")
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
@@ -209,7 +211,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		//orderByType is passed in the request while sorting. It can be either asc or desc
 		String orderByType = ParamUtil.getString(renderRequest, "orderByType");
 		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
-		    orderByType = "asc";
+		    orderByType = "desc";
 		}
 		
 		//delta
@@ -240,13 +242,9 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		
 		model.addAttribute("searchContainerDettaglio", searchContainerDettaglio);
 		model.addAttribute("navigaPer", navigaPer[index]);
+		model.addAttribute("artNavigaPer", artNavigaPer[index]);
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
-		
-		SearchContainer<DescrizioneValore> searchContainerRiepilogo = new SearchContainer<DescrizioneValore>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-		searchContainerRiepilogo.setDelta(maxResult);
-		searchContainerRiepilogo.setTotal(3);
-		
 		Integer numeProgetti = 0;
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
@@ -257,20 +255,30 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
 		
+		/*
+		SearchContainer<DescrizioneValore> searchContainerRiepilogo = new SearchContainer<DescrizioneValore>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+		searchContainerRiepilogo.setDelta(maxResult);
+		searchContainerRiepilogo.setTotal(3);
+		
 		List<DescrizioneValore> retval = new ArrayList<DescrizioneValore>();
 		retval.add(new DescrizioneValore("VOLUME DEI PROGETTI", numeProgetti));
 		retval.add(new DescrizioneValore("COSTO DEI PROGETTI", impoCostoProgetti));
 		retval.add(new DescrizioneValore("IMPORTO FINANZIAMENTI", impoImportoFinanziato));
 		
 		searchContainerRiepilogo.setResults(retval);
-		model.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
+		model.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);	
+		*/
+		
+		model.addAttribute("volumeDeiProgetti", numeProgetti);
+		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
+		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Calcolo l'url per elenco progetti
 		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, navigaAggregata.getPagElencoProgetti());
 		String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
-		model.addAttribute("linkURLElencoProgetti", renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata );
+		model.addAttribute("linkURLElencoProgetti", HttpUtil.encodeParameters( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata ) );
 		
 		impostaDesFiltriImpostati(navigaAggregata);
 		
