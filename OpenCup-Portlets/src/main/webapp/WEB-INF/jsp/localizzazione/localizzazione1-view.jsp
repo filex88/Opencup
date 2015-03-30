@@ -91,7 +91,7 @@
 											<aui:option value="-1" label="ricerca.tutte" selected="${navigaAggregata.idCategoriaSoggetto == -1}"/>
 											<c:forEach items="${listCategoriaSoggetto}" var="categoriasoggetto" >
 									            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${navigaAggregata.idCategoriaSoggetto == categoriasoggetto.id}"/>
-									        </c:forEach>
+									        </c:forEach>(currentY*2)+30)
 										</aui:select>
 										<i class="icon-remove-circle pulisciElementoCategoriaSoggetto" style="cursor: pointer;"></i>
 									</div>
@@ -234,63 +234,65 @@
 </div>
 
 	
-<div id="detailItaly" >
-  	<ul > 
-		<li id="areeLabel">
-			<input type="button" value="AREE" class="active">
-		</li>
-		<li id="regioniLabel">
-			<input type="button" value="REGIONI">
-		</li>
-	</ul>
-</div>
 
-<div class="clear"></div>
 
 
 
 <div class="summaryContainer">
-	<div style="text-align: justify;">
+<div class="card">
+	<div class="card-title">
+	       <span class="title">Naviga per localizzazione</span>
+</div>
+
+	<div style="text-align: justify;" class="card-content">
 	La sintesi per Localizzazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati aggregati navigando nelle ulteriori classificazioni:
 	Regione > Provincia
 	</div>
-	<div style="text-align: right; padding-top: 15px">
-	<a href="${linkElencoProgetti}">
-		Vedi Elenco Progetti <i class="icon-list"></i>
-	</a>
 </div>
-	<liferay-ui:search-container searchContainer="${searchContainerSummary}" delta="${searchContainerSummary.delta}" deltaParam="aggregata_delta">
 	
-	<liferay-ui:search-container-results results="${searchContainerSummary.results}" total="${searchContainerSummary.total}"/>    
-	
-	<liferay-ui:search-container-row className="it.dipe.opencup.dto.DescrizioneValore" modelVar="descrizioneValore">
-		
-		<liferay-ui:search-container-column-text name="SINTESI PROGETTI">
-			${descrizioneValore.label}
-		</liferay-ui:search-container-column-text>
-		
-		<liferay-ui:search-container-column-text>
-			<c:choose>
-				<c:when test="${'VOLUME DEI PROGETTI' eq descrizioneValore.label}">
-					<span class="pull-right"><fmt:formatNumber value="${descrizioneValore.value}" type="number" minIntegerDigits="1"/></span>
-				</c:when>
-				<c:otherwise>
-					<span class="pull-right"><fmt:formatNumber value="${descrizioneValore.value}" type="currency" minIntegerDigits="1" minFractionDigits="2"/></span>
-				</c:otherwise>
-			</c:choose>
-		</liferay-ui:search-container-column-text>
-		
-	</liferay-ui:search-container-row>
-	
-	<liferay-ui:search-iterator searchContainer="${searchContainerSummary}"/>
-	
-</liferay-ui:search-container>
+	<div class="card">
+				<div class="card-title">
+	            	<span class="title">Dati di sintesi</span>
+	        	</div>
+	        	<div class="card-content">
+					<div>
+						<fmt:setLocale value="it_IT"/>
+						<div class="span4 dati_sitesi dati_sitesi_verde">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Volume</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_arancio">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Costo</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_lilla">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="link_elenco-progetti span4">
+				<aui:a href="${linkElencoProgetti}" cssClass="block">
+					Vedi Elenco Progetti <i class="icon-list"></i>
+				</aui:a>
+			</div>
 
 </div>
 
-<div  class="mapContainer">
+<div class="mapContainer ">
+<div class="card">
+<div class="card-title">
+	       <span class="title">Distribuzione</span>
+	       <span class="right"> <a href="${linkallregioni}" >NAVIGA PER REGIONI</a></span>
+</div>
 <div id="italybymacroareas"></div>
-<div id="dimensions">
+<div id="dimensions" class="card-action">
 	<ul>
 		<li id="volumeLabel">
 			<input type="button" value="VOLUME"></input>
@@ -303,25 +305,28 @@
 		</li>
 	</ul>
 </div>
-
+</div>
 </div>
 
 <div class="clear"></div>
 
-<div class="detailContainer">
+<div class="detailContainer" id="tabRisultati">
 
+<div class="card">
+<div class="card-title"> <span class="title">Dettaglio distribuzione</span></div>
+<div class="card-content">
 <div style="text-align: justify;">
 	Continua la navigazione selezionando <strong>l'area geografica</strong> dei progetti
 </div>
 
-<liferay-ui:search-container searchContainer="${searchContainerDistinct}" delta="${searchContainerDistinct.delta}" orderByType="${searchContainerDistinct.orderByType}" deltaParam="delta">
+<liferay-ui:search-container searchContainer="${searchContainerDistinct}" delta="${searchContainerDistinct.delta}" orderByType="${searchContainerDistinct.orderByType}" deltaParam="delta" >
 
 	<liferay-ui:search-container-results results="${searchContainerDistinct.results}" total="${searchContainerDistinct.total}"/>    
 
-    <liferay-ui:search-container-row className="it.dipe.opencup.dto.LocalizationValueConverter" keyProperty="localizationLabel" modelVar="localizzazioneValue">
+    <liferay-ui:search-container-row className="it.dipe.opencup.dto.LocalizationValueConverter" keyProperty="localizationLabel" modelVar="localizzazioneValue" >
 			
 		<liferay-ui:search-container-column-text name="AREA GEOGRAFICA">
-			<a href="${localizzazioneValue.detailUrl}"  class="link-url-naviga-selezione">${localizzazioneValue.fullLabel}</a>
+			<a id="${localizzazioneValue.localizationLabel}" href="${localizzazioneValue.detailUrl}"  class="link-url-naviga-selezione ">${localizzazioneValue.fullLabel}</a>
 		</liferay-ui:search-container-column-text>
 		
 		<liferay-ui:search-container-column-text name="VOLUME PROGETTI" orderableProperty="volumeValue" orderable="true">
@@ -341,14 +346,15 @@
 	<liferay-ui:search-iterator searchContainer="${searchContainerDistinct}"/>
 
 </liferay-ui:search-container>
-
-
+</div>
+</div>
 
 </div>
 
 <script>
 	var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
-	var linkAllRegioni="${linkallregioni}"
+	
+	
 	
 	var namespaceRicerca4js = "<portlet:namespace/>";
 	
@@ -583,8 +589,6 @@
 				      });
 			
 	});
-	
-
 	
 	
 </script>
