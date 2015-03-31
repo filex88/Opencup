@@ -16,11 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
 
 @Controller
@@ -33,7 +36,8 @@ public class DettaglioProgettoController {
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
-										Model model){
+										Model model,
+										@RequestParam("redirect") String returnUrl){
 		
 //		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
 //		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
@@ -116,6 +120,10 @@ public class DettaglioProgettoController {
 			}
 			model.addAttribute("maxDataModifica", maxDataModifica);
 			
+		}
+		
+		if (!Validator.isBlank(returnUrl)) {
+			model.addAttribute("returnUrl", returnUrl);
 		}
 
 		return "dettaglio-progetto-view";

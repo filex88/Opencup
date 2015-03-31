@@ -16,11 +16,18 @@
 	<fmt:formatDate value="${dettProgetto.anagraficaCup.dataGenerazione}" var="dataGenerazione" pattern="dd/MM/yyyy" />
 	<div>
 		<div class="span8">
-			<div>
-				<p>
+			<ul class="inline">
+				<li>
+					<c:if test="${not empty returnUrl}">
+					<span class="header-back-to">
+						<a class="icon-circle-arrow-left previous-level" href="${returnUrl}" title="Back"> <span class="helper-hidden-accessible"> Back </span> </a>
+					</span>
+					</c:if>
+				</li>
+				<li>
 					<span class="dett-titolo">${ dettProgetto.anagraficaCup.descCup }</span>
-				</p>
-			</div>
+				</li>
+			</ul>
 			<div>
 				<p>
 					<span class="dett-label">CUP:</span>
