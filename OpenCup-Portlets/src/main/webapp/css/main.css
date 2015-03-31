@@ -632,3 +632,61 @@ div.celle_dati_sitesi{
     transform: rotate(360deg);
   }
 }
+
+.home-page-portlet .desc-riepilogo { 
+	text-align:justify;
+	padding-bottom: 15px;
+}	
+
+.home-page-portlet .valori-riepilogo,
+.home-page-portlet .destra { 
+	text-align: right;
+}
+
+
+.home-page-portlet .link a.block { 
+    display:block;
+    border: 0px; 
+    text-decoration: none;
+    color: #737373;
+    background-color: inherit;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.home-page-portlet .row-carica { 
+	padding: 3px;
+}
+
+.home-page-portlet .btn-carica { 
+    border-radius: 3px;
+}
+
+.home-page-portlet .btn-carica .block { 
+    display:block;
+    padding:16px; 
+    border: 0px;  
+    text-decoration: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+.home-page-portlet .btn-carica a.block:hover, 
+.home-page-portlet .btn-carica a.block:focus { 
+    background-color:#f08c00; 
+}
+ 
+.home-page-portlet .btn-carica a.block:active { 
+    background-color:#009600; 
+}
+
+.home-page-portlet .attiva { 
+	background-color: #f08c00; 
+}
+
+.home-page-portlet .non-attiva { 
+    background-color: #004383;
+}
+

@@ -39,11 +39,15 @@ public class DettaglioProgettoController {
 //		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
 		
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
-		String jsonnavigaaggregata=httpServletRequest.getParameter("jsonnavigaprogetti")!=null?httpServletRequest.getParameter("jsonnavigaprogetti").toString():"";
-		NavigaProgetti sessionNavigaProgetti = createModelFromJsonString(jsonnavigaaggregata);
 		
-		if( sessionNavigaProgetti != null && (! sessionNavigaProgetti.getIdProgetto().isEmpty()) ){
-			Progetto progetto = progettoFacade.findProgettoById( Integer.valueOf( sessionNavigaProgetti.getIdProgetto() ) );
+		//String jsonnavigaaggregata=httpServletRequest.getParameter("jsonnavigaprogetti")!=null?httpServletRequest.getParameter("jsonnavigaprogetti").toString():"";
+		//NavigaProgetti sessionNavigaProgetti = createModelFromJsonString(jsonnavigaaggregata);
+		//if( sessionNavigaProgetti != null && (! sessionNavigaProgetti.getIdProgetto().isEmpty()) ){
+		
+		String idPj=httpServletRequest.getParameter("idPj")!=null?httpServletRequest.getParameter("idPj").toString():"";
+
+		if( idPj != null && (! idPj.isEmpty()) ){
+			Progetto progetto = progettoFacade.findProgettoById( Integer.valueOf( idPj ) );
 			model.addAttribute("dettProgetto", progetto);
 			
 			double impFinanziato = progetto.getImpoImportoFinanziato().doubleValue();
@@ -117,20 +121,20 @@ public class DettaglioProgettoController {
 		return "dettaglio-progetto-view";
 	}
 
-	private NavigaProgetti createModelFromJsonString(String jsonString) {
-		ObjectMapper mapper= new ObjectMapper();
-		NavigaProgetti model=null;
-		try {
-			model = mapper.readValue(jsonString, NavigaProgetti.class);
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
+//	private NavigaProgetti createModelFromJsonString(String jsonString) {
+//		ObjectMapper mapper= new ObjectMapper();
+//		NavigaProgetti model=null;
+//		try {
+//			model = mapper.readValue(jsonString, NavigaProgetti.class);
+//		} catch (JsonGenerationException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return model;
+//	}
 	
 //	@EventMapping(value = "event.dettaglioProgetto")
 //    public void processName(EventRequest eventRequest, EventResponse eventResponse) {

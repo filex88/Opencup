@@ -224,10 +224,11 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaProgetti.getPagDettaglioProgetto());
 		
-		String jsonnavigaprogetti = createJsonStringFromModelAttribute( navigaProgetti );
+		//String jsonnavigaprogetti = createJsonStringFromModelAttribute( navigaProgetti );
 		
 		try {
-			aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString()  + "&jsonnavigaprogetti="+jsonnavigaprogetti ) );
+			//aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString()  + "&jsonnavigaprogetti="+jsonnavigaprogetti ) );
+			aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString()  + "&idPj="+navigaProgetti.getIdProgetto() ) );
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
