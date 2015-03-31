@@ -18,8 +18,8 @@ d3.selectAll(".divider").each(
 				d3.select(c).select("span").remove();
 		});
 
-d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
-d3.selectAll("li.active.last.breadcrumb-truncate").remove();
+//d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+d3.selectAll("li.active.last").selectAll("i").remove();
 
 //var svg = null;
 AUI().use(
