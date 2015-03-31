@@ -1,0 +1,9 @@
+.aui .navbar{
+	width: 100%;
+	float:left;
+	margin-left: -8em;
+}
+.aui .navbar-inner {
+	width: 100%;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
