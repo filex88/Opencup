@@ -3,7 +3,7 @@
 var fatherUl=d3.selectAll("li.first").node().parentNode;
 
 d3.select(fatherUl).insert("li",":first-child")
-	.attr("style","padding: 0 5px;")
+	.attr("style","padding: 0 5px;color:#fcfcfc")
 	.text("Sei in: ");
 
 d3.selectAll(".divider").each(
@@ -13,7 +13,7 @@ d3.selectAll(".divider").each(
 				.style("font-weight","bold")
 				.append("i")
 				.attr("class","icon-caret-right")
-				.attr("style","padding: 0 5px;");
+				.attr("style","padding: 0 5px;color:#fcfcfc");
 		
 				d3.select(c).select("span").remove();
 		});
