@@ -1,5 +1,13 @@
 package it.dipe.opencup.controllers;
 
+import it.dipe.opencup.controllers.common.LocalizzazionePortletCommonController;
+import it.dipe.opencup.dto.LocalizationValueConverter;
+import it.dipe.opencup.dto.NavigaAggregata;
+import it.dipe.opencup.facade.AggregataFacade;
+import it.dipe.opencup.model.Aggregata;
+import it.dipe.opencup.model.Natura;
+import it.dipe.opencup.util.CommonLocalizationValueComparator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,15 +33,6 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalUtil;
-
-import it.dipe.opencup.controllers.common.LocalizzazionePortletCommonController;
-import it.dipe.opencup.dto.DescrizioneValore;
-import it.dipe.opencup.dto.LocalizationValueConverter;
-import it.dipe.opencup.dto.NavigaAggregata;
-import it.dipe.opencup.facade.AggregataFacade;
-import it.dipe.opencup.model.Aggregata;
-import it.dipe.opencup.model.Natura;
-import it.dipe.opencup.util.CommonLocalizationValueComparator;
 
 @Controller
 @RequestMapping("VIEW")
@@ -102,6 +101,7 @@ public class LocalizzazionePortlet4Controller extends LocalizzazionePortletCommo
 			}
 			valoreByRegione.setDetailUrl(HttpUtil.encodeParameters(detailUrl));
 			valoreByRegione.setFullLabel(nomeRegione.replace("'", "$"));
+			valoreByRegione.setLinkMatch(aggregata.getLocalizzazione().getAreaGeografica().getCodiAreaGeografica()+"_"+codiceRegione);
 			valori.add(valoreByRegione);
 		}
 		model.addAttribute("statoSelected",filtro.getDescStato());
@@ -152,16 +152,11 @@ public class LocalizzazionePortlet4Controller extends LocalizzazionePortletCommo
 		Collections.sort(valori,new CommonLocalizationValueComparator(orderByCol, orderByType));
 		model.addAttribute("searchContainerDistinct", searchContainerDistinct);
 		
-		// search container per totali
-		SearchContainer<DescrizioneValore> searchContainerSummary = new SearchContainer<DescrizioneValore>(request, response.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-		searchContainerSummary.setDelta(maxResult);
-		searchContainerSummary.setTotal(3);
-		List<DescrizioneValore> retval = new ArrayList<DescrizioneValore>();
-		retval.add(new DescrizioneValore("VOLUME DEI PROGETTI", numeProgetti));
-		retval.add(new DescrizioneValore("COSTO DEI PROGETTI", impoCostoProgetti));
-		retval.add(new DescrizioneValore("IMPORTO FINANZIAMENTI", impoImportoFinanziato));
-		searchContainerSummary.setResults(retval);
-		model.addAttribute("searchContainerSummary", searchContainerSummary);
+	
+		// valori totali
+		model.addAttribute("volumeDeiProgetti", numeProgetti);
+		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
+		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
 
 		return "localizzazione4-view";

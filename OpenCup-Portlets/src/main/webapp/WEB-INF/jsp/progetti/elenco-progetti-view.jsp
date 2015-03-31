@@ -72,17 +72,17 @@
 					<div class="span4 dati_sitesi dati_sitesi_verde">
 						<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
 						<div class="celle_dati_sitesi font-size1em">Volume</div>
-						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></div>
+						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" maxFractionDigits="0" minIntegerDigits="0"/></div>
 					</div>
 					<div class="span4 dati_sitesi dati_sitesi_arancio">
 						<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
 						<div class="celle_dati_sitesi font-size1em">Costo</div>
-						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" maxFractionDigits="0" minFractionDigits="0"/></div>
 					</div>
 					<div class="span4 dati_sitesi dati_sitesi_lilla">
 						<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
 						<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" maxFractionDigits="0" minFractionDigits="0"/></div>
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -111,11 +111,11 @@
 						<liferay-ui:search-container-column-jsp path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
 						
 						<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
-							<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" minFractionDigits="2"/></span>
+							<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
 						</liferay-ui:search-container-column-text>
 						
 						<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
-							<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  minFractionDigits="2"/></span>
+							<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
 						</liferay-ui:search-container-column-text>
 				
 					</liferay-ui:search-container-row>
@@ -412,6 +412,33 @@
 	
 	var namespaceRicerca = "<portlet:namespace/>";
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
+	
+	// clear breadcrumb
+	
+	var fatherUl=d3.selectAll("li.first").node().parentNode;
+
+	d3.select(fatherUl).insert("li",":first-child")
+	.attr("style","padding: 0 5px;color:#fcfcfc")
+	.text("Sei in: ");
+
+	d3.selectAll(".divider").each(
+			function(){
+			var c=d3.select(this).node().parentNode;
+			d3.select(c)
+				.style("font-weight","bold")
+				.append("i")
+				.attr("class","icon-caret-right")
+				.attr("style","padding: 0 5px;color:#fcfcfc");
+		
+				d3.select(c).select("span").remove();
+		});
+//
+
+
+//d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+d3.selectAll("li.active.last.breadcrumb-truncate").selectAll("i").remove();
+	
+	
 </script>
 
 

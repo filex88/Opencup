@@ -5,7 +5,7 @@ d3.selectAll(".taglib-search-iterator-page-iterator-bottom").remove();
 	// clear breadcrumb
 var fatherUl=d3.selectAll("li.first").node().parentNode;
 	d3.select(fatherUl).insert("li",":first-child")
-	.attr("style","padding: 0 5px;")
+	.attr("style","padding: 0 5px;color:#fcfcfc")
 	.text("Sei in: ");
 		
 	d3.selectAll(".divider").each(function(){
@@ -14,7 +14,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 			.style("font-weight","bold")
 			.append("i")
 			.attr("class","icon-caret-right")
-			.attr("style","padding: 0 5px;");
+			.attr("style","padding: 0 5px;color:#fcfcfc");
 			d3.select(c).select("span").remove();
 		});
 	d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
@@ -22,10 +22,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 
 var selectedDimension='volume';
 d3.select("#volumeLabel").select("input").classed("active",true);
-d3.select("#volumeLabel")
-	.insert("i",":first-child")
-	.attr("class","icon-caret-up")
-	.append("br");
+
 
 var baseColor1="rgb(209,226,242)";
 var baseColor2="rgb(114,178,215)";
@@ -39,12 +36,6 @@ d3.select("#volumeLabel")
 		selectedDimension='volume';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
-		d3.select("#regioniLabel").select("input").classed("active",true);
-		d3.selectAll(".icon-caret-up").remove();
-		d3.select("#volumeLabel")
-		.insert("i",":first-child")
-		.attr("class","icon-caret-up")
-		.append("br");
 		drawAllRegions(selectedDimension,jsonResultLocalizzazione);
 	});
 	
@@ -55,12 +46,6 @@ d3.select("#costoLabel")
 		selectedDimension='costo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
-		d3.select("#regioniLabel").select("input").classed("active",true);
-		d3.selectAll(".icon-caret-up").remove();
-		d3.select("#costoLabel")
-		.insert("i",":first-child")
-		.attr("class","icon-caret-up")
-		.append("br");
 		drawAllRegions(selectedDimension,jsonResultLocalizzazione);
 	});
 					
@@ -71,24 +56,9 @@ d3.select("#importoLabel")
 		selectedDimension='importo';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
-		d3.select("#regioniLabel").select("input").classed("active",true);
-		d3.selectAll(".icon-caret-up").remove();
-		d3.select("#importoLabel")
-		.insert("i",":first-child")
-		.attr("class","icon-caret-up")
-		.append("br");
 		drawAllRegions(selectedDimension,jsonResultLocalizzazione);
 	});
      
-d3.select("#areeLabel").select("input")
-.on("click",function(d){
-	window.location =linkAreeGeo;
-});
-
-d3.select("#regioniLabel").select("input")
-.on("click",function(d){
-	window.location ="#italybymacroareas";
-});
 
 
 function drawAllRegions(dimension,calculated_json){
@@ -298,11 +268,108 @@ function drawAllRegions(dimension,calculated_json){
      	territorio.style("stroke-width",border);
      	
      	var currentY=territorio[0][0].getBBox().y;
-    	var ytransl=-currentY;
+    	var ytransl=-currentY+10;
      	
     	territorio.attr("transform","translate(0,"+ytransl+")");
     	
-    	d3.selectAll("#dimensions").attr("style","margin-top:"+(ytransl*2)+"px");
+    	var skewDown=(ytransl*2)+10+16;
+    	
+    	d3.selectAll("#dimensions").attr("style","margin-top:"+skewDown+"px");
+    	
+    	d3.selectAll("#tabRisultati").selectAll("td.table-cell.first").selectAll("a")
+		.on("mouseover",function(a){
+			
+			var valoreClasse=d3.select(this).attr("class").replace("link-url-naviga-selezione","").trim();
+			var regione=d3.selectAll("#"+valoreClasse)
+				.style("fill","#F08C00");
+					
+			var labelToShow=null;
+			var valueToShow=null;
+			
+			var xPosition=null;
+			var yPosition=null;
+			
+			var nomeRegione=null;
+			regione.each(function (d){
+				// cicla, ma prende solo label e value dell'ultima
+				var element=d3.select(this);
+				
+				xPosition=element[0][0].getBBox().x;
+				wPosition=element[0][0].getBBox().width;
+				yPosition=element[0][0].getBBox().y;
+				hPosition=element[0][0].getBBox().height;
+				nomeRegione=d.properties.REGIONE;
+				if( dimension=='volume' ){
+					labelToShow="VOLUME:";
+					if (typeof d.properties.VALORE_VOLUME !== "undefined"){
+						valueToShow=formatInteger(d.properties.VALORE_VOLUME);
+					}else{
+						valueToShow='0';
+					}
+				}
+				else if(dimension=='costo'){
+					labelToShow="COSTO:";
+					if (typeof d.properties.VALORE_COSTO!=="undefined"){
+						valueToShow='&euro;&nbsp;'+formatEuro(d.properties.VALORE_COSTO);
+					}else{
+						valueToShow='&euro;&nbsp;0,00';
+					}
+					
+				}
+				else{
+					labelToShow="IMPORTO FINANZIATO:";
+					if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
+						valueToShow='&euro;&nbsp;'+formatEuro(d.properties.VALORE_IMPORTO);
+					}else{
+						valueToShow='&euro;&nbsp;0,00';
+					}
+					
+				}
+				
+				
+			});
+			
+			
+			 tooltip.classed("nascosto", false)
+        	.attr("style", "left:"+(xPosition+(wPosition/2) +width)+"px;top:"+(yPosition+(hPosition/2) -30)+"px")
+         	.html('<p><strong>REGIONE: </strong>'+nomeRegione+'</p>'
+         	 + '<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
+			
+			
+			})
+			.on("mouseout",function(a){
+				var valoreClasse=d3.select(this).attr("class").replace("link-url-naviga-selezione","").trim();
+				d3.selectAll("#"+valoreClasse)
+				.style("fill",function(d){
+	    			if( dimension=='volume'){
+	    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
+	    					return color(d.properties.VALORE_VOLUME);
+	    				}else{
+	    					return "#fff";
+	    				}
+						
+					}
+					else if(dimension=='costo'){
+						if (typeof d.properties.VALORE_COSTO!=="undefined"){
+							return color(d.properties.VALORE_COSTO);
+						}else{
+							return "#fff";
+						}
+						
+					}
+					else{
+						if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
+							return color(d.properties.VALORE_IMPORTO);
+						}else{
+							return "#fff";
+						}
+					}
+	    		});
+				tooltip.classed("nascosto", true)
+				
+			});
+    	
+    	
      	
 	});
 }

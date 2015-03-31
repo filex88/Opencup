@@ -1,7 +1,7 @@
 <nav class="$nav_css_class navbar site-navigation" id="navigation" role="navigation">
 	<div class="navbar-inner">
 		<div class="collapse nav-collapse">
-			<ul aria-label="#language ("site-pages")" class="nav nav-collapse w50" role="menubar">
+			<ul aria-label="#language ("site-pages")" class="nav nav-collapse w65" role="menubar">
 				#foreach ($nav_item in $nav_items)
 						#set ($nav_item_attr_selected="")
 						#set ($nav_item_attr_has_popup="")
@@ -53,7 +53,7 @@
 					</li>
 				#end
 			</ul>
-			<ul id="searchBar" class="w45 right">
+			<ul id="searchBar" class="w30 right">
 				<li>
 					#set ($VOID = $velocityPortletPreferences.setValue('display-style', '1'))
 					#set ($VOID = $velocityPortletPreferences.setValue('portlet-setup-show-borders', 'false'))

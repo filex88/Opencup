@@ -272,7 +272,7 @@ $theme.include($body_top_include)
 	</div>
 
 	<footer id="footer" role="contentinfo">
-		<div class="h90">
+		<div class="h90 pad">
 			<ul id="main-footer-list">
 			#foreach ($footerLinkColumn in $footerLinkColumns) ##sorrimento array delle nested list del footer
 				#set ($recordsfooterLinkColumn = $ddlRecordService.getRecords($footerLinkColumn))

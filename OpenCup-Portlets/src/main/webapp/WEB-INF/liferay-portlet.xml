@@ -3,6 +3,14 @@
 <liferay-portlet-app>
 	
 	<portlet>
+		<portlet-name>home-page-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/home-page-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>home-page-portlet</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
 		<portlet-name>classificazione-portlet1</portlet-name>
 		<icon>/icon.png</icon>
 		<header-portlet-css>/css/main.css</header-portlet-css>
