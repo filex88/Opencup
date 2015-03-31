@@ -202,4 +202,7 @@
 	++++++++++++++++++++++++++++++++++++++++++++++	
 	 --> 	
 	 
+	 
+	<bean class="it.dipe.opencup.utils.SpringContextUtil" /> 
+	 
 </beans>

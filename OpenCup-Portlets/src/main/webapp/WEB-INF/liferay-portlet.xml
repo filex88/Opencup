@@ -102,11 +102,23 @@
 	<portlet>
 		<portlet-name>ricercalibera-portlet</portlet-name>
 		<icon>/icon.png</icon>
-		<instanceable>true</instanceable>
+		<indexer-class>it.dipe.opencup.utils.ProgettoIndexer</indexer-class>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/ricercalibera-portlet.js</footer-portlet-javascript>
 		<css-class-wrapper>ricercalibera-portlet</css-class-wrapper>
+		<add-default-resource>true</add-default-resource>
+		
 	</portlet>
+	
+	<portlet>
+		<portlet-name>ricercarisultati-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/ricercarisultati-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>ricercarisultati-portlet</css-class-wrapper>
+		<add-default-resource>true</add-default-resource>
+	</portlet>
+	
 	
 	<role-mapper>
 		<role-name>administrator</role-name>

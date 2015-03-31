@@ -50,37 +50,37 @@
   </build>
   <dependencies>
   
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-impl</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-bridges</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-taglib</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-java</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>  
+	<dependency>
+		<groupId>com.liferay.portal</groupId>
+		<artifactId>portal-service</artifactId>
+		<version>${liferay.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.liferay.portal</groupId>
+		<artifactId>portal-impl</artifactId>
+		<version>${liferay.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.liferay.portal</groupId>
+		<artifactId>util-bridges</artifactId>
+		<version>${liferay.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.liferay.portal</groupId>
+		<artifactId>util-taglib</artifactId>
+		<version>${liferay.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.liferay.portal</groupId>
+		<artifactId>util-java</artifactId>
+		<version>${liferay.version}</version>
+		<scope>provided</scope>
+	</dependency>  
   
   	<dependency>
   		<type>jar</type> 
@@ -199,7 +199,6 @@
         <version>2.4.5</version>
     </dependency>
     
-	
   </dependencies>
   
 </project>
