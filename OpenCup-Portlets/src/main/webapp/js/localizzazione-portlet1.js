@@ -296,11 +296,11 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	 	
 		var ytransl=-currentY+10;
 	 	
-		
 		territorio.attr("transform","translate(0,"+ytransl+")");
-	 	 
-		d3.selectAll("#dimensions").attr("style","margin-top:"+(ytransl*2)+10+"px");
 		
+		var skewDown=(ytransl*2)+10+16;
+		 
+		d3.selectAll("#dimensions").attr("style","margin-top:"+skewDown+"px");
 		
 		
 		d3.selectAll("#tabRisultati").selectAll("td.table-cell.first").selectAll("a")

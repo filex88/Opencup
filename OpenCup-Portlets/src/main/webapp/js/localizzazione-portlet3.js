@@ -321,7 +321,9 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	  		var newBorder=border/maxScale;
 			selection.style("stroke-width",newBorder);
 			
-			d3.selectAll("#dimensions").attr("style","margin-top:"+(-ySecondTranslation*2)+15+"px");
+			var skewDown=(-ySecondTranslation*2)+10+16;
+			
+			d3.selectAll("#dimensions").attr("style","margin-top:"+skewDown+"px");
 			
 			
 			d3.selectAll("#tabRisultati").selectAll("td.table-cell.first").selectAll("a")
