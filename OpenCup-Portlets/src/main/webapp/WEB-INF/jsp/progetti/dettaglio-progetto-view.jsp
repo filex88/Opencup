@@ -168,12 +168,12 @@
 						<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2" maxFractionDigits="2" minFractionDigits="2"/></div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
 						</div>
 						<div class="span4 dati_sitesi dati_sitesi_lilla">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2" maxFractionDigits="2" minFractionDigits="2"/></div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
 						</div>
 						<div class="clear"></div>
 					</div>
@@ -292,7 +292,7 @@
 	var fatherUl=d3.selectAll("li.first").node().parentNode;
 
 	d3.select(fatherUl).insert("li",":first-child")
-		.attr("style","padding: 0 5px;")
+		.attr("style","padding: 0 5px;color:#fcfcfc")
 		.text("Sei in: ");
 
 	d3.selectAll(".divider").each(
@@ -302,7 +302,7 @@
 					.style("font-weight","bold")
 					.append("i")
 					.attr("class","icon-caret-right")
-					.attr("style","padding: 0 5px;");
+					.attr("style","padding: 0 5px;color:#fcfcfc");
 			
 					d3.select(c).select("span").remove();
 			});
