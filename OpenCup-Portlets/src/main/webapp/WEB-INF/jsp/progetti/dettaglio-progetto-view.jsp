@@ -307,8 +307,8 @@
 					d3.select(c).select("span").remove();
 			});
 
-	d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
-	d3.selectAll("li.active.last.breadcrumb-truncate").remove();
+	//d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
+	d3.selectAll("li.active.last.breadcrumb-truncate").selectAll("i").remove();
 	      
 	
 	/*
