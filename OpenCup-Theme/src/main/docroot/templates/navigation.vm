@@ -1,7 +1,7 @@
-<nav class="$nav_css_class navbar site-navigation" id="navigation" role="navigation">
+<nav class="$nav_css_class navbar site-navigation" id="navCont" role="navigation">
 	<div class="navbar-inner">
 		<div class="collapse nav-collapse">
-			<ul aria-label="#language ("site-pages")" class="nav nav-collapse w65" role="menubar">
+			<ul aria-label="#language ("site-pages")" class="nav nav-collapse w100" role="menubar" >
 				#foreach ($nav_item in $nav_items)
 						#set ($nav_item_attr_selected="")
 						#set ($nav_item_attr_has_popup="")
@@ -22,13 +22,23 @@
 						#set ($nav_item_link_css_class="dropdown-toggle")
 					#end
 					
+					#set ($cur_color=$nav_item.getLayout().getExpandoBridge().getAttribute("colore_link"))
+					#set ($lastSpaceIndex=$nav_item.getName().lastIndexOf(' '))
+					#set ($linkFirst=$nav_item.getName().substring(0,$lastSpaceIndex))
+					#set ($linkLast=$nav_item.getName().substring($lastSpaceIndex))
 					
-					<li class="$nav_item_css_class" id="layout_$nav_item.getLayoutId()" $nav_item_attr_selected role="presentation">
-						<a aria-labelledby="layout_$nav_item.getLayoutId()" $nav_item_attr_has_popup class="$nav_item_link_css_class" href="$nav_item.getURL()" $nav_item.getTarget() role="menuitem" title="$nav_item.getName()">
+					<li class="$nav_item_css_class" id="layout_$nav_item.getLayoutId()" $nav_item_attr_selected role="presentation" >
+						<a aria-labelledby="layout_$nav_item.getLayoutId()" $nav_item_attr_has_popup class="$nav_item_link_css_class" href="$nav_item.getURL()" $nav_item.getTarget() role="menuitem" title="$nav_item.getName()" style="border-top: 1em solid $cur_color">
+								
 								<span>
-									<i class="$nav_item.getLayout().getExpandoBridge().getAttribute("icona_navigazione") icon-2x "></i>
+									<i class="$nav_item.getLayout().getExpandoBridge().getAttribute("icona_navigazione") icon-2x right" style="border:0.25em solid  $cur_color;color:$cur_color"></i>
 									<p>
-									$nav_item.icon() $nav_item.getName() $nav_item_caret 
+									$nav_item.icon() $linkFirst $nav_item_caret 
+									</p>
+									<p>
+										<strong>
+											$linkLast
+										</strong>
 									</p>
 								</span>
 						</a>
@@ -53,6 +63,7 @@
 					</li>
 				#end
 			</ul>
+			<!--
 			<ul id="searchBar" class="w30 right">
 				<li>
 					#set ($VOID = $velocityPortletPreferences.setValue('display-style', '1'))
@@ -64,6 +75,7 @@
 					#set ($VOID = $velocityPortletPreferences.reset())
 				</li>
 			</ul>
+			-->
 		</div>
 	</div>
 </nav>
