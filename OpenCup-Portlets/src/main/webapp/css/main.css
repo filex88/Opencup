@@ -690,3 +690,26 @@ div.celle_dati_sitesi{
     background-color: #004383;
 }
 
+div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;margin-top: -1em;}
+
+div#sponsor-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
+
+div#sponsor-list ul{padding-top: 1em;padding-bottom: 1em;}
+
+div#sponsor-list ul li {display: inline-block;list-style: none;width:18%;}
+
+div#sponsor-list ul li a{color: #1f4e78;padding-left:0.5em;vertical-align: 0.7em;}
+
+div#sponsor-list ul li i{color: #949494;}
+
+div#news-list{padding-top:1em;background: #fff;}
+
+div#news-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
+
+div#news-list ul{padding-top: 1em;padding-bottom: 1em;}
+
+div#news-list ul li {display: inline-block;list-style: none;width:25%;}
+
+div#news-list ul li a{color: #1f4e78;font-style: italic;}
+
+div#news-list ul li i{color: #00b0f0;}

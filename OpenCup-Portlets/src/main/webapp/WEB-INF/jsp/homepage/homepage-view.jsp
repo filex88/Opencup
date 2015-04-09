@@ -8,9 +8,56 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
+
 <portlet:defineObjects />
 
+<style>
+	ol#noticeSpinner.carousel-indicators{position: relative!important;padding-top:11em;}
+	ol#noticeSpinner li{background-color: #9fcfe0;}
+	ol#noticeSpinner li.active{background-color:#0084b0;}
+	div#textHome {text-align: center;margin-top: -8em;}
+	div#firstStripe{background: #fff;height:14em;border-top:.5em solid #f0f0f0;}
+	div#firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
+	div#firstStripeLeft small{font-size: .5em;}
+</style>
+
 <div class="portlet-body">
+	
+	<div class="clear"></div>
+	<div id="firstStripe">
+	<div id="firstStripeLeft" class="span3 left">
+		OpenCUP<br/>
+		<br/>
+		<small>Ambito - Lavori Pubblici</small>
+	</div>
+	<div class="span6" >
+		
+		<div id="noticeCarousel" class="carousel slide">
+			<div class="left">
+				<ol id="noticeSpinner" class="carousel-indicators">
+   			 		<li data-target="#noticeCarousel" data-slide-to="0" class="active"></li>
+   			 		<li data-target="#noticeCarousel" data-slide-to="1"></li>
+   					 <li data-target="#noticeCarousel" data-slide-to="2"></li>
+ 			 	</ol>
+			</div>
+  			
+ 
+ 		 <div id="textHome" class="carousel-inner right">
+   			 <div class="active item"><p>prova1</p></div>
+   			 <div class="item"><p>prova2</p></div>
+   			<div class="item"><p>prova3</p></div>
+  		</div>
+  
+	</div>
+		
+		
+	</div>
+	<div class="span3">
+	</div>
+		
+</div>
+
+
 	
 	<div class="card">
 		<div class="card-title">
@@ -99,5 +146,82 @@
 		<div class="clear"></div>
 	
 	</div>
-
+	
 </div>
+	<div id="news-list">	
+				<strong>
+					Ultime notizie
+				</strong>
+			
+				<ul>
+					<li>
+						<i class="icon-picture icon-3x"></i>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit: Phasellus ...</p>
+						<a href="#">Leggi tutto </a>
+						
+					</li>
+					<li>
+						<i class="icon-picture icon-3x"></i>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit: Phasellus ...</p>
+						<a href="#">Leggi tutto </a>
+					</li>
+					<li>
+						<i class="icon-picture icon-3x"></i>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit: Phasellus ...</p>
+						<a href="#">Leggi tutto </a>
+					</li>
+				</ul>
+		</div>
+		
+		<div id="sponsor-list">	
+				<strong>
+					I nostri sponsor
+				</strong>
+			
+			
+				<ul>
+					<li>
+						<i class="icon-circle icon-3x"></i>
+						<a href="#">Sponsor 1</a>
+						
+					</li>
+					<li>
+						<i class="icon-circle icon-3x"></i>
+						<a href="#">Sponsor 2</a>
+					</li>
+					<li>
+						<i class="icon-circle icon-3x"></i>
+						<a href="#">Sponsor 3</a>
+					</li>
+					<li>
+						<i class="icon-circle icon-3x"></i>
+						<a href="#">Sponsor 4</a>
+					</li>
+					<li>
+						<i class="icon-circle icon-3x"></i>
+						<a href="#">Sponsor 5</a>
+					</li>
+				</ul>
+		</div>
+		
+<script>
+
+		
+		
+AUI().use('get', function(A){
+   A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
+       	onSuccess: function(){
+       		A.Get.script('${jsFolder}/bootstrap.min.js', {
+       			onSuccess: function(){	
+       			 	
+         			$('#noticeCarousel').carousel({
+         			
+         				interval:false
+         			});	
+      			}
+	 		});
+      	}
+	 });
+});
+
+</script>
