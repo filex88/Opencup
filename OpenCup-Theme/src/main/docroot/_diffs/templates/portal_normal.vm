@@ -8,9 +8,11 @@
 <html class="$root_css_class" dir="#language ("lang.dir")" lang="$w3c_language_id">
 
 <head>
-	<title>$the_title</title>
 
-	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>$the_title</title>
 
 	<!--[if lte IE 8]><script type="text/javascript" src="$javascript_folder/r2d3.js" charset="utf-8"></script><![endif]-->
     <!--[if gte IE 9]><!-->
@@ -24,7 +26,7 @@
 	<script type="application/json" src="$javascript_folder/area_S.json"></script>
 	<script type="application/json" src="$javascript_folder/area_NE.json"></script>
 	<script type="application/json" src="$javascript_folder/area_NO.json"></script>
-	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script type="text/javascript" src="$javascript_folder/topojson.v1.min.js"></script>
 	$theme.include($top_head_include)
 </head>
 
@@ -78,11 +80,11 @@ $theme.include($body_top_include)
 			-->
 			
 			<h2 class="page-title">
-				<div class="mainHeadContainer">
-					<div class="left w25">
-							<div>
-								<svg id="Livello_1" x="0px" y="0px" width="250px" viewBox="0 0 841.889 595.28" enable-background="new 0 0 841.889 595.28" height="100px">
-									<g transform="scale(1.8) translate(-230,-125)">
+				<div class="mainHeadContainer row">
+					<div class="span4">
+							<div class="left w40">
+								<svg id="Livello_1" x="0px" y="0px" width="200px" viewBox="0 0 841.889 595.28" enable-background="new 0 0 841.889 595.28" height="110px">
+									<g transform="scale(1.8) translate(-250,-125)">
 										<g>
 											<path fill="#36495D" d="M280.215,244.938c5.189,0,10.135,1.053,14.838,3.16c4.701,2.109,8.836,4.945,12.402,8.514
 												c3.568,3.566,6.404,7.729,8.514,12.484c2.107,4.758,3.162,9.838,3.162,15.242c0,5.297-1.029,10.297-3.082,15.002
@@ -183,16 +185,30 @@ $theme.include($body_top_include)
 										</g>
 									</svg>
 							</div>
-							<div class="h20px">
-								<span class="smaller">
-									Lorem ipsum dolor sit amet, consectetur adipiscing
+							<div class="right w60 subtitle">
+								<span >
+									Lorem ipsum dolor sit amet
 								</span>
 							</div>
 						
 					</div>
-					<div class="left w75 ptop50px">
-						<div class="h50px">
-							<ul id="topLinks" class="h90">
+					<div class="span8 container-fluid">
+						<div class="socialHub">
+							<ul>
+							<li >
+								<i class="fa-facebook icon-facebook circle">
+								</i>
+								<i class="fa-twitter icon-twitter circle">
+								</i>
+								<i class="fa-google-plus icon-google-plus circle">
+								</i>
+								<i class="fa-youtube icon-youtube circle">
+								</i>
+							</li>
+						</ul>
+						</div>
+						<div >
+							<ul id="topLinks" >
 							
  							#set ($records = $ddlRecordService.getRecords($headerLinks))
  							#set ($linkItems =[])
@@ -228,18 +244,16 @@ $theme.include($body_top_include)
 								</div>
 							</li>
 							#end
-							<li class="textTopLink socialHub">
-								<i class="icon-facebook">
-								</i>
-								&nbsp;
-								<i class="icon-twitter">
-								</i>
-								&nbsp;
-								<i class="icon-google-plus">
-								</i>
-							
-							</li>
 						</ul>
+						</div>
+						<div id="searchBar">
+							#set ($VOID = $velocityPortletPreferences.setValue('display-style', '1'))
+							#set ($VOID = $velocityPortletPreferences.setValue('portlet-setup-show-borders', 'false'))
+							## #set ($instanceId = 'RICERCA01')
+							## #set ($myPortletId = "ricercaliberaportlet_WAR_OpenCupPortletsportlet_INSTANCE_${instanceId}")
+							#set ($myPortletId = "ricercaliberaportlet_WAR_OpenCupPortletsportlet")
+							$theme.runtime($myPortletId, '', $velocityPortletPreferences.toString())
+							#set ($VOID = $velocityPortletPreferences.reset())
 						</div>
 					<div>
 				</div>
@@ -272,9 +286,10 @@ $theme.include($body_top_include)
 	</div>
 
 	<footer id="footer" role="contentinfo">
-		<div class="h90 pad">
+		
+		<div >
 			<ul id="main-footer-list">
-			#foreach ($footerLinkColumn in $footerLinkColumns) ##sorrimento array delle nested list del footer
+			#foreach ($footerLinkColumn in $footerLinkColumns) ##scorrimento array delle nested list del footer
 				#set ($recordsfooterLinkColumn = $ddlRecordService.getRecords($footerLinkColumn))
 				<li>
 					<ul class="inner-sublist-footer">
@@ -331,5 +346,22 @@ $theme.include($body_bottom_include)
 $theme.include($bottom_include)
 
 </body>
+
+<script>
+AUI().use('get', function(A){
+   A.Get.script('$javascript_folder/jquery-1.11.0.min.js', {
+       	onSuccess: function(){
+       			
+       			$(document).ready(function() {
+       				
+       			});
+       			
+	 		}
+      	});
+	});
+
+	
+
+</script>
 
 </html>
