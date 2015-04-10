@@ -9,7 +9,7 @@ public class D3PieConverter implements Serializable{
 	private String id = "0";
 	private String label = "";
 	private double value = 0.0;
-	private String formatedValue = "";
+	private String formattedValue = "0.0";
 	private String percentage = "0%";
 	private String linkURL = "";
 	
@@ -45,10 +45,11 @@ public class D3PieConverter implements Serializable{
 	public void setLinkURL(String linkURL) {
 		this.linkURL = linkURL;
 	}
-	public String getFormatedValue() {
-		return formatedValue;
+	public String getFormattedValue() {
+		return formattedValue;
 	}
-	public void setFormatedValue(String formatedValue) {
-		this.formatedValue = formatedValue;
+	public void setFormattedValue(String formattedValue) {
+		this.formattedValue = formattedValue;
 	}
+
 }
