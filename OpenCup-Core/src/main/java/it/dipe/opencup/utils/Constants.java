@@ -6,4 +6,7 @@ public class Constants {
 	
 	public static final long RICERCALIBERA_GROUP_ID = 1;
 	
+	public static final String RICERCALIBERA_FIELD_LOCALIZZAZIONE = "localizzazione";
+	
+	public static final String RICERCALIBERA_FIELD_CATEGORIA = "categoria";
 }

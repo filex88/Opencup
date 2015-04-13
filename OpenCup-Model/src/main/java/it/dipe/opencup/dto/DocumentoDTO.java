@@ -9,7 +9,14 @@ public class DocumentoDTO implements Serializable {
 
 	private String titolo;
 	private String url;
+	private String tipo;
 	
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 	public String getTitolo() {
 		return titolo;
 	}

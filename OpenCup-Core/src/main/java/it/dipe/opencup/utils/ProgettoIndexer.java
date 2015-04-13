@@ -69,7 +69,12 @@ public class ProgettoIndexer extends BaseIndexer {
 		document.addKeyword(Field.ENTRY_CLASS_PK, progetto.getId());
 		document.addText(Field.TITLE, progetto.getAnagraficaCup().getDescCup());
 		document.addText(Field.CONTENT, progetto.getAnagraficaCup().getDescCup());
-		document.addText(Field.DESCRIPTION, "PROGETTO DESCRIZIONE"); // progetto.getAnagraficaCup().getDescCup());
+		//document.addText(Field.DESCRIPTION, "PROGETTO DESCRIZIONE"); // progetto.getAnagraficaCup().getDescCup());
+		document.addText(Constants.RICERCALIBERA_FIELD_LOCALIZZAZIONE, progetto.getComuniProgetto() + " " + progetto.getRegioneProgetto() + " " + progetto.getProvinceProgetto());
+		document.addText(Constants.RICERCALIBERA_FIELD_CATEGORIA, progetto.getAreaIntervento().getDescAreaIntervento() + " " + progetto.getCategoriaIntervento().getDescCategoriaIntervento() + " " +
+				progetto.getNatura().getDescNatura() + " " + progetto.getSettoreIntervento().getDescSettoreIntervento() + " " +
+				progetto.getSottosettoreIntervento() + " " + progetto.getAreaIntervento().getDescAreaIntervento() + " " +
+				progetto.getAnnoDecisione().getAnnoDadeAnnoDecisione());
 		
 
 		// TODO inserire altri campid di ricerca

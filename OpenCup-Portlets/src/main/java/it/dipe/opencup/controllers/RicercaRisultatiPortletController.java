@@ -6,6 +6,7 @@ import it.dipe.opencup.dto.RicercaLiberaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.Progetto;
+import it.dipe.opencup.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,9 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 		
 		
 		try {
-			Query query = StringQueryFactoryUtil.create("title:" + cercaPerKeyword + " or content:" + cercaPerKeyword);
+			Query query = StringQueryFactoryUtil.create(Field.TITLE + ":" + cercaPerKeyword + " or " + Field.CONTENT + ":" + cercaPerKeyword + " or " +
+					Constants.RICERCALIBERA_FIELD_CATEGORIA + ":" + cercaPerKeyword + " or " +
+					Constants.RICERCALIBERA_FIELD_LOCALIZZAZIONE + ":" + cercaPerKeyword);
 			
 			logger.debug("query = " + query.toString());
 			
@@ -120,8 +123,7 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 			for (Document document : documents) {
 				
 				DocumentoDTO risultato = new DocumentoDTO(); 
-				risultato.setTitolo(document.getField(Field.TITLE).getValue());
-				
+				risultato.setTitolo(document.getField(Field.TITLE).getValue());				
 				
 				logger.debug("Document: " + document.getUID() );
 				for (Map.Entry<String, Field> entry : document.getFields().entrySet() ) {
@@ -131,7 +133,6 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 				
 				if (document.get(Field.ENTRY_CLASS_NAME).equals(Progetto.class.getName())) {
 					risultato.setUrl(getProgettoViewURL(request, response, document.get(Field.ENTRY_CLASS_PK), cercaPerKeyword));
-					
 				} else {
 					AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry( document.get(Field.ENTRY_CLASS_NAME) , Long.parseLong(document.get(Field.ENTRY_CLASS_PK)));
 					
