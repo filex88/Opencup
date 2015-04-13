@@ -25,5 +25,16 @@
 	</bean>
 		
 
-	<bean class="it.dipe.opencup.controllers.PieChartPortletController" />
+	<bean class="it.dipe.opencup.controllers.PieChartPortletController" id="pieChartPortletController"/>
+	
+	<bean class="it.dipe.opencup.controllers.PieChartPortletConfigController" id="pieChartPortletConfigController" />
+	
+	<bean class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+    <property name="portletModeMap">
+        <map>
+            <entry key="view" value-ref="pieChartPortletController"/>
+            <entry key="edit" value-ref="pieChartPortletConfigController"/>
+        </map>
+    </property>
+</bean>
 </beans>

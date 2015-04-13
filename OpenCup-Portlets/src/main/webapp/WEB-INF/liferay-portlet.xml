@@ -21,6 +21,7 @@
 	<portlet>
 		<portlet-name>pie-chart-portlet</portlet-name>
 		<icon>/icon.png</icon>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/pie-chart-portlet.js</footer-portlet-javascript>
 		<css-class-wrapper>pie-chart-portlet</css-class-wrapper>

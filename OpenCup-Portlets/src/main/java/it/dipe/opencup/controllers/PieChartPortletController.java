@@ -121,7 +121,7 @@ public class PieChartPortletController {
 			converter.add(conv);
 		}
 
-		System.out.println( "JSON: " + createJsonStringFromQueryResult(converter) );
+		//System.out.println( "JSON: " + createJsonStringFromQueryResult(converter) );
 		
 		model.addAttribute("aggregati4Pie", createJsonStringFromQueryResult(converter));
 		
