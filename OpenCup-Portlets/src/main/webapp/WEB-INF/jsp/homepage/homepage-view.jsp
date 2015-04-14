@@ -14,17 +14,46 @@
 <style>
 	ol#noticeSpinner.carousel-indicators{position: relative!important;padding-top:11em;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
+	ol#noticeSpinner li:hover{cursor: pointer;}
 	ol#noticeSpinner li.active{background-color:#0084b0;}
 	div#textHome {text-align: center;margin-top: -8em;}
-	div#firstStripe{background: #fff;height:14em;border-top:.5em solid #f0f0f0;}
+	div.stripe{background: #fff;height:14em;border-top:.5em solid #f0f0f0;}
+	
 	div#firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
 	div#firstStripeLeft small{font-size: .5em;}
+	
+	#rulloLoc{padding-bottom: 1em;}
+	#rulloLoc .infiniteCarousel{background-color: #f0f0f0;height: 15em!important;}
+	#rulloLoc .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
+	#rulloLoc .firstLoc{padding-top:1.5em;padding-left:1em; color:#00b0f0;font-size:18pt;}
+	#rulloLoc .secondLoc{padding-top:1.5em;padding-left:1em; color:#00b0f0;font-size:16pt;}
+	#rulloLoc i.icon-chevron-right, #rulloLoc i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
+	#rulloLoc div.ic_tray:first-child{margin-left: -6px!important;}
+	#rulloLoc div.ic_tray:last-child{margin-left: -6px!important;}
+	#rulloLoc div.effDonut svg{padding-top: 1.5em;}
+	#rulloLoc div.effDonut p{text-align:center;color:#00b0f0;}
+	
+	#rulloClass{padding-bottom: 0.5em;}
+	#rulloClass .infiniteCarousel{background-color: #f0f0f0;height: 16em!important;}
+	#rulloClass .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
+	#rulloClass i.icon-chevron-right, #rulloLoc i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
+	#rulloClass div.ic_tray:first-child{margin-left: -6px!important;}
+	#rulloClass div.ic_tray:last-child{margin-left: -6px!important;}
+	#rulloClass div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
+	#rulloClass div.titolo p{padding-top:.5em;padding-left:1em;font-size:18pt;color:#1f4e78;}
+	#rulloClass .firstLoc{padding-top:1em;padding-left:1em; color:#1f4e78;font-size:16pt;}
+	#rulloClass div.barchart p{padding-left:1em; color:#1f4e78;}
+	#rulloClass .classchart rect:first-of-type {fill: #d9d9d9;}
+	#rulloClass .classchart rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #1f4e78;}
+	#rulloClass div.barcontainer span.pubblico{color:#1f4e78;}
+	#rulloClass div.barcontainer span.privato{color:#ababab;}
+	
 </style>
 
 <div class="portlet-body">
 	
 	<div class="clear"></div>
-	<div id="firstStripe">
+	<div class="stripe">
 	<div id="firstStripeLeft" class="span3 left">
 		OpenCUP<br/>
 		<br/>
@@ -53,100 +82,30 @@
 		
 	</div>
 	<div class="span3">
+		
+	
 	</div>
 		
 </div>
 
+<div class="clear"></div>
 
-	
-	<div class="card">
-		<div class="card-title">
-	    	<span class="title">Open CUP</span>
-	    </div>
-	    <div class="card-content">
-			OpenCUP permette di accedere ai dati relativi agli investimenti pubblici.
-		</div>	
-		<div class="card-action">
-			<div class="link span2 offset10">
-				<aui:a href="#" cssClass="block">
-					Scopri di pi&ugrave; <i class="icon-ellipsis-horizontal"></i>
-				</aui:a>
-			</div>
-			<div class="clear"></div>
-		</div>
+	<div class="stripe" id="rulloClass">
+		<ul id="classCarousel" style="max-height: 14em;list-style: none;display: inline;" class="span12">
+		</ul>
 	</div>
-	<div>
-		<div class="span6">
-			<div class="card">
-				<div class="card-title">
-	            	
-	            	<div class="span8">
-	            		<span class="title">Sintesi per Natura</span>
-	            	</div>
-	            	<div class="span4 destra">
-	            		<div class="dropdown"  id="drp">
-						    <a class="dropdown-toggle dropdown-toggle-home" data-toggle="dropdown" href="#menu1">
-						        Sintesi per 
-						        <b class="caret"></b>
-						    </a>
-						    <ul class="dropdown-menu dropdown-menu-home">
-						        <li><a href="#"><span class="nav-item-label">Tutto</span></a></li>
-						        <li><a href="#"><span class="nav-item-label">Immobili</span></a></li>
-						        <li><a href="#"><span class="nav-item-label">Trasporti</span></a></li>
-						        <li><a href="#"><span class="nav-item-label">Ambiente ed Energia</span></a></li>
-						        <li><a href="#"><span class="nav-item-label">Ricerca, ITC e Aree produttive</span></a></li>
-						    </ul>
-						</div>
 
-	            	</div>
-	            	
-	            	<div class="clear"></div>
-	        	</div>
-	        	
-	        	<div class="card-content">
-	        		
-	        		<div class="desc-riepilogo">
-	        			La Sintesi per Natura mette in evidenza i dati aggregati della totalità dei progetti, mostrando il volume, costo e l'importo complessivo. Inoltre tramite i pulsanti sottostanti è possibile avere la vista rispetto alla famiglia dei progetti.
-	        		</div>
-	        		
-					<div>
-						<fmt:setLocale value="it_IT"/>
-						
-						<div>
-							<div class="span1 font-size2em"><i class="icon-bar-chart"></i></div>
-							<div class="span6 font-size1em">VOLUME DEI PROGETTI</div>
-							<div class="span4 font-size1em valori-riepilogo">710.000</div>
-							<div class="span1 font-size1em"></div>
-							<div class="clear"></div>
-						</div>
-						
-						<div>
-							<div class="span1 font-size2em"><i class="icon-tags"></i></div>
-							<div class="span6 font-size1em">COSTO DEI PROGETTI</div>
-							<div class="span4 font-size1em valori-riepilogo">30.710.305.000</div>
-							<div class="span1 font-size1em">&euro;</div>
-							<div class="clear"></div>
-						</div>
-						
-						<div>
-							<div class="span1 font-size2em"><i class="icon-eur"></i></div>
-							<div class="span6 font-size1em">IMPORTO FINANZIAMENTI</div>
-							<div class="span4 font-size1em valori-riepilogo">12.340.702.000</div>
-							<div class="span1 font-size1em">&euro;</div>
-							<div class="clear"></div>
-						</div>	
-											
-						<div class="clear"></div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		
-		<div class="clear"></div>
-	
+
+
+<div class="clear"></div>
+
+	<div class="stripe" id="rulloLoc">
+		<ul id="locCarousel" style="max-height: 14em;list-style: none;display: inline;" class="span12">
+		</ul>
+
 	</div>
-	
+
+
 </div>
 	<div id="news-list">	
 				<strong>
@@ -218,10 +177,231 @@ AUI().use('get', function(A){
          			
          				interval:false
          			});	
+         			
+         			
+         			 A.Get.script('${jsFolder}/js-infinite-carousel.js', {
+        
+                            onSuccess: function(){
+                                $('#locCarousel').infiniteCarousel({            
+                            		transitionSpeed:600,
+                            		displayTime: 6000,
+				                    heightSource: 180,
+                            		internalThumbnails: false,
+                            		thumbnailType: 'none',
+                            		customClass: 'locCarousel',
+                            		displayProgressRing: false,
+                            		margin: 0,
+                            		inView: 3,
+                            		advance: 1,
+                            		autoPilot: false,
+                            		prevNextInternal: true,
+                            		autoHideCaptions: false,
+                            	});
+                            	
+                            	$('#classCarousel').infiniteCarousel({            
+                            		transitionSpeed:600,
+                            		displayTime: 6000,
+				                    heightSource: 180,
+                            		internalThumbnails: false,
+                            		thumbnailType: 'none',
+                            		customClass: 'locCarousel',
+                            		displayProgressRing: false,
+                            		margin: 0,
+                            		inView: 3,
+                            		advance: 1,
+                            		autoPilot: false,
+                            		prevNextInternal: true,
+                            		autoHideCaptions: false,
+                            	});
+                            	
+                        }
+                    });
+         			
+         			
       			}
 	 		});
       	}
 	 });
 });
+
+
+// d3
+
+//rullo classificazione
+var calculatedJsonClass=eval('('+'${jsonResultClassificazione}'+')');
+
+var containerWClass=d3.select("#rulloClass")[0][0].clientWidth;
+console.log(d3.select("#rulloClass")[0][0]);
+var singleLiWClass=(containerWClass/3);
+var singleElMwClass=singleLiWClass/10;
+
+d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
+	.enter().append("li")
+	.style("width",singleLiWClass+"px")
+	.style("display","inline")
+	.style("list-style","none")
+	.style("float","left")
+	.append("div")
+	.attr("class","classificazione")
+	.append("div")
+	.attr("class","titolo")
+	.append("p")
+	.text(function(d){
+		return d.desArea;
+	});
+	
+	
+	
+	d3.selectAll("#classCarousel").selectAll("div.classificazione")
+	.append("div")
+	.attr("class","left effHistogram")
+	.style("width",(singleElMwClass*4.3)+"px")
+	.append("img")
+	.attr("src",function(d){
+	 var areaCorrente=d.desArea.split(/[\s,]+/);
+	 var firstDesc=areaCorrente[0].toLowerCase();
+	 return "${imgFolder}/icona-"+firstDesc+".svg";
+	 });
+	
+	d3.selectAll("#classCarousel").selectAll("div.classificazione")
+	.append("div")
+	.attr("class","right")
+	.style("width",(singleElMwClass*5.5)+"px")
+     .html(function(d){
+     	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"
+     			+nFormatter(d.impoCostoProgetti)+"</p>";
+     });
+	
+	d3.selectAll("#classCarousel").selectAll("div.classificazione")
+	.append("div")
+	.attr("class","barchart")
+	.style("padding-top","8em")
+	.append("div")
+	.attr("class","left")
+	.style("width",(singleElMwClass*4.3)+"px")
+	.html("<p><small>Finanziamenti pubblici</small></p>");
+	
+	
+	d3.selectAll("#classCarousel").selectAll("div.barchart")
+	.append("div")
+	.attr("class","right barcontainer")
+	.style("width",(singleElMwClass*5.5)+"px")
+	.append("svg")
+	.attr("class","classchart")
+	.attr("width",(singleElMwClass*5))
+	.attr("height",20);
+	
+	d3.selectAll(".classchart").each(function(d){
+		var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
+		var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
+		d3.select(this).selectAll("rect").data(range)
+		.enter().append("rect")
+	 	.attr("width", x)
+	 	.attr("height", 20);
+	 	
+	});
+	
+	d3.selectAll(".barcontainer")
+	.append("div")
+	.style("width",(singleElMwClass*5)+"px")
+	.html("<span class=\'left pubblico\'><small>Pubblico</small>"
+		+"</span><span class=\'right privato\'><small>Privato</small></span>");
+	
+	
+// rullo localizzazione
+var calculatedJson=eval('('+'${jsonResultLocalizzazione}'+')');
+var baseColor1="rgb(0,176,240)";
+var baseColor2="rgb(220,233,245)";
+
+var width = 120,
+    height = 120,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.linear().range([baseColor1,baseColor2]);
+
+var pie = d3.layout.pie()
+    .sort(null);
+
+var arc = d3.svg.arc()
+    .innerRadius(radius - 20)
+    .outerRadius(radius - 10);
+
+	var containerW=d3.select("#rulloLoc")[0][0].clientWidth;
+	var singleLiW=(containerW/3);
+	var singleElMw=singleLiW/10;
+
+	d3.selectAll("#locCarousel").selectAll("li").data(calculatedJson)
+	.enter().append("li")
+	.style("width",singleLiW+"px")
+	.style("display","inline")
+	.style("list-style","none")
+	.style("float","left")
+	.append("div")
+	.attr("class","donut")
+	.append("div")
+	.attr("class","right effDonut")
+	.style("width",(singleElMw*4.3)+"px")
+	.append("svg")
+	.attr("width", width)
+    .attr("height", height)
+    .style("padding-left",((singleElMw*4.3)-width)/2+"px")
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    
+    
+    d3.selectAll("#locCarousel").selectAll("g").selectAll("path")
+    .data(function(d){
+    
+    	var dataSet=[d.importoValue,(d.costoValue-d.importoValue)];
+    	return pie(dataSet);
+    })
+    .enter().append("path")
+    .attr("fill", function(a, i) { return color(i); })
+    .attr("d", arc);
+    
+    d3.selectAll("#locCarousel").selectAll("g")
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("dy",".35em")
+    .style("fill","#00b0f0")
+    .style("font-size","18")
+    .style("font-weight","bold")
+    .text(function (d){
+    	var dataCalc=d.importoValue/d.costoValue;
+    	var dataPercent=dataCalc*100;
+    
+    	return (dataPercent.toFixed(1) +"%");
+    });
+    
+     d3.selectAll("#locCarousel").selectAll("li").selectAll("div.donut")
+     .append("div")
+     .attr("class","left")
+     .style("width",(singleElMw*5.5)+"px")
+      
+     .html(function(d){
+     	
+     	return "<p class=\'firstLoc\'><strong>"+d.fullLabel+"</strong></p>"+
+     			"<p class=\'secondLoc\'>"+nFormatter(d.volumeValue)+"<br/><br/>"
+     			+""+nFormatter(d.costoValue)+"</p>";
+     });
+    
+     d3.selectAll("#locCarousel").selectAll("div.effDonut")
+     .append("p")
+     .html('<small>Finanziamenti Pubblici</small>');
+    
+
+function nFormatter(num) {
+     if (num >= 1000000000) {
+        return'<strong>'+ (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld </strong><small>&euro;</small>';
+     }
+     if (num >= 1000000) {
+        return '<strong>'+ (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
+     }
+     if (num >= 1000) {
+        return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K </strong><small>progetti</small>';
+     }
+     return num;
+}
+
 
 </script>
