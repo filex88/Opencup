@@ -3,6 +3,7 @@ package it.dipe.opencup.controllers;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.NavigaAggregata;
+import it.dipe.opencup.dto.PieChartConfigDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -30,14 +32,18 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.WebKeys;
+import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portlet.PortletURLFactoryUtil;
 
 @Controller
@@ -64,7 +70,19 @@ public class PieChartPortletController {
 								RenderResponse renderResponse,
 								Model model,
 								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
-								@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+								@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern,
+								PortletPreferences prefs) throws PortalException, SystemException{
+		
+		String portletResource = ParamUtil.getString(renderRequest, "portletResource");
+		
+		if (Validator.isNotNull(portletResource)) {
+		    prefs = PortletPreferencesFactoryUtil.getPortletSetup(renderRequest, portletResource);
+		}
+		
+		PieChartConfigDTO config = new PieChartConfigDTO();
+		config.setSelezionabile( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_SELEZIONABILE, "N") ) );
+		config.setMostraPulsanti( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
+		model.addAttribute("config", config);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());

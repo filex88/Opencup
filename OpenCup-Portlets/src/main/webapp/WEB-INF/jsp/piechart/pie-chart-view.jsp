@@ -10,41 +10,42 @@
 
 <portlet:defineObjects />
 
-<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center">
-	<div class="offset3 span2">
-		<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
-			<aui:a href="#" onClick="return false" cssClass="block">
-				PROGETTI
-			</aui:a>
+<c:if test="${ config.mostraPulsanti }">
+	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center">
+		<div class="offset3 span2">
+			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					PROGETTI
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "VOLUME"}'>
+				<div class="arrow-down-volume"></div>
+			</c:if>
 		</div>
-		<c:if test='${pattern eq "VOLUME"}'>
-			<div class="arrow-down-volume"></div>
-		</c:if>
-	</div>
-	<div class="span2">	
-		<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
-			<aui:a href="#" onClick="return false" cssClass="block">
-				COSTO
-			</aui:a>
+		<div class="span2">	
+			<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					COSTO
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "COSTO"}'>
+				<div class="arrow-down-costo"></div>
+			</c:if>
 		</div>
-		<c:if test='${pattern eq "COSTO"}'>
-			<div class="arrow-down-costo"></div>
-		</c:if>
-	</div>
-	<div class="span2">	
-		<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
-			<aui:a href="#" onClick="return false" cssClass="block">
-				IMPORTO
-			</aui:a>
+		<div class="span2">	
+			<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					IMPORTO
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "IMPORTO"}'>
+				<div class="arrow-down-importo"></div>
+			</c:if>
 		</div>
-		<c:if test='${pattern eq "IMPORTO"}'>
-			<div class="arrow-down-importo"></div>
-		</c:if>
-	</div>
-	<div class="clear"></div>
-
-</div>	
-
+		<div class="clear"></div>
+	
+	</div>	
+</c:if>
 
 <div style="padding-top: 30px; padding-bottom: 30px">
 	
@@ -106,6 +107,7 @@
 	
 	var dataSet1 = ${aggregati4Pie};
 	var tipoAggregazione = '${pattern}';
+	var selezionabile = ! ${config.selezionabile};
 	
 	//var segments = [ "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3" ];
 	
@@ -156,13 +158,25 @@
 	    }
 	    return num;
 	}
+	
+	String.prototype.trunc =
+	     function(n,useWordBoundary){
+	         var toLong = this.length>n,
+	         s_ = toLong ? this.substr(0,n-1) : this;
+	         s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+	         //return  toLong ? s_ + '&hellip;' : s_;
+	         return  toLong ? s_ + '...' : s_;
+	      };
 
 	var synchronizedMouseOver = function(info) {
 		
 		var arc = d3.select(this);
 		
-		var indexValue = arc.attr("index_value");
+		if(selezionabile){
+			arc.style('cursor','default');
+		}
 		
+		var indexValue = arc.attr("index_value");
 		var label = arc.attr("data_label");
 		var percentage = arc.attr("data_percentage");
 		var value = arc.attr("data_value");
@@ -187,21 +201,21 @@
 		var legendTextSelected = d3.selectAll(legendTextSelector);
 		legendTextSelected.style("fill", fillColor);
 
-		//Update the tooltip
-		var tooltip = d3.select("#tooltip-pie-chart");
-			
-		d3.select("#label-tooltip-pie-chart").text(label);
-		d3.select("#labelvalue-tooltip-pie-chart").text(tipoAggregazione);
-		d3.select("#percentuale-tooltip-pie-chart").text((percentage) + "%");
-		if( tipoAggregazione == "VOLUME" ){
-			d3.select("#value-tooltip-pie-chart").text(nFormatter(value));
-			d3.select("#umvalue-tooltip-pie-chart").classed("hidden", true);
-		}else{
-			d3.select("#value-tooltip-pie-chart").text(nFormatter(value));
-			d3.select("#umvalue-tooltip-pie-chart").classed("hidden", false);
-		}
-		
-		//Show the tooltip
+//		//Update the tooltip
+//		var tooltip = d3.select("#tooltip-pie-chart");
+//			
+//		d3.select("#label-tooltip-pie-chart").text(label);
+//		d3.select("#labelvalue-tooltip-pie-chart").text(tipoAggregazione);
+//		d3.select("#percentuale-tooltip-pie-chart").text((percentage) + "%");
+//		if( tipoAggregazione == "VOLUME" ){
+//			d3.select("#value-tooltip-pie-chart").text(nFormatter(value));
+//			d3.select("#umvalue-tooltip-pie-chart").classed("hidden", true);
+//		}else{
+//			d3.select("#value-tooltip-pie-chart").text(nFormatter(value));
+//			d3.select("#umvalue-tooltip-pie-chart").classed("hidden", false);
+//		}
+//		
+//		//Show the tooltip
 //		tooltip.classed("hidden", false); 
 //		tooltip.transition().duration(500).style("opacity", 100);
 		
@@ -397,9 +411,29 @@
 					return "translate(" + arc.centroid(d) + ")";
 					//return "translate(" + arc.centroid(d) + ")rotate("	+ angle(d) + ")";
 				})
+		
+		.attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
+		.attr("index_value", function(d, i) { return "index-" + i; })
+		
+		.attr("data_id", function(d, i) { return dataSet[i].id })
+		.attr("data_label", function(d, i) { return dataSet[i].label })
+		.attr("data_value", function(d, i) { return dataSet[i].value })
+		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
+		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
+		.attr("class", function(d, i) { return "link-url-naviga-dettaglio pie-" + pieName + "-perc-index-" + i; })
+		
 		.style("fill", "White")
 		.style("font", "normal 18px Arial")
-		.text(function(d) { return (d.data.percentage) + "%"; });
+		//.style("cursor", function(){
+		//		if(selezionabile){
+		//			return "default";
+		//		}else{
+		//			return "pointer";
+		//		}
+		//	})
+		.text(function(d) { return (d.data.percentage) + "%"; })
+		.on('mouseover', synchronizedMouseOver)
+		.on("mouseout", synchronizedMouseOut);
 	
 		// Computes the angle of an arc, converting from radians to degrees.
 		function angle(d) {
@@ -566,7 +600,7 @@
 		})
 		.attr("dx", 0)
         .attr("dy", "5px") // Controls padding to place text in alignment with bullets
-        .text(function(d) { return d.label;})
+        .text(function(d) { return (d.label).trunc(36, true); })
         .attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
         .attr("index_value", function(d, i) { return "index-" + i; })
         
@@ -581,7 +615,9 @@
         .style("fill", textColor)
         .style("font-size", "1.8em")
         .on('mouseover', synchronizedMouseOver)
-        .on("mouseout", synchronizedMouseOut);
+        .on("mouseout", synchronizedMouseOut)
+        .append("title")
+        .text(function(d) { return d.label; });
 		
 	};
 	
@@ -645,17 +681,19 @@
 	       				});
 	       				
 	       				$( ".sel-type-btn" ).click(function() {
-	       					var arc = d3.select(this);
+       						var arc = d3.select(this);
 	       					var distribuzione = arc.attr("data-distribuzione");
 	       					$( ".pattern" ).val(distribuzione);
 	       					$( ".naviga-form" ).submit();
 	       				});
 	       				
 	       				$( ".link-url-naviga-dettaglio" ).click(function() {
-	       					var arc = d3.select(this);
-	       					var data_linkURL = arc.attr("data_linkURL");
-	       					$( ".naviga-form" ).attr("action", data_linkURL);
-	       					$( ".naviga-form" ).submit();
+	       					if(!selezionabile){
+	       						var arc = d3.select(this);
+		       					var data_linkURL = arc.attr("data_linkURL");
+		       					$( ".naviga-form" ).attr("action", data_linkURL);
+		       					$( ".naviga-form" ).submit();
+	       					}
 	       				});
 	       				
 	      			}
