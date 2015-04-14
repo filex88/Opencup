@@ -21,7 +21,6 @@ import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -352,11 +351,6 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 				percentage = (int) round( ((value * 100) / totale), 0);
 			}
 			
-			DecimalFormat decimalFormat = new DecimalFormat("###,###,###,###,###.00");
-
-			String format = decimalFormat.format(value);
-			
-			conv.setFormattedValue(format);
 			conv.setPercentage( String.valueOf( percentage ) );
 			conv.setValue( value );
 			conv.setLinkURL(aggregataDTO.getLinkURL());

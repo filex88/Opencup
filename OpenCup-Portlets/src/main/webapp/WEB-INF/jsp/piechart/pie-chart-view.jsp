@@ -10,94 +10,162 @@
 
 <portlet:defineObjects />
 
-<div>
+<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center">
+	<div class="offset3 span2">
+		<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+			<aui:a href="#" onClick="return false" cssClass="block">
+				PROGETTI
+			</aui:a>
+		</div>
+		<c:if test='${pattern eq "VOLUME"}'>
+			<div class="arrow-down-volume"></div>
+		</c:if>
+	</div>
+	<div class="span2">	
+		<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+			<aui:a href="#" onClick="return false" cssClass="block">
+				COSTO
+			</aui:a>
+		</div>
+		<c:if test='${pattern eq "COSTO"}'>
+			<div class="arrow-down-costo"></div>
+		</c:if>
+	</div>
+	<div class="span2">	
+		<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+			<aui:a href="#" onClick="return false" cssClass="block">
+				IMPORTO
+			</aui:a>
+		</div>
+		<c:if test='${pattern eq "IMPORTO"}'>
+			<div class="arrow-down-importo"></div>
+		</c:if>
+	</div>
+	<div class="clear"></div>
+
+</div>	
+
+
+<div style="padding-top: 30px; padding-bottom: 30px">
 	
 	<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
-	 -- TORTA --		
+	 -- GRAFICI --		
 	 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-	<div class="div_pie_chart_1" style="height: 397px">
+	<a id="pie-chart-portlet"></a>
 	
-		<a id="pie-chart-portlet"></a>
-
-		<div>
-			<div class="span1">
+	<div class="div_pie_chart_1">
+		<div class="row chart-div">
+			<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="height: 260px">
 			</div>
-			<div class="span3 chart-div">
-				<div class="div_pie_chart" id="pie_chart_1">
-        			<div class="chart" id="pieChart" style="text-align: center"></div>
+			<div style="overflow-y: auto; height: 260px ">
+				<div>
+					<div class="span5" id="chartLegend"></div>
+					<div class="span3" id="histogramChart">
+						<svg class="chart-bar"></svg>
+					</div>
 				</div>
 			</div>
-			<div class="span3 chart-div" id="chartLegend" style="text-align: center">
-			</div>
-			<div class="span4 chart-div" id="histogramChart" style="text-align: center">
-				<svg class="chart-bar"></svg>
-			</div>
-			<div class="span1">
-			</div>
 		</div>
-          
-        <div id="tooltip-pie-chart" class="tooltip-pie-chart hidden">
-        	<p><span id="label-tooltip-pie-chart"></span></p>
-			<p>
-				<strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-pie-chart"></span>
-			</p>
-			<p>
-				<strong><span id="labelvalue-tooltip-pie-chart"></span>:&nbsp;</strong>
-				<span id="value-tooltip-pie-chart"></span>
-				<span class="hidden" id="umvalue-tooltip-pie-chart">&euro;</span>
-			</p>
-		</div>
-	
-		<div class="alert alert-info pieChartEmpty" id="pieChartEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
-
 	</div>
+	
+	<div id="tooltip-pie-chart" class="tooltip-pie-chart hidden">
+    	<p><span id="label-tooltip-pie-chart"></span></p>
+		<p><strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-pie-chart"></span></p>
+		<p>
+			<strong><span id="labelvalue-tooltip-pie-chart"></span>:&nbsp;</strong>
+			<span id="value-tooltip-pie-chart"></span>
+			<span class="hidden" id="umvalue-tooltip-pie-chart">&euro;</span>
+		</p>
+	</div>
+	
+	<div class="alert alert-info pieChartEmpty" id="pieChartEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
 				
 </div>
+
+<portlet:actionURL var="urlActionVar">
+   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
+</portlet:actionURL>
+
+<form 
+	action="${urlActionVar}" 
+	method="post" 
+	name="naviga-form" 
+	class="naviga-form"
+	id="naviga-form">
+
+		<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
+
+		<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
+		<aui:input type="hidden" bean="navigaAggregata" name="idAreaIntervento" value="${navigaAggregata.idAreaIntervento}" id="idAreaIntervento" />
+		<aui:input type="hidden" bean="navigaAggregata" name="idSottosettoreIntervento" value="${navigaAggregata.idSottosettoreIntervento}" id="idSottosettoreIntervento" />
+		<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
+	
+</form>
 
 <script type="text/javascript">
 	
 	var dataSet1 = ${aggregati4Pie};
 	var tipoAggregazione = '${pattern}';
 	
-	var segments = [ "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3" ];
+	//var segments = [ "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3" ];
+	
+	var baseColor1 = "#b2c6ff";
+	var baseColor2 = "#4472fb";
+	var baseColor3 = "#0932a3";
+	
+	var textColor = "#1f4e78";
 	var fillColor = "Maroon";
 	
-	var A = null;
-	AUI().use(
-		'aui-base', 
-		function( Y ) {
-			A = Y;
-	});
+	var minData = 0;
+	var maxData = ${ recordCount };
+	var midData = maxData / 2;
 	
-	function formattaImporto(valore){
-		return A.Number.format(valore,{
-			prefix: "",
-	        thousandsSeparator: ".",
-	        decimalSeparator: ",",
-	        decimalPlaces: 3,
-	        suffix: ""
-		});
-	}
-				
-	function formattaIntero(valore){
-		return A.Number.format(valore,{
-			prefix: "",
-	        thousandsSeparator: ".",
-	        decimalSeparator: ",",
-	        decimalPlaces: 0,
-	        suffix: ""
-		});
-	}
 	
+	if (tipoAggregazione == "VOLUME"){
+		baseColor1 = "#ffdbaa";
+		baseColor2 = "#ffb551";
+		baseColor3 = "#f08c00";
+		fillColor = "#d27900";
+	}else
+	if (tipoAggregazione == "COSTO"){
+		baseColor1 = "#ffc6e1";
+		baseColor2 = "#ff55a6";
+		baseColor3 = "#c90061";
+		fillColor = "#950047";
+	}else
+	if (tipoAggregazione == "IMPORTO"){
+		baseColor1 = "#c1ffc1";
+		baseColor2 = "#48ff48";
+		baseColor3 = "#009600";
+		fillColor = "#005500";
+	}
+	//var colorScale = d3.scale.ordinal().range(segments);
+
+	
+	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
+	
+	function nFormatter(num) {
+	    if (num >= 1000000000) {
+	       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
+	    }
+	    if (num >= 1000000) {
+	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
+	    }
+	    if (num >= 1000) {
+	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K';
+	    }
+	    return num;
+	}
 
 	var synchronizedMouseOver = function(info) {
+		
 		var arc = d3.select(this);
 		
 		var indexValue = arc.attr("index_value");
 		
 		var label = arc.attr("data_label");
 		var percentage = arc.attr("data_percentage");
-		var formattedValue = arc.attr("data_formattedValue");
+		var value = arc.attr("data_value");
 	
 		var pieArcSelector = "." + "pie-" + "Pie1" + "-arc-" + indexValue;
 		var pieSelectedArc = d3.selectAll(pieArcSelector);
@@ -107,11 +175,15 @@
 		var histogramSelectedArc = d3.selectAll(histogramArcSelector);
 		histogramSelectedArc.style("fill", fillColor);
 		
-		var legendBulletSelector = "." + "legend-" + "Histogram1" + "-legendBullet-" + indexValue;
+		var histogramLabelSelector = "." + "histogram-" + "Histogram1" + "-label-" + indexValue;
+		var histogramSelectedLabel = d3.selectAll(histogramLabelSelector);
+		histogramSelectedLabel.style("fill", fillColor);
+		
+		var legendBulletSelector = "." + "legend-" + "Legend1" + "-legendBullet-" + indexValue;
 		var legendBulletSelected = d3.selectAll(legendBulletSelector);
 		legendBulletSelected.style("fill", fillColor);
 		
-		var legendTextSelector = "." + "legend-" + "Histogram1" + "-legendText-" + indexValue;
+		var legendTextSelector = "." + "legend-" + "Legend1" + "-legendText-" + indexValue;
 		var legendTextSelected = d3.selectAll(legendTextSelector);
 		legendTextSelected.style("fill", fillColor);
 
@@ -122,16 +194,16 @@
 		d3.select("#labelvalue-tooltip-pie-chart").text(tipoAggregazione);
 		d3.select("#percentuale-tooltip-pie-chart").text((percentage) + "%");
 		if( tipoAggregazione == "VOLUME" ){
-			d3.select("#value-tooltip-pie-chart").text(formattaIntero(formattedValue));
+			d3.select("#value-tooltip-pie-chart").text(nFormatter(value));
 			d3.select("#umvalue-tooltip-pie-chart").classed("hidden", true);
 		}else{
-			d3.select("#value-tooltip-pie-chart").text(formattaImporto(formattedValue));
+			d3.select("#value-tooltip-pie-chart").text(nFormatter(value));
 			d3.select("#umvalue-tooltip-pie-chart").classed("hidden", false);
 		}
 		
 		//Show the tooltip
-		tooltip.classed("hidden", false); 
-		tooltip.transition().duration(500).style("opacity", 100);
+//		tooltip.classed("hidden", false); 
+//		tooltip.transition().duration(500).style("opacity", 100);
 		
 	};
 	
@@ -149,21 +221,26 @@
 		var histogramSelectedArc = d3.selectAll(histogramArcSelector);
 		histogramSelectedArc.style("fill", colorValue);
 		
-		var legendBulletSelector = "." + "legend-" + "Histogram1" + "-legendBullet-" + indexValue;
+		var histogramLabelSelector = "." + "histogram-" + "Histogram1" + "-label-" + indexValue;
+		var histogramSelectedLabel = d3.selectAll(histogramLabelSelector);
+		histogramSelectedLabel.style("fill", textColor);
+		
+		var legendBulletSelector = "." + "legend-" + "Legend1" + "-legendBullet-" + indexValue;
 		var legendBulletSelected = d3.selectAll(legendBulletSelector);
 		legendBulletSelected.style("fill", colorValue);
 		
-		var legendTextSelector = "." + "legend-" + "Histogram1" + "-legendText-" + indexValue;
+		var legendTextSelector = "." + "legend-" + "Legend1" + "-legendText-" + indexValue;
 		var legendTextSelected = d3.selectAll(legendTextSelector);
-		legendTextSelected.style("fill", colorValue);
+		legendTextSelected.style("fill", textColor);
 
 		//Hide the tooltip
-		var tooltip = d3.select("#tooltip-pie-chart");
-		tooltip.transition().duration(500).style("opacity", 0);   
-		tooltip.classed("hidden", true);
+//		var tooltip = d3.select("#tooltip-pie-chart");
+//		tooltip.transition().duration(500).style("opacity", 0);   
+//		tooltip.classed("hidden", true);
+
 	};
 	
-	function drawPie( pieName, dataSet, selectString, colors, margin, outerRadius, divPieChart, innerRadius, sortArcs ) {
+	function drawPie( pieName, dataSet, selectString, colors, margin, outerRadius, innerRadius, sortArcs ) {
 		
 		// pieName => A unique drawing identifier that has no spaces, no "." and no "#" characters.
 		// dataSet => Input Data for the chart, itself.
@@ -182,35 +259,29 @@
 		//              1 = Sort by arc value size.
 		
 		// Color Scale Handling...
-		var colorScale = d3.scale.category20c();
-		
-		switch (colors) {
-			case "colorScale10":
-				colorScale = d3.scale.category10();
-				break;
-			case "colorScale20":
-				colorScale = d3.scale.category20();
-				break;
-			case "colorScale20b":
-				colorScale = d3.scale.category20b();
-				break;
-			case "colorScale20c":
-				colorScale = d3.scale.category20c();
-				break;
-			case "segments":
-				colorScale = d3.scale.ordinal().range(segments);
-				break;
-			default:
-				colorScale = d3.scale.category20c();
-		};
+//		var colorScale = d3.scale.category20c();
+//		
+//		switch (colors) {
+//			case "colorScale10":
+//				colorScale = d3.scale.category10();
+//				break;
+//			case "colorScale20":
+//				colorScale = d3.scale.category20();
+//				break;
+//			case "colorScale20b":
+//				colorScale = d3.scale.category20b();
+//				break;
+//			case "colorScale20c":
+//				colorScale = d3.scale.category20c();
+//				break;
+//			case "segments":
+//				colorScale = d3.scale.ordinal().range(segments);
+//				break;
+//			default:
+//				colorScale = d3.scale.category20c();
+//		};
 	
-		var wigthDivPieChart = d3.select(divPieChart).node().getBoundingClientRect().width			
 		var pieWidthTotal = outerRadius * 2;
-		
-		var marginX = margin;
-		if( wigthDivPieChart > pieWidthTotal ){
-			marginX = (wigthDivPieChart - pieWidthTotal);
-		}
 			
 		var pieCenterX = outerRadius + margin / 2;
 		var pieCenterY = outerRadius + margin / 2;
@@ -219,11 +290,10 @@
 		var legendTextOffset = 20;
 		var textVerticalSpace = 20;
 		
-		var canvasWidth = wigthDivPieChart;
+		var canvasWidth = outerRadius * 2 + margin * 2;//wigthDivPieChart;
 		var canvasHeight = 0;
 		
 		var pieDrivenHeight = outerRadius * 2 + margin * 2;
-		//var legendTextDrivenHeight = (dataSet.length * textVerticalSpace) + margin * 2;
 			
 		// Autoadjust Canvas Height
 		//if (pieDrivenHeight >= legendTextDrivenHeight) {
@@ -279,9 +349,12 @@
 		// This will create <g> elements for every "extra" data element that should be associated
 		// with a selection. The result is creating a <g> for every object in the data array
 		// Create a group to hold each slice (we will have a <path> and a <text>      // element associated with each slice)
-		.enter().append("svg:a").attr("xlink:href", function(d) {
-			return d.data.linkURL;
-		}).append("svg:g").attr("class", "slice") //allow us to style things in the slices (like text)
+		.enter()
+		.append("svg:a")
+		.attr("xlink:href", function(d) {
+			return "#"; //d.data.linkURL;
+		}).on('onclick',  function() {return false;})
+		.append("svg:g").attr("class", "slice") //allow us to style things in the slices (like text)
 		// Set the color for each slice to be chosen from the color function defined above
 		// This creates the actual SVG path using the associated data (pie) with the arc drawing function
 		.style("stroke", "White").attr("d", arc);
@@ -295,13 +368,11 @@
 		
 		.attr("data_id", function(d, i) { return dataSet[i].id })
 		.attr("data_label", function(d, i) { return dataSet[i].label })
-		.attr("data_formattedValue", function(d, i) { return dataSet[i].formattedValue })
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
 		
-		.attr("data-pos", function(d, i) { return i })
-		.attr("class", function(d, i) { return "pie-" + pieName + "-arc-index-" + i; })
+		.attr("class", function(d, i) { return "link-url-naviga-dettaglio pie-" + pieName + "-arc-index-" + i; })
 		.style("stroke", "White")
 		.attr("d", arc)
 		.on('mouseover', synchronizedMouseOver)
@@ -309,7 +380,7 @@
 		.transition()
 		.ease("linear")
 		//.ease("bounce")
-		.duration(2000)
+		.duration(500)
 		.delay(function(d, i) { return i * 50; })
 		.attrTween("d", tweenPie);
 	
@@ -338,11 +409,11 @@
 		
 	};
 	
-	function drawBar(chartName, histogramName, dataSet){
+	function drawBar(chartName, histogramName, dataSet) {
 
-		var chartWidth       = 310,
-		    barHeight        = 310 / dataSet.length,
-		    gapBetweenGroups = 10,
+		var chartWidth       = 200,
+		    barHeight        = 25, //220 / dataSet.length, //310
+		    gapBetweenGroups = 30,
 		    spaceForLabels   = 150;
 
 		// Zip the series data together (first values, second values, etc.)
@@ -353,7 +424,7 @@
 
 		// Color scale
 		//var color = d3.scale.category20();
-		var color = d3.scale.ordinal().range(segments);
+		//var color = d3.scale.ordinal().range(segments);
 	
 		var chartHeight = barHeight * zippedData.length + (gapBetweenGroups * 2);
 
@@ -361,8 +432,7 @@
 		    .domain([0, d3.max(zippedData)])
 		    .range([0, chartWidth]);
 
-		var y = d3.scale.linear()
-		    .range([chartHeight + gapBetweenGroups, 0]);
+		var y = d3.scale.linear().range([chartHeight + gapBetweenGroups, 0]);
 
 		var yAxis = d3.svg.axis()
 		    .scale(y)
@@ -378,30 +448,36 @@
 		// Create bars
 		var bar = chart.selectAll("g")
 		    .data(zippedData)
-		    .enter().append("g")
-		    .attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+		    .enter()
+			.append("svg:a")
+			.attr("xlink:href", function(d) {
+				return "#"; //d.data.linkURL;
+			}).on('onclick',  function() {return false;})
+			.append("g")
+		    .attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 			.attr("index_value", function(d, i) { return "index-" + i; })
 			
 			.attr("data_id", function(d, i) { return dataSet[i].id })
 			.attr("data_label", function(d, i) { return dataSet[i].label })
-			.attr("data_formattedValue", function(d, i) { return dataSet[i].formattedValue })
 			.attr("data_value", function(d, i) { return dataSet[i].value })
 			.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 			.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
-
-			.attr("data-pos", function(d, i) { return i })
+			
+			.attr("class", "link-url-naviga-dettaglio")
+			
 			.on('mouseover', synchronizedMouseOver)
 			.on("mouseout", synchronizedMouseOut)
+			
 			.attr("transform", function(d, i) {
 		      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/dataSet.length))) + ")";
 		    });
 
 		// Create rectangles of the correct width
 		bar.append("rect")
-		    .attr("fill", function(d,i) { return color(i % dataSet.length); })
+		    .attr("fill", function(d,i) { return colorScale(i % dataSet.length); })
 			.attr("class", function(d, i) { return "bar histogram-" + histogramName + "-arc-index-" + i; })
 		    .attr("width", x)
-		    .attr("height", barHeight - 1);
+		    .attr("height", barHeight - 10);
 		
 		/*
 		// Add text label in bar
@@ -409,46 +485,57 @@
 		   .attr("x", function(d) { return x(d) - 3; })
 		   .attr("y", barHeight / 2)
 		   .attr("dy", ".35em")
-		   .text(function(d, i) { return dataSet[i].formattedValue; });
+		   .text(function(d, i) { return nFormatter(dataSet[i].value); });
 		*/
 		
 		// Draw labels
 		bar.append("text")
-		   .attr("class", "label")
+		   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
 		   .attr("x", function(d) { return - 10; })
-		   .attr("y", barHeight / 2)
-		   .attr("dy", ".35em")
+		   .attr("y", (barHeight-10) / 2)
+		   .attr("dy", ".25em")
+		   .style("fill", textColor)
+		   .style("font-size", "1.8em")
 		   .text(function(d, i) { 
 		        //return dataSet[i].label; 
-				return dataSet[i].formattedValue;
+				return nFormatter(dataSet[i].value);
 			});
 	};
 	
 	function drawLegend(divLegend, legendName, dataSet){
 		
-		var canvas = d3.select(divLegend).append("svg:svg")
-		    .attr("width", 400)
-		    .attr("height", 330);
-			
 		var widthTotal = 50;
+		var heightLegend = 25; 
+		var gapBetweenGroups = 25;
 		var legendBulletOffset = 30;
 		var legendTextOffset = 20;
 		var textVerticalSpace = 20;
 		
-		var colorScale = d3.scale.ordinal().range(segments);
+		var canvas = d3.select(divLegend).append("svg:svg")
+		    .attr("width", 800)
+		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
+			
+		
+//		var colorScale = d3.scale.ordinal().range(segments);
 		
 		// Plot the bullet circles...
 		canvas.selectAll("circle")
 		.data(dataSet)
 		.enter()
+		.append("svg:a")
+		.attr("xlink:href", function(d) {
+			return "#"; //d.data.linkURL;
+		}).on('onclick',  function() {return false;})
 		.append("svg:circle") // Append circle elements
 		
 		.attr("cx", widthTotal)
-		.attr("cy", function(d, i) { return ( 10 + (i * (310 / dataSet.length)) + ((310 / dataSet.length)/2) ) ; })
+		.attr("cy", function(d, i) { 
+			//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
+			return gapBetweenGroups + (heightLegend * i);
+		})
 		
 		.attr("data_id", function(d, i) { return dataSet[i].id })
 		.attr("data_label", function(d, i) { return dataSet[i].label })
-		.attr("data_formattedValue", function(d, i) { return dataSet[i].formattedValue })
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
@@ -456,7 +543,7 @@
 		.attr("stroke-width", ".5").style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
 		.attr("r", 5).attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-" + i; })
-		.attr("class", function(d, i) { return "legend-" + legendName + "-legendBullet-index-" + i; })
+		.attr("class", function(d, i) { return "link-url-naviga-dettaglio legend-" + legendName + "-legendBullet-index-" + i; })
 		.on('mouseover', synchronizedMouseOver)
 		.on("mouseout", synchronizedMouseOut);
 		
@@ -465,11 +552,18 @@
         canvas.selectAll("a.legend_link")
 		.data(dataSet) // Instruct to bind dataSet to text elements
 		.enter().append("svg:a") // Append legend elements
-		.attr("xlink:href", function(d) { return d.linkURL; })
+		.attr("xlink:href", function(d) { 
+			//return d.linkURL; 
+			return "#";
+		})
+		.on('mouseclick', function(){ return false;})
 		.append("text")
 		.attr("text-anchor", "center")
 		.attr("x", widthTotal + 20)
-		.attr("y", function(d, i) { return ( 10 + (i * (310 / dataSet.length)) + ((310 / dataSet.length)/2) ) ; })
+		.attr("y", function(d, i) { 
+			//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
+			return gapBetweenGroups + (heightLegend*i);
+		})
 		.attr("dx", 0)
         .attr("dy", "5px") // Controls padding to place text in alignment with bullets
         .text(function(d) { return d.label;})
@@ -478,14 +572,14 @@
         
         .attr("data_id", function(d, i) { return dataSet[i].id })
 		.attr("data_label", function(d, i) { return dataSet[i].label })
-		.attr("data_formattedValue", function(d, i) { return dataSet[i].formattedValue })
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
 			
-        .attr("class", function(d, i) { return "label legend-" + legendName + "-legendText-index-" + i; })
+        .attr("class", function(d, i) { return "link-url-naviga-dettaglio label legend-" + legendName + "-legendText-index-" + i; })
 		
-        .style("fill", "Blue")
+        .style("fill", textColor)
+        .style("font-size", "1.8em")
         .on('mouseover', synchronizedMouseOver)
         .on("mouseout", synchronizedMouseOut);
 		
@@ -510,15 +604,66 @@
 		}
 	};
 	
-	pie = drawPie("Pie1", dataSet1, "#pie_chart_1 .chart", "segments", 10, 155, ".div_pie_chart_1", 0, 0);
+	var margin = 10;
+	var outerRadius = 130;
 	
-	bar = drawBar(".chart-bar", "Histogram1", dataSet1);
+	pie = drawPie("Pie1", dataSet1, ".pie_chart_1", "segments", margin, outerRadius, 0, 0);
 	
 	legend = drawLegend("#chartLegend", "Legend1", dataSet1);
 	
-	createEventMouseOver('#pieChart');
-	createEventMouseOver('#histogramChart');
-	createEventMouseOver('#chartLegend');
+	bar = drawBar(".chart-bar", "Histogram1", dataSet1);
+	
+//	createEventMouseOver('#pie_chart_1');
+//	createEventMouseOver('#chartLegend');
+//	createEventMouseOver('#histogramChart');
+
+	AUI().use('get', function(A){
+	   A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
+	       	onSuccess: function(){
+	       		A.Get.script('${jsFolder}/bootstrap.min.js', {
+	       			onSuccess: function(){	
+	       				
+	       				$(".volume-color").mouseover(function() { 
+	       					$(".arrow-down-volume").css('border-top','10px solid #d27900'); 
+	       				});
+	       				$(".volume-color").mouseout(function() { 
+	       					$(".arrow-down-volume").css('border-top','10px solid #f08c00'); 
+	       				});
+	       				
+	       				$(".costo-color").mouseover(function() { 
+	       					$(".arrow-down-costo").css('border-top','10px solid #950047'); 
+	       				});
+	       				$(".costo-color").mouseout(function() { 
+	       					$(".arrow-down-costo").css('border-top','10px solid #c90061'); 
+	       				});
+	       				
+	       				$(".importo-color").mouseover(function() { 
+	       					$(".arrow-down-importo").css('border-top','10px solid #005500'); 
+	       				});
+	       				$(".importo-color").mouseout(function() { 
+	       					$(".arrow-down-importo").css('border-top','10px solid #009600'); 
+	       				});
+	       				
+	       				$( ".sel-type-btn" ).click(function() {
+	       					var arc = d3.select(this);
+	       					var distribuzione = arc.attr("data-distribuzione");
+	       					$( ".pattern" ).val(distribuzione);
+	       					$( ".naviga-form" ).submit();
+	       				});
+	       				
+	       				$( ".link-url-naviga-dettaglio" ).click(function() {
+	       					var arc = d3.select(this);
+	       					var data_linkURL = arc.attr("data_linkURL");
+	       					$( ".naviga-form" ).attr("action", data_linkURL);
+	       					$( ".naviga-form" ).submit();
+	       				});
+	       				
+	      			}
+		 		});
+	      	}
+		 });
+	});
 	
 </script>
+	
 

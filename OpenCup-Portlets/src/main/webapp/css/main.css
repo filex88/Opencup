@@ -787,3 +787,87 @@ div#news-list ul li i{color: #00b0f0;}
 	font: 10px sans-serif;
 	display: block;
 }
+
+.pie-chart-portlet .btn-carica-distribuzione{ 
+    border-radius: 0px;
+}
+
+.pie-chart-portlet .btn-carica-distribuzione .block{ 
+    display:block;
+    padding:5px 15px 5px 15px;
+    border: 0px;  
+    text-decoration: none;
+    border-radius: 0px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+.pie-chart-portlet .volume-color {
+	background-color:#f08c00;
+}
+
+.pie-chart-portlet .costo-color {
+	background-color:#c90061;
+}
+
+.pie-chart-portlet .importo-color {
+	background-color:#009600;
+}
+
+.pie-chart-portlet .arrow-down-volume {
+	width: 0; 
+	height: 0; 
+	position: relative;
+	left:15px;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 10px solid #f08c00;
+}
+
+.pie-chart-portlet .arrow-down-costo {
+	width: 0; 
+	height: 0; 
+	position: relative;
+	left:15px;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 10px solid #c90061;
+}
+
+.pie-chart-portlet .arrow-down-importo {
+	width: 0; 
+	height: 0; 
+	position: relative;
+	left:15px;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 10px solid #009600;
+}
+
+.pie-chart-portlet .volume-color a.block:hover,
+.pie-chart-portlet .volume-color a.block:focus {
+	background-color:#d27900;
+}
+
+.pie-chart-portlet .costo-color a.block:hover,
+.pie-chart-portlet .costo-color a.block:focus {
+	background-color:#950047;
+}
+
+.pie-chart-portlet .importo-color a.block:hover,
+.pie-chart-portlet .importo-color a.block:focus {
+	background-color:#005500;
+}
+
+
+/*
+.pie-chart-portlet .btn-carica-distribuzione a.block:hover, 
+.pie-chart-portlet .btn-carica-distribuzione a.block:focus { 
+    background-color:#f08c00; 
+}
+
+.pie-chart-portlet .btn-carica-distribuzione a.block:active { 
+    background-color:#009600; 
+}
+*/

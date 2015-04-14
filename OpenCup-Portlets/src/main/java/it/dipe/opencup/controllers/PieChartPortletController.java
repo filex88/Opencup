@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
@@ -22,12 +24,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
+import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -60,6 +65,9 @@ public class PieChartPortletController {
 								Model model,
 								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
 								@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		model.addAttribute("pattern", pattern);
 		
@@ -122,6 +130,8 @@ public class PieChartPortletController {
 		}
 
 		//System.out.println( "JSON: " + createJsonStringFromQueryResult(converter) );
+
+		model.addAttribute("recordCount",converter.size());
 		
 		model.addAttribute("aggregati4Pie", createJsonStringFromQueryResult(converter));
 		
@@ -129,6 +139,68 @@ public class PieChartPortletController {
 		
 		return "pie-chart-view";
 	}
+
+	@ActionMapping(params="action=cambiaAggregazione")
+	public void actionCambiaAggregazione(	ActionRequest aRequest, 
+									ActionResponse aResponse, 
+									Model model, 
+									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
+									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		
+		aResponse.setRenderParameter("pattern", pattern);
+	}
+	
+	@ActionMapping(params="action=navigazione")
+	public void actionNavigazione(	ActionRequest aRequest, 
+									ActionResponse aResponse, 
+									Model model, 
+									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
+									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+		
+		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		navigaAggregata.setIdAreaIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		
+		//aResponse.setRenderParameter("pattern", pattern);
+		
+		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
+			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
+			
+			String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
+			
+			try {
+				aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata ) );
+				return;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	protected String createJsonStringFromModelAttribute(NavigaAggregata filtro){
+		ObjectMapper mapper= new ObjectMapper();
+
+		String jsonString=null;
+		try {
+			jsonString = mapper.writeValueAsString(filtro);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
+	
 	
 	protected String createJsonStringFromQueryResult(List<D3PieConverter> formattedResult){
 		ObjectMapper mapper= new ObjectMapper();
