@@ -5,6 +5,7 @@
 	<category name="Open CUP">
 		<portlet id="home-page-portlet" />
 		<portlet id="classificazione-portlet1" />
+		<portlet id="pie-chart-portlet" />
 		<portlet id="elenco-progetti-portlet" />
 		<portlet id="dettaglio-progetto-portlet" />
 		<portlet id="localizzazione-portlet1" />

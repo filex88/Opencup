@@ -690,6 +690,7 @@ div.celle_dati_sitesi{
     background-color: #004383;
 }
 
+
 div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;margin-top: -1em;}
 
 div#sponsor-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
@@ -713,3 +714,76 @@ div#news-list ul li {display: inline-block;list-style: none;width:25%;}
 div#news-list ul li a{color: #1f4e78;font-style: italic;}
 
 div#news-list ul li i{color: #00b0f0;}
+
+.pie-chart-portlet #tooltip-pie-chart {
+	position: absolute;
+	width: 300px;
+	height: auto;
+	padding: 10px;
+	background-color: #ffffff;
+	border: 2px solid #5b5955;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+	pointer-events: none;
+}
+
+.pie-chart-portlet .hidden {
+	display: none;
+}
+
+ .pie-chart-portlet #tooltip-pie-chart p {
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+.pie-chart-portlet .chart-div{
+	text-align: center;
+	vertical-align: middle;
+	min-height: 120 px;
+}	
+
+.pie-chart-portlet  .axis path, 
+.pie-chart-portlet  .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+.pie-chart-portlet  .axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.pie-chart-portlet  .axis path, 
+.pie-chart-portlet  .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.pie-chart-portlet  .axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.pie-chart-portlet  .chart-bar text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+.pie-chart-portlet  .chart-bar .label {
+  fill: black;
+  font: 14px sans-serif;
+  text-anchor: end;
+}
+
+.pie-chart-portlet  svg {
+	font: 10px sans-serif;
+	display: block;
+}
