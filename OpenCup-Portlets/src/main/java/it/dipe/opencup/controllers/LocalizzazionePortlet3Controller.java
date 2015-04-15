@@ -102,7 +102,7 @@ public class LocalizzazionePortlet3Controller extends LocalizzazionePortletCommo
 		model.addAttribute("selectedRegion", codReg);
 		portletURL.setParameter("noAree",noAree);
 		
-		Integer numeProgetti = 0;
+		Long numeProgetti = new Long(0);
 		double impoCostoProgetti = 0.0;
 		double impoImportoFinanziato = 0.0;
 		String urlElencoProgetti=super.calcolaUrlLocalizzazioneByLivello(request, filtro.getPagElencoProgetti());

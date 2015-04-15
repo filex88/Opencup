@@ -26,14 +26,14 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	 
 
 	@Column(name = "NUME_FAGG_PROGETTI")
-	private Integer numeProgetti;
+	private Long numeProgetti;
 	 
 
-	@Column(name = "IMPO_FAGG_COSTO_PROGETTI", columnDefinition = "NUMBER", precision = 15, scale = 3)
+	@Column(name = "IMPO_FAGG_COSTO_PROGETTI", columnDefinition = "NUMBER", precision = 18, scale = 3)
 	private Double impoCostoProgetti;
 	 
 
-	@Column(name = "IMPO_FAGG_IMPORTO_FINANZIATO", columnDefinition = "NUMBER", precision = 15, scale = 3)
+	@Column(name = "IMPO_FAGG_IMPORTO_FINANZIATO", columnDefinition = "NUMBER", precision = 18, scale = 3)
 	private Double impoImportoFinanziato;
 	
 	
@@ -76,12 +76,12 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	}
 
 
-	public Integer getNumeProgetti() {
+	public Long getNumeProgetti() {
 		return numeProgetti;
 	}
 
 
-	public void setNumeProgetti(Integer numeProgetti) {
+	public void setNumeProgetti(Long numeProgetti) {
 		this.numeProgetti = numeProgetti;
 	}
 

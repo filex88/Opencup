@@ -9,7 +9,7 @@ public class LocalizationValueConverter implements Serializable{
 	private String localizationLabel;
 	private double costoValue;
 	private double importoValue;
-	private Integer volumeValue;
+	private Long volumeValue;
 	private String detailUrl;
 	private String fullLabel;
 	private String linkMatch;
@@ -17,7 +17,7 @@ public class LocalizationValueConverter implements Serializable{
 	public LocalizationValueConverter() {
 	}
 	public LocalizationValueConverter(String localizationLabel,double importoValue,double costoValue,
-			Integer volumeValue,  String detailUrl,String fullLabel,String linkMatch) {
+			Long volumeValue,  String detailUrl,String fullLabel,String linkMatch) {
 		this.localizationLabel = localizationLabel;
 		this.importoValue = importoValue;
 		this.costoValue=costoValue;
@@ -44,10 +44,10 @@ public class LocalizationValueConverter implements Serializable{
 	public void setImportoValue(double importoValue) {
 		this.importoValue = importoValue;
 	}
-	public Integer getVolumeValue() {
+	public Long getVolumeValue() {
 		return volumeValue;
 	}
-	public void setVolumeValue(Integer volumeValue) {
+	public void setVolumeValue(Long volumeValue) {
 		this.volumeValue = volumeValue;
 	}
 	public String getDetailUrl() {

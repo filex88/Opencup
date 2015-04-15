@@ -48,7 +48,7 @@ public class NaturaPortlet3Controller extends NaturaPortletCommonController {
 		searchContainer.setTotal(3);
 		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaRiepilogo);
-		Integer numeProgetti = 0;
+		Long numeProgetti = new Long(0);
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		

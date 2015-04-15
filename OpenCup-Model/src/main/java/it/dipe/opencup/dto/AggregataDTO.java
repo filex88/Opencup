@@ -14,7 +14,7 @@ public class AggregataDTO implements Serializable{
 
 	private Integer id;
 
-	private Integer numeProgetti;
+	private Long numeProgetti;
 
 	private Double impoCostoProgetti;
 
@@ -90,11 +90,11 @@ public class AggregataDTO implements Serializable{
 		this.id = id;
 	}
 
-	public Integer getNumeProgetti() {
+	public Long getNumeProgetti() {
 		return numeProgetti;
 	}
 
-	public void setNumeProgetti(Integer numeProgetti) {
+	public void setNumeProgetti(Long numeProgetti) {
 		this.numeProgetti = numeProgetti;
 	}
 

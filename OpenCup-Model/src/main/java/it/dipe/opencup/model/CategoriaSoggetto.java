@@ -7,8 +7,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,25 +22,25 @@ public class CategoriaSoggetto extends AbstractCommonEntity implements Serializa
 	@Column(name = "SEQU_DCSO_ID")
 	private Integer id;
 
-	@Column(name = "CODI_DCSO_CATEGORIA_SOGGETTO", length = 18, columnDefinition = "char")
+	@Column(name = "CODI_DCSO_CATEGORIA_SOGGETTO", length = 2, columnDefinition = "char")
 	private String codiCategoriaSoggetto;
 
 	@Column(name = "DESC_DCSO_CATEGORIA_SOGGETTO", length = 150, columnDefinition = "char")
 	private String descCategoriaSoggetto;
 	
-	@ManyToOne(targetEntity = AreaSoggetto.class)
-	@JoinColumn(name = "FK_DCSO_DASO_ID", referencedColumnName = "SEQU_DASO_ID")
-	private AreaSoggetto areaSoggetto;
+//	@ManyToOne(targetEntity = AreaSoggetto.class)
+//	@JoinColumn(name = "FK_DCSO_DASO_ID", referencedColumnName = "SEQU_DASO_ID")
+//	private AreaSoggetto areaSoggetto;
 
 
-	public AreaSoggetto getAreaSoggetto() {
-		return areaSoggetto;
-	}
-
-
-	public void setAreaSoggetto(AreaSoggetto areaSoggetto) {
-		this.areaSoggetto = areaSoggetto;
-	}
+//	public AreaSoggetto getAreaSoggetto() {
+//		return areaSoggetto;
+//	}
+//
+//
+//	public void setAreaSoggetto(AreaSoggetto areaSoggetto) {
+//		this.areaSoggetto = areaSoggetto;
+//	}
 
 
 	public Integer getId() {

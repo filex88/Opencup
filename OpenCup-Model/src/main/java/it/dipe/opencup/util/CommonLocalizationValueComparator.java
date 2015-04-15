@@ -35,7 +35,7 @@ public class CommonLocalizationValueComparator implements Comparator<Localizatio
 		return 0;
 	}
 	
-	private int confrontaInteri(Integer valore1,Integer valore2,String ordinamento){
+	private int confrontaInteri(Long valore1, Long valore2, String ordinamento){
 		int result=0;
 		if (valore1!=null && valore2!=null){
 			if (valore1.intValue()>valore2.intValue() ){

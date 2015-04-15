@@ -70,7 +70,7 @@ public class HomePagePortletController {
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringLocalizzazioneFromQueryResult(valori));
 		
 		
-		Integer numeProgettiClass = 0;
+		Long numeProgettiClass = new Long(0);
 		double impoCostoProgettiClass = 0.0;
 		double impoImportoFinanziatoClass = 0.0;
 		

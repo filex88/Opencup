@@ -37,8 +37,15 @@ public class SottocategoriaSoggetto extends AbstractCommonEntity implements Seri
 	@JoinColumn(name = "FK_DSCS_DCSO_ID", referencedColumnName = "SEQU_DCSO_ID")
 	private CategoriaSoggetto categoriaSoggetto;
 	
+	
+	@ManyToOne(targetEntity = AreaSoggetto.class)
+	@JoinColumn(name = "FK_DSCS_DASO_ID", referencedColumnName = "SEQU_DASO_ID")
+	private AreaSoggetto areaSoggetto;
 
-
+	
+	@Column(name = "CODI_DSCS_CATEGORIA_SOGGETTO", length = 2, columnDefinition = "char")
+	private String codiCategoriaSoggetto;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -76,6 +83,26 @@ public class SottocategoriaSoggetto extends AbstractCommonEntity implements Seri
 
 	public void setCategoriaSoggetto(CategoriaSoggetto categoriaSoggetto) {
 		this.categoriaSoggetto = categoriaSoggetto;
+	}
+
+
+	public AreaSoggetto getAreaSoggetto() {
+		return areaSoggetto;
+	}
+
+
+	public void setAreaSoggetto(AreaSoggetto areaSoggetto) {
+		this.areaSoggetto = areaSoggetto;
+	}
+
+
+	public String getCodiCategoriaSoggetto() {
+		return codiCategoriaSoggetto;
+	}
+
+
+	public void setCodiCategoriaSoggetto(String codiCategoriaSoggetto) {
+		this.codiCategoriaSoggetto = codiCategoriaSoggetto;
 	}
 
 

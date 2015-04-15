@@ -119,6 +119,78 @@ public class AggregataFacade {
 	@Autowired
 	private AreaSoggettoDAO areaSoggettoDAO;
 	
+	private Criteria buildCriteria4Testata(NavigaAggregata navigaAggregata){
+		Criteria criteria = aggregataDAO.newCriteria();
+		
+		criteria.createAlias("classificazione", "classificazione");
+		criteria.createAlias("localizzazione", "localizzazione");
+		criteria.createAlias("gerarchiaSoggetto", "gerarchiaSoggetto");
+		
+		if( navigaAggregata.getIdProvincia().equals("0") ){
+			navigaAggregata.setIdProvincia("-1");
+		}
+		criteria.add( Restrictions.eq("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
+		
+		if( navigaAggregata.getIdRegione().equals("0") ){
+			navigaAggregata.setIdRegione("-1");
+		}
+		criteria.add( Restrictions.eq("localizzazione.regione.id", Integer.valueOf(navigaAggregata.getIdRegione())) );
+		
+		if( navigaAggregata.getIdAreaGeografica().equals("0") ){
+			navigaAggregata.setIdAreaGeografica("-1");
+		}
+		criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", Integer.valueOf(navigaAggregata.getIdAreaGeografica())) );
+
+		criteria.add( Restrictions.eq("localizzazione.descStato", navigaAggregata.getDescStato() ) );
+		
+		if( navigaAggregata.getIdNatura().equals("0") ){
+			navigaAggregata.setIdNatura("-1");
+		}
+		criteria.add( Restrictions.eq("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
+		
+		if( navigaAggregata.getIdAreaIntervento().equals("0") ){
+			navigaAggregata.setIdAreaIntervento("-1");
+		}
+		criteria.add( Restrictions.eq("classificazione.areaIntervento.id", Integer.valueOf(navigaAggregata.getIdAreaIntervento())) );
+		
+		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
+			navigaAggregata.setIdSottosettoreIntervento("-1");
+		}
+		criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
+		
+		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
+			navigaAggregata.setIdCategoriaIntervento("-1");
+		}
+		criteria.add( Restrictions.eq("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
+		
+		if( navigaAggregata.getIdStatoProgetto().equals("0") ){
+			navigaAggregata.setIdStatoProgetto("-1");
+		}
+		criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaAggregata.getIdStatoProgetto())) );
+		
+		if( navigaAggregata.getIdTipologiaIntervento().equals("0") ){
+			navigaAggregata.setIdTipologiaIntervento("-1");
+		}
+		criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaIntervento())) );
+		
+		if( navigaAggregata.getIdCategoriaSoggetto().equals("0") ){
+			navigaAggregata.setIdCategoriaSoggetto("-1");
+		}
+		criteria.add( Restrictions.eq("gerarchiaSoggetto.categoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdCategoriaSoggetto())) );	
+
+		if( navigaAggregata.getIdSottoCategoriaSoggetto().equals("0") ){
+			navigaAggregata.setIdSottoCategoriaSoggetto("-1");
+		}
+		criteria.add( Restrictions.eq("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
+		
+		if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
+			navigaAggregata.setIdAreaSoggetto("-1");
+		}
+		criteria.add( Restrictions.eq("gerarchiaSoggetto.areaSoggetto.id", Integer.valueOf(navigaAggregata.getIdAreaSoggetto())) );
+		
+		return criteria;
+	}
+	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
 		Criteria criteria = aggregataDAO.newCriteria();
@@ -221,7 +293,7 @@ public class AggregataFacade {
 		
 		return criteria;
 	}
-	
+		
 	private List<AggregataDTO> listaAggregataToListaAggregataDTO( 	NavigaAggregata navigaAggregata, 
 																	List<Aggregata> listaAggregata ) {
 
@@ -243,7 +315,7 @@ public class AggregataFacade {
 					listaIdElementiEleborati.add(tmpAggregata.getId());
 					
 					//Uso il primo elemento trovato
-					Integer numeProgetti = tmpAggregata.getNumeProgetti();
+					Long numeProgetti = tmpAggregata.getNumeProgetti();
 					Double impoCostoProgetti = tmpAggregata.getImpoCostoProgetti();
 					Double impoImportoFinanziato = tmpAggregata.getImpoImportoFinanziato();
 					
@@ -734,6 +806,12 @@ public class AggregataFacade {
 		retval = categoriaSoggettoDAO.findByCriteria(criteria);
 		
 		return retval;
+	}
+	
+	@Cacheable(value = "AggregataDTO")
+	public List<AggregataDTO> findAggregata4Testata(NavigaAggregata navigaAggregata) {
+		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria4Testata(navigaAggregata));
+		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 	}
 	
 }

@@ -26,6 +26,11 @@ public class DescrizioneValore implements Serializable{
 		this.value = value.doubleValue();
 	}
 	
+	public DescrizioneValore(String label, Long value){
+		this.label = label;
+		this.value = value.doubleValue();
+	}
+	
 	public String getLabel() {
 		return label;
 	}

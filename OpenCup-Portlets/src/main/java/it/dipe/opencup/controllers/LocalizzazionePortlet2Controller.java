@@ -90,7 +90,7 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 		portletURL.setParameter("idTerr",idTerr);
 		model.addAttribute("selectedTerritory", idTerr);
 		
-		Integer numeProgetti = 0;
+		Long numeProgetti = new Long(0);
 		double impoCostoProgetti = 0.0;
 		double impoImportoFinanziato = 0.0;
 		String nestedDetailUrl=calcolaUrlLocalizzazioneByLivello(request, "localizzazioneprovince");

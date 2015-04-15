@@ -18,6 +18,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
+import javax.xml.namespace.QName;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,7 +90,11 @@ public class PieChartPortletController {
 		
 		model.addAttribute("pattern", pattern);
 		
+		System.out.println( navigaAggregata.toString() );
+		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
+		
+		System.out.println( "JSON 1 (" + listaAggregataDTO.size() + "): " + createJsonStringFromQueryResultAggregataDTO(listaAggregataDTO) );
 		
 		String anchorPortlet = "#pie-chart-portlet";
 		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
@@ -147,10 +152,10 @@ public class PieChartPortletController {
 			converter.add(conv);
 		}
 
-		//System.out.println( "JSON: " + createJsonStringFromQueryResult(converter) );
+		System.out.println( "JSON 2 (" + converter.size() + "): " + createJsonStringFromQueryResult(converter) );
 
 		model.addAttribute("recordCount",converter.size());
-		
+
 		model.addAttribute("aggregati4Pie", createJsonStringFromQueryResult(converter));
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
@@ -168,6 +173,10 @@ public class PieChartPortletController {
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
 		aResponse.setRenderParameter("pattern", pattern);
+		
+		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");
+		aResponse.setEvent(eventName, navigaAggregata);
+		
 	}
 	
 	@ActionMapping(params="action=navigazione")
@@ -199,6 +208,28 @@ public class PieChartPortletController {
 			}
 		}
 		
+		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");
+		aResponse.setEvent(eventName, navigaAggregata);
+		
+	}
+	
+	@ActionMapping(params="action=accedi")
+	public void actionAccedi(	ActionRequest aRequest, 
+									ActionResponse aResponse, 
+									Model model, 
+									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
+									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+		
+		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
+		navigaAggregata.setIdAreaIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
+		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
+		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		
+		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");
+		aResponse.setEvent(eventName, navigaAggregata);
+		
 	}
 	
 	protected String createJsonStringFromModelAttribute(NavigaAggregata filtro){
@@ -219,6 +250,22 @@ public class PieChartPortletController {
 		return jsonString;
 	}
 	
+	protected String createJsonStringFromQueryResultAggregataDTO(List<AggregataDTO> formattedResult){
+		ObjectMapper mapper= new ObjectMapper();
+		String jsonString=null;
+		try {
+			jsonString = mapper.writeValueAsString(formattedResult);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
 	
 	protected String createJsonStringFromQueryResult(List<D3PieConverter> formattedResult){
 		ObjectMapper mapper= new ObjectMapper();
