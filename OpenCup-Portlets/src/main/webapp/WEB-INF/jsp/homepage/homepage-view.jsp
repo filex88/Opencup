@@ -12,15 +12,29 @@
 <portlet:defineObjects />
 
 <style>
-	ol#noticeSpinner.carousel-indicators{position: relative!important;padding-top:11em;}
+	div#noticeCarousel.carousel {height:12.5em;}
+	ol#noticeSpinner.carousel-indicators{position: relative!important;padding-top:11em;padding-right: 30em;z-index: 0;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
 	ol#noticeSpinner li:hover{cursor: pointer;}
 	ol#noticeSpinner li.active{background-color:#0084b0;}
-	div#textHome {text-align: center;margin-top: -8em;}
+	div#textHome {text-align: center;margin-top: -14em;}
 	div.stripe{background: #fff;height:14em;border-top:.5em solid #f0f0f0;}
 	
-	div#firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
-	div#firstStripeLeft small{font-size: .5em;}
+	div.firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
+	div.firstStripeLeft small{font-size: .5em;}
+	div.secondStripeLeft{text-align: justify;padding-top:3em;}
+	div.secondStripeLeft div.linkScopri{float: right;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
+	div.secondStripeLeft div a.linkHome{line-height: 2em;color:#fff;}
+	div.secondStripeLeft div a.linkHome:hover {text-decoration: underline;cursor: pointer;}
+	
+	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
+	div.summary ul li span{color: #1f4e78;}
+	div.summary ul li.sumVolume svg {height: .8em; background-color: #0084b0;}
+	div.summary ul li.sumCosto svg {height: .8em; background-color: #00b0f0;}
+	div.summary ul li.sumImporto svg {height: .8em;}
+	div.summary ul li.sumImporto rect:first-of-type {fill: #d9d9d9;}
+	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #1f4e78;}
+	
 	
 	#rulloLoc{padding-bottom: 1em;}
 	#rulloLoc .infiniteCarousel{background-color: #f0f0f0;height: 15em!important;}
@@ -36,7 +50,7 @@
 	#rulloClass{padding-bottom: 0.5em;}
 	#rulloClass .infiniteCarousel{background-color: #f0f0f0;height: 16em!important;}
 	#rulloClass .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
-	#rulloClass i.icon-chevron-right, #rulloLoc i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
+	#rulloClass i.icon-chevron-right, #rulloClass i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
 	#rulloClass div.ic_tray:first-child{margin-left: -6px!important;}
 	#rulloClass div.ic_tray:last-child{margin-left: -6px!important;}
 	#rulloClass div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
@@ -49,20 +63,16 @@
 	#rulloClass div.barcontainer span.privato{color:#ababab;}
 	
 </style>
-
+<fmt:setLocale value="it_IT"/>
 <div class="portlet-body">
 	
 	<div class="clear"></div>
 	<div class="stripe">
-	<div id="firstStripeLeft" class="span3 left">
-		OpenCUP<br/>
-		<br/>
-		<small>Ambito - Lavori Pubblici</small>
-	</div>
-	<div class="span6" >
+	
+	<div class="span9" >
 		
 		<div id="noticeCarousel" class="carousel slide">
-			<div class="left">
+			<div class="right">
 				<ol id="noticeSpinner" class="carousel-indicators">
    			 		<li data-target="#noticeCarousel" data-slide-to="0" class="active"></li>
    			 		<li data-target="#noticeCarousel" data-slide-to="1"></li>
@@ -70,19 +80,89 @@
  			 	</ol>
 			</div>
   			
- 
- 		 <div id="textHome" class="carousel-inner right">
-   			 <div class="active item"><p>prova1</p></div>
-   			 <div class="item"><p>prova2</p></div>
-   			<div class="item"><p>prova3</p></div>
+ 		 <div id="textHome" class="carousel-inner left">
+   			 <div class="active item">
+				<div  class="firstStripeLeft left w30">
+					OpenCUP<br/>
+							<br/>
+				<small>Ambito - Lavori Pubblici 1</small>
+				</div>
+				<div class="right secondStripeLeft w70">
+					<div>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					 </div>
+					 <br/>
+					 <br/>
+					 <div class="linkScopri">
+					 		<a class="linkHome" href="#">Scopri di pi&ugrave;</a>
+
+					 </div>
+				</div>
+				
+			</div>
+   			 <div class="item">
+				<div  class="firstStripeLeft left w30">
+					OpenCUP<br/>
+							<br/>
+				<small>Ambito - Lavori Pubblici 2</small>
+				</div>
+				<div class="right secondStripeLeft w70">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				</div>
+
+			</div>
+   			<div class="item">
+				<div  class="firstStripeLeft left w30">
+					OpenCUP<br/>
+							<br/>
+				<small>Ambito - Lavori Pubblici 3</small>
+				</div>
+				<div class="right secondStripeLeft w70">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				</div>
+			</div>
   		</div>
   
 	</div>
 		
 		
 	</div>
-	<div class="span3">
-		
+	<div class="span3 summary">
+		<ul>
+			<li class="sumVolume w100">
+				<div>
+					<span class="left"><small>Progetti censiti</small></span>
+					<span class="right"><small><fmt:formatNumber value="${numeProgettiClass}" type="number" minIntegerDigits="0"/></small></span>
+					<svg class="w100"></svg>
+				</div>
+			</li>
+			<li class="sumCosto w100">
+				<div>
+					<span class="left"><small>Costo</small></span>
+					<span class="right"><small id="costoTotale"></small></span>
+					<svg class="w100"></svg>
+				</div>
+			</li>
+			<li class="sumImporto w100">
+			<div>
+				<span class="left"><small>Finanziamento pubblico</small></span>
+				<span class="right"><small id="importoTotale"></small></span>
+				<svg class="w100"></svg>
+			</div>
+			</li>
+		</ul>
 	
 	</div>
 		
@@ -172,17 +252,29 @@ AUI().use('get', function(A){
        	onSuccess: function(){
        		A.Get.script('${jsFolder}/bootstrap.min.js', {
        			onSuccess: function(){	
-       			 	
          			$('#noticeCarousel').carousel({
-         			
          				interval:false
          			});	
          			
-         			
          			 A.Get.script('${jsFolder}/js-infinite-carousel.js', {
-        
                             onSuccess: function(){
-                                $('#locCarousel').infiniteCarousel({            
+                            caricaRulli();
+                            $( window ).resize(function(){
+                            	// esegue il redraw al resize
+								d3.selectAll("li.sumImporto").select("div").select("svg").selectAll("rect").remove();
+								drawFinBar();
+								d3.selectAll("#rulloClass").selectAll("div").remove();
+								d3.selectAll("#rulloClass").append("ul").attr("id","classCarousel");
+								drawRulloClassificazione();
+								d3.selectAll("#rulloLoc").selectAll("div").remove();
+								d3.selectAll("#rulloLoc").append("ul").attr("id","locCarousel");
+								drawRulloLocalizzazione();	
+                        		caricaRulli();	
+                        	});
+                            
+                            function caricaRulli(){
+                            	console.log("sono jquery");
+                            	 $('#locCarousel').infiniteCarousel({            
                             		transitionSpeed:600,
                             		displayTime: 6000,
 				                    heightSource: 180,
@@ -213,8 +305,11 @@ AUI().use('get', function(A){
                             		prevNextInternal: true,
                             		autoHideCaptions: false,
                             	});
-                            	
+                            
+                            }
+
                         }
+
                     });
          			
          			
@@ -227,15 +322,38 @@ AUI().use('get', function(A){
 
 // d3
 
-//rullo classificazione
-var calculatedJsonClass=eval('('+'${jsonResultClassificazione}'+')');
+// formatta importi
 
-var containerWClass=d3.select("#rulloClass")[0][0].clientWidth;
-console.log(d3.select("#rulloClass")[0][0]);
-var singleLiWClass=(containerWClass/3);
-var singleElMwClass=singleLiWClass/10;
+d3.selectAll("#costoTotale").text(nFormatterBar("${impoCostoProgettiClass}")+"\u20ac");
+d3.selectAll("#importoTotale").text(nFormatterBar("${impoImportoFinanziatoClass}")+"\u20ac");
 
-d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
+
+
+drawFinBar();
+drawRulloClassificazione();
+drawRulloLocalizzazione();
+
+function drawFinBar(){
+	// barra importo finanziato
+	var widthLiFinanziato=d3.selectAll("li.sumImporto")[0][0].clientWidth;
+	var rangeFinanziato=["${impoCostoProgettiClass}","${impoImportoFinanziatoClass}"];
+	var xFinanziato=d3.scale.linear().domain([0, d3.max(rangeFinanziato)]).range([0, widthLiFinanziato]);
+
+	d3.selectAll("li.sumImporto").select("div").select("svg").selectAll("rect").data(rangeFinanziato)
+	.enter().append("rect")
+	.attr("width", xFinanziato)
+	.attr("height", ".8em");
+}
+
+
+function drawRulloClassificazione(){
+	// rullo classificazione
+	var calculatedJsonClass=eval('('+'${jsonResultClassificazione}'+')');
+	var containerWClass=d3.select("#rulloClass")[0][0].clientWidth;
+	var singleLiWClass=(containerWClass/3);
+	var singleElMwClass=singleLiWClass/10;
+
+	d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
 	.enter().append("li")
 	.style("width",singleLiWClass+"px")
 	.style("display","inline")
@@ -249,25 +367,23 @@ d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
 	.text(function(d){
 		return d.desArea;
 	});
-	
-	
-	
+
 	d3.selectAll("#classCarousel").selectAll("div.classificazione")
 	.append("div")
 	.attr("class","left effHistogram")
 	.style("width",(singleElMwClass*4.3)+"px")
 	.append("img")
 	.attr("src",function(d){
-	 var areaCorrente=d.desArea.split(/[\s,]+/);
-	 var firstDesc=areaCorrente[0].toLowerCase();
-	 return "${imgFolder}/icona-"+firstDesc+".svg";
-	 });
+	 	var areaCorrente=d.desArea.split(/[\s,]+/);
+	 	var firstDesc=areaCorrente[0].toLowerCase();
+		return "${imgFolder}/icona-"+firstDesc+".svg";
+	});
 	
 	d3.selectAll("#classCarousel").selectAll("div.classificazione")
 	.append("div")
-	.attr("class","right")
+	.attr("class","right valori")
 	.style("width",(singleElMwClass*5.5)+"px")
-     .html(function(d){
+    .html(function(d){
      	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"
      			+nFormatter(d.impoCostoProgetti)+"</p>";
      });
@@ -292,9 +408,9 @@ d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
 	.attr("height",20);
 	
 	d3.selectAll(".classchart").each(function(d){
-		var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
-		var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
-		d3.select(this).selectAll("rect").data(range)
+	var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
+	var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
+	d3.select(this).selectAll("rect").data(range)
 		.enter().append("rect")
 	 	.attr("width", x)
 	 	.attr("height", 20);
@@ -306,25 +422,28 @@ d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
 	.style("width",(singleElMwClass*5)+"px")
 	.html("<span class=\'left pubblico\'><small>Pubblico</small>"
 		+"</span><span class=\'right privato\'><small>Privato</small></span>");
+}
+
+
+function drawRulloLocalizzazione(){
 	
-	
-// rullo localizzazione
-var calculatedJson=eval('('+'${jsonResultLocalizzazione}'+')');
-var baseColor1="rgb(0,176,240)";
-var baseColor2="rgb(220,233,245)";
+	// rullo localizzazione
+	var calculatedJson=eval('('+'${jsonResultLocalizzazione}'+')');
+	var baseColor1="rgb(0,176,240)";
+	var baseColor2="rgb(220,233,245)";
 
-var width = 120,
-    height = 120,
-    radius = Math.min(width, height) / 2;
+	var width = 120,
+   	 	height = 120,
+    	radius = Math.min(width, height) / 2;
 
-var color = d3.scale.linear().range([baseColor1,baseColor2]);
+	var color = d3.scale.linear().range([baseColor1,baseColor2]);
 
-var pie = d3.layout.pie()
-    .sort(null);
+	var pie = d3.layout.pie()
+    	.sort(null);
 
-var arc = d3.svg.arc()
-    .innerRadius(radius - 20)
-    .outerRadius(radius - 10);
+	var arc = d3.svg.arc()
+    	.innerRadius(radius - 20)
+    	.outerRadius(radius - 10);
 
 	var containerW=d3.select("#rulloLoc")[0][0].clientWidth;
 	var singleLiW=(containerW/3);
@@ -351,7 +470,6 @@ var arc = d3.svg.arc()
     
     d3.selectAll("#locCarousel").selectAll("g").selectAll("path")
     .data(function(d){
-    
     	var dataSet=[d.importoValue,(d.costoValue-d.importoValue)];
     	return pie(dataSet);
     })
@@ -369,7 +487,6 @@ var arc = d3.svg.arc()
     .text(function (d){
     	var dataCalc=d.importoValue/d.costoValue;
     	var dataPercent=dataCalc*100;
-    
     	return (dataPercent.toFixed(1) +"%");
     });
     
@@ -377,7 +494,6 @@ var arc = d3.svg.arc()
      .append("div")
      .attr("class","left")
      .style("width",(singleElMw*5.5)+"px")
-      
      .html(function(d){
      	
      	return "<p class=\'firstLoc\'><strong>"+d.fullLabel+"</strong></p>"+
@@ -388,7 +504,9 @@ var arc = d3.svg.arc()
      d3.selectAll("#locCarousel").selectAll("div.effDonut")
      .append("p")
      .html('<small>Finanziamenti Pubblici</small>');
-    
+
+}	
+	
 
 function nFormatter(num) {
      if (num >= 1000000000) {
@@ -402,6 +520,22 @@ function nFormatter(num) {
      }
      return num;
 }
+
+function nFormatterBar(num){
+	if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld ';
+     }
+     if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil ';
+     }
+     if (num >= 1000) {
+        return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K ';
+     }
+     return num;
+
+}
+
+
 
 
 </script>
