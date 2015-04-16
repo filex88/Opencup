@@ -86,6 +86,9 @@ public class HomePagePortletController {
 		}
 		
 		model.addAttribute("jsonResultClassificazione",createJsonStringClassificazioneFromQueryResult(risultatiClassificazione));
+		model.addAttribute("numeProgettiClass", numeProgettiClass);
+		model.addAttribute("impoCostoProgettiClass", impoCostoProgettiClass);
+		model.addAttribute("impoImportoFinanziatoClass", impoImportoFinanziatoClass);
 		
 		return "homepage-view";
 	}
