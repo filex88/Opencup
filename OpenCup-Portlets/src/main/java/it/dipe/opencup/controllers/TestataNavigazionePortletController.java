@@ -96,7 +96,7 @@ public class TestataNavigazionePortletController {
 		List<D3BarConverter> risultati4Anno = new ArrayList<D3BarConverter>();
 		
 		D3BarConverter ele = new D3BarConverter();
-		ele.setLabel( "&lt; 2003" );
+		ele.setLabel( appo.getAnnoAnnoAggregato() );
 		ele.setVolume( appo.getNumeProgetti() );
 		risultati4Anno.add(ele);
 		
@@ -105,6 +105,9 @@ public class TestataNavigazionePortletController {
 			ele.setLabel( tmp.getAnnoAnnoAggregato() );
 			ele.setVolume( tmp.getNumeProgetti() );
 			risultati4Anno.add(ele);
+		}
+		if( risultati4Anno.size() > 10 ){
+			risultati4Anno = risultati4Anno.subList(risultati4Anno.size()-11, risultati4Anno.size()-1);
 		}
 		
 		model.addAttribute("jsonResultDistribuzione4TestataAnni", createJsonStringFromQueryResultD3BarConverter(risultati4Anno));
