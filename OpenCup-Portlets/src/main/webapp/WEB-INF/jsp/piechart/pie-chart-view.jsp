@@ -104,8 +104,10 @@
 </form>
 
 <script type="text/javascript">
+
+	var dataSet = ${aggregati4Pie};
+	var dataSet1 = eval( dataSet );
 	
-	var dataSet1 = ${aggregati4Pie};
 	var tipoAggregazione = '${pattern}';
 	var selezionabile = ! ${config.selezionabile};
 	
