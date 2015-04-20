@@ -12,6 +12,29 @@
 <portlet:defineObjects />
 
 <style>
+
+	
+	div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;margin-top: -1em;margin-bottom: -0.2em;}
+	div#sponsor-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
+	div#sponsor-list ul{padding-top: 1em;padding-bottom: 1em;}
+	div#sponsor-list ul li {display: inline-block;list-style: none;width:18%;}
+	div#sponsor-list ul li a{color: #1f4e78;padding-left:0.5em;vertical-align: 0.7em;}
+	div#sponsor-list ul li i{color: #949494;}
+
+	div#news-list{padding-top:1em;background: #fff;}
+	div#news-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
+	div#news-list ul{padding-top: 1em;padding-bottom: 4em;}
+	div#news-list ul li {display: inline-block;list-style: none;width:33%;}
+	div#news-list ul li a{color: #1f4e78;font-style: italic;}
+	div#news-list ul li i{color: #00b0f0;}
+	div#news-list ul li strong.newsTitleHome{padding-left: 0px!important;}
+	div#news-list ul li div.linkToPage{margin-top:.5em;}
+	div#news-list ul li div.contNews{height:3em;margin-top:-1em;}
+	div#news-list ul li div.imgCont{width: 7.5em;height: 7.5em; }
+	div#news-list div.allNewsLink{margin-top: -4em;margin-right: 2em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
+	div#news-list div.allNewsLink a{color: #fff;line-height: 2em;}
+	div#news-list div.allNewsLink a:hover{text-decoration: underline;}
+
 	div#noticeCarousel.carousel {height:12.5em;}
 	ol#noticeSpinner.carousel-indicators{position: relative!important;padding-top:11em;padding-right: 30em;z-index: 0;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
@@ -130,7 +153,7 @@
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
-					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.$news_id.getData()
 				</div>
 			</div>
   		</div>
@@ -187,6 +210,7 @@
 
 
 </div>
+<!-- 
 	<div id="news-list">	
 				<strong>
 					Ultime notizie
@@ -211,7 +235,7 @@
 					</li>
 				</ul>
 		</div>
-		
+		 -->
 		<div id="sponsor-list">	
 				<strong>
 					I nostri sponsor
