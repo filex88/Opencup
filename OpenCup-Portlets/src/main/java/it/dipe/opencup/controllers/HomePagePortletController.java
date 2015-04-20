@@ -89,8 +89,13 @@ public class HomePagePortletController {
 		model.addAttribute("numeProgettiClass", numeProgettiClass);
 		model.addAttribute("impoCostoProgettiClass", impoCostoProgettiClass);
 		model.addAttribute("impoImportoFinanziatoClass", impoImportoFinanziatoClass);
+	
+	
+		
 		
 		return "homepage-view";
+		
+		
 	}
 	
 	
