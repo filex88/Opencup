@@ -14,24 +14,24 @@
 <style>
 
 	
-	div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;margin-top: -1em;margin-bottom: -0.2em;}
-	div#sponsor-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
+	div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;margin-top: -1em;margin-bottom: -0.7em;}
+	div#sponsor-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
 	div#sponsor-list ul{padding-top: 1em;padding-bottom: 1em;}
-	div#sponsor-list ul li {display: inline-block;list-style: none;width:18%;}
-	div#sponsor-list ul li a{color: #1f4e78;padding-left:0.5em;vertical-align: 0.7em;}
-	div#sponsor-list ul li i{color: #949494;}
+	div#sponsor-list ul li {display: inline-block;list-style: none;width:19%;}
+	div#sponsor-list ul li a{color: #1f4e78;padding-left:1em;line-height: 4em;}
+	div#sponsor-list ul li div.sponsorImg{width: 4em;height: 4em;padding-left: .5em;}
 
 	div#news-list{padding-top:1em;background: #fff;}
-	div#news-list strong{font-size: 1.3em;color: #1f4e78;padding-left:1em;}
-	div#news-list ul{padding-top: 1em;padding-bottom: 4em;}
-	div#news-list ul li {display: inline-block;list-style: none;width:33%;}
+	div#news-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
+	div#news-list ul{padding-top: 1em;padding-bottom: 4em;width: 100%;margin-left: 0;}
+	div#news-list ul li {display: inline-block;list-style: none;width:32%;margin-left: 1em;}
 	div#news-list ul li a{color: #1f4e78;font-style: italic;}
 	div#news-list ul li i{color: #00b0f0;}
 	div#news-list ul li strong.newsTitleHome{padding-left: 0px!important;}
 	div#news-list ul li div.linkToPage{margin-top:.5em;}
-	div#news-list ul li div.contNews{height:3em;margin-top:-1em;}
-	div#news-list ul li div.imgCont{width: 7.5em;height: 7.5em; }
-	div#news-list div.allNewsLink{margin-top: -4em;margin-right: 2em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
+	div#news-list ul li div.contNews{height:5em;text-align: justify;margin-right: .7em;}
+	div#news-list ul li div.imgCont{width: 7.5em;height: 6.5em; }
+	div#news-list div.allNewsLink{margin-top: -4em;margin-right: .8em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
 	div#news-list div.allNewsLink a{color: #fff;line-height: 2em;}
 	div#news-list div.allNewsLink a:hover{text-decoration: underline;}
 
@@ -121,7 +121,7 @@
 					 <br/>
 					 <br/>
 					 <div class="linkScopri">
-					 		<a class="linkHome" href="#">Scopri di pi&ugrave;</a>
+					 		<a class="linkHome" href="#">Approfondisci</a>
 
 					 </div>
 				</div>
@@ -236,6 +236,7 @@
 				</ul>
 		</div>
 		 -->
+		 <!-- 
 		<div id="sponsor-list">	
 				<strong>
 					I nostri sponsor
@@ -266,7 +267,7 @@
 					</li>
 				</ul>
 		</div>
-		
+		 -->
 <script>
 
 		
