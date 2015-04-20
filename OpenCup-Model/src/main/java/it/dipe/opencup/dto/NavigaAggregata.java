@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavigaAggregata implements Serializable{
+public class NavigaAggregata implements Serializable, Cloneable{
 
 	/**
 	 * 
@@ -919,6 +919,8 @@ public String getCountAffRicercaLocalizzazione(){
 		return true;
 	}
 	
-	
+	public NavigaAggregata clone() throws CloneNotSupportedException {
+        return (NavigaAggregata) super.clone();
+    }
 	
 }

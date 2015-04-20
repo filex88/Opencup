@@ -90,11 +90,9 @@ public class PieChartPortletController {
 		
 		model.addAttribute("pattern", pattern);
 		
-		System.out.println( navigaAggregata.toString() );
-		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
-		System.out.println( "JSON 1 (" + listaAggregataDTO.size() + "): " + createJsonStringFromQueryResultAggregataDTO(listaAggregataDTO) );
+		//System.out.println( "JSON 1 (" + listaAggregataDTO.size() + "): " + createJsonStringFromQueryResultAggregataDTO(listaAggregataDTO) );
 		
 		String anchorPortlet = "#pie-chart-portlet";
 		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
@@ -152,7 +150,7 @@ public class PieChartPortletController {
 			converter.add(conv);
 		}
 
-		System.out.println( "JSON 2 (" + converter.size() + "): " + createJsonStringFromQueryResult(converter) );
+		//System.out.println( "JSON 2 (" + converter.size() + "): " + createJsonStringFromQueryResult(converter) );
 
 		model.addAttribute("recordCount",converter.size());
 
