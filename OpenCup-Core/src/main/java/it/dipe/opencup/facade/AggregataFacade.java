@@ -212,11 +212,24 @@ public class AggregataFacade {
 			}else if( navigaAggregata.getIdAnnoAggregatos().contains("0") ){
 				criteria.add( Restrictions.ge("annoAggregato.id", 0 ) );
 			}else{
+				
 				Disjunction or = Restrictions.disjunction();
+				
+				Disjunction orId = Restrictions.disjunction();
+				
+				Disjunction orYear = Restrictions.disjunction();
+				
 				for( String tmp : navigaAggregata.getIdAnnoAggregatos() ){
-					or.add(Restrictions.eq("annoAggregato.id", Integer.valueOf( tmp )) );
+					orId.add(Restrictions.eq("annoAggregato.id", Integer.valueOf( tmp )) );
+					orYear.add(Restrictions.eq("annoAggregato.annoAggregato", tmp ) );
 				}
+				
+				or.add(orId);
+				or.add(orYear);
+				
 				criteria.add(or);
+				
+				
 			}
 		}else{
 			criteria.add( Restrictions.eq("annoAggregato.id", -1 ) );
@@ -302,13 +315,13 @@ public class AggregataFacade {
 	}
 		
 	private List<AggregataDTO> listaAggregataToListaAggregataDTO( 	NavigaAggregata navigaAggregata, 
-																	List<Aggregata> listaAggregata ) {
+																	List<Aggregata> listaAggregata) {
 
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 
 		List<Integer> listaIdElementiEleborati = new ArrayList<Integer>();
 
-		if(navigaAggregata.getIdAnnoAggregatos().size() > 1){
+		if(navigaAggregata.getIdAnnoAggregatos().size() > 1 && navigaAggregata.isFlagAggrefaAnni()){
 
 			//E' stata effettuata una ricerca per più anni, devo aggregare i risultati per anni diversi		
 			for( Aggregata tmpAggregata : listaAggregata ){
@@ -795,18 +808,34 @@ public class AggregataFacade {
 		return retval;
 	}
 	
+//	@Cacheable(value = "CategoriaSoggetto")
+//	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto(Integer idAreaSoggetto) {
+//		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
+//		
+//		Criteria criteria = categoriaSoggettoDAO.newCriteria();
+//		
+//		criteria.createAlias("areaSoggetto", "areaSoggetto");
+//		
+//		criteria.add( Restrictions.ne("codiCategoriaSoggetto", "0000") );
+//		criteria.add( Restrictions.ne("id", -1) );
+//		
+//		criteria.add( Restrictions.eq("areaSoggetto.id", idAreaSoggetto) );
+//		
+//		criteria.addOrder(Order.asc("descCategoriaSoggetto"));
+//		
+//		retval = categoriaSoggettoDAO.findByCriteria(criteria);
+//		
+//		return retval;
+//	}
+	
 	@Cacheable(value = "CategoriaSoggetto")
-	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto(Integer idAreaSoggetto) {
+	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto() {
 		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
 		
 		Criteria criteria = categoriaSoggettoDAO.newCriteria();
 		
-		criteria.createAlias("areaSoggetto", "areaSoggetto");
-		
 		criteria.add( Restrictions.ne("codiCategoriaSoggetto", "0000") );
 		criteria.add( Restrictions.ne("id", -1) );
-		
-		criteria.add( Restrictions.eq("areaSoggetto.id", idAreaSoggetto) );
 		
 		criteria.addOrder(Order.asc("descCategoriaSoggetto"));
 		

@@ -71,6 +71,73 @@ public class NavigaProgetti implements Serializable{
 		
 	}
 	
+	public String getCountAffRicerca(){
+		
+		String sRetval = null;
+		int retval = 0;
+
+		if(! "-1".equals( idAreaIntervento ) ){
+			 retval++;
+		}
+
+		if(! "-1".equals( idSottosettoreIntervento ) ){
+			 retval++;
+		}
+
+		if(! "-1".equals( idCategoriaIntervento ) ){
+			 retval++;
+		}
+		
+		if( idAnnoDecisiones.size() == 1 && (!idAnnoDecisiones.contains("-1")) ){
+			 retval++;
+		}else
+		if( idAnnoDecisiones.size() > 1 ){
+			retval++;
+		}
+		
+		if(! "-1".equals( idRegione ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idProvincia ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idComune ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idAreaGeografica ) ){
+			 retval++;
+		}
+
+		if(! "-1".equals( idCategoriaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idSottoCategoriaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idAreaSoggetto ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idTipologiaIntervento ) ){
+			 retval++;
+		}
+		
+		if(! "-1".equals( idStatoProgetto ) ){
+			 retval++;
+		}
+		
+		if( retval > 0 ){
+			sRetval = String.valueOf(retval);
+		}
+		
+		return sRetval;
+	} 
+	
 	public NavigaProgetti(){
 		this.pagAggregata = "";
 		this.pagElencoProgetti = "";

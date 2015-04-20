@@ -61,10 +61,15 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	
 	private String descTipologiaIntervento;
 	private String descStatoProgetto;
+	
+	private boolean flagAggrefaAnni=true;
+	
 	@SuppressWarnings("unused")
 	private boolean filtroClassificazione;
+	
 	@SuppressWarnings("unused")
 	private String countAffRicercaLocalizzazione;
+	
 	@SuppressWarnings("unused")
 	private String countAffRicerca4Natura;
 
@@ -162,6 +167,10 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		
 		return toString;
 	}
+	
+	public NavigaAggregata clone() throws CloneNotSupportedException {
+        return (NavigaAggregata) super.clone();
+    }
 
 	public boolean isFiltroClassificazione(){
 		boolean retval=false;
@@ -288,7 +297,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		return sRetval;
 	}
 
-public String getCountAffRicercaLocalizzazione(){
+	public String getCountAffRicercaLocalizzazione(){
 		
 		String sRetval = null;
 		int retval = 0;
@@ -626,10 +635,26 @@ public String getCountAffRicercaLocalizzazione(){
 		this.countAffRicercaLocalizzazione = countAffRicercaLocalizzazione;
 	}
 
+	public boolean isFlagAggrefaAnni() {
+		return flagAggrefaAnni;
+	}
+
+	public void setFlagAggrefaAnni(boolean flagAggrefaAnni) {
+		this.flagAggrefaAnni = flagAggrefaAnni;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ ((countAffRicerca4Natura == null) ? 0
+						: countAffRicerca4Natura.hashCode());
+		result = prime
+				* result
+				+ ((countAffRicercaLocalizzazione == null) ? 0
+						: countAffRicercaLocalizzazione.hashCode());
 		result = prime
 				* result
 				+ ((descAnnoAggregatos == null) ? 0 : descAnnoAggregatos
@@ -678,6 +703,8 @@ public String getCountAffRicercaLocalizzazione(){
 						: descTipologiaIntervento.hashCode());
 		result = prime * result
 				+ ((distribuzione == null) ? 0 : distribuzione.hashCode());
+		result = prime * result + (filtroClassificazione ? 1231 : 1237);
+		result = prime * result + (flagAggrefaAnni ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((idAnnoAggregatos == null) ? 0 : idAnnoAggregatos.hashCode());
@@ -743,6 +770,17 @@ public String getCountAffRicercaLocalizzazione(){
 		if (getClass() != obj.getClass())
 			return false;
 		NavigaAggregata other = (NavigaAggregata) obj;
+		if (countAffRicerca4Natura == null) {
+			if (other.countAffRicerca4Natura != null)
+				return false;
+		} else if (!countAffRicerca4Natura.equals(other.countAffRicerca4Natura))
+			return false;
+		if (countAffRicercaLocalizzazione == null) {
+			if (other.countAffRicercaLocalizzazione != null)
+				return false;
+		} else if (!countAffRicercaLocalizzazione
+				.equals(other.countAffRicercaLocalizzazione))
+			return false;
 		if (descAnnoAggregatos == null) {
 			if (other.descAnnoAggregatos != null)
 				return false;
@@ -821,6 +859,10 @@ public String getCountAffRicercaLocalizzazione(){
 			if (other.distribuzione != null)
 				return false;
 		} else if (!distribuzione.equals(other.distribuzione))
+			return false;
+		if (filtroClassificazione != other.filtroClassificazione)
+			return false;
+		if (flagAggrefaAnni != other.flagAggrefaAnni)
 			return false;
 		if (idAnnoAggregatos == null) {
 			if (other.idAnnoAggregatos != null)
@@ -919,8 +961,5 @@ public String getCountAffRicercaLocalizzazione(){
 		return true;
 	}
 	
-	public NavigaAggregata clone() throws CloneNotSupportedException {
-        return (NavigaAggregata) super.clone();
-    }
 	
 }

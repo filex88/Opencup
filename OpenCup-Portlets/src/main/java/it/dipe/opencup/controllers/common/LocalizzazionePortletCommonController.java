@@ -183,7 +183,7 @@ public class LocalizzazionePortletCommonController extends FiltriCommonControlle
 		
 		if( (! "-1".equals( filtro.getIdAreaSoggetto() )) && (! "0".equals( filtro.getIdAreaSoggetto() )) ){
 			//Carico la lista della Categoria Soggetto
-			List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggettoByIdAreaSoggetto(Integer.valueOf( filtro.getIdAreaSoggetto() ));
+			List<CategoriaSoggetto> listCategoriaSoggetto = aggregataFacade.findCategoriaSoggettoByIdAreaSoggetto();//Integer.valueOf( filtro.getIdAreaSoggetto() ));
 			model.addAttribute("listCategoriaSoggetto", listCategoriaSoggetto);
 		}
 		

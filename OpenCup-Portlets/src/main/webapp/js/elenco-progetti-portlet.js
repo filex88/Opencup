@@ -24,7 +24,22 @@
 
 AUI().use(
 		'aui-base', 
+		'aui-toggler',
 		function( A ) {
+			
+			var toggler = new A.TogglerDelegate({
+		        animated: true,
+		        closeAllOnExpand: true,
+		        container: '#my-toggler-affina-ricerca-elenco-progetti',
+		        content: '.content',
+		        expanded: false,
+		        header: '.header',
+		        transition: {
+		          duration: 0.6,
+		          easing: 'cubic-bezier(0, 0.1, 0, 1)'
+		        }
+		      });
+			
 
 			function caricaCombo2(pNamespaceRicerca, resourceId, pattern, pattern2, target){	
 				var select = document.getElementById(target);
@@ -256,6 +271,10 @@ AUI().use(
 				    'click',
 				    function(event) {
 				    	// pulisco i campi
+				    	A.one('.area-intervento').val(-1);
+				    	A.one('.sotto-settore-intervento').val(-1);
+				    	A.one('.categoria-intervento').val(-1);
+				    	
 				    	A.one('.regione').val(-1);
 				    	A.one('.provincia').val(-1);
 				    	A.one('.comune').val(-1);

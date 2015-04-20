@@ -8,6 +8,7 @@ import it.dipe.opencup.facade.AggregataFacade;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.portlet.EventRequest;
@@ -64,6 +65,7 @@ public class TestataNavigazionePortletController {
 		List<AggregataDTO> risultati = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		model.addAttribute("jsonResultRiepilogo",createJsonStringFromQueryResult(risultati));
 		
+		// PIE BY STATO
 		navigaAggregata.setIdStatoProgetto("0");
 		List<AggregataDTO> risultati4Stato = aggregataFacade.findAggregataByNatura(navigaAggregata, "statoProgetto.descStatoProgetto", "asc");
 		
@@ -85,33 +87,66 @@ public class TestataNavigazionePortletController {
 		model.addAttribute("recordCountStato", converter.size() );
 		navigaAggregata.setIdStatoProgetto("-1");
 		
+		// HISTOGRAM BY ANNO
+		int endYear = Calendar.getInstance().get(Calendar.YEAR);
+		int startYear = endYear - 9;
 		List<String> idAnnoAggregatos = new ArrayList<String>();
-		idAnnoAggregatos.add("0");
-		navigaAggregata.setIdAnnoAggregatos(idAnnoAggregatos );
+		for(int year=startYear;year<=endYear;year++){
+			idAnnoAggregatos.add(String.valueOf(year));
+		}
+		navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+		navigaAggregata.setFlagAggrefaAnni(false);
 		List<AggregataDTO> tmpRisultati4Anno = aggregataFacade.findAggregataByNatura(navigaAggregata, "annoAggregato.annoAggregato", "asc");
+		navigaAggregata.setFlagAggrefaAnni(true);
 		
-		AggregataDTO appo = tmpRisultati4Anno.get( tmpRisultati4Anno.size() - 1 );
-		tmpRisultati4Anno.remove( tmpRisultati4Anno.size() - 1 );
+		//AggregataDTO appo = tmpRisultati4Anno.get( tmpRisultati4Anno.size() - 1 );
+		//tmpRisultati4Anno.remove( tmpRisultati4Anno.size() - 1 );
 		
 		List<D3BarConverter> risultati4Anno = new ArrayList<D3BarConverter>();
 		
-		D3BarConverter ele = new D3BarConverter();
-		ele.setLabel( appo.getAnnoAnnoAggregato() );
-		ele.setVolume( appo.getNumeProgetti() );
-		risultati4Anno.add(ele);
+		//D3BarConverter ele = new D3BarConverter();
+		//ele.setLabel( appo.getAnnoAnnoAggregato() );
+		//ele.setVolume( appo.getNumeProgetti() );
+		//risultati4Anno.add(ele);
+		D3BarConverter ele = null;
+		int year=startYear;
+		int currentYear=0;
 		
 		for(AggregataDTO tmp : tmpRisultati4Anno){
+			currentYear = Integer.valueOf( tmp.getAnnoAnnoAggregato() );
+			if( currentYear > year ){
+				//Riempio i buchi
+				for( int y=year; y<currentYear; y++ ){
+					ele = new D3BarConverter();
+					ele.setLabel( String.valueOf( y ) );
+					ele.setVolume( Long.valueOf(0) );
+					risultati4Anno.add(ele);
+				}
+			}
 			ele = new D3BarConverter();
 			ele.setLabel( tmp.getAnnoAnnoAggregato() );
 			ele.setVolume( tmp.getNumeProgetti() );
 			risultati4Anno.add(ele);
+			year = currentYear + 1;
 		}
-		if( risultati4Anno.size() > 10 ){
-			risultati4Anno = risultati4Anno.subList(risultati4Anno.size()-11, risultati4Anno.size()-1);
+		if( currentYear<endYear ){
+			for( int y=currentYear+1 ; y<=endYear ; y++ ){
+				ele = new D3BarConverter();
+				ele.setLabel( String.valueOf( y ) );
+				ele.setVolume( Long.valueOf(0) );
+				risultati4Anno.add(ele);
+			}
 		}
+		
+		
+		//if( risultati4Anno.size() > 10 ){
+		//	risultati4Anno = risultati4Anno.subList(risultati4Anno.size()-11, risultati4Anno.size()-1);
+		//}
 		
 		model.addAttribute("jsonResultDistribuzione4TestataAnni", createJsonStringFromQueryResultD3BarConverter(risultati4Anno));
 		model.addAttribute("recordCountAnni", risultati4Anno.size() );
+		model.addAttribute("startYear", startYear );
+		model.addAttribute("endYear", endYear );
 		
 //		System.out.println( "X ANNO" );
 //		for( AggregataDTO tmp : risultati4Anno ){

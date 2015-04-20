@@ -35,10 +35,40 @@
 	.legendLabel{text-align: left; width:50px; color: #1f4e78;}
 	.legendValue{text-align: right; width:50px;color: #1f4e78;}
 	
-	.bar {fill: #1f4e78;}
+	.bar_testata {fill: #1f4e78;}
 	.axis {font: 10px;color:#1f4e78;}
 	.axis path,	.axis line {fill: none; stroke: #000; shape-rendering: crispEdges;}
 	.x.axis path {display: none;}
+	
+	.d3-tip {
+	  line-height: 1;
+	  font-weight: bold;
+	  padding: 12px;
+	  background: rgba(0, 0, 0, 0.8);
+	  color: #fff;
+	  border-radius: 2px;
+	}
+
+	/* Creates a small triangle extender for the tooltip */
+	.d3-tip:after {
+	  box-sizing: border-box;
+	  display: inline;
+	  font-size: 10px;
+	  width: 100%;
+	  line-height: 1;
+	  color: rgba(0, 0, 0, 0.8);
+	  content: "\25BC";
+	  position: absolute;
+	  text-align: center;
+	}
+
+	/* Style northward tooltips differently */
+	.d3-tip.n:after {
+	  margin: -1px 0 0 0;
+	  top: 100%;
+	  left: 0;
+	}
+	
 	
 </style>
 
@@ -359,6 +389,9 @@
 	var dataSetTestataAnni = ${jsonResultDistribuzione4TestataAnni};
 	var dataSetTestataAnni1 = eval( dataSetTestataAnni );
 	
+	var startYear = ${startYear};
+	var endYear = ${endYear};
+	
 	d3.selectAll("#corpo")
 	.append("div")
 	.style("width",singleLiWClass+"px")
@@ -401,8 +434,10 @@
 	  	svg.append("g")
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
-	    .call(xAxis);
-
+	    .call(xAxis)
+	    
+	    ;
+/*
 	  	svg.append("g")
 	    .attr("class", "y axis")
 	    .call(yAxis)
@@ -412,16 +447,18 @@
 	    .attr("dy", ".71em")
 	    .style("text-anchor", "end")
 	    .text("progetti");
-
-	  	svg.selectAll(".bar")
+*/
+		svg.selectAll(".bar_testata")
 	  	.data(dataSet)
-	  	.enter().append("rect")
-	    .attr("class", "bar")
+	  	.enter()
+	  	.append("rect")
+	  	.attr("class", "bar_testata")
 	    .attr("x", function(d) { return x(d.label); })
 	    .attr("width", x.rangeBand())
 	    .attr("y", function(d) { return y(d.volume); })
-	    .attr("height", function(d) { return height - y(d.volume); });
-		
+	    .attr("height", function(d) { return height - y(d.volume); })
+	    ;
+
 	};
 	
 	var heightBarAnni = 160;
