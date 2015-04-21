@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.util.StringUtils;
 
@@ -87,12 +88,25 @@ public class Progetto extends AbstractCommonEntity implements Serializable {
 	@Column(name = "ANNO_FPRG_ANNO_DECISIONE", length = 4)
 	private String annoAnnoDecisione;
 	
+	@Transient
+	private String dettaglioUrl;
+	
+	@Transient
+	private String comuniProgetto;
+	
+	public void setComuniProgetto(String comuniProgetto) {
+		this.comuniProgetto = comuniProgetto;
+	}
+
 	public String getComuniProgetto(){
-		String comuniProgetto = "";
-		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
-			if( comuniProgetto.toLowerCase().indexOf( c.getComune().getDescComune().toLowerCase() ) == -1 ){
-				comuniProgetto = ( StringUtils.isEmpty(comuniProgetto) )? c.getComune().getDescComune() : comuniProgetto + ", " + c.getComune().getDescComune();
+		if (comuniProgetto == null) {
+		String comuniProgettoLocal = "";
+			for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
+				if( comuniProgettoLocal.toLowerCase().indexOf( c.getComune().getDescComune().toLowerCase() ) == -1 ){
+					comuniProgettoLocal = ( StringUtils.isEmpty(comuniProgettoLocal) )? c.getComune().getDescComune() : comuniProgettoLocal + ", " + c.getComune().getDescComune();
+				}
 			}
+			return comuniProgettoLocal;
 		}
 		return comuniProgetto;
 	}
@@ -255,6 +269,14 @@ public class Progetto extends AbstractCommonEntity implements Serializable {
 	public void setAnnoAnnoDecisione(String annoAnnoDecisione) {
 		this.annoAnnoDecisione = annoAnnoDecisione;
 	}
+	
+	public String getDettaglioUrl() {
+		return dettaglioUrl;
+	}
+
+	public void setDettaglioUrl(String dettaglioUrl) {
+		this.dettaglioUrl = dettaglioUrl;
+	}
 
 	@Override
 	public int hashCode() {
@@ -280,5 +302,7 @@ public class Progetto extends AbstractCommonEntity implements Serializable {
 			return false;
 		return true;
 	}
+
+
 
 }

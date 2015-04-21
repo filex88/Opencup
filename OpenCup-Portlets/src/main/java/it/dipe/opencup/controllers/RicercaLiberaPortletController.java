@@ -97,16 +97,16 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 	
 		
 		// TODO da rimuovere
-//		Indexer indexer = IndexerRegistryUtil.getIndexer(Progetto.class);
-//		try {
-//						
-//			logger.info("Indicizzazione di prova - metodo indiretto");
-//			
-//			indexer.reindex(progettoFacade.findProgettoById(10208093));
-//			
-//		} catch (SearchException e) {
-//			logger.error("SearchException: ", e);
-//		}
+		Indexer indexer = IndexerRegistryUtil.getIndexer(Progetto.class);
+		try {
+						
+			logger.info("Indicizzazione di prova - metodo indiretto");
+			
+			indexer.reindex(progettoFacade.findProgettoById(17085970));
+			
+		} catch (SearchException e) {
+			logger.error("SearchException: ", e);
+		}
 		
 		
 		return "ricercalibera-view";
