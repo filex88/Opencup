@@ -30,6 +30,8 @@
 
 .aui .row{margin-left: 0px;}
 
+div.portlet-layout.row-fluid{background-color: #fff!important;}
+
 .aui h2 div div ul#topLinks{padding-top: 0.2em;}
 
 .aui h2 div div ul#topLinks li{display: inline-block;width:19%!important;text-align: center;height: inherit;vertical-align: top;}
@@ -136,7 +138,7 @@ div.socialHub ul{list-style:none;font-size:0.25em;}
 
 .fa-youtube{background: #bb0000;color: #FFFFFF;padding: 0.25em 0.35em;}
 
-/*NEWS*/
+/*LISTA NEWS*/
 div.newsContainer{background-color:#fff!important;}
 div.newsContainer h1.newsH1{padding-left:.5em;padding-top:.5em;color:#1f4e78;}
 div.newsContainer div.textContainer{float:left; padding-left:1em;}
