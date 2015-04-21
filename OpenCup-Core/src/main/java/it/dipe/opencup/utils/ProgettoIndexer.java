@@ -71,14 +71,21 @@ public class ProgettoIndexer extends BaseIndexer {
 		document.addText(Field.CONTENT, progetto.getAnagraficaCup().getDescCup());
 		//document.addText(Field.DESCRIPTION, "PROGETTO DESCRIZIONE"); // progetto.getAnagraficaCup().getDescCup());
 		document.addText(Constants.RICERCALIBERA_FIELD_LOCALIZZAZIONE, progetto.getComuniProgetto() + " " + progetto.getRegioneProgetto() + " " + progetto.getProvinceProgetto());
-		document.addText(Constants.RICERCALIBERA_FIELD_CATEGORIA, progetto.getAreaIntervento().getDescAreaIntervento() + " " + progetto.getCategoriaIntervento().getDescCategoriaIntervento() + " " +
+		document.addText(Constants.RICERCALIBERA_FIELD_SEARCH, progetto.getAreaIntervento().getDescAreaIntervento() + " " + progetto.getCategoriaIntervento().getDescCategoriaIntervento() + " " +
 				progetto.getNatura().getDescNatura() + " " + progetto.getSettoreIntervento().getDescSettoreIntervento() + " " +
 				progetto.getSottosettoreIntervento() + " " + progetto.getAreaIntervento().getDescAreaIntervento() + " " +
 				progetto.getAnnoDecisione().getAnnoDadeAnnoDecisione());
+		document.addText(Constants.RICERCALIBERA_FIELD_CODICE_CUP, progetto.getAnagraficaCup().getCodiCup());
 		
+		
+		document.addText(Constants.RICERCALIBERA_FIELD_CATEGORIA, progetto.getCategoriaIntervento().getDescCategoriaIntervento());
+		document.addText(Constants.RICERCALIBERA_FIELD_COMUNE, progetto.getComuniProgetto());
+		document.addText(Constants.RICERCALIBERA_FIELD_ANNO_DECISIONE, progetto.getAnnoAnnoDecisione());
+		
+		document.addNumber(Constants.RICERCALIBERA_FIELD_COSTO, progetto.getImpoCostoProgetto());
+		document.addNumber(Constants.RICERCALIBERA_FIELD_IMPORTO, progetto.getImpoImportoFinanziato());
 
-		// TODO inserire altri campid di ricerca
-		logger.debug("indicizzo questo testo: " + progetto.getAnagraficaCup().getDescCup());
+		logger.debug("indicizzo questo testo: " + progetto.getAnagraficaCup().getDescCup() + " codice: " + progetto.getAnagraficaCup().getCodiCup());
 		
 		return document;
 	}

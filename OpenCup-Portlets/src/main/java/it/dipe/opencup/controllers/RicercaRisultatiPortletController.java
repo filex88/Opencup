@@ -5,6 +5,8 @@ import it.dipe.opencup.dto.DocumentoDTO;
 import it.dipe.opencup.dto.RicercaLiberaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
+import it.dipe.opencup.model.AnagraficaCup;
+import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.Progetto;
 import it.dipe.opencup.utils.Constants;
 
@@ -36,8 +38,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.search.BooleanQuery;
-import com.liferay.portal.kernel.search.BooleanQueryFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -77,6 +77,9 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 	
 	@Value("#{config['ricerca.ricercaLibera.instanceId']}")
 	private String ricercaLiberaPortletId;
+
+	@Value("#{config['pagina.elenco.progetti']}")
+	private String paginaElencoProgetti;
 	
 	@Autowired
 	private ProgettoFacade progettoFacade;
@@ -110,8 +113,9 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 		
 		try {
 			Query query = StringQueryFactoryUtil.create(Field.TITLE + ":" + cercaPerKeyword + " or " + Field.CONTENT + ":" + cercaPerKeyword + " or " +
-					Constants.RICERCALIBERA_FIELD_CATEGORIA + ":" + cercaPerKeyword + " or " +
-					Constants.RICERCALIBERA_FIELD_LOCALIZZAZIONE + ":" + cercaPerKeyword);
+					Constants.RICERCALIBERA_FIELD_SEARCH + ":" + cercaPerKeyword + " or " +
+					Constants.RICERCALIBERA_FIELD_LOCALIZZAZIONE + ":" + cercaPerKeyword + " or " +
+					Constants.RICERCALIBERA_FIELD_CODICE_CUP + ":" + cercaPerKeyword);
 			
 			logger.debug("query = " + query.toString());
 			
@@ -119,11 +123,11 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 			
 			logger.info("hits = " + hits.getLength());
 			Document[] documents = hits.getDocs();
-			List<DocumentoDTO> risultati = new ArrayList<DocumentoDTO>();
+			List<DocumentoDTO> risultatiGenerici = new ArrayList<DocumentoDTO>();
+			List<Progetto> risultatiProgetti = new ArrayList<Progetto>();
 			for (Document document : documents) {
 				
-				DocumentoDTO risultato = new DocumentoDTO(); 
-				risultato.setTitolo(document.getField(Field.TITLE).getValue());				
+							
 				
 				logger.debug("Document: " + document.getUID() );
 				for (Map.Entry<String, Field> entry : document.getFields().entrySet() ) {
@@ -132,18 +136,28 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 				
 				
 				if (document.get(Field.ENTRY_CLASS_NAME).equals(Progetto.class.getName())) {
-					risultato.setUrl(getProgettoViewURL(request, response, document.get(Field.ENTRY_CLASS_PK), cercaPerKeyword));
+					Progetto progetto = getProgettoFromDocument(document);
+					progetto.setDettaglioUrl(getProgettoViewURL(request, response, document.get(Field.ENTRY_CLASS_PK), cercaPerKeyword));
+					
+					risultatiProgetti.add(progetto);
+						
 				} else {
+					
+					DocumentoDTO risultato = new DocumentoDTO(); 
+					risultato.setTitolo(document.getField(Field.TITLE).getValue());
 					AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry( document.get(Field.ENTRY_CLASS_NAME) , Long.parseLong(document.get(Field.ENTRY_CLASS_PK)));
 					
 					risultato.setUrl(getAssetViewURL(request, response, assetEntry, cercaPerKeyword) );
+					risultatiGenerici.add(risultato);
+				
 				}
 				
-				risultati.add(risultato);
+
 				
 			}
 			
-			model.addAttribute("risultati", risultati);
+			model.addAttribute("risultatiGenerici", risultatiGenerici);
+			model.addAttribute("risultatiProgetti", risultatiProgetti);
 			
 		} catch (SearchException e) {
 			logger.error("SearchException: ", e);
@@ -174,7 +188,7 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
 
 				//Viene ricercato l'URL esatto per la pagina successiva
-				if(nodeNameRemoved.indexOf("ricercarisultatoprogetto") > 0) {
+				if(nodeNameRemoved.indexOf(paginaElencoProgetti) > 0) {
 					
 					viewURL = PortletURLFactoryUtil.create(request, dettaglioProgettoPortletId, layout.getPlid(), PortletRequest.RENDER_PHASE);
 					viewURL.setWindowState(WindowState.NORMAL);
@@ -258,5 +272,27 @@ public class RicercaRisultatiPortletController extends FiltriCommonController {
 	        
 	        return viewURL.toString();
 	}	
+	
+	
+	private Progetto getProgettoFromDocument(Document doc) {
+		Progetto progetto = new Progetto();
+		
+		progetto.setId(Integer.parseInt(doc.getField(Field.ENTRY_CLASS_PK).getValue()));
+		progetto.setAnnoAnnoDecisione(doc.get(Constants.RICERCALIBERA_FIELD_ANNO_DECISIONE));
+		
+		
+		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
+		categoriaIntervento.setDescCategoriaIntervento(doc.get(Constants.RICERCALIBERA_FIELD_CATEGORIA));
+		progetto.setCategoriaIntervento(categoriaIntervento);
+		progetto.setComuniProgetto(doc.get(Constants.RICERCALIBERA_FIELD_COMUNE));
+		progetto.setAnnoAnnoDecisione(doc.get(Constants.RICERCALIBERA_FIELD_ANNO_DECISIONE));
+		AnagraficaCup ana = new AnagraficaCup();
+		ana.setDescCup(doc.get(Field.TITLE));
+		progetto.setAnagraficaCup(ana);
+		progetto.setImpoCostoProgetto(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_COSTO)));
+		progetto.setImpoImportoFinanziato(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_IMPORTO)));
+		
+		return progetto;
+	}
 	
 }

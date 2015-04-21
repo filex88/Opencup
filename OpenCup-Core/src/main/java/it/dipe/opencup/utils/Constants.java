@@ -8,5 +8,17 @@ public class Constants {
 	
 	public static final String RICERCALIBERA_FIELD_LOCALIZZAZIONE = "localizzazione";
 	
+	public static final String RICERCALIBERA_FIELD_SEARCH = "search";
+	
+	public static final String RICERCALIBERA_FIELD_CODICE_CUP = "codicecup";
+	
+	public static final String RICERCALIBERA_FIELD_ANNO_DECISIONE = "annodecisione";
+	
+	public static final String RICERCALIBERA_FIELD_COMUNE = "comune";
+	
 	public static final String RICERCALIBERA_FIELD_CATEGORIA = "categoria";
+	
+	public static final String RICERCALIBERA_FIELD_COSTO = "costo";
+	
+	public static final String RICERCALIBERA_FIELD_IMPORTO = "importo";
 }
