@@ -372,14 +372,22 @@ public class ElencoProgettiController extends FiltriCommonController {
 	
 	private String getAssetViewURL(
 			PortletRequest request, PortletResponse response, AssetEntry assetEntry, String keywords) {
-
-	        PortletURL viewURL = null;
-	        
-	        ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 			
-			String localHost = themeDisplay.getPortalURL();		
-			List<Layout> layouts = null;
-			try{
+			try {
+				ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request, (String)request.getAttribute(WebKeys.PORTLET_ID), themeDisplay.getLayout().getPlid(), PortletRequest.RENDER_PHASE);
+				returnURL.setWindowState(WindowState.NORMAL);
+				returnURL.setPortletMode(PortletMode.VIEW);
+				returnURL.setParameter("action", "ricercaLibera");
+				returnURL.setParameter("cercaPerKeyword", keywords);
+			
+			
+		        PortletURL viewURL = null;
+		        
+				String localHost = themeDisplay.getPortalURL();		
+				List<Layout> layouts = null;
+				
+				
 				layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
 				for (Layout layout : layouts){
 
@@ -392,11 +400,10 @@ public class ElencoProgettiController extends FiltriCommonController {
 						viewURL.setWindowState(WindowState.NORMAL);
 						viewURL.setPortletMode(PortletMode.VIEW);
 						viewURL.setParameter("action", "ricerca");
-						
 						viewURL.setParameter("struts_action", "/asset_publisher/view_content");
 
-						String currentURL = HttpUtil.addParameter(PortalUtil.getCurrentURL(request), "_" + request.getAttribute(WebKeys.PORTLET_ID) + "_cercaPerKeyword", keywords);
-						viewURL.setParameter("redirect", currentURL);
+						//String currentURL = HttpUtil.addParameter(PortalUtil.getCurrentURL(request), "_" + request.getAttribute(WebKeys.PORTLET_ID) + "_cercaPerKeyword", keywords);
+						viewURL.setParameter("redirect", returnURL.toString());
 
 				        viewURL.setParameter("assetEntryId", String.valueOf(assetEntry.getEntryId()));
 
@@ -421,13 +428,13 @@ public class ElencoProgettiController extends FiltriCommonController {
 					}
 				}
 				
+				return viewURL.toString();
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 	        
-	        
-	        
-	        return viewURL.toString();
+	        return null;
 	}	
 	
 	
