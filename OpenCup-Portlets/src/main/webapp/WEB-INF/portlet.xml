@@ -412,9 +412,9 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 
-		<supported-publishing-event>
-			<qname xmlns:publishName="http:eventDettaglioProgetto/events">publishName:event.dettaglioProgetto</qname>
-		</supported-publishing-event>
+		<supported-processing-event>
+			<qname xmlns:publishName="http:risultatiRicerca/events">publishName:event.risultatiRicerca</qname>
+		</supported-processing-event>
 	
 	</portlet>
 	
@@ -454,11 +454,6 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
-		<supported-processing-event>
-			<qname xmlns:publishName="http:eventDettaglioProgetto/events">publishName:event.dettaglioProgetto</qname>
-		</supported-processing-event>
-		
 
 	</portlet>
 	

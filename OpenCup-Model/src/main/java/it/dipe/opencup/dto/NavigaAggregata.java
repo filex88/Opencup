@@ -15,11 +15,8 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	public static final String NAVIGA_LOCALIZZAZIONE = "localizzazione";
 	
 	private String pagAggregata;
-	private String pagElencoProgetti;
-	private String pagDettaglioProgetto;
 	
 	private String naviga;
-	private boolean importaInNavigaProgetti;
 	private String distribuzione;
 	
 	private String idNatura;
@@ -81,6 +78,11 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.naviga = naviga;
 		this.distribuzione = "VOLUME";
 		
+		this.idNatura = id;
+		this.idAreaIntervento = "-1";
+		this.pagAggregata = "";
+		
+		/*
 		if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga)){
 			this.idNatura = id;
 			this.idAreaIntervento = "0";
@@ -100,7 +102,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			this.idNatura = "-1";
 			this.idAreaIntervento = "-1";
 		}
-
+		*/
 		this.idSottosettoreIntervento = "-1";
 		this.idCategoriaIntervento = "-1";
 		this.idAnnoAggregatos = new ArrayList<String>();
@@ -120,8 +122,6 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	public NavigaAggregata(){
 		this.distribuzione = "VOLUME";
 		this.pagAggregata = "";
-		this.pagElencoProgetti = "";
-		this.pagDettaglioProgetto = "";
 		this.naviga = "";
 		this.idNatura = "-1";
 		this.idAreaIntervento = "-1";
@@ -160,10 +160,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		toString = toString + "idStatoProgetto: (" + idStatoProgetto + "); ";
 		toString = toString + "naviga: (" + naviga + "); ";
 		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
-		toString = toString + "pagElencoProgetti: (" + pagElencoProgetti + "); ";
-		toString = toString + "pagDettaglioProgetto" + pagDettaglioProgetto + "); ";
 		toString = toString + "distribuzione: (" + distribuzione + "); ";
-		toString = toString + "importaInNavigaProgetti: (" + importaInNavigaProgetti + "); ";
 		
 		return toString;
 	}
@@ -365,15 +362,6 @@ public class NavigaAggregata implements Serializable, Cloneable{
 
 	public void setIdNatura(String idNatura) {
 		this.idNatura = idNatura;
-	}
-
-
-	public boolean isImportaInNavigaProgetti() {
-		return importaInNavigaProgetti;
-	}
-
-	public void setImportaInNavigaProgetti(boolean importaInNavigaProgetti) {
-		this.importaInNavigaProgetti = importaInNavigaProgetti;
 	}
 
 	public String getIdAreaIntervento() {
@@ -600,22 +588,6 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.pagAggregata = pagAggregata;
 	}
 
-	public String getPagElencoProgetti() {
-		return pagElencoProgetti;
-	}
-
-	public void setPagElencoProgetti(String pagElencoProgetti) {
-		this.pagElencoProgetti = pagElencoProgetti;
-	}
-
-	public String getPagDettaglioProgetto() {
-		return pagDettaglioProgetto;
-	}
-
-	public void setPagDettaglioProgetto(String pagDettaglioProgetto) {
-		this.pagDettaglioProgetto = pagDettaglioProgetto;
-	}
-
 	public String getIdAreaSoggetto() {
 		return idAreaSoggetto;
 	}
@@ -746,18 +718,9 @@ public class NavigaAggregata implements Serializable, Cloneable{
 				* result
 				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
 						.hashCode());
-		result = prime * result + (importaInNavigaProgetti ? 1231 : 1237);
 		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
 		result = prime * result
 				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
-		result = prime
-				* result
-				+ ((pagDettaglioProgetto == null) ? 0 : pagDettaglioProgetto
-						.hashCode());
-		result = prime
-				* result
-				+ ((pagElencoProgetti == null) ? 0 : pagElencoProgetti
-						.hashCode());
 		return result;
 	}
 
@@ -936,8 +899,6 @@ public class NavigaAggregata implements Serializable, Cloneable{
 				return false;
 		} else if (!idTipologiaIntervento.equals(other.idTipologiaIntervento))
 			return false;
-		if (importaInNavigaProgetti != other.importaInNavigaProgetti)
-			return false;
 		if (naviga == null) {
 			if (other.naviga != null)
 				return false;
@@ -948,18 +909,9 @@ public class NavigaAggregata implements Serializable, Cloneable{
 				return false;
 		} else if (!pagAggregata.equals(other.pagAggregata))
 			return false;
-		if (pagDettaglioProgetto == null) {
-			if (other.pagDettaglioProgetto != null)
-				return false;
-		} else if (!pagDettaglioProgetto.equals(other.pagDettaglioProgetto))
-			return false;
-		if (pagElencoProgetti == null) {
-			if (other.pagElencoProgetti != null)
-				return false;
-		} else if (!pagElencoProgetti.equals(other.pagElencoProgetti))
-			return false;
 		return true;
 	}
+
 	
-	
+
 }

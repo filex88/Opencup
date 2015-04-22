@@ -72,6 +72,9 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 	@Value("#{config['paginazione.risultatiPerPagina']}")
 	private int maxResult;
 	
+	@Value("#{config['pagina.elenco.progetti']}")
+	private String paginaElencoProgetti;
+	
 	@Autowired
 	private ProgettoFacade progettoFacade;
 	
@@ -136,7 +139,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 //		setNavigaAggregataInSession(aRequest, navigaAggregata);
 		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
-			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
+			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, paginaElencoProgetti);
 			
 			String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
 			
@@ -276,7 +279,7 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		///////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Calcolo l'url per elenco progetti
-		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, navigaAggregata.getPagElencoProgetti());
+		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, paginaElencoProgetti);
 		String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
 		model.addAttribute("linkURLElencoProgetti", HttpUtil.encodeParameters( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata ) );
 		

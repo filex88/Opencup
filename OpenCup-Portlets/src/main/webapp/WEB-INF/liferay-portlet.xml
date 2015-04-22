@@ -70,7 +70,6 @@
 	<portlet>
 		<portlet-name>elenco-progetti-portlet</portlet-name>
 		<icon>/icon.png</icon>
-		<instanceable>true</instanceable>
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
 		<footer-portlet-javascript>/js/elenco-progetti-portlet.js</footer-portlet-javascript>
 		<css-class-wrapper>elenco-progetti-portlet</css-class-wrapper>

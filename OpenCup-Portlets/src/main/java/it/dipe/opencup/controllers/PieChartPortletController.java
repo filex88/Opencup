@@ -57,11 +57,23 @@ public class PieChartPortletController {
 	@Value("#{config['codice.natura.open.cup']}")
 	private String codiNaturaOpenCUP;
 	
+	@Value("#{config['pagina.classificazione']}")
+	private String paginaClassificazione;
+	
+	@Value("#{config['pagina.elenco.progetti']}")
+	private String paginaElencoProgetti;
+	
+	@Value("#{config['elenco.progetti.instanceId']}")
+	private String elencoProgettiPortletId;
+	
 	@ModelAttribute("navigaAggregata")
 	public NavigaAggregata navigaAggregata() {
 		
 		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
-		NavigaAggregata navigaAggregata = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, idNatura);
+		NavigaAggregata navigaAggregata = new NavigaAggregata();
+		navigaAggregata.setIdNatura(idNatura);
+		navigaAggregata.setPagAggregata(paginaClassificazione);
+		navigaAggregata.setIdAreaIntervento("0");
 		
 		return navigaAggregata;
 	}
@@ -194,12 +206,13 @@ public class PieChartPortletController {
 		//aResponse.setRenderParameter("pattern", pattern);
 		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
-			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaAggregata.getPagElencoProgetti());
+			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, paginaElencoProgetti, elencoProgettiPortletId, PortletRequest.RENDER_PHASE);
 			
 			String jsonnavigaaggregata = createJsonStringFromModelAttribute( navigaAggregata );
+			renderURL.setParameter("jsonnavigaaggregata", jsonnavigaaggregata); 
 			
 			try {
-				aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString() + "&jsonnavigaaggregata="+jsonnavigaaggregata ) );
+				aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString() ) );// + "&jsonnavigaaggregata="+jsonnavigaaggregata ) );
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -288,7 +301,7 @@ public class PieChartPortletController {
 			String anchorPortlet,
 			String pageTo) {
 
-		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo);
+		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo, (String) request.getAttribute(WebKeys.PORTLET_ID), PortletRequest.ACTION_PHASE);
 		String rowIdLiv1URL = "", rowIdLiv2URL = "", rowIdLiv3URL = "", rowIdLiv4URL = "";
 
 		for(AggregataDTO tmp : listaAggregataDTO){		
@@ -326,9 +339,8 @@ public class PieChartPortletController {
 		}
 	}
 	
-	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage) {
+	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage, String portletId, String portletRequest) {
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
 		
 		LiferayPortletURL renderURL = null;
 		String localHost = themeDisplay.getPortalURL();		
@@ -342,7 +354,7 @@ public class PieChartPortletController {
 				//Viene ricercato l'URL esatto per la pagina successiva
 				if(nodeNameRemoved.indexOf(toPage)>0){
 
-					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
+					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), portletRequest);
 					renderURL.setWindowState(WindowState.NORMAL);
 					renderURL.setPortletMode(PortletMode.VIEW);
 					

@@ -58,6 +58,9 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 	@Value("#{config['ricerca.assetpublisher.instanceId']}")
 	private String assetPublisherPortletId;
 	
+	@Value("#{config['pagina.elenco.progetti']}")
+	private String paginaElencoProgetti;
+	
 	@Autowired
 	private ProgettoFacade progettoFacade;
 	
@@ -83,7 +86,7 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 			String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
 
 			//Viene ricercato l'URL esatto per la pagina successiva
-			if (nodeNameRemoved.indexOf("ricercalibera") > 0) {
+			if (nodeNameRemoved.indexOf(paginaElencoProgetti) > 0) {
 
 				renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
 				renderURL.setWindowState(WindowState.NORMAL);

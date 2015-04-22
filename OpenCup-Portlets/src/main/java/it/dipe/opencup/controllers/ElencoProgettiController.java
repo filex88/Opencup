@@ -1,10 +1,13 @@
 package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.FiltriCommonController;
+import it.dipe.opencup.dto.DocumentoDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
+import it.dipe.opencup.dto.RicercaLiberaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
+import it.dipe.opencup.model.AnagraficaCup;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaGeografica;
 import it.dipe.opencup.model.AreaIntervento;
@@ -19,19 +22,27 @@ import it.dipe.opencup.model.SottocategoriaSoggetto;
 import it.dipe.opencup.model.SottosettoreIntervento;
 import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
+import it.dipe.opencup.utils.Constants;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.EventRequest;
+import javax.portlet.EventResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
-import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -42,13 +53,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Query;
+import com.liferay.portal.kernel.search.SearchEngineUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.StringQueryFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -58,14 +80,29 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.PortletURLFactoryUtil;
+import com.liferay.portlet.asset.model.AssetEntry;
+import com.liferay.portlet.asset.model.AssetRenderer;
+import com.liferay.portlet.asset.model.AssetRendererFactory;
+import com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil;
 
 @Controller
 @RequestMapping("VIEW")
 @SessionAttributes({"navigaProgetti"})
 public class ElencoProgettiController extends FiltriCommonController {
 	
+	private static Log logger = LogFactory.getLog(ElencoProgettiController.class);
+	
+	@Value("#{config['ricerca.assetpublisher.instanceId']}")
+	private String assetPublisherPortletId;
+	
 	@Value("#{config['paginazione.risultatiPerPagina']}")
 	private int maxResult;
+	
+	@Value("#{config['pagina.dettaglio.progetto']}")
+	private String paginaDettaglioProgetto;	
+	
+	@Value("#{config['pagina.dettaglio.contenuto']}")
+	private String paginaDettaglioContenuto;	
 	
 	@Autowired
 	private ProgettoFacade progettoFacade;
@@ -82,27 +119,27 @@ public class ElencoProgettiController extends FiltriCommonController {
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
 										Model model, 
-										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){	
-		
-//		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
-//		NavigaAggregata navigaAggregata = (NavigaAggregata) session.getAttribute("navigaAggregata"); 
-//		
-//		if( navigaAggregata.isImportaInNavigaProgetti() ){
-//			navigaProgetti.importa( navigaAggregata );
-//			navigaAggregata.setImportaInNavigaProgetti(false);
-//			session.setAttribute("navigaAggregata", navigaAggregata); 
-//		}
-		
-		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
-		String jsonnavigaaggregata=httpServletRequest.getParameter("jsonnavigaaggregata")!=null?httpServletRequest.getParameter("jsonnavigaaggregata").toString():"";
+										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti,
+										@RequestParam(required=false, value="jsonnavigaaggregata") String jsonnavigaaggregata
+										){
 		if(!StringUtils.isEmpty(jsonnavigaaggregata)){
 			NavigaAggregata navigaAggregata = createModelFromJsonString(jsonnavigaaggregata);
 			navigaProgetti.importa( navigaAggregata );
-			navigaAggregata.setImportaInNavigaProgetti(false);
 		}
+		return elencoProgettiRenderRequest(renderRequest, renderResponse, model, navigaProgetti);
+
+	}
+	
+	@RenderMapping(params="action=elencoProgetti")
+	public String elencoProgettiRenderRequest(	RenderRequest renderRequest, 
+			RenderResponse renderResponse,
+			Model model, 
+			@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){
+		
+		model.addAttribute("action", "elencoProgetti");
+		model.addAttribute("paginate", "true");
 		
 		// LISTA PROGETTI //
-		
 		//orderByCol is the column name passed in the request while sorting
 		String orderByCol = ParamUtil.getString(renderRequest, "orderByCol"); 
 		if(Validator.isNull(orderByCol)  || Validator.equals("", orderByCol)){
@@ -127,24 +164,21 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
+		
 		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
-
-		searchContainerElenco.setTotal(size);
 		
 		List<Progetto> elencoProgetti = progettoFacade.findElencoProgetti(	navigaProgetti, 
 																			searchContainerElenco.getOrderByCol(), 
 																			searchContainerElenco.getOrderByType(),
 																			searchContainerElenco.getStart(), 
-																			searchContainerElenco.getEnd());	
-
-		//elencoProgetti = ListUtil.subList(elencoProgetti, searchContainerElenco.getStart(), searchContainerElenco.getEnd() );       
+																			searchContainerElenco.getEnd());
 		
+		searchContainerElenco.setTotal(size);
 		searchContainerElenco.setResults(elencoProgetti);
 		
 		model.addAttribute("searchContainerElenco", searchContainerElenco);
 		
-		model.addAttribute("pagDettaglioProgetto", navigaProgetti.getPagDettaglioProgetto());
-		
+		model.addAttribute("pagDettaglioProgetto", paginaDettaglioProgetto );
 		// FINE LISTA PROGETTI //
 		
 		// MASCHERA RICERCA PROGETTI //
@@ -153,9 +187,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("navigaProgetti", navigaProgetti);
 		// FINE RICERCA PROGETTI //
 		
-		
 		// RIEPILOGO //
-		
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		
@@ -163,19 +195,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetto();
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
-		/*
-		SearchContainer<DescrizioneValore> searchContainerRiepilogo = new SearchContainer<DescrizioneValore>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-		searchContainerRiepilogo.setDelta(maxResult);
-		searchContainerRiepilogo.setTotal(3);
-		
-		List<DescrizioneValore> retval = new ArrayList<DescrizioneValore>();
-		retval.add(new DescrizioneValore("VOLUME DEI PROGETTI", size));
-		retval.add(new DescrizioneValore("COSTO DEI PROGETTI", impoCostoProgetti));
-		retval.add(new DescrizioneValore("IMPORTO FINANZIAMENTI", impoImportoFinanziato));
-		
-		searchContainerRiepilogo.setResults(retval);
-		model.addAttribute("searchContainerRiepilogo", searchContainerRiepilogo);
-		*/
 		
 		model.addAttribute("volumeDeiProgetti", size);
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
@@ -183,6 +202,88 @@ public class ElencoProgettiController extends FiltriCommonController {
 		// FINE RIEPILOGO //
 		
 		return "elenco-progetti-view";
+		
+	}
+	@RenderMapping(params="action=ricercaLibera")
+	public String effettuaRicerca(	RenderRequest renderRequest, 
+									RenderResponse renderResponse, 
+									Model model, 
+									@RequestParam("cercaPerKeyword") String cercaPerKeyword) {
+			
+		model.addAttribute("action", "ricercaLibera");
+		model.addAttribute("paginate", "false");
+		
+		logger.info("effettuaRicerca.cercaPerKeyword: " + cercaPerKeyword );
+		try {
+			
+			Document[] documents = null;
+			List<DocumentoDTO> risultatiGenerici = new ArrayList<DocumentoDTO>();
+			List<Progetto> risultatiProgetti = new ArrayList<Progetto>();
+			
+			if( cercaPerKeyword != null && cercaPerKeyword.length() > 3 ){
+				Query query = StringQueryFactoryUtil.create(Field.TITLE + ":" + cercaPerKeyword + " or " + Field.CONTENT + ":" + cercaPerKeyword + " or " +
+						Constants.RICERCALIBERA_FIELD_SEARCH + ":" + cercaPerKeyword + " or " +
+						Constants.RICERCALIBERA_FIELD_LOCALIZZAZIONE + ":" + cercaPerKeyword + " or " +
+						Constants.RICERCALIBERA_FIELD_CODICE_CUP + ":" + cercaPerKeyword);
+				
+				logger.debug("query = " + query.toString());
+				
+				Hits hits = SearchEngineUtil.search(SearchEngineUtil.SYSTEM_ENGINE_ID, PortalUtil.getDefaultCompanyId(), query, -1, -1);
+				
+				logger.info("hits = " + hits.getLength());
+				documents = hits.getDocs();
+			}else{
+				
+				SessionMessages.add(renderRequest, "valore-ricerca-non-valido");
+			}
+			if( documents != null ){
+				for (Document document : documents) {
+					logger.debug("Document: " + document.getUID() );
+					
+					for (Map.Entry<String, Field> entry : document.getFields().entrySet() ) {
+						logger.debug("-- " +  entry.getKey() + ": " + entry.getValue().getValue() );
+					}
+					
+					if (document.get(Field.ENTRY_CLASS_NAME).equals(Progetto.class.getName())) {
+					
+						Progetto progetto = getProgettoFromDocument(document);
+						risultatiProgetti.add(progetto);
+							
+					} else {
+						
+						DocumentoDTO risultato = new DocumentoDTO(); 
+						risultato.setTitolo(document.getField(Field.TITLE).getValue());
+						AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry( document.get(Field.ENTRY_CLASS_NAME) , Long.parseLong(document.get(Field.ENTRY_CLASS_PK)));
+						risultato.setUrl(getAssetViewURL(renderRequest, renderResponse, assetEntry, cercaPerKeyword) );
+						risultatiGenerici.add(risultato);
+						
+					}	
+				}
+			}
+			
+			model.addAttribute("risultatiGenerici", risultatiGenerici);
+			model.addAttribute("risultatiGenericiSize", risultatiGenerici.size());
+			
+			
+			//model.addAttribute("risultatiProgetti", risultatiProgetti);
+			SearchContainer<Progetto> searchContainerElenco = new SearchContainer<Progetto>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+			searchContainerElenco.setDelta(risultatiProgetti.size());
+			searchContainerElenco.setTotal(risultatiProgetti.size());
+			searchContainerElenco.setResults(risultatiProgetti);
+			model.addAttribute("searchContainerElenco", searchContainerElenco);
+
+		} catch (SearchException e) {
+			logger.error("SearchException: ", e);
+		} catch (NumberFormatException e) {
+			logger.error("NumberFormatException: ", e);
+		} catch (PortalException e) {
+			logger.error("PortalException: ", e);
+		} catch (SystemException e) {
+			logger.error("SystemException: ", e);
+		}
+
+		return "elenco-progetti-view";
+		
 	}
 	
 	protected NavigaAggregata createModelFromJsonString(String jsonString){
@@ -206,28 +307,10 @@ public class ElencoProgettiController extends FiltriCommonController {
 									Model model, 
 									@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti, 
 									@RequestParam(value = "idProgettoDettaglio") String idProgettoDettaglio){
-		/*
-		NavigaProgetti navigaProgetti = new NavigaProgetti();
-		
-		navigaProgetti.setIdProgetto(idProgettoDettaglio);
-		navigaProgetti.setPagElencoProgetti(pagDettaglioProgetto);
-        
-        QName eventName = new QName( "http:eventDettaglioProgetto/events", "event.dettaglioProgetto");
-        aResponse.setEvent(eventName, navigaProgetti);
-		*/
 
-		
 		navigaProgetti.setIdProgetto( idProgettoDettaglio );
-		
-//		HttpSession session = PortalUtil.getHttpServletRequest(aRequest).getSession(false);
-//		session.setAttribute("navigaProgetti", navigaProgetti);
-		
-		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, navigaProgetti.getPagDettaglioProgetto());
-		
-		//String jsonnavigaprogetti = createJsonStringFromModelAttribute( navigaProgetti );
-		
+		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, paginaDettaglioProgetto);
 		try {
-			//aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString()  + "&jsonnavigaprogetti="+jsonnavigaprogetti ) );
 			aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString()  + "&idPj="+navigaProgetti.getIdProgetto() ) );
 			return;
 		} catch (Exception e) {
@@ -235,6 +318,143 @@ public class ElencoProgettiController extends FiltriCommonController {
 		}
 		
 	}
+	
+	@EventMapping(value = "event.risultatiRicerca")
+	public void effettuaRicerca(EventRequest request, EventResponse response) {
+		RicercaLiberaDTO ricercaDTO = (RicercaLiberaDTO) request.getEvent().getValue();
+
+		System.out.println( "!!! - cercaPerKeywords: " + ricercaDTO.getCercaPerKeyword() + " - !!!" );
+
+		response.setRenderParameter("action", "ricercaLibera");
+		response.setRenderParameter("cercaPerKeyword", ricercaDTO.getCercaPerKeyword());
+	}
+	
+//	private String getProgettoViewURL(
+//			PortletRequest request, PortletResponse response, String key, String keywords) {
+//		
+//        PortletURL viewURL = null;
+//        
+//        ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+//		
+//		String localHost = themeDisplay.getPortalURL();		
+//		List<Layout> layouts = null;
+//		try{
+//			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+//			for (Layout layout : layouts){
+//
+//				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+//
+//				//Viene ricercato l'URL esatto per la pagina successiva
+//				if(nodeNameRemoved.indexOf(paginaDettaglioProgetto) > 0) {
+//					
+//					viewURL = PortletURLFactoryUtil.create(request, (String) request.getAttribute(WebKeys.PORTLET_ID), layout.getPlid(), PortletRequest.RENDER_PHASE);
+//					viewURL.setWindowState(WindowState.NORMAL);
+//					viewURL.setPortletMode(PortletMode.VIEW);
+//					
+//					String currentURL = HttpUtil.addParameter(PortalUtil.getCurrentURL(request), "_" + request.getAttribute(WebKeys.PORTLET_ID) + "_cercaPerKeyword", keywords);
+//					viewURL.setParameter("redirect", currentURL);
+//					
+//			        String returnURL =  UriComponentsBuilder.fromHttpUrl(viewURL.toString()).queryParam("idPj", key).build().toUriString();
+//					return returnURL;
+//					
+//				}
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//        
+//        
+//        
+//        return viewURL.toString();
+//
+//	}
+	
+	private String getAssetViewURL(
+			PortletRequest request, PortletResponse response, AssetEntry assetEntry, String keywords) {
+
+	        PortletURL viewURL = null;
+	        
+	        ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+			
+			String localHost = themeDisplay.getPortalURL();		
+			List<Layout> layouts = null;
+			try{
+				layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+				for (Layout layout : layouts){
+
+					String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+
+					//Viene ricercato l'URL esatto per la pagina successiva
+					if(nodeNameRemoved.indexOf(paginaDettaglioContenuto) > 0) {
+						
+						viewURL = PortletURLFactoryUtil.create(request, assetPublisherPortletId, layout.getPlid(), PortletRequest.RENDER_PHASE);
+						viewURL.setWindowState(WindowState.NORMAL);
+						viewURL.setPortletMode(PortletMode.VIEW);
+						viewURL.setParameter("action", "ricerca");
+						
+						viewURL.setParameter("struts_action", "/asset_publisher/view_content");
+
+						String currentURL = HttpUtil.addParameter(PortalUtil.getCurrentURL(request), "_" + request.getAttribute(WebKeys.PORTLET_ID) + "_cercaPerKeyword", keywords);
+						viewURL.setParameter("redirect", currentURL);
+
+				        viewURL.setParameter("assetEntryId", String.valueOf(assetEntry.getEntryId()));
+
+				        AssetRendererFactory assetRendererFactory = assetEntry.getAssetRendererFactory();
+
+				        AssetRenderer assetRenderer = assetEntry.getAssetRenderer();
+
+				        viewURL.setParameter("type", assetRendererFactory.getType());
+
+				        if (Validator.isNotNull(assetRenderer.getUrlTitle())) {
+
+			                if (assetRenderer.getGroupId() != themeDisplay.getScopeGroupId()) {
+			                	viewURL.setParameter("groupId", String.valueOf(assetRenderer.getGroupId()));
+			                }
+
+			                viewURL.setParameter("urlTitle", assetRenderer.getUrlTitle());
+				        }
+						
+			
+						break;
+						
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        
+	        
+	        return viewURL.toString();
+	}	
+	
+	
+	private Progetto getProgettoFromDocument(Document doc) {
+		Progetto progetto = new Progetto();
+		
+		progetto.setId(Integer.parseInt(doc.getField(Field.ENTRY_CLASS_PK).getValue()));
+		progetto.setAnnoAnnoDecisione(doc.get(Constants.RICERCALIBERA_FIELD_ANNO_DECISIONE));
+		
+		
+		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
+		categoriaIntervento.setDescCategoriaIntervento(doc.get(Constants.RICERCALIBERA_FIELD_CATEGORIA));
+		progetto.setCategoriaIntervento(categoriaIntervento);
+		progetto.setComuniProgetto(doc.get(Constants.RICERCALIBERA_FIELD_COMUNE));
+		AnnoDecisione annodec = new AnnoDecisione();
+		annodec.setAnnoDadeAnnoDecisione(doc.get(Constants.RICERCALIBERA_FIELD_ANNO_DECISIONE));
+		progetto.setAnnoDecisione(annodec);
+		AnagraficaCup ana = new AnagraficaCup();
+		ana.setDescCup(doc.get(Field.TITLE));
+		progetto.setAnagraficaCup(ana);
+		progetto.setImpoCostoProgetto(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_COSTO)));
+		progetto.setImpoImportoFinanziato(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_IMPORTO)));
+		
+		return progetto;
+	}
+	
+	
 	
 	protected String createJsonStringFromModelAttribute(NavigaProgetti filtro){
 		ObjectMapper mapper= new ObjectMapper();

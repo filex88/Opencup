@@ -20,6 +20,7 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +39,8 @@ import com.liferay.portal.util.PortalUtil;
 @RequestMapping("VIEW")
 public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommonController{
 	
+	@Value("#{config['pagina.elenco.progetti']}")
+	private String paginaElencoProgetti;
 	
 	@Autowired
 	private AggregataFacade aggregataFacade;
@@ -113,7 +116,7 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		model.addAttribute("navigaAggregata", filtro);
 		
 		// link elenco progetti
-		String urlElencoProgetti=super.calcolaUrlLocalizzazioneByLivello(request, filtro.getPagElencoProgetti());
+		String urlElencoProgetti=super.calcolaUrlLocalizzazioneByLivello(request, paginaElencoProgetti);
 		urlElencoProgetti+="&jsonnavigaaggregata="+createJsonStringFromModelAttribute(filtro);
 		model.addAttribute("linkElencoProgetti", HttpUtil.encodeParameters(urlElencoProgetti));
 	

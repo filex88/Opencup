@@ -16,8 +16,6 @@ public class NavigaProgetti implements Serializable{
 	private String naviga;
 	
 	private String pagAggregata;
-	private String pagElencoProgetti;
-	private String pagDettaglioProgetto;
 	
 	private String idNatura;
 	private String idAreaIntervento;
@@ -43,8 +41,6 @@ public class NavigaProgetti implements Serializable{
 	public void importa(NavigaAggregata navigaAggregata) {
 		
 		this.pagAggregata = navigaAggregata.getPagAggregata();
-		this.pagElencoProgetti = navigaAggregata.getPagElencoProgetti();
-		this.pagDettaglioProgetto = navigaAggregata.getPagDettaglioProgetto();
 		
 		this.naviga = navigaAggregata.getNaviga();
 		this.idNatura = navigaAggregata.getIdNatura();
@@ -140,8 +136,6 @@ public class NavigaProgetti implements Serializable{
 	
 	public NavigaProgetti(){
 		this.pagAggregata = "";
-		this.pagElencoProgetti = "";
-		this.pagDettaglioProgetto = "";
 		this.naviga = "";
 		this.idNatura = "-1";
 		this.idAreaIntervento = "-1";
@@ -181,8 +175,6 @@ public class NavigaProgetti implements Serializable{
 		toString = toString + "idStatoProgetto: (" + idStatoProgetto + "); ";
 		toString = toString + "naviga: (" + naviga + "); ";
 		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
-		toString = toString + "pagElencoProgetti: (" + pagElencoProgetti + "); ";
-		toString = toString + "pagDettaglioProgetto: (" + pagDettaglioProgetto + "); ";
 		toString = toString + "idProgetto: (" + idProgetto + "); ";
 		return toString;
 	}
@@ -324,22 +316,6 @@ public class NavigaProgetti implements Serializable{
 		this.pagAggregata = pagAggregata;
 	}
 
-	public String getPagElencoProgetti() {
-		return pagElencoProgetti;
-	}
-
-	public void setPagElencoProgetti(String pagElencoProgetti) {
-		this.pagElencoProgetti = pagElencoProgetti;
-	}
-
-	public String getPagDettaglioProgetto() {
-		return pagDettaglioProgetto;
-	}
-
-	public void setPagDettaglioProgetto(String pagDettaglioProgetto) {
-		this.pagDettaglioProgetto = pagDettaglioProgetto;
-	}
-
 	public String getIdAreaSoggetto() {
 		return idAreaSoggetto;
 	}
@@ -400,14 +376,6 @@ public class NavigaProgetti implements Serializable{
 		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
 		result = prime * result
 				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
-		result = prime
-				* result
-				+ ((pagDettaglioProgetto == null) ? 0 : pagDettaglioProgetto
-						.hashCode());
-		result = prime
-				* result
-				+ ((pagElencoProgetti == null) ? 0 : pagElencoProgetti
-						.hashCode());
 		return result;
 	}
 
@@ -512,17 +480,7 @@ public class NavigaProgetti implements Serializable{
 				return false;
 		} else if (!pagAggregata.equals(other.pagAggregata))
 			return false;
-		if (pagDettaglioProgetto == null) {
-			if (other.pagDettaglioProgetto != null)
-				return false;
-		} else if (!pagDettaglioProgetto.equals(other.pagDettaglioProgetto))
-			return false;
-		if (pagElencoProgetti == null) {
-			if (other.pagElencoProgetti != null)
-				return false;
-		} else if (!pagElencoProgetti.equals(other.pagElencoProgetti))
-			return false;
 		return true;
 	}
-
+	
 }
