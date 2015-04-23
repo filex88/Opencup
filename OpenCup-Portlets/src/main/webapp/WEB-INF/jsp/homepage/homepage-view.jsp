@@ -14,16 +14,16 @@
 <style>
 
 	
-	div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;margin-top: -1em;margin-bottom: -0.7em;}
+	div#sponsor-list{padding-top:1em;border-top: 0.5em solid #f0f0f0;background: #fff;}
 	div#sponsor-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
 	div#sponsor-list ul{padding-top: 1em;padding-bottom: 1em;}
 	div#sponsor-list ul li {display: inline-block;list-style: none;width:19%;}
 	div#sponsor-list ul li a{color: #1f4e78;padding-left:1em;line-height: 4em;}
 	div#sponsor-list ul li div.sponsorImg{width: 4em;height: 4em;padding-left: .5em;}
 
-	div#news-list{padding-top:1em;background: #fff;}
+	div#news-list{padding-top:1em;background: #fff;height: 17em;}
 	div#news-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
-	div#news-list ul{padding-top: 1em;padding-bottom: 4em;width: 100%;margin-left: 0;}
+	div#news-list ul{padding-top: 1em;width: 100%;margin-left: 0;}
 	div#news-list ul li {display: inline-block;list-style: none;width:32%;margin-left: 1em;}
 	div#news-list ul li a{color: #1f4e78;font-style: italic;}
 	div#news-list ul li i{color: #00b0f0;}
@@ -31,7 +31,7 @@
 	div#news-list ul li div.linkToPage{margin-top:.5em;}
 	div#news-list ul li div.contNews{height:5em;text-align: justify;margin-right: .7em;}
 	div#news-list ul li div.imgCont{width: 7.5em;height: 6.5em; }
-	div#news-list div.allNewsLink{margin-top: -4em;margin-right: .8em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
+	div#news-list div.allNewsLink{margin-top: 1em;margin-right: .8em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
 	div#news-list div.allNewsLink a{color: #fff;line-height: 2em;}
 	div#news-list div.allNewsLink a:hover{text-decoration: underline;}
 
@@ -45,7 +45,7 @@
 	
 	div.firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
 	div.firstStripeLeft small{font-size: .5em;}
-	div.secondStripeLeft{text-align: justify;padding-top:3em;}
+	div.secondStripeLeft{text-align: justify;padding-top:3em;line-height: 1.3em;}
 	div.secondStripeLeft div.linkScopri{float: right;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
 	div.secondStripeLeft div a.linkHome{line-height: 2em;color:#fff;}
 	div.secondStripeLeft div a.linkHome:hover {text-decoration: underline;cursor: pointer;}
@@ -153,7 +153,7 @@
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
-					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.$news_id.getData()
+					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 				</div>
 			</div>
   		</div>
