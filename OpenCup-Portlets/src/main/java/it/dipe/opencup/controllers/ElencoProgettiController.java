@@ -27,7 +27,6 @@ import it.dipe.opencup.utils.Constants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -237,40 +236,57 @@ public class ElencoProgettiController extends FiltriCommonController {
 				SessionMessages.add(renderRequest, "valore-ricerca-non-valido");
 			}
 			if( documents != null ){
+				DocumentoDTO documento = null;
+				Progetto progetto = null;
+				int contaDoc = 0;
 				for (Document document : documents) {
 					logger.debug("Document: " + document.getUID() );
 					
-					for (Map.Entry<String, Field> entry : document.getFields().entrySet() ) {
-						logger.debug("-- " +  entry.getKey() + ": " + entry.getValue().getValue() );
-					}
+//					for (Map.Entry<String, Field> entry : document.getFields().entrySet() ) {
+//						logger.debug("-- " +  entry.getKey() + ": " + entry.getValue().getValue() );
+//					}
 					
 					if (document.get(Field.ENTRY_CLASS_NAME).equals(Progetto.class.getName())) {
 					
-						Progetto progetto = getProgettoFromDocument(document);
+						progetto = getProgettoFromDocument(document);
 						risultatiProgetti.add(progetto);
 							
 					} else {
 						
-						DocumentoDTO risultato = new DocumentoDTO(); 
-						risultato.setTitolo(document.getField(Field.TITLE).getValue());
+						documento = new DocumentoDTO(); 
+						documento.setTitolo(document.getField(Field.TITLE).getValue());
+						String testo = "non disponibile";
+						if( document.getField(Field.CONTENT) != null){
+							testo = trunc(document.getField(Field.CONTENT).getValue(), 37);
+						}
+						documento.setTesto(testo);
+						documento.setId(contaDoc++);
+						
 						AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry( document.get(Field.ENTRY_CLASS_NAME) , Long.parseLong(document.get(Field.ENTRY_CLASS_PK)));
-						risultato.setUrl(getAssetViewURL(renderRequest, renderResponse, assetEntry, cercaPerKeyword) );
-						risultatiGenerici.add(risultato);
+						documento.setUrl(getAssetViewURL(renderRequest, renderResponse, assetEntry, cercaPerKeyword) );
+						
+						risultatiGenerici.add(documento);
 						
 					}	
 				}
 			}
 			
-			model.addAttribute("risultatiGenerici", risultatiGenerici);
+			//model.addAttribute("risultatiGenerici", risultatiGenerici);
 			model.addAttribute("risultatiGenericiSize", risultatiGenerici.size());
+			
+			SearchContainer<DocumentoDTO> searchContainerElencoDoc = new SearchContainer<DocumentoDTO>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+			searchContainerElencoDoc.setDelta(risultatiGenerici.size());
+			searchContainerElencoDoc.setTotal(risultatiGenerici.size());
+			searchContainerElencoDoc.setResults(risultatiGenerici);
+			model.addAttribute("searchContainerElencoDoc", searchContainerElencoDoc);
 			
 			
 			//model.addAttribute("risultatiProgetti", risultatiProgetti);
-			SearchContainer<Progetto> searchContainerElenco = new SearchContainer<Progetto>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
-			searchContainerElenco.setDelta(risultatiProgetti.size());
-			searchContainerElenco.setTotal(risultatiProgetti.size());
-			searchContainerElenco.setResults(risultatiProgetti);
-			model.addAttribute("searchContainerElenco", searchContainerElenco);
+			SearchContainer<Progetto> searchContainerElencoPro = new SearchContainer<Progetto>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
+			searchContainerElencoPro.setDelta(risultatiProgetti.size());
+			searchContainerElencoPro.setTotal(risultatiProgetti.size());
+			searchContainerElencoPro.setResults(risultatiProgetti);
+			model.addAttribute("searchContainerElenco", searchContainerElencoPro);
 
 		} catch (SearchException e) {
 			logger.error("SearchException: ", e);
@@ -285,6 +301,12 @@ public class ElencoProgettiController extends FiltriCommonController {
 		return "elenco-progetti-view";
 		
 	}
+	
+	private String trunc(String testo, int n){
+        boolean toLong = testo.length() > n;
+        String retval = (toLong)? testo.substring(0, n) : testo;		
+        return (toLong) ? retval + "..." : retval;
+     };
 	
 	protected NavigaAggregata createModelFromJsonString(String jsonString){
 		ObjectMapper mapper= new ObjectMapper();
@@ -322,9 +344,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 	@EventMapping(value = "event.risultatiRicerca")
 	public void effettuaRicerca(EventRequest request, EventResponse response) {
 		RicercaLiberaDTO ricercaDTO = (RicercaLiberaDTO) request.getEvent().getValue();
-
-		System.out.println( "!!! - cercaPerKeywords: " + ricercaDTO.getCercaPerKeyword() + " - !!!" );
-
 		response.setRenderParameter("action", "ricercaLibera");
 		response.setRenderParameter("cercaPerKeyword", ricercaDTO.getCercaPerKeyword());
 	}

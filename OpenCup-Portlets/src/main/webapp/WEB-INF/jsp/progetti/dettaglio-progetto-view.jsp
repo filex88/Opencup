@@ -1,4 +1,3 @@
-
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
@@ -12,40 +11,84 @@
 <liferay-theme:defineObjects />
 <fmt:setLocale value="it_IT"/>
 
+<style>
+	div.padding-dettaglio{padding:1em;}
+</style>
+
 <c:if test="${not empty dettProgetto}">
+
 	<fmt:formatDate value="${dettProgetto.anagraficaCup.dataGenerazione}" var="dataGenerazione" pattern="dd/MM/yyyy" />
+	
+	<div class="padding-dettaglio">
+		<ul class="inline">
+			<li>
+				<c:if test="${not empty returnUrl}">
+				<span class="header-back-to">
+					<a class="icon-circle-arrow-left previous-level" href="${returnUrl}" title="Back"> <span class="helper-hidden-accessible"> Back </span> </a>
+				</span>
+				</c:if>
+			</li>
+			<li>
+				<span class="titolo">${ dettProgetto.anagraficaCup.descCup }</span>
+			</li>
+		</ul>
+	</div>
+	
 	<div>
-		<div class="span8">
-			<ul class="inline">
-				<li>
-					<c:if test="${not empty returnUrl}">
-					<span class="header-back-to">
-						<a class="icon-circle-arrow-left previous-level" href="${returnUrl}" title="Back"> <span class="helper-hidden-accessible"> Back </span> </a>
-					</span>
-					</c:if>
-				</li>
-				<li>
-					<span class="dett-titolo">${ dettProgetto.anagraficaCup.descCup }</span>
-				</li>
-			</ul>
-			<div>
-				<p>
-					<span class="dett-label">CUP:</span>
-					<span class="dett-value">${  dettProgetto.anagraficaCup.codiCup  }</span>
-					<span class="dett-label">generato il:</span>
-					<span class="dett-value">${ dataGenerazione }</span>
-					<span class="dett-label">Anno decisione:</span>
-					<span class="dett-value">${ dettProgetto.annoDecisione.annoDadeAnnoDecisione }</span>
-				</p>
-			</div>
-		</div>
-	</div>	
-	<div>
-		<div class="span6" style="padding-right: 5px;">
+		<div class="padding-dettaglio span6">
 		
 			<p>
-				<span class="dett-titolo">DATI CLASSIFICAZIONE PROGETTO</span>
+				<span class="dett-label">CUP:</span>
+				<span class="dett-value">${ dettProgetto.anagraficaCup.codiCup  }</span><br/>
+				<span class="dett-label">Data generazione:</span>
+				<span class="dett-value">${ dataGenerazione }</span><br/>
+				<span class="dett-label">Anno decisione:</span>
+				<span class="dett-value">${ dettProgetto.annoDecisione.annoDadeAnnoDecisione }</span><br/>
+				<span class="dett-label">Stato:</span>
+				<span class="dett-value">${ dettProgetto.statoProgetto.descDecodStatoProgetto }</span>
 			</p>
+			
+			<div class="row dett-titolo">
+				<span>LOCALIZZAZIONE DEL PROGETTO</span>
+			</div>
+						
+			<div class="row dettaglio">
+				<div class="span3">
+					<span class="dett-label">Comune:</span>
+				</div>
+				<div class="span9">
+					<span class="dett-value">${ dettProgetto.comuniProgetto }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3">
+					<span class="dett-label">Provincia:</span>
+				</div>
+				<div class="span9">
+					<span class="dett-value">${ dettProgetto.provinceProgetto }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3">
+					<span class="dett-label">Regione:</span>
+				</div>
+				<div class="span9">
+					<span class="dett-value">${ dettProgetto.regioneProgetto }</span>
+				</div>
+			</div>
+			<div class="row dettaglio">
+				<div class="span3">
+					<span class="dett-label">Stato:</span>
+				</div>
+				<div class="span9">
+					<span class="dett-value">Italia</span>
+				</div>
+			</div>
+			
+			<div class="row dett-titolo">
+				<span>CLASSIFICAZIONE DEL PROGETTO</span>
+			</div>
+						
 			<div class="row dettaglio">
 				<div class="span3">
 					<span class="dett-label">Natura:</span>
@@ -87,46 +130,10 @@
 				</div>
 			</div>
 			
-			<p>
-				<span class="dett-titolo">DATI LOCALIZZAZIONE DEL PROGETTO</span>
-			</p>
-						
-			<div class="row dettaglio">
-				<div class="span3">
-					<span class="dett-label">Comune:</span>
-				</div>
-				<div class="span9">
-					<span class="dett-value">${ dettProgetto.comuniProgetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3">
-					<span class="dett-label">Provincia:</span>
-				</div>
-				<div class="span9">
-					<span class="dett-value">${ dettProgetto.provinceProgetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3">
-					<span class="dett-label">Regione:</span>
-				</div>
-				<div class="span9">
-					<span class="dett-value">${ dettProgetto.regioneProgetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3">
-					<span class="dett-label">Stato:</span>
-				</div>
-				<div class="span9">
-					<span class="dett-value">Italia</span>
-				</div>
+			<div class="row dett-titolo">
+				<span>SOGGETTO TITOLARE</span>
 			</div>
 			
-			<p>
-				<span class="dett-titolo">DATI SOGGETTO TITOLARE</span>
-			</p>
 			<div class="row dettaglio">
 				<div class="span3">
 					<span class="dett-label">Soggetto Titolare:</span>
@@ -140,7 +147,7 @@
 					<span class="dett-label">Area:</span>
 				</div>
 				<div class="span9">
-					<span class="dett-value">${ dettProgetto.soggettoTitolare.categoriaSoggetto.areaSoggetto.descAreaSoggetto }</span>
+					<span class="dett-value">${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.areaSoggetto.descAreaSoggetto }</span>
 				</div>
 			</div>
 			<div class="row dettaglio">
@@ -160,51 +167,25 @@
 				</div>
 			</div>
 			
+			
 		</div>
 		
-		<div class="span6" style="padding-left: 5px;">
-			
-			
-			<div class="card">
-				<div class="card-title">
-	            	<span class="title">COSTI E IMPORTI</span>
-	        	</div>
-	        	<div class="card-content">
-					<div >
-						<fmt:setLocale value="it_IT"/>
-						<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
-							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
-							<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
-						</div>
-						<div class="span4 dati_sitesi dati_sitesi_lilla">
-							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
-							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-			</div>
-			
+		<div class="padding-dettaglio span6">
+		
 			<div>
-				<div class="span4 copertura-finanziamento">
-					<p>
-						<span class="dett-titolo2 row-no-wrap">Copertura Finanziamento</span>
-					</p>
-					<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
+				<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
+					<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
+					<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
+					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
 				</div>
-				<div class="span8 chart-fianziamento">
-					<%-- 
-					<div id="tooltip" class="tooltip hidden">
-						<p><span id="label"></span></p>
-						<p><span id="value"></span></p>
-					</div>
-					--%>
-					<svg class="chart"></svg>
+				<div class="span4 dati_sitesi dati_sitesi_lilla">
+					<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
+					<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
+					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
 				</div>
+				<div class="clear"></div>
 			</div>
-			
+		
 			<div class="row" style="text-align: center">
 				<div id="map-canvas"></div>
 				<c:choose>
@@ -212,10 +193,11 @@
 				</c:choose>
 			</div>
 			
+			<div class="row dett-titolo">
+				<span>DATI AGGIUNTIVI DEL PROGETTO</span>
+			</div>
 			<fmt:formatDate value="${ maxDataModifica }" var="dataUltimaModifica" pattern="dd/MM/yyyy" />
-			<p>
-				<span class="dett-titolo">DATI AGGIUNTIVI DEL PROGETTO</span>
-			</p>
+			
 			<div class="row dettaglio">
 				<div class="span3">
 					<span class="dett-label">Data Ultima Modifica:</span>
@@ -245,6 +227,12 @@
 					</span>
 				</div>
 			</div>
+			
+			<div class="row dett-titolo">
+				<span>DATI CIPE</span>
+			</div>
+			
+			
 			<div class="row dettaglio">
 				<div class="span3">
 					<span class="dett-label">Numero e Anno Delibera CIPE:</span>
@@ -287,6 +275,43 @@
 				</div>
 			</div>
 			
+			
+		</div>
+	</div>
+
+
+
+	<div>
+		<div class="span6" style="padding-right: 5px;">
+		
+
+			
+			
+		</div>
+		
+		<div class="span6" style="padding-left: 5px;">
+			
+			
+			
+			
+			<div>
+				<div class="span4 copertura-finanziamento">
+					<p>
+						<span class="dett-titolo2 row-no-wrap">Copertura Finanziamento</span>
+					</p>
+					<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
+				</div>
+				<div class="span8 chart-fianziamento">
+					<%-- 
+					<div id="tooltip" class="tooltip hidden">
+						<p><span id="label"></span></p>
+						<p><span id="value"></span></p>
+					</div>
+					--%>
+					<svg class="chart"></svg>
+				</div>
+			</div>
+
 		</div>
 		
 	</div>

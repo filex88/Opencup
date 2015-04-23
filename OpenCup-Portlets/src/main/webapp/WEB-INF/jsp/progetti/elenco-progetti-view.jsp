@@ -9,6 +9,51 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
+<style>
+	.valign-middle {
+		vertical-align: middle !important;
+	}
+	.bordo {
+		border: solid 2px #1f4e78;
+	}
+	.intestazione{
+		padding-top: 15px;
+		padding-left: 5px;
+	}
+	
+	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-1,
+	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_documentoDTOsSearchContainer_col-1
+	{
+		border-bottom:  solid 2px #1f4e78 !important;
+		
+	}
+	
+	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-costo{
+		border-bottom:  solid 2px #f08c00 !important;
+	}
+	
+	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-importo{
+		border-bottom:  solid 2px #c90061 !important;
+	}
+	
+	div.titolo p{padding:1em;font-size:18pt;color:#1f4e78;}
+	div.sintesi p{padding-left:1em;padding-right:1em;text-align:justify;color:#1f4e78;}
+
+	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
+	div.summary ul li span{color: #1f4e78;}
+	div.summary ul li.sumVolume svg {height: .8em; background-color: #009600;}
+	div.summary ul li.sumCosto svg {height: .8em; background-color: #f08c00;}
+	div.summary ul li.sumImporto svg {height: .8em;}
+	div.summary ul li.sumImporto rect:first-of-type {fill: #d9d9d9;}
+	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #c90061;}
+	
+	div.my-toggler-affina-ricerca-elenco-progetti,
+	div.toggler-content-wrapper,
+	div.toggler-content,
+	div.table-container {padding: 1em;}
+	
+</style>
+
 <portlet:defineObjects />
 
 <liferay-theme:defineObjects/>
@@ -22,49 +67,40 @@
 	<div>
 	
 		<div class="span6">
-			<div class="card">
-				<div class="card-title">
-	            	<span class="title">Elenco Progetti</span>
-	       		</div>
-				<div class="card-content">
-					<div style="text-align: justify;">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. 
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
-					</div>
-				</div>
-			</div>
+	        <div class="titolo"><p>Elenco Progetti</p></div>
+			<div class="sintesi"><p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. 
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
+			</p></div>
 		</div>
 			
-		<div class="span6">
+		<div class="span6 summary">
+		
+			<ul>
+				<li class="sumVolume w100">
+					<div>
+						<span class="left"><small>Progetti censiti</small></span>
+						<span class="right"><small><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></small></span>
+						<svg class="w100"></svg>
+					</div>
+				</li>
+				<li class="sumCosto w100">
+					<div>
+						<span class="left"><small>Costo</small></span>
+						<span class="right"><small id="costoTotale"></small></span>
+						<svg class="w100"></svg>
+					</div>
+				</li>
+				<li class="sumImporto w100">
+				<div>
+					<span class="left"><small>Finanziamento pubblico</small></span>
+					<span class="right"><small id="importoTotale"></small></span>
+					<svg class="w100"></svg>
+				</div>
+				</li>
+			</ul>
+		
 			<%-- 
-			<fmt:setLocale value="it_IT"/>
-			<liferay-ui:search-container searchContainer="${searchContainerRiepilogo}" delta="${searchContainerRiepilogo.delta}" deltaParam="delta">
-				
-				<liferay-ui:search-container-results results="${searchContainerRiepilogo.results}" total="${searchContainerRiepilogo.total}"/>    
-				
-				<liferay-ui:search-container-row className="it.dipe.opencup.dto.DescrizioneValore" modelVar="descrizioneValore">
-					
-					<liferay-ui:search-container-column-text name="sintesi-progetti">
-						${descrizioneValore.label}
-					</liferay-ui:search-container-column-text>
-					
-					<liferay-ui:search-container-column-text>
-						<c:choose>
-							<c:when test="${'VOLUME DEI PROGETTI' eq descrizioneValore.label}">
-								<span class="pull-right"><fmt:formatNumber value="${descrizioneValore.value}" type="number" minIntegerDigits="1"/></span>
-							</c:when>
-							<c:otherwise>
-								<span class="pull-right"><fmt:formatNumber value="${descrizioneValore.value}" type="currency" minIntegerDigits="1" minFractionDigits="3"/></span>
-							</c:otherwise>
-						</c:choose>
-					</liferay-ui:search-container-column-text>
-					
-				</liferay-ui:search-container-row>
-				
-				<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerRiepilogo}"/>
-				
-			</liferay-ui:search-container>
-		 	--%>
 		 	<div class="card">
 				<div class="card-title">
 		           	<span class="title">Dati di sintesi</span>
@@ -92,12 +128,12 @@
 				</div>
 			</div>
 		</div>
-		
+		--%>
 	</div>
 	
-	<div id="my-toggler-affina-ricerca-elenco-progetti">
+	<div id="my-toggler-affina-ricerca-elenco-progetti" class="my-toggler-affina-ricerca-elenco-progetti">
 		
-		<div class="header toggler-header-collapsed" style="float: right;">
+		<div class="header toggler-header-collapsed" style="float: right; height: 0px">
 			<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
 				AFFINA LA RICERCA
 				<span>
@@ -113,7 +149,7 @@
 			</div>
 		</div>
 		
-		<div class="content toggler-content-collapsed">
+		<div class="content toggler-content-collapsed bordo">
 			<portlet:actionURL var="affinaRicercaActionVar">
 			   	<portlet:param name="action" value="ricerca"></portlet:param>
 			</portlet:actionURL>
@@ -392,56 +428,64 @@
 	</div>
 </c:if>
 
-<div>	
-
-	<div style="padding-top: 15px">
-		<span><strong>Elenco dei progetti <i class="icon-list"></i></strong></span>
-	</div>
+<div class="intestazione">
+	<span><strong>Elenco dei progetti <i class="icon-list"></i></strong></span>
+</div>
+<div class="table-container">
+	<liferay-ui:search-container searchContainer="${searchContainerElenco}" delta="${searchContainerElenco.delta}" orderByType="${searchContainerElenco.orderByType}" deltaParam="delta">
+		
+		<liferay-ui:search-container-results results="${searchContainerElenco.results}" total="${searchContainerElenco.total}"/>    
+		
+		<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetto" keyProperty="id" modelVar="progetti">
 	
-	<div>
-		<liferay-ui:search-container searchContainer="${searchContainerElenco}" delta="${searchContainerElenco.delta}" orderByType="${searchContainerElenco.orderByType}" deltaParam="delta">
+			<liferay-ui:search-container-column-jsp path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
 			
-			<liferay-ui:search-container-results results="${searchContainerElenco.results}" total="${searchContainerElenco.total}"/>    
+			<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
+				<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
+			</liferay-ui:search-container-column-text>
 			
-			<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetto" keyProperty="id" modelVar="progetti">
-
-				<liferay-ui:search-container-column-jsp path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
-				
-				<liferay-ui:search-container-column-text name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
-					<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
-				</liferay-ui:search-container-column-text>
-				
-				<liferay-ui:search-container-column-text name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
-					<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
-				</liferay-ui:search-container-column-text>
+			<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+				<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
+			</liferay-ui:search-container-column-text>
+		
+		</liferay-ui:search-container-row>
 			
-			</liferay-ui:search-container-row>
-				
-			<liferay-ui:search-iterator paginate="${paginate}" searchContainer="${searchContainerElenco}" />
-				
-		</liferay-ui:search-container>
-	
-	</div>
-	 
+		<liferay-ui:search-iterator paginate="${paginate}" searchContainer="${searchContainerElenco}" />
+			
+	</liferay-ui:search-container>
 </div>
 
-
-
 <c:if test="${action eq 'ricercaLibera'}">
-	<div>
-		<div style="padding-top: 15px">
-			<span><strong>Elenco dei documenti <i class="icon-list"></i></strong></span>
-		</div>
+	<div class="intestazione">
+		<span><strong>Elenco dei documenti <i class="icon-list"></i></strong></span>
+	</div>
+	<div class="table-container">
+		<liferay-ui:search-container searchContainer="${searchContainerElencoDoc}" delta="${searchContainerElencoDoc.delta}" orderByType="${searchContainerElencoDoc.orderByType}" deltaParam="deltaDoc">
 		
-		<c:if test="${risultatiGenericiSize > 0}">
-			<c:forEach items="${risultatiGenerici}" var="doc" >
-				<a href="${doc.url}">${doc.titolo} (${doc.tipo})</a>
-				<br/>
-			</c:forEach>
-		</c:if>
-		<c:if test="${risultatiGenericiSize == 0}">
-			<div class="alert alert-info"> Nessun dato trovato per la selezione fatta </div>
-		</c:if>
+			<liferay-ui:search-container-results results="${searchContainerElencoDoc.results}" total="${searchContainerElencoDoc.total}"/>    
+			
+			<liferay-ui:search-container-row className="it.dipe.opencup.dto.DocumentoDTO" keyProperty="id" modelVar="documento">
+			
+				<liferay-ui:search-container-column-text>
+					<div>
+						<p>
+							<a href="${documento.url}" class="link-url-dettaglio">
+							<strong>${documento.titolo}</strong></a>
+						</p>
+					</div>
+					
+					<div>
+						<p>
+							<span>${documento.testo}</span>
+						</p>
+					</div>
+				</liferay-ui:search-container-column-text>
+				
+			</liferay-ui:search-container-row>
+				
+			<liferay-ui:search-iterator paginate="false" searchContainer="${searchContainerElencoDoc}" />
+				
+		</liferay-ui:search-container>
 	</div>
 </c:if>
 
@@ -451,7 +495,39 @@
 	
 	var namespaceRicerca = "<portlet:namespace/>";
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
+
+	function nFormatterBar(num){
+		if (num >= 1000000000) {
+	        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld ';
+	     }
+	     if (num >= 1000000) {
+	        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil ';
+	     }
+	     if (num >= 1000) {
+	        return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K ';
+	     }
+	     return num;
+
+	}
 	
+	d3.selectAll("#costoTotale").text(nFormatterBar("${costoDeiProgetti}")+"\u20ac");
+	
+	d3.selectAll("#importoTotale").text(nFormatterBar("${importoFinanziamenti}")+"\u20ac");
+	
+	function drawFinBar(){
+		// barra importo finanziato
+		var widthLiFinanziato=d3.selectAll("li.sumImporto")[0][0].clientWidth;
+		var rangeFinanziato=["${costoDeiProgetti}","${importoFinanziamenti}"];
+		var xFinanziato=d3.scale.linear().domain([0, d3.max(rangeFinanziato)]).range([0, widthLiFinanziato]);
+
+		d3.selectAll("li.sumImporto").select("div").select("svg").selectAll("rect").data(rangeFinanziato)
+		.enter().append("rect")
+		.attr("width", xFinanziato)
+		.attr("height", ".8em");
+	}
+	drawFinBar();
+
+	/*
 	// clear breadcrumb
 	
 	var fatherUl=d3.selectAll("li.first").node().parentNode;
@@ -476,7 +552,7 @@
 
 //d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
 d3.selectAll("li.active.last.breadcrumb-truncate").selectAll("i").remove();
-	
+*/	
 	
 </script>
 

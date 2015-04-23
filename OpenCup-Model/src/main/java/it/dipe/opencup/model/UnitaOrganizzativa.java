@@ -26,8 +26,8 @@ public class UnitaOrganizzativa extends AbstractCommonEntity implements Serializ
 	private Integer id;
 	 
 
-	@Column(name = "CODI_DUOR_UNITA_ORGANIZZATIVA", length = 4)
-	private String codiUnitaOrganizzativa;
+	@Column(name = "CODI_DUOR_UNITA_ORGANIZZATIVA")
+	private Integer codiUnitaOrganizzativa;
 	 
 
 	@Column(name = "DESC_DUOR_UNITA_ORGANIZZATIVA", length = 255)
@@ -82,12 +82,12 @@ public class UnitaOrganizzativa extends AbstractCommonEntity implements Serializ
 	}
 
 
-	public String getCodiUnitaOrganizzativa() {
+	public Integer getCodiUnitaOrganizzativa() {
 		return codiUnitaOrganizzativa;
 	}
 
 
-	public void setCodiUnitaOrganizzativa(String codiUnitaOrganizzativa) {
+	public void setCodiUnitaOrganizzativa(Integer codiUnitaOrganizzativa) {
 		this.codiUnitaOrganizzativa = codiUnitaOrganizzativa;
 	}
 

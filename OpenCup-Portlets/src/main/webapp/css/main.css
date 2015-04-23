@@ -252,11 +252,19 @@
 	overflow-x: hidden;
 }
 
+.dettaglio-progetto-portlet .titolo{
+	display:block;
+	font-weight: bold;
+	padding: 20px 0;
+	border-bottom: 1em solid #0084b0;
+}
+
 .dettaglio-progetto-portlet .dett-titolo{
 	display:block;
 	font-weight: bold;
-	color: #202020;
 	padding: 20px 0;
+	text-align: right;
+	border-bottom: 1px solid;
 }
 
 .dettaglio-progetto-portlet .dett-titolo2{
@@ -272,17 +280,14 @@
 .dettaglio-progetto-portlet .dett-value {
 	font-style: italic;
 	color: #202020;
+	text-align: right;
 }
 
 .dettaglio-progetto-portlet .dettaglio {
 	position: relative;
-	padding: 9px 0;
+	padding: 3px 0;
 	margin: 0;
 	left: 0;
-	border-width: 1px 0;
-	border-style: solid;
-	border-color: transparent;
-	border-bottom-color: #b2c6ff;
 }
 
 .dettaglio-progetto-portlet .importo {

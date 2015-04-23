@@ -22,10 +22,10 @@ public class CategoriaSoggetto extends AbstractCommonEntity implements Serializa
 	@Column(name = "SEQU_DCSO_ID")
 	private Integer id;
 
-	@Column(name = "CODI_DCSO_CATEGORIA_SOGGETTO", length = 2, columnDefinition = "char")
+	@Column(name = "CODI_DCSO_CATEGORIA_SOGGETTO", length = 2)
 	private String codiCategoriaSoggetto;
 
-	@Column(name = "DESC_DCSO_CATEGORIA_SOGGETTO", length = 150, columnDefinition = "char")
+	@Column(name = "DESC_DCSO_CATEGORIA_SOGGETTO", length = 150)
 	private String descCategoriaSoggetto;
 	
 //	@ManyToOne(targetEntity = AreaSoggetto.class)
