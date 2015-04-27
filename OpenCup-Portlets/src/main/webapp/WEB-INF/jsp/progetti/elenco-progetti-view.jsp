@@ -54,6 +54,8 @@
 	
 </style>
 
+<fmt:setLocale value="it_IT"/>
+
 <portlet:defineObjects />
 
 <liferay-theme:defineObjects/>
@@ -107,7 +109,6 @@
 		       	</div>
 		       	<div class="card-content">
 					<div>
-						<fmt:setLocale value="it_IT"/>
 						<div class="span4 dati_sitesi dati_sitesi_verde">
 							<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
 							<div class="celle_dati_sitesi font-size1em">Volume</div>

@@ -72,7 +72,7 @@
 	
 </style>
 
-<div class="portlet-body">
+<div class="portlet-body" style="height: 280px">
 	
 	<div class="span12" id="conteiner" >
 		<div id="titolo"></div>

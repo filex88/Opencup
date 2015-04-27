@@ -67,6 +67,9 @@ public class NavigaProgetti implements Serializable{
 		
 	}
 	
+	public void setCountAffRicerca(String countAffRicerca){
+		
+	}
 	public String getCountAffRicerca(){
 		
 		String sRetval = null;

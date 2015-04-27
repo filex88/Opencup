@@ -204,12 +204,27 @@
 	margin-bottom: 5px;
 }
 
-
+.indietro-div,
+.invia-segnalazione-div,
 .affina-ricerca-div{
 	margin-bottom: 0px;
 	border-radius: 15px;
 }
 
+.tasto-indietro a {
+	color: #fff;
+	text-decoration: none;
+	display: block;
+}
+
+.tasto-indietro a:hover, 
+.tasto-indietro a:focus { 
+	text-decoration: none;
+	color: #fff; 
+}
+
+.tasto-indietro,
+.invia-segnalazione,
 .affina-ricerca {
 	right: 0px;
 	display: block;
@@ -255,39 +270,44 @@
 .dettaglio-progetto-portlet .titolo{
 	display:block;
 	font-weight: bold;
+	font-size: 1.4em;
 	padding: 20px 0;
-	border-bottom: 1em solid #0084b0;
+	color: #1f4e78 !important;
+	border-bottom: none;
 }
 
 .dettaglio-progetto-portlet .dett-titolo{
 	display:block;
 	font-weight: bold;
-	padding: 20px 0;
+	padding: 5px 0;
 	text-align: right;
+	color: #1f4e78 !important;
 	border-bottom: 1px solid;
 }
 
 .dettaglio-progetto-portlet .dett-titolo2{
 	display:block;
-	color: #202020;
+	color: #1f4e78 !important;
 	padding: 20px 0;
 }
 
 .dettaglio-progetto-portlet .dett-label {
-	color: #777777;
+	color: #1f4e78 !important;
+	font-weight: bold;
 }
 
 .dettaglio-progetto-portlet .dett-value {
 	font-style: italic;
-	color: #202020;
+	color: #1f4e78 !important;
 	text-align: right;
 }
 
 .dettaglio-progetto-portlet .dettaglio {
 	position: relative;
-	padding: 3px 0;
+	padding: 0px 0;
 	margin: 0;
 	left: 0;
+	color: #1f4e78 !important;
 }
 
 .dettaglio-progetto-portlet .importo {

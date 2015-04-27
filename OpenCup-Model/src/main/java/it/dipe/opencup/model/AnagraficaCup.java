@@ -17,8 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "S_DMA_DCUP_ANAGRAFICA_CUP")
@@ -120,7 +122,9 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 
 	@Column(name = "DESC_DCUP_BENEFICIARIO", length = 255)
 	private String descBeneficiario;
-
+	
+	@Column(name = "DESC_DCUP_STRUTTURA_INFRAST", length = 255)
+	private String descStrutturaInfrast;
 
 	@Column(name = "FK_DCUP_DCUP_ID_MASTER")
 	private Integer fkDcupDcupIdMaster;
@@ -156,7 +160,10 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 //	@Fetch(value = FetchMode.SUBSELECT)
 	private List<CupLocalizzazione> cupLocalizzazioneList;
 
+	@Transient
+	private List<CupCoperturaFinanziaria> cupCoperturaFinanziaria;
 	
+
 	public Integer getId() {
 		return id;
 	}
@@ -397,6 +404,35 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 
 	public void setDataUltimaModUtente(Date dataUltimaModUtente) {
 		this.dataUltimaModUtente = dataUltimaModUtente;
+	}
+
+	public String getDescStrutturaInfrast() {
+		return descStrutturaInfrast;
+	}
+
+	public void setDescStrutturaInfrast(String descStrutturaInfrast) {
+		this.descStrutturaInfrast = descStrutturaInfrast;
+	}
+	
+	public List<CupCoperturaFinanziaria> getCupCoperturaFinanziaria() {
+		return cupCoperturaFinanziaria;
+	}
+
+	public void setCupCoperturaFinanziaria(
+			List<CupCoperturaFinanziaria> cupCoperturaFinanziaria) {
+		this.cupCoperturaFinanziaria = cupCoperturaFinanziaria;
+	}
+
+	public String getDescTipoCopertura() {
+		String tipoCopertura = "";
+		if( this.cupCoperturaFinanziaria != null){
+			for( CupCoperturaFinanziaria c : this.cupCoperturaFinanziaria ){
+				if( tipoCopertura.toLowerCase().indexOf( c.getTipoCopertura().getDescTipoCopertura().toLowerCase() ) == -1 ){
+					tipoCopertura = ( StringUtils.isEmpty(tipoCopertura) )? c.getTipoCopertura().getDescTipoCopertura() : tipoCopertura + ", " + c.getTipoCopertura().getDescTipoCopertura();
+				}
+			}
+		}
+		return tipoCopertura;
 	}
 
 	@Override

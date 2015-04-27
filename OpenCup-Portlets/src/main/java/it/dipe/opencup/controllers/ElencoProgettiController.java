@@ -101,7 +101,10 @@ public class ElencoProgettiController extends FiltriCommonController {
 	private String paginaDettaglioProgetto;	
 	
 	@Value("#{config['pagina.dettaglio.contenuto']}")
-	private String paginaDettaglioContenuto;	
+	private String paginaDettaglioContenuto;
+	
+	@Value("#{config['ricerca.dettaglioProgetto.instanceId']}")
+	private String dettaglioProgettoInstanceId;
 	
 	@Autowired
 	private ProgettoFacade progettoFacade;
@@ -121,10 +124,12 @@ public class ElencoProgettiController extends FiltriCommonController {
 										@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti,
 										@RequestParam(required=false, value="jsonnavigaaggregata") String jsonnavigaaggregata
 										){
+		
 		if(!StringUtils.isEmpty(jsonnavigaaggregata)){
-			NavigaAggregata navigaAggregata = createModelFromJsonString(jsonnavigaaggregata);
+			NavigaAggregata navigaAggregata = createModelAggregataFromJsonString(jsonnavigaaggregata);
 			navigaProgetti.importa( navigaAggregata );
 		}
+		
 		return elencoProgettiRenderRequest(renderRequest, renderResponse, model, navigaProgetti);
 
 	}
@@ -134,8 +139,13 @@ public class ElencoProgettiController extends FiltriCommonController {
 			RenderResponse renderResponse,
 			Model model, 
 			@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti){
-		
-		model.addAttribute("action", "elencoProgetti");
+			//,@RequestParam(required=false, value="jsonnavigaprogetti") String jsonnavigaprogetti){
+
+		//if(!StringUtils.isEmpty(jsonnavigaprogetti)){
+		//	navigaProgetti = createModelProgettiFromJsonString(jsonnavigaprogetti);
+		//}
+
+		model.addAttribute("currentAction", "elencoProgetti");
 		model.addAttribute("paginate", "true");
 		
 		// LISTA PROGETTI //
@@ -209,7 +219,8 @@ public class ElencoProgettiController extends FiltriCommonController {
 									Model model, 
 									@RequestParam("cercaPerKeyword") String cercaPerKeyword) {
 			
-		model.addAttribute("action", "ricercaLibera");
+		model.addAttribute("currentAction", "ricercaLibera");
+		model.addAttribute("cercaPerKeyword", cercaPerKeyword);
 		model.addAttribute("paginate", "false");
 		
 		logger.info("effettuaRicerca.cercaPerKeyword: " + cercaPerKeyword );
@@ -308,32 +319,70 @@ public class ElencoProgettiController extends FiltriCommonController {
         return (toLong) ? retval + "..." : retval;
      };
 	
-	protected NavigaAggregata createModelFromJsonString(String jsonString){
-		ObjectMapper mapper= new ObjectMapper();
-		NavigaAggregata model=null;
-		try {
-			model = mapper.readValue(jsonString, NavigaAggregata.class);
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
+     protected NavigaAggregata createModelAggregataFromJsonString(String jsonString){
+ 		ObjectMapper mapper= new ObjectMapper();
+ 		NavigaAggregata model=null;
+ 		try {
+ 			model = mapper.readValue(jsonString, NavigaAggregata.class);
+ 		} catch (JsonGenerationException e) {
+ 			e.printStackTrace();
+ 		} catch (JsonMappingException e) {
+ 			e.printStackTrace();
+ 		} catch (IOException e) {
+ 			e.printStackTrace();
+ 		}
+ 		return model;
+ 	}
+     
+    protected NavigaProgetti createModelProgettiFromJsonString(String jsonString){
+ 		ObjectMapper mapper= new ObjectMapper();
+ 		NavigaProgetti model=null;
+ 		try {
+ 			model = mapper.readValue(jsonString, NavigaProgetti.class);
+ 		} catch (JsonGenerationException e) {
+ 			e.printStackTrace();
+ 		} catch (JsonMappingException e) {
+ 			e.printStackTrace();
+ 		} catch (IOException e) {
+ 			e.printStackTrace();
+ 		}
+ 		return model;
+ 	}
 	
 	@ActionMapping(params="action=dettaglio")
 	public void actionDettaglio(	ActionRequest aRequest, 
 									ActionResponse aResponse, 
 									Model model, 
 									@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti, 
-									@RequestParam(value = "idProgettoDettaglio") String idProgettoDettaglio){
+									@RequestParam(value = "idProgettoDettaglio") String idProgettoDettaglio,
+									@RequestParam(value = "currentAction") String currentAction,
+									@RequestParam(required = false , value = "cercaPerKeyword") String cercaPerKeyword){
 
 		navigaProgetti.setIdProgetto( idProgettoDettaglio );
-		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, paginaDettaglioProgetto);
+		LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, paginaDettaglioProgetto, dettaglioProgettoInstanceId );
+
+		renderURL.setParameter("idPj", idProgettoDettaglio );
+		
 		try {
-			aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString()  + "&idPj="+navigaProgetti.getIdProgetto() ) );
+			
+			ThemeDisplay themeDisplay = (ThemeDisplay)aRequest.getAttribute(WebKeys.THEME_DISPLAY);
+			PortletURL returnURL = PortletURLFactoryUtil.create(aRequest, (String)aRequest.getAttribute(WebKeys.PORTLET_ID), themeDisplay.getLayout().getPlid(), PortletRequest.RENDER_PHASE);
+			returnURL.setWindowState(WindowState.NORMAL);
+			returnURL.setPortletMode(PortletMode.VIEW);
+			//returnURL.setParameter("jsonnavigaprogetti", createJsonStringFromModelAttribute(navigaProgetti));
+			returnURL.setParameter("action", currentAction);
+			if( !StringUtils.isEmpty(cercaPerKeyword) ){
+				returnURL.setParameter("cercaPerKeyword", cercaPerKeyword);
+			}
+			
+			renderURL.setParameter("returnUrl", returnURL.toString() );
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			aResponse.sendRedirect( HttpUtil.encodeParameters( renderURL.toString() ) );//  + "&idPj="+navigaProgetti.getIdProgetto() ) );
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -584,9 +633,9 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 	}
 	
-	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage) {
+	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage, String portletId) {
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+//		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
 		LiferayPortletURL renderURL = null;
 		String localHost = themeDisplay.getPortalURL();		
 		List<Layout> layouts = null;
@@ -600,7 +649,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 				//Viene ricercato l'URL esatto per la pagina successiva
 				if(nodeNameRemoved.indexOf(toPage)>0){
 					
-					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
+					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.RENDER_PHASE);
 					renderURL.setWindowState(WindowState.NORMAL);
 					renderURL.setPortletMode(PortletMode.VIEW);
 					

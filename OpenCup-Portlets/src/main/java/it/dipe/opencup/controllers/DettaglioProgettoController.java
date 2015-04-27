@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.util.Validator;
@@ -29,21 +30,16 @@ public class DettaglioProgettoController {
 	@RenderMapping
 	public String handleRenderRequest(	RenderRequest renderRequest, 
 										RenderResponse renderResponse,
-										Model model
-										//, 
-										//@RequestParam("redirect") String returnUrl
+										Model model, 
+										@RequestParam(required=false, value="returnUrl") String returnUrl,
+										@RequestParam(required=false, value="idPj") String idPj
 										){
-		
-//		HttpSession session = PortalUtil.getHttpServletRequest(renderRequest).getSession(false);
-//		NavigaProgetti sessionNavigaProgetti = (NavigaProgetti) session.getAttribute("navigaProgetti"); 
-		
+
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
 		
-		//String jsonnavigaaggregata=httpServletRequest.getParameter("jsonnavigaprogetti")!=null?httpServletRequest.getParameter("jsonnavigaprogetti").toString():"";
-		//NavigaProgetti sessionNavigaProgetti = createModelFromJsonString(jsonnavigaaggregata);
-		//if( sessionNavigaProgetti != null && (! sessionNavigaProgetti.getIdProgetto().isEmpty()) ){
-		
-		String idPj=httpServletRequest.getParameter("idPj")!=null?httpServletRequest.getParameter("idPj").toString():"";
+		if( StringUtils.isEmpty( idPj ) ){
+			idPj = (httpServletRequest.getParameter("idPj") != null) ? httpServletRequest.getParameter("idPj").toString() : "";
+		}
 
 		if( idPj != null && (! idPj.isEmpty()) ){
 			Progetto progetto = progettoFacade.findProgettoById( Integer.valueOf( idPj ) );
@@ -116,9 +112,10 @@ public class DettaglioProgettoController {
 			model.addAttribute("maxDataModifica", maxDataModifica);
 			
 		}
-		String returnUrl = "#";
 		if (!Validator.isBlank(returnUrl)) {
 			model.addAttribute("returnUrl", returnUrl);
+		}else{
+			model.addAttribute("returnUrl", "");
 		}
 
 		return "dettaglio-progetto-view";

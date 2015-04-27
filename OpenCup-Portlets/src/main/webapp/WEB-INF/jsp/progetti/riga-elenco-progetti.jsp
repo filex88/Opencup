@@ -25,6 +25,10 @@ Progetto progetti = (Progetto)row.getObject();
 <portlet:actionURL var="linkURLdettaglioprogetto" name="">
    	<portlet:param name="action" value="dettaglio"></portlet:param>
    	<portlet:param name="idProgettoDettaglio" value="<%= progetti.getId().toString() %>"></portlet:param>
+   	<portlet:param name="currentAction" value="${currentAction}"></portlet:param>
+   	<c:if test="${cercaPerKeyword!=null}">
+   		<portlet:param name="cercaPerKeyword" value="${cercaPerKeyword}"></portlet:param>
+   	</c:if>
 </portlet:actionURL>
 	
 <div>

@@ -1,11 +1,13 @@
 package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.ComuneDAO;
+import it.dipe.opencup.dao.CupCoperturaFinanziariaDAO;
 import it.dipe.opencup.dao.ProgettoDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.dto.SizeDTO;
+import it.dipe.opencup.model.CupCoperturaFinanziaria;
 import it.dipe.opencup.model.Progetto;
 
 import java.util.List;
@@ -33,6 +35,9 @@ public class ProgettoFacade {
 	
 	@Autowired
 	private ComuneDAO comuneDAO;
+	
+	@Autowired
+	private CupCoperturaFinanziariaDAO cupCoperturaFinanziariaDAO;
 	
 	private Criteria buildCriteria(NavigaProgetti navigaProgetti) {
 		
@@ -305,6 +310,13 @@ public class ProgettoFacade {
 	@Cacheable(value = "Progetto")
 	public Progetto findProgettoById(Integer id) {
 		Progetto p = progettoDAO.findById(id);
+		
+		Criteria criteria = cupCoperturaFinanziariaDAO.newCriteria();
+		criteria.createAlias("anagraficaCup", "anagraficaCup");
+		criteria.add( Restrictions.eq("anagraficaCup.id", p.getAnagraficaCup().getId() ));
+		
+		List<CupCoperturaFinanziaria> cupCoperturaFinanziaria = cupCoperturaFinanziariaDAO.findByCriteria(criteria);
+		p.getAnagraficaCup().setCupCoperturaFinanziaria(cupCoperturaFinanziaria);
 		
 //		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		
