@@ -8,100 +8,110 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
+<style>
+<!--
+div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
+-->
+</style>
+
 <portlet:defineObjects />
 
-<c:if test="${ config.mostraPulsanti }">
-	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center">
-		<div class="offset3 span2">
-			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
-				<aui:a href="#" onClick="return false" cssClass="block">
-					PROGETTI
-				</aui:a>
-			</div>
-			<c:if test='${pattern eq "VOLUME"}'>
-				<div class="arrow-down-volume"></div>
-			</c:if>
-		</div>
-		<div class="span2">	
-			<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
-				<aui:a href="#" onClick="return false" cssClass="block">
-					COSTO
-				</aui:a>
-			</div>
-			<c:if test='${pattern eq "COSTO"}'>
-				<div class="arrow-down-costo"></div>
-			</c:if>
-		</div>
-		<div class="span2">	
-			<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
-				<aui:a href="#" onClick="return false" cssClass="block">
-					IMPORTO
-				</aui:a>
-			</div>
-			<c:if test='${pattern eq "IMPORTO"}'>
-				<div class="arrow-down-importo"></div>
-			</c:if>
-		</div>
-		<div class="clear"></div>
-	
-	</div>	
-</c:if>
+<div class="stripe">
 
-<div style="padding-top: 30px; padding-bottom: 30px">
-	
-	<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
-	 -- GRAFICI --		
-	 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-	<a id="pie-chart-portlet"></a>
-	
-	<div class="div_pie_chart_1">
-		<div class="row chart-div">
-			<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="height: 260px">
+	<c:if test="${ config.mostraPulsanti }">
+		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center">
+			<div class="offset3 span2">
+				<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+					<aui:a href="#" onClick="return false" cssClass="block">
+						PROGETTI
+					</aui:a>
+				</div>
+				<c:if test='${pattern eq "VOLUME"}'>
+					<div class="arrow-down-volume"></div>
+				</c:if>
 			</div>
-			<div style="overflow-y: auto; height: 260px ">
-				<div>
-					<div class="span5" id="chartLegend"></div>
-					<div class="span3" id="histogramChart">
-						<svg class="chart-bar"></svg>
+			<div class="span2">	
+				<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+					<aui:a href="#" onClick="return false" cssClass="block">
+						COSTO
+					</aui:a>
+				</div>
+				<c:if test='${pattern eq "COSTO"}'>
+					<div class="arrow-down-costo"></div>
+				</c:if>
+			</div>
+			<div class="span2">	
+				<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+					<aui:a href="#" onClick="return false" cssClass="block">
+						IMPORTO
+					</aui:a>
+				</div>
+				<c:if test='${pattern eq "IMPORTO"}'>
+					<div class="arrow-down-importo"></div>
+				</c:if>
+			</div>
+			<div class="clear"></div>
+		
+		</div>	
+	</c:if>
+	
+	<div style="padding-top: 30px; padding-bottom: 30px">
+		
+		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		 -- GRAFICI --		
+		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+		<a id="pie-chart-portlet"></a>
+		
+		<div class="div_pie_chart_1">
+			<div class="row chart-div">
+				<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="height: 260px">
+				</div>
+				<div style="overflow-y: auto; height: 260px ">
+					<div>
+						<div class="span5" id="chartLegend"></div>
+						<div class="span3" id="histogramChart">
+							<svg class="chart-bar"></svg>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div id="tooltip-pie-chart" class="tooltip-pie-chart hidden">
+	    	<p><span id="label-tooltip-pie-chart"></span></p>
+			<p><strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-pie-chart"></span></p>
+			<p>
+				<strong><span id="labelvalue-tooltip-pie-chart"></span>:&nbsp;</strong>
+				<span id="value-tooltip-pie-chart"></span>
+				<span class="hidden" id="umvalue-tooltip-pie-chart">&euro;</span>
+			</p>
+		</div>
+		
+		<div class="alert alert-info pieChartEmpty" id="pieChartEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
+					
 	</div>
 	
-	<div id="tooltip-pie-chart" class="tooltip-pie-chart hidden">
-    	<p><span id="label-tooltip-pie-chart"></span></p>
-		<p><strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-pie-chart"></span></p>
-		<p>
-			<strong><span id="labelvalue-tooltip-pie-chart"></span>:&nbsp;</strong>
-			<span id="value-tooltip-pie-chart"></span>
-			<span class="hidden" id="umvalue-tooltip-pie-chart">&euro;</span>
-		</p>
-	</div>
+	<portlet:actionURL var="urlActionVar">
+	   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
+	</portlet:actionURL>
 	
-	<div class="alert alert-info pieChartEmpty" id="pieChartEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
-				
+	<form 
+		action="${urlActionVar}" 
+		method="post" 
+		name="naviga-form" 
+		class="naviga-form"
+		id="naviga-form">
+	
+			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
+	
+			<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
+			<aui:input type="hidden" bean="navigaAggregata" name="idAreaIntervento" value="${navigaAggregata.idAreaIntervento}" id="idAreaIntervento" />
+			<aui:input type="hidden" bean="navigaAggregata" name="idSottosettoreIntervento" value="${navigaAggregata.idSottosettoreIntervento}" id="idSottosettoreIntervento" />
+			<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
+		
+	</form>
+
 </div>
-
-<portlet:actionURL var="urlActionVar">
-   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
-</portlet:actionURL>
-
-<form 
-	action="${urlActionVar}" 
-	method="post" 
-	name="naviga-form" 
-	class="naviga-form"
-	id="naviga-form">
-
-		<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
-
-		<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
-		<aui:input type="hidden" bean="navigaAggregata" name="idAreaIntervento" value="${navigaAggregata.idAreaIntervento}" id="idAreaIntervento" />
-		<aui:input type="hidden" bean="navigaAggregata" name="idSottosettoreIntervento" value="${navigaAggregata.idSottosettoreIntervento}" id="idSottosettoreIntervento" />
-		<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
-	
-</form>
 
 <script type="text/javascript">
 

@@ -84,6 +84,14 @@
 	</portlet>
 	
 	<portlet>
+		<portlet-name>localizzazione-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/localizzazione-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>localizzazione-portlet</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
 		<portlet-name>localizzazione-portlet1</portlet-name>
 		<icon>/icon.png</icon>
 		<header-portlet-css>/css/main.css</header-portlet-css>

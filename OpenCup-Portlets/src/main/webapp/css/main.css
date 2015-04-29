@@ -874,3 +874,26 @@ div.celle_dati_sitesi{
     background-color:#009600; 
 }
 */
+
+.localizzazione-portlet .chart-div{
+	text-align: center;
+	vertical-align: middle;
+	min-height: 120 px;
+}	
+
+.localizzazione-portlet  .chart-bar-territori text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+.localizzazione-portlet  .chart-bar-territori .label {
+  fill: black;
+  font: 14px sans-serif;
+  text-anchor: end;
+}
+
+.localizzazione-portlet  svg {
+	font: 10px sans-serif;
+	display: block;
+}

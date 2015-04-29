@@ -74,6 +74,53 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.countAffRicerca4Natura = countAffRicerca4Natura;
 	}
 
+	public void rimuoviZero() {
+		//CLASSIFICAZIONE
+		if( this.getIdNatura().equals("0") ){
+			this.setIdNatura("-1");
+		}
+		if( this.getIdAreaIntervento().equals("0") ){
+			this.setIdAreaIntervento("-1");
+		}
+		if( this.getIdSottosettoreIntervento().equals("0") ){
+			this.setIdSottosettoreIntervento("-1");
+		}
+		if( this.getIdCategoriaIntervento().equals("0") ){
+			this.setIdCategoriaIntervento("-1");
+		}
+		
+		//LOCALIZZAZIONE
+		if( this.getIdRegione().equals("0") ){
+			this.setIdRegione("-1");
+		}
+		if( this.getIdProvincia().equals("0") ){
+			this.setIdProvincia("-1");
+		}
+		if( this.getIdComune().equals("0") ){
+			this.setIdComune("-1");
+		}
+		if( this.getIdAreaGeografica().equals("0") ){
+			this.setIdAreaGeografica("-1");
+		}
+
+		//OTHERS
+		if( this.getIdCategoriaSoggetto().equals("0") ){
+			this.setIdCategoriaSoggetto("-1");
+		}
+		if( this.getIdSottoCategoriaSoggetto().equals("0") ){
+			this.setIdSottoCategoriaSoggetto("-1");
+		}
+		if( this.getIdAreaSoggetto().equals("0") ){
+			this.setIdAreaSoggetto("-1");
+		}
+		if( this.getIdTipologiaIntervento().equals("0") ){
+			this.setIdTipologiaIntervento("-1");
+		}
+		if( this.getIdStatoProgetto().equals("0") ){
+			this.setIdStatoProgetto("-1");
+		}		
+	}
+	
 	public NavigaAggregata(String naviga, String id){
 		this.naviga = naviga;
 		this.distribuzione = "VOLUME";

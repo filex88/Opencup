@@ -12,7 +12,9 @@
 <portlet:defineObjects />
 
 <style>
-
+	
+	div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
+	
 	#conteiner{padding-bottom: 0.5em; display: inline-block;}
 	#conteiner .infiniteCarousel{background-color: #f0f0f0;height: 16em!important;}
 	#conteiner .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
@@ -72,7 +74,7 @@
 	
 </style>
 
-<div class="portlet-body" style="height: 280px">
+<div class="stripe" style="height: 280px">
 	
 	<div class="span12" id="conteiner" >
 		<div id="titolo"></div>

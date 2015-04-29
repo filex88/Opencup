@@ -63,8 +63,8 @@
 				
 				
 					<aui:input type="hidden" bean="navigaAggregata" name="naviga" value="${navigaAggregata.naviga}" />
-					<aui:input type="hidden" bean="navigaAggregata" name="pagElencoProgetti" value="${navigaAggregata.pagElencoProgetti}" />
-					<aui:input type="hidden" bean="navigaAggregata" name="pagDettaglioProgetto" value="${navigaAggregata.pagDettaglioProgetto}" />
+					<aui:input type="hidden" bean="navigaAggregata" name="pagElencoProgetti" value="elenco-progetti" />
+					<aui:input type="hidden" bean="navigaAggregata" name="pagDettaglioProgetto" value="dettaglio-progetto" />
 					<aui:input type="hidden" bean="navigaAggregata" name="idComune" value="${navigaAggregata.idComune}" />
 					<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" />
 					<aui:input type="hidden" bean="navigaAggregata" name="idAreaGeografica" value="${navigaAggregata.idAreaGeografica}" />

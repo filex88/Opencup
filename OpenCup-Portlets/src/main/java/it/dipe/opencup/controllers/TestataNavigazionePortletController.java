@@ -60,7 +60,7 @@ public class TestataNavigazionePortletController {
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
 		
-		rimuoviZero(navigaAggregata);
+		navigaAggregata.rimuoviZero();
 		
 		List<AggregataDTO> risultati = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		model.addAttribute("jsonResultRiepilogo",createJsonStringFromQueryResult(risultati));
@@ -165,21 +165,6 @@ public class TestataNavigazionePortletController {
 		model.addAttribute("navigaAggregata", navigaAggregata.clone());
 		
     }
-	
-	private void rimuoviZero(NavigaAggregata navigaAggregata) {
-		if( navigaAggregata.getIdNatura().equals("0") ){
-			navigaAggregata.setIdNatura("-1");
-		}
-		if( navigaAggregata.getIdAreaIntervento().equals("0") ){
-			navigaAggregata.setIdAreaIntervento("-1");
-		}
-		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
-			navigaAggregata.setIdSottosettoreIntervento("-1");
-		}
-		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
-			navigaAggregata.setIdCategoriaIntervento("-1");
-		}
-	}
 	
 	protected String createJsonStringFromQueryResult(List<AggregataDTO> formattedResult){
 		ObjectMapper mapper= new ObjectMapper();
