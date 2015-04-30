@@ -20,7 +20,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
 	d3.selectAll("li.active.last.breadcrumb-truncate").remove();
 
-var selectedDimension='volume';
+var selectedDimension='VOLUME';
 d3.select("#volumeLabel").select("input").classed("active",true);
 
 
@@ -33,7 +33,7 @@ d3.select("#volumeLabel")
 	.on("click",function(d){
 		d3.select("#italybymacroareas").select("svg").remove();
 		d3.selectAll("div.selectiontip").remove();
-		selectedDimension='volume';
+		selectedDimension='VOLUME';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#volumeLabel").select("input").classed("active",true);
 		drawAllRegions(selectedDimension,jsonResultLocalizzazione);
@@ -43,7 +43,7 @@ d3.select("#costoLabel")
 	.on("click",function(d){
 		d3.select("#italybymacroareas").select("svg").remove();
 		d3.selectAll("div.selectiontip").remove();
-		selectedDimension='costo';
+		selectedDimension='COSTO';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#costoLabel").select("input").classed("active",true);
 		drawAllRegions(selectedDimension,jsonResultLocalizzazione);
@@ -53,7 +53,7 @@ d3.select("#importoLabel")
 	.on("click",function(d){
 		d3.select("#italybymacroareas").select("svg").remove();
 		d3.selectAll("div.selectiontip").remove();
-		selectedDimension='importo';
+		selectedDimension='IMPORTO';
 		d3.selectAll("input").attr("class",null);
 		d3.select("#importoLabel").select("input").classed("active",true);
 		drawAllRegions(selectedDimension,jsonResultLocalizzazione);
@@ -66,10 +66,10 @@ function drawAllRegions(dimension,calculated_json){
 
 	// min mid, max valori calcolati 
 	var minData=d3.min(calculated_json,function(d){
-		if( dimension=='volume'){
+		if( dimension=='VOLUME'){
 			return d.volumeValue;
 		}
-		else if(dimension=='costo'){
+		else if(dimension=='COSTO'){
 			return d.costoValue;
 		}
 		else{
@@ -79,10 +79,10 @@ function drawAllRegions(dimension,calculated_json){
 
 	var midData=d3.mean(calculated_json,function(d){
 		var result=null;
-		if( dimension=='volume'){
+		if( dimension=='VOLUME'){
 			return d.volumeValue;
 		}
-		else if(dimension=='costo'){
+		else if(dimension=='COSTO'){
 			return d.costoValue;
 		}
 		else{
@@ -92,10 +92,10 @@ function drawAllRegions(dimension,calculated_json){
 
 	var maxData=d3.max(calculated_json,function(d){
 		var result=null;
-		if( dimension=='volume'){
+		if( dimension=='VOLUME'){
 			return d.volumeValue;
 		}
-		else if(dimension=='costo'){
+		else if(dimension=='COSTO'){
 			return d.costoValue;
 		}
 		else{
@@ -175,10 +175,10 @@ function drawAllRegions(dimension,calculated_json){
     	.attr("d",path)
     	.attr ("id",function(d) { return d.properties.TERR+"_"+d.properties.COD_REG; })
     	.style("fill",function(d){
-    		if( dimension=='volume'){
+    		if( dimension=='VOLUME'){
 				return color(d.properties.VALORE_VOLUME);
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return color(d.properties.VALORE_COSTO);
 			}
 			else{
@@ -201,7 +201,7 @@ function drawAllRegions(dimension,calculated_json){
     		
     		 var labelToShow=null;
     		 var valueToShow=null;
-    		 if( dimension=='volume' ){
+    		 if( dimension=='VOLUME' ){
  				labelToShow="VOLUME:";
  				if (typeof a.properties.VALORE_VOLUME !== "undefined"){
  					valueToShow=formatInteger(a.properties.VALORE_VOLUME);
@@ -209,7 +209,7 @@ function drawAllRegions(dimension,calculated_json){
  					valueToShow='0';
  				}
 				}
-				else if(dimension=='costo'){
+				else if(dimension=='COSTO'){
 					labelToShow="COSTO:";
 					if (typeof a.properties.VALORE_COSTO!=="undefined"){
 						valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
@@ -237,7 +237,7 @@ function drawAllRegions(dimension,calculated_json){
     		var idSelected=a.properties.TERR+"_"+a.properties.COD_REG;
     		svg.selectAll("#"+idSelected)
     		.style("fill",function(d){
-    			if( dimension=='volume'){
+    			if( dimension=='VOLUME'){
     				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
     					return color(d.properties.VALORE_VOLUME);
     				}else{
@@ -245,7 +245,7 @@ function drawAllRegions(dimension,calculated_json){
     				}
 					
 				}
-				else if(dimension=='costo'){
+				else if(dimension=='COSTO'){
 					if (typeof d.properties.VALORE_COSTO!=="undefined"){
 						return color(d.properties.VALORE_COSTO);
 					}else{
@@ -299,7 +299,7 @@ function drawAllRegions(dimension,calculated_json){
 				yPosition=element[0][0].getBBox().y;
 				hPosition=element[0][0].getBBox().height;
 				nomeRegione=d.properties.REGIONE;
-				if( dimension=='volume' ){
+				if( dimension=='VOLUME' ){
 					labelToShow="VOLUME:";
 					if (typeof d.properties.VALORE_VOLUME !== "undefined"){
 						valueToShow=formatInteger(d.properties.VALORE_VOLUME);
@@ -307,7 +307,7 @@ function drawAllRegions(dimension,calculated_json){
 						valueToShow='0';
 					}
 				}
-				else if(dimension=='costo'){
+				else if(dimension=='COSTO'){
 					labelToShow="COSTO:";
 					if (typeof d.properties.VALORE_COSTO!=="undefined"){
 						valueToShow='&euro;&nbsp;'+formatEuro(d.properties.VALORE_COSTO);
@@ -341,7 +341,7 @@ function drawAllRegions(dimension,calculated_json){
 				var valoreClasse=d3.select(this).attr("class").replace("link-url-naviga-selezione","").trim();
 				d3.selectAll("#"+valoreClasse)
 				.style("fill",function(d){
-	    			if( dimension=='volume'){
+	    			if( dimension=='VOLUME'){
 	    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
 	    					return color(d.properties.VALORE_VOLUME);
 	    				}else{
@@ -349,7 +349,7 @@ function drawAllRegions(dimension,calculated_json){
 	    				}
 						
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						if (typeof d.properties.VALORE_COSTO!=="undefined"){
 							return color(d.properties.VALORE_COSTO);
 						}else{

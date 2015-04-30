@@ -96,7 +96,7 @@ public class LocalizzazionePortletController{
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
-		model.addAttribute("dimension", "volume");
+		model.addAttribute("dimension", navigaAggregata.getDistribuzione());
 	}
 	
 	@EventMapping(value = "event.accediClassificazione")

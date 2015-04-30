@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,8 +84,14 @@ public class PieChartPortletController {
 								RenderResponse renderResponse,
 								Model model,
 								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
-								@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern,
+								@RequestParam(required=false, value="pattern") String pattern,
 								PortletPreferences prefs) throws PortalException, SystemException{
+		
+		if( StringUtils.isEmpty(pattern) ){
+			pattern = navigaAggregata.getDistribuzione();
+		}else{
+			navigaAggregata.setDistribuzione(pattern);
+		}
 		
 		String portletResource = ParamUtil.getString(renderRequest, "portletResource");
 		
@@ -179,7 +186,8 @@ public class PieChartPortletController {
 									Model model, 
 									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
 									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
-
+		
+		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
 		aResponse.setRenderParameter("pattern", pattern);
@@ -194,16 +202,15 @@ public class PieChartPortletController {
 									ActionResponse aResponse, 
 									Model model, 
 									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
-									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+									@RequestParam(required=false, value="pattern") String pattern){
 		
 		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
 		navigaAggregata.setIdAreaIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		
+		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
-		
-		//aResponse.setRenderParameter("pattern", pattern);
 		
 		if( Integer.valueOf( navigaAggregata.getIdCategoriaIntervento() ) > 0 ){
 			LiferayPortletURL renderURL = createLiferayPortletURL(aRequest, paginaElencoProgetti, elencoProgettiPortletId, PortletRequest.RENDER_PHASE);
@@ -229,13 +236,20 @@ public class PieChartPortletController {
 									ActionResponse aResponse, 
 									Model model, 
 									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
-									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+									@RequestParam(required=false, value="pattern") String pattern){
+		
+		if( StringUtils.isEmpty(pattern) ){
+			pattern = navigaAggregata.getDistribuzione();
+		}else{
+			navigaAggregata.setDistribuzione(pattern);
+		}
 		
 		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
 		navigaAggregata.setIdAreaIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		
+		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
 		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");

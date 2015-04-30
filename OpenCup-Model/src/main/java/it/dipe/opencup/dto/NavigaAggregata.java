@@ -61,13 +61,10 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	
 	private boolean flagAggrefaAnni=true;
 	
-	@SuppressWarnings("unused")
 	private boolean filtroClassificazione;
 	
-	@SuppressWarnings("unused")
 	private String countAffRicercaLocalizzazione;
 	
-	@SuppressWarnings("unused")
 	private String countAffRicerca4Natura;
 
 	public void setCountAffRicerca4Natura(String countAffRicerca4Natura) {

@@ -21,7 +21,7 @@
 
 // d3
 	
-	var selectedDimension='volume';
+	var selectedDimension='VOLUME';
 	d3.select("#volumeLabel").select("input").classed("active",true);
 	
 
@@ -34,7 +34,7 @@
 		.on("click",function(d){
 			d3.select("#italybymacroareas").select("svg").remove();
 			d3.selectAll("div.selectiontip").remove();
-			selectedDimension='volume';
+			selectedDimension='VOLUME';
 			d3.selectAll("input").attr("class",null);
 			d3.select("#volumeLabel").select("input").classed("active",true);
 			drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
@@ -44,7 +44,7 @@
 		.on("click",function(d){
 			d3.select("#italybymacroareas").select("svg").remove();
 			d3.selectAll("div.selectiontip").remove();
-			selectedDimension='costo';
+			selectedDimension='COSTO';
 			d3.selectAll("input").attr("class",null);
 			d3.select("#costoLabel").select("input").classed("active",true);
 			drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
@@ -54,7 +54,7 @@
 		.on("click",function(d){
 			d3.select("#italybymacroareas").select("svg").remove();
 			d3.selectAll("div.selectiontip").remove();
-			selectedDimension='importo';
+			selectedDimension='IMPORTO';
 			d3.selectAll("input").attr("class",null);
 			d3.select("#importoLabel").select("input").classed("active",true);
 			drawRegionsByTerritory(selectedDimension,jsonResultLocalizzazione,territorioSelezionato,areeGeoBack);
@@ -73,10 +73,10 @@
 		
 		// min mid, max valori calcolati 
 		var minData=d3.min(calculated_json,function(d){
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				return d.volumeValue;
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return d.costoValue;
 			}
 			else{
@@ -86,10 +86,10 @@
 
 		var midData=d3.mean(calculated_json,function(d){
 			var result=null;
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				return d.volumeValue;
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return d.costoValue;
 			}
 			else{
@@ -99,10 +99,10 @@
 
 		var maxData=d3.max(calculated_json,function(d){
 			var result=null;
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				return d.volumeValue;
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return d.costoValue;
 			}
 			else{
@@ -185,10 +185,10 @@
 	    	.attr("d",path)
 	    	.attr ("id",function(d) { return territorioSel+"_"+d.properties.COD_REG; })
 	    	.style("fill",function(d){
-	    		if( dimension=='volume'){
+	    		if( dimension=='VOLUME'){
 					return color(d.properties.VALORE_VOLUME);
 				}
-				else if(dimension=='costo'){
+				else if(dimension=='COSTO'){
 					return color(d.properties.VALORE_COSTO);
 				}
 				else{
@@ -211,7 +211,7 @@
 	    		
 	    		 var labelToShow=null;
 	    		 var valueToShow=null;
-	    		 if( dimension=='volume' ){
+	    		 if( dimension=='VOLUME' ){
 	 				labelToShow="VOLUME:";
 	 				if (typeof a.properties.VALORE_VOLUME !== "undefined"){
 	 					valueToShow=formatInteger(a.properties.VALORE_VOLUME);
@@ -219,7 +219,7 @@
 	 					valueToShow='0';
 	 				}
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						labelToShow="COSTO:";
 						if (typeof a.properties.VALORE_COSTO!=="undefined"){
 							valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
@@ -247,7 +247,7 @@
 	    		var idSelected=territorioSel+"_"+a.properties.COD_REG;
 	    		svg.selectAll("#"+idSelected)
 	    		.style("fill",function(d){
-	    			if( dimension=='volume'){
+	    			if( dimension=='VOLUME'){
 	    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
 	    					return color(d.properties.VALORE_VOLUME);
 	    				}else{
@@ -255,7 +255,7 @@
 	    				}
 						
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						if (typeof d.properties.VALORE_COSTO!=="undefined"){
 							return color(d.properties.VALORE_COSTO);
 						}else{
@@ -336,7 +336,7 @@
 					position2=Math.floor(rectPositionTop+(rectPositionH/2.0));
 					
 					nomeRegione=d.properties.REGIONE;
-					if( dimension=='volume' ){
+					if( dimension=='VOLUME' ){
 						labelToShow="VOLUME:";
 						if (typeof d.properties.VALORE_VOLUME !== "undefined"){
 							valueToShow=formatInteger(d.properties.VALORE_VOLUME);
@@ -344,7 +344,7 @@
 							valueToShow='0';
 						}
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						labelToShow="COSTO:";
 						if (typeof d.properties.VALORE_COSTO!=="undefined"){
 							valueToShow='&euro;&nbsp;'+formatEuro(d.properties.VALORE_COSTO);
@@ -378,7 +378,7 @@
 					var valoreClasse=d3.select(this).attr("class").replace("link-url-naviga-selezione","").trim();
 					d3.selectAll("#"+valoreClasse)
 					.style("fill",function(d){
-		    			if( dimension=='volume'){
+		    			if( dimension=='VOLUME'){
 		    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
 		    					return color(d.properties.VALORE_VOLUME);
 		    				}else{
@@ -386,7 +386,7 @@
 		    				}
 							
 						}
-						else if(dimension=='costo'){
+						else if(dimension=='COSTO'){
 							if (typeof d.properties.VALORE_COSTO!=="undefined"){
 								return color(d.properties.VALORE_COSTO);
 							}else{

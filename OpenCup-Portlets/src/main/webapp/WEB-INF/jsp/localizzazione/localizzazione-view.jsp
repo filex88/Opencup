@@ -24,7 +24,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 
 <div class="stripe">
 	
-	<div style="padding-top: 30px; padding-bottom: 30px">
+	<div id="container-localizzazione" style="padding-top: 30px; padding-bottom: 30px">
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- GRAFICI --		
@@ -32,16 +32,16 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		<a id="localizzazione-portlet"></a>
 		
 		<div class="div_localizzazione_1">
-			<div class="row chart-div" style="height: 500px">
+			<div class="row chart-div" style="height: 450px">
 				
-				<div class="span6 offset1">
+				<div class="span6 offset1" style="padding-top: 80px">
 					<div class="span5" id=chartLegendTerritori></div>
 					<div class="span1 id="histogramChart">
 						<svg class="chart-bar-territori"></svg>
 					</div>
 				</div>
 				
-				<div class="span3 div_localizzazione chart localizzazione_1" id="localizzazione_1" style="height: 260px">
+				<div class="span3 div_localizzazione chart localizzazione_1" id="localizzazione_1" style="height: 450px; width: 450px">
 					<div id="italybymacroareas"></div>
 				</div>
 				
@@ -66,22 +66,41 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	var dimension = "${dimension}";
 	
-	
-	
+	var baseColor1 = "#b2c6ff";
+	var baseColor2 = "#4472fb";
+	var baseColor3 = "#0932a3";
 	
 	var textColor = "#1f4e78";
 	var fillColor = "Maroon";
 	
-	var baseColor1="rgb(209,226,242)";
-	var baseColor2="rgb(114,178,215)";
-	var baseColor3="rgb(8,64,131)";
+	if (dimension == "VOLUME"){
+		baseColor1 = "#ffdbaa";
+		baseColor2 = "#ffb551";
+		baseColor3 = "#f08c00";
+		fillColor = "#d27900";
+	}else
+	if (dimension == "COSTO"){
+		baseColor1 = "#ffc6e1";
+		baseColor2 = "#ff55a6";
+		baseColor3 = "#c90061";
+		fillColor = "#950047";
+	}else
+	if (dimension == "IMPORTO"){
+		baseColor1 = "#c1ffc1";
+		baseColor2 = "#48ff48";
+		baseColor3 = "#009600";
+		fillColor = "#005500";
+	}
+
+	d3.select("#container-localizzazione")
+	.style("border-left","10px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){
-				if( dimension == 'volume'){
+				if( dimension == 'VOLUME'){
 					return d.volumeValue;
 				}
-				else if(dimension == 'costo'){
+				else if(dimension == 'COSTO'){
 					return d.costoValue;
 				}
 				else{
@@ -93,10 +112,10 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 	var midData = d3.mean(jsonResultLocalizzazione, 
 			function(d){
 				var result=null;
-				if( dimension == 'volume'){
+				if( dimension == 'VOLUME'){
 					return d.volumeValue;
 				}
-				else if(dimension == 'costo'){
+				else if(dimension == 'COSTO'){
 					return d.costoValue;
 				}
 				else{
@@ -107,10 +126,10 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 	var maxData = d3.max(jsonResultLocalizzazione, 
 			function(d){
 				var result=null;
-				if( dimension == 'volume'){
+				if( dimension == 'VOLUME'){
 					return d.volumeValue;
 				}
-				else if(dimension == 'costo'){
+				else if(dimension == 'COSTO'){
 					return d.costoValue;
 				}
 				else{
@@ -123,8 +142,8 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 
 	function drawGraphTerritori(dimension, calculated_json){
 
-		var width = 500,
-	    height = 500,
+		var width = 450,
+	    height = 450,
 	    border=0.5
 	    bordercolor='none',
 	    smallrectW=50,
@@ -142,10 +161,6 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 	       	.style("fill", "none")
 	       	.style("stroke-width", border);
 
-/*	   	
-	 	var tooltip = d3.select("#italybymacroareas").append("div").attr("class", "selectiontip nascosto");
-*/
-		
 	   	d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", 
 	   	function(error, it) {
 		
@@ -190,127 +205,17 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		    	.attr("d",path)
 		    	.attr ("id",function(d) { return d.properties.ID_REG_TER; })
 		    	.style("fill", function(d){
-		    		if( dimension=='volume'){
+		    		//console.log(d.properties.TERR);
+		    		if( dimension=='VOLUME'){
 						return color(d.properties.VALORE_VOLUME);
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						return color(d.properties.VALORE_COSTO);
 					}
 					else{
 						return color(d.properties.VALORE_IMPORTO);
 					}
-		    	})  
-/*
-		    	.on("click", function(d){
-		    		if (typeof d.properties.LINK!=="undefined")
-		    		{
-		    			window.location = d.properties.LINK;
-		    		}else{
-		    			window.location="#italybymacroareas";
-		    		}
-		    		
-		   		})
-		    	.on("mouseover",function(a){
-		    		svg.selectAll("path").style("fill",function (d){
-		    			if (d.properties.TERR==a.properties.TERR){
-		    				return "#F08C00";
-		    			}else{
-		    				if( dimension=='volume'){
-		    					if (typeof d.properties.VALORE_VOLUME!=="undefined"){
-		    						return color(d.properties.VALORE_VOLUME);
-		    					}else{
-		    						return "#fff";
-		    					}
-		    				}else if(dimension=='costo'){
-								if (typeof d.properties.VALORE_COSTO!=="undefined"){
-									return color(d.properties.VALORE_COSTO);
-								}else{
-									return "#fff";
-								}
-		    				}else{
-								if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
-									return color(d.properties.VALORE_IMPORTO);
-								}else{
-									return "#fff";
-								}
-		    				}
-		    			}
-		    		});
-		    		
-		    		var mouse = d3.mouse(d3.select("#content").node()).map( function(d) { return parseInt(d); } );
-		    		var labelToShow=null;
-		    		var valueToShow=null;
-	    			if( dimension=='volume' ){
-	    				labelToShow="VOLUME:";
-	    				if (typeof a.properties.VALORE_VOLUME !== "undefined"){
-	    					valueToShow=formatInteger(a.properties.VALORE_VOLUME);
-	    				}else{
-	    					valueToShow='0';
-	    				}
-					}else if(dimension=='costo'){
-						labelToShow="COSTO:";
-						if (typeof a.properties.VALORE_COSTO!=="undefined"){
-							valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
-						}else{
-							valueToShow='&euro;&nbsp;0,00';
-						}
-	    				
-					}else{
-						labelToShow="IMPORTO FINANZIATO:";
-						if (typeof a.properties.VALORE_IMPORTO!=="undefined"){
-							valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_IMPORTO);
-						}else{
-							valueToShow='&euro;&nbsp;0,00';
-						}
-	    				
-					}
-					
-		    		tooltip.classed("nascosto", false)
-		        		.attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]-40)+"px")
-		        		.html('<p><strong>AREA GEOGRAFICA: </strong>'+a.properties.TERR_DESC+'</p>'+'<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
-		    	})
-		    	.on("mouseout",function(a){
-		    		svg.selectAll("."+a.properties.TERR)
-		    			.style("fill",function(d){
-		    				if( dimension=='volume'){
-		    					if (typeof d.properties.VALORE_VOLUME!=="undefined"){
-		    						return color(d.properties.VALORE_VOLUME);
-			    				}else{
-			    					return "#fff";
-			    				}
-						
-		    				}else if(dimension=='costo'){
-								if (typeof d.properties.VALORE_COSTO!=="undefined"){
-									return color(d.properties.VALORE_COSTO);
-								}else{
-									return "#fff";
-								}
-		    				}else{
-								if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
-									return color(d.properties.VALORE_IMPORTO);
-								}else{
-									return "#fff";
-								}
-		    				}
-		    			});
-		    		tooltip.classed("nascosto", true)
 		    	});
-*/	     
-
-/*		    	
-		    var territorio=d3.selectAll("#territorioSel");
-			territorio.style("stroke-width",border);
-			
-			var currentY=territorio[0][0].getBBox().y;
-			var ytransl=-currentY+10;
- 	
-			territorio.attr("transform","translate(0,"+ytransl+")");
-	
-			var skewDown=(ytransl*2)+10+16;
-	 
-			d3.selectAll("#dimensions").attr("style","margin-top:"+skewDown+"px");
-*/
-		    	
    		});
 		
 	}
@@ -340,10 +245,10 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		.attr("stroke-width", ".5")
 		.style("fill", 
 				function(d, i) {
-					if( dimension=='volume'){
+					if( dimension=='VOLUME'){
 						return color(d.volumeValue);
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						return color(d.costoValue);
 					}
 					else{
@@ -379,7 +284,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		
 	};
 	
-	function drawBarTerritori(chartName, histogramName, dataSet) {
+	function drawBarTerritori(chartName, histogramName, dataSet){
 
 		var chartWidth       = 200,
 		    barHeight        = 25, //220 / dataSet.length, //310
@@ -390,13 +295,11 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		var zippedData = [];
 		
 		for (var i=0; i<dataSet.length; i++) {
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				zippedData.push(dataSet[i].volumeValue);
-			}
-			else if(dimension=='costo'){
+			}else if(dimension=='COSTO'){
 				zippedData.push(dataSet[i].costoValue);
-			}
-			else{
+			}else{
 				zippedData.push(dataSet[i].importoValue);
 			}
 		}
@@ -452,8 +355,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 			});
 	};
 
-	function formatEuro(number)
-	{
+	function formatEuro(number){
 		var numberStr = parseFloat(number).toFixed(2).toString();
 		var numFormatDec = numberStr.slice(-2); /*decimal 00*/
 		numberStr = numberStr.substring(0, numberStr.length-3); /*cut last 3 strings*/
@@ -477,7 +379,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		  return importo.replace(/^\./, "");  // elimina il primo punto se presente
 	}
 	
-	function nFormatter(num) {
+	function nFormatter(num){
 	    if (num >= 1000000000) {
 	       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
 	    }

@@ -30,11 +30,11 @@
 	#conteiner div.barcontainer span.pubblico{color:#1f4e78;}
 	#conteiner div.barcontainer span.privato{color:#ababab;}
 	div.div_pie_chart_testata_stato, div.div_bar_chart_testata_anni {text-align: center;}
-	.legend tr{border-bottom:1px solid #1f4e78;}
-	.legend tr:first-child{border-top:1px solid #1f4e78;}
+	.legend tr{border-bottom:0px solid #1f4e78;}
+	.legend tr:first-child{border-top:0px solid #1f4e78;}
 	.legend{margin-bottom:76px; display:inline-block; border-collapse: collapse; border-spacing: 0px;}
 	.legend td{padding:4px 5px; vertical-align:bottom;}
-	.legendLabel{text-align: left; width:50px; color: #1f4e78;}
+	.legendLabel{text-align: left; width:50px; color: #1f4e78; white-space: nowrap;}
 	.legendValue{text-align: right; width:50px;color: #1f4e78;}
 	
 	.bar_testata {fill: #1f4e78;}
@@ -74,13 +74,13 @@
 	
 </style>
 
-<div class="stripe" style="height: 280px">
-	
-	<div class="span12" id="conteiner" >
-		<div id="titolo"></div>
-		<div id="corpo"></div>
+<div class="stripe">
+	<div style="height: 280px; border-left:10px solid #1f4e78">
+		<div class="span12" id="conteiner" >
+			<div id="titolo"></div>
+			<div id="corpo"></div>
+		</div>
 	</div>
-	
 </div>
 
 <script>
@@ -351,7 +351,7 @@
         tr.append("td").attr("class",'legendLabel').text(function(d){ return d.label; });
 
     	// create the third column for each segment.
-        tr.append("td").attr("class",'legendValue').text( function(d){ return d3.format(",")(d.value); } );
+        //tr.append("td").attr("class",'legendValue').text( function(d){ return d3.format(",")(d.value); } );
     }
 	
 	d3.selectAll("#corpo")
@@ -409,20 +409,14 @@
 	    width = totWidth - margin.left - margin.right,
 	    height = totHeight - margin.top - margin.bottom;
 
-		var x = d3.scale.ordinal()
-	  	.rangeRoundBands([0, width], .1);
+		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
 
-		var y = d3.scale.linear()
-	  	.range([height, 0]);
+		var y = d3.scale.linear().range([height, 0]);
 
-		var xAxis = d3.svg.axis()
-	  	.scale(x)
-	  	.orient("bottom");
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
 
-		var yAxis = d3.svg.axis()
-	  	.scale(y)
-	  	.orient("left");
-	  	//.ticks(10, "%");
+		var yAxis = d3.svg.axis().scale(y).orient("left");
+		//.ticks(10, "%");
 
 		var svg = d3.select(selectString).append("svg")
 	  	.attr("width", width + margin.left + margin.right)
@@ -436,9 +430,7 @@
 	  	svg.append("g")
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
-	    .call(xAxis)
-	    
-	    ;
+	    .call(xAxis);
 /*
 	  	svg.append("g")
 	    .attr("class", "y axis")
@@ -455,11 +447,10 @@
 	  	.enter()
 	  	.append("rect")
 	  	.attr("class", "bar_testata")
-	    .attr("x", function(d) { return x(d.label); })
+	    .attr("x", function(d, i) { return x(d.label); })
 	    .attr("width", x.rangeBand())
 	    .attr("y", function(d) { return y(d.volume); })
-	    .attr("height", function(d) { return height - y(d.volume); })
-	    ;
+	    .attr("height", function(d) { return height - y(d.volume); });
 
 	};
 	

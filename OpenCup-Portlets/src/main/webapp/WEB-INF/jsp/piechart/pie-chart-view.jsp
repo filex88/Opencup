@@ -16,10 +16,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 
 <portlet:defineObjects />
 
-<div class="stripe">
-
 	<c:if test="${ config.mostraPulsanti }">
-		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center">
+		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">
@@ -55,7 +53,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		</div>	
 	</c:if>
 	
-	<div style="padding-top: 30px; padding-bottom: 30px">
+<div class="stripe">	
+	<div id="container-pie-chart" style="padding-top: 30px; padding-bottom: 30px">
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- GRAFICI --		
@@ -100,7 +99,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		method="post" 
 		name="naviga-form" 
 		class="naviga-form"
-		id="naviga-form">
+		id="naviga-form"
+		style="display: none;">
 	
 			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
 	
@@ -153,8 +153,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		baseColor3 = "#009600";
 		fillColor = "#005500";
 	}
-	//var colorScale = d3.scale.ordinal().range(segments);
 
+	d3.select("#container-pie-chart")
+	.style("border-left","10px solid "+fillColor);
 	
 	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	

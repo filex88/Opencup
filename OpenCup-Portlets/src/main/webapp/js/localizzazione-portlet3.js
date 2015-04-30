@@ -24,7 +24,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 		d3.selectAll(".active.last.breadcrumb-truncate").remove();
 
 		// d3.js	
-		var selectedDimension='volume';
+		var selectedDimension='VOLUME';
 	d3.select("#volumeLabel").select("input").classed("active",true);
 	
 
@@ -38,7 +38,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 		.on("click",function(d){
 			d3.select("#italybymacroareas").select("svg").remove();
 			d3.selectAll("div.selectiontip").remove();
-			selectedDimension='volume';
+			selectedDimension='VOLUME';
 			d3.selectAll("input").attr("class",null);
 			d3.select("#volumeLabel").select("input").classed("active",true);
 			drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
@@ -48,7 +48,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 		.on("click",function(d){
 			d3.select("#italybymacroareas").select("svg").remove();
 			d3.selectAll("div.selectiontip").remove();
-			selectedDimension='costo';
+			selectedDimension='COSTO';
 			d3.selectAll("input").attr("class",null);
 			d3.select("#costoLabel").select("input").classed("active",true);
 			drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
@@ -58,7 +58,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 		.on("click",function(d){
 			d3.select("#italybymacroareas").select("svg").remove();
 			d3.selectAll("div.selectiontip").remove();
-			selectedDimension='importo';
+			selectedDimension='IMPORTO';
 			d3.selectAll("input").attr("class",null);
 			d3.select("#importoLabel").select("input").classed("active",true);
 			drawProvinceByRegione(selectedDimension,jsonResultLocalizzazione,regioneSelezionata,areaGeo,areeGeoBack,regioniBack);
@@ -81,10 +81,10 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 
 		// min mid, max valori calcolati 
 		var minData=d3.min(calculated_json,function(d){
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				return d.volumeValue;
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return d.costoValue;
 			}
 			else{
@@ -94,10 +94,10 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 		
 		var midData=d3.mean(calculated_json,function(d){
 			var result=null;
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				return d.volumeValue;
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return d.costoValue;
 			}
 			else{
@@ -107,10 +107,10 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 
 		var maxData=d3.max(calculated_json,function(d){
 			var result=null;
-			if( dimension=='volume'){
+			if( dimension=='VOLUME'){
 				return d.volumeValue;
 			}
-			else if(dimension=='costo'){
+			else if(dimension=='COSTO'){
 				return d.costoValue;
 			}
 			else{
@@ -199,10 +199,10 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	    	.attr("d",path)
 	    	.attr ("id",function(d) { return d.properties.TR_REG_PRO; })
 	    	.style("fill",function(d){
-	    		if( dimension=='volume'){
+	    		if( dimension=='VOLUME'){
 					return color(d.properties.VALORE_VOLUME);
 				}
-				else if(dimension=='costo'){
+				else if(dimension=='COSTO'){
 					return color(d.properties.VALORE_COSTO);
 				}
 				else{
@@ -225,7 +225,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	    		var labelToShow=null;
 	    		var valueToShow=null;
 	    		
-	    		if( dimension=='volume' ){
+	    		if( dimension=='VOLUME' ){
 	  				labelToShow="VOLUME:";
 	  				if (typeof a.properties.VALORE_VOLUME !== "undefined"){
 	  					valueToShow=formatInteger(a.properties.VALORE_VOLUME);
@@ -233,7 +233,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	  					valueToShow='0';
 	  				}
 	 				}
-	 				else if(dimension=='costo'){
+	 				else if(dimension=='COSTO'){
 	 					labelToShow="COSTO:";
 	 					if (typeof a.properties.VALORE_COSTO!=="undefined"){
 	 						valueToShow='&euro;&nbsp;'+formatEuro(a.properties.VALORE_COSTO);
@@ -260,7 +260,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	    	.on("mouseout",function(a){
 	    		svg.selectAll("#"+a.properties.TR_REG_PRO)
 	    		.style("fill",function(d){
-	    			if( dimension=='volume'){
+	    			if( dimension=='VOLUME'){
 	    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
 	    					return color(d.properties.VALORE_VOLUME);
 	    				}else{
@@ -268,7 +268,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	    				}
 						
 					}
-					else if(dimension=='costo'){
+					else if(dimension=='COSTO'){
 						if (typeof d.properties.VALORE_COSTO!=="undefined"){
 							return color(d.properties.VALORE_COSTO);
 						}else{
@@ -349,7 +349,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 						yPosition=element[0][0].getBBox().y;
 						hPosition=element[0][0].getBBox().height;
 						nome_prov=d.properties.NOME.toUpperCase();
-						if( dimension=='volume' ){
+						if( dimension=='VOLUME' ){
 							labelToShow="VOLUME:";
 							if (typeof d.properties.VALORE_VOLUME !== "undefined"){
 								valueToShow=formatInteger(d.properties.VALORE_VOLUME);
@@ -357,7 +357,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 								valueToShow='0';
 							}
 						}
-						else if(dimension=='costo'){
+						else if(dimension=='COSTO'){
 							labelToShow="COSTO:";
 							if (typeof d.properties.VALORE_COSTO!=="undefined"){
 								valueToShow='&euro;&nbsp;'+formatEuro(d.properties.VALORE_COSTO);
@@ -391,7 +391,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 						var valoreClasse=d3.select(this).attr("class").replace("link-url-naviga-selezione","").trim();
 						d3.selectAll("#"+valoreClasse)
 						.style("fill",function(d){
-			    			if( dimension=='volume'){
+			    			if( dimension=='VOLUME'){
 			    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
 			    					return color(d.properties.VALORE_VOLUME);
 			    				}else{
@@ -399,7 +399,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 			    				}
 								
 							}
-							else if(dimension=='costo'){
+							else if(dimension=='COSTO'){
 								if (typeof d.properties.VALORE_COSTO!=="undefined"){
 									return color(d.properties.VALORE_COSTO);
 								}else{
