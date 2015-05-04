@@ -19,6 +19,9 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	private String naviga;
 	private String distribuzione;
 	
+	private String orderType;
+	private String orderProperty;
+	
 	private String idNatura;
 	private String idAreaIntervento;
 	private String idSottosettoreIntervento;
@@ -659,6 +662,22 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.flagAggrefaAnni = flagAggrefaAnni;
 	}
 
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getOrderProperty() {
+		return orderProperty;
+	}
+
+	public void setOrderProperty(String orderProperty) {
+		this.orderProperty = orderProperty;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -763,6 +782,10 @@ public class NavigaAggregata implements Serializable, Cloneable{
 				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
 						.hashCode());
 		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
+		result = prime * result
+				+ ((orderProperty == null) ? 0 : orderProperty.hashCode());
+		result = prime * result
+				+ ((orderType == null) ? 0 : orderType.hashCode());
 		result = prime * result
 				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
 		return result;
@@ -947,6 +970,16 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			if (other.naviga != null)
 				return false;
 		} else if (!naviga.equals(other.naviga))
+			return false;
+		if (orderProperty == null) {
+			if (other.orderProperty != null)
+				return false;
+		} else if (!orderProperty.equals(other.orderProperty))
+			return false;
+		if (orderType == null) {
+			if (other.orderType != null)
+				return false;
+		} else if (!orderType.equals(other.orderType))
 			return false;
 		if (pagAggregata == null) {
 			if (other.pagAggregata != null)

@@ -230,9 +230,10 @@ public class ClassificazionePortlet1Controller extends FiltriCommonController {
 		searchContainerDettaglio.setOrderByCol(orderByCol);
 		searchContainerDettaglio.setOrderByType(orderByType);
 
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(	navigaAggregata, 
-																						searchContainerDettaglio.getOrderByCol(), 
-																						searchContainerDettaglio.getOrderByType() );
+		navigaAggregata.setOrderProperty( searchContainerDettaglio.getOrderByCol() );
+		navigaAggregata.setOrderType( searchContainerDettaglio.getOrderByType() );
+		
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(	navigaAggregata );
 		
 		searchContainerDettaglio.setTotal( listaAggregataDTO.size() );
 

@@ -52,6 +52,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component("aggregataFacade")
 public class AggregataFacade {
@@ -377,8 +378,7 @@ public class AggregataFacade {
 	}
 	
 	@Cacheable(value = "AggregataDTO")
-	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {		
-		
+	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {
 		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
@@ -387,28 +387,39 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "Aggregata")
 	public List<Aggregata> findAggregataByLocalizzazione(NavigaAggregata navigaAggregata) {		
-		
-		return aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
+
+		Criteria criteria = buildCriteria(navigaAggregata);
+		if( ! StringUtils.isEmpty(navigaAggregata.getOrderProperty()) ){
+			if("asc".equals(navigaAggregata.getOrderType())){
+				criteria.addOrder(Order.asc(navigaAggregata.getOrderProperty()));
+			}else{
+				criteria.addOrder(Order.desc(navigaAggregata.getOrderProperty()));
+			}
+		}
+		return aggregataDAO.findByCriteria(criteria);
 	}
 	
-	@Cacheable(value = "AggregataDTO")
-	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {
-		
-		Criteria criteria = buildCriteria(navigaAggregata);
-		if("asc".equals(orderByType)){
-			criteria.addOrder(Order.asc(orderByCol));
-		}else{
-			criteria.addOrder(Order.desc(orderByCol));
-		}
-
-		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
-		
-		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
-
-	}
+//	@Cacheable(value = "AggregataDTO")
+//	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata, String orderByCol, String orderByType) {
+//		
+//		
+//		Criteria criteria = buildCriteria(navigaAggregata);
+//		
+//		if("asc".equals(orderByType)){
+//			criteria.addOrder(Order.asc(orderByCol));
+//		}else{
+//			criteria.addOrder(Order.desc(orderByCol));
+//		}
+//
+//		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
+//		
+//		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
+//
+//	}
 
 	@Cacheable(value = "Regione")
 	public List<Regione> findRegioni() {
+
 		List<Regione> retval = new ArrayList<Regione>();
 
 		Criteria criteria = regioneDAO.newCriteria();
@@ -423,6 +434,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "Provincia")
 	public List<Provincia> findProvinciaByIdRegione(Integer idRegione) {
+
 		List<Provincia> retval = new ArrayList<Provincia>();
 		
 		Criteria criteria = provinciaDAO.newCriteria();
@@ -440,6 +452,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "Comune")
 	public List<Comune> findComuneByIdProvincia(Integer idProvincia) {
+
 		List<Comune> retval = new ArrayList<Comune>();
 		
 		Criteria criteria = comuneDAO.newCriteria();
@@ -457,6 +470,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "StatoProgetto")
 	public List<StatoProgetto> findStatoProgetto() {
+
 		List<StatoProgetto> retval = new ArrayList<StatoProgetto>();
 		
 		Criteria criteria = statoProgettoDAO.newCriteria();
@@ -470,6 +484,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "AnnoDecisione")
 	public List<AnnoDecisione> findAnnoDecisioneDAO() {
+
 		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
 		
 		Criteria criteria = annoDecisioneDAO.newCriteria();
@@ -483,6 +498,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "AnnoAggregato")
 	public List<AnnoAggregato> findAnnoAggregato() {
+
 		List<AnnoAggregato> retval = new ArrayList<AnnoAggregato>();
 		
 		Criteria criteria = annoAggregatoDAO.newCriteria();
@@ -496,6 +512,7 @@ public class AggregataFacade {
 
 	@Cacheable(value = "TipologiaIntervento")
 	public List<TipologiaIntervento> findTipologiaIntervento() {
+
 		List<TipologiaIntervento> retval = new ArrayList<TipologiaIntervento>();
 				
 		Criteria criteria = tipologiaInterventoDAO.newCriteria();
@@ -509,6 +526,7 @@ public class AggregataFacade {
 
 	@Cacheable(value = "AnnoDecisione")
 	public List<AnnoDecisione> findAnniDecisione() {
+		
 		List<AnnoDecisione> retval = new ArrayList<AnnoDecisione>();
 		
 		Criteria criteria = annoDecisioneDAO.newCriteria();
@@ -522,6 +540,7 @@ public class AggregataFacade {
 
 	@Cacheable(value = "CategoriaSoggetto")
 	public List<CategoriaSoggetto> findCategoriaSoggetto() {
+
 		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
 		
 		Criteria criteria = categoriaSoggettoDAO.newCriteria();
@@ -536,6 +555,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "Natura")
 	public List<Natura> findNatura() {
+
 		List<Natura> retval = new ArrayList<Natura>();
 		
 		Criteria criteria = naturaDAO.newCriteria();
@@ -550,6 +570,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "Natura")
 	public Natura findNaturaByCod(String codiNatura) {
+
 		Natura retval = null;
 		
 		Criteria criteria = naturaDAO.newCriteria();
@@ -567,6 +588,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "SettoreIntervento")
 	public List<SettoreIntervento> findSettoreByNatura(Integer idNatura) {
+
 		List<SettoreIntervento> retval = new ArrayList<SettoreIntervento>();
 		
 		Criteria criteria = naturaSettoreDAO.newCriteria();
@@ -585,6 +607,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "AreaIntervento")
 	public List<AreaIntervento> findAreaIntervento() {
+
 		List<AreaIntervento> retval = new ArrayList<AreaIntervento>();
 		
 		Criteria criteria = areaInterventoDAO.newCriteria();
@@ -599,6 +622,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "SottosettoreIntervento")
 	public List<SottosettoreIntervento> findSottosettoreByArea(Integer idArea) {
+
 		List<SottosettoreIntervento> retval = new ArrayList<SottosettoreIntervento>();
 		
 		Criteria criteria = sottosettoreInterventoDAO.newCriteria();
@@ -614,6 +638,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "CategoriaIntervento")
 	public List<CategoriaIntervento> findCategoriaInterventoByAreaSottosettore(Integer idArea, Integer idSottosettore) {
+		
 		List<CategoriaIntervento> retval = new ArrayList<CategoriaIntervento>();
 		
 		Criteria criteria = categoriaInterventoDAO.newCriteria();
@@ -631,6 +656,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "SottocategoriaSoggetto")
 	public List<SottocategoriaSoggetto> findSottocategoriaSoggetto() {
+
 		List<SottocategoriaSoggetto> retval = new ArrayList<SottocategoriaSoggetto>();
 		
 		Criteria criteria = sottocategoriaSoggettoDAO.newCriteria();
@@ -644,6 +670,7 @@ public class AggregataFacade {
 
 	@Cacheable(value = "Regione")
 	public List<Regione> findRegioniByIdAreaGeografica(Integer idAreaGeografica) {
+
 		List<Regione> retval = new ArrayList<Regione>();
 
 		Criteria criteria = regioneDAO.newCriteria();
@@ -664,6 +691,7 @@ public class AggregataFacade {
 
 	@Cacheable(value = "AreaGeografica")
 	public List<AreaGeografica> findAreaGeografica() {
+
 		List<AreaGeografica> retval = new ArrayList<AreaGeografica>();
 
 		Criteria criteria = areaGeograficaDAO.newCriteria();
@@ -679,76 +707,93 @@ public class AggregataFacade {
 
 	@Cacheable(value = "AreaGeografica")
 	public AreaGeografica findAreaGeografica(Integer valueOf) {
+
 		return areaGeograficaDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "Regione")
 	public Regione findRegione(Integer valueOf) {
+
 		return regioneDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "Provincia")
 	public Provincia findProvincia(Integer valueOf) {
+
 		return provinciaDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "Comune")
 	public Comune findComune(Integer valueOf) {
+
 		return comuneDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "TipologiaIntervento")
 	public TipologiaIntervento findTipologiaIntervento(Integer valueOf) {
+
 		return tipologiaInterventoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "StatoProgetto")
 	public StatoProgetto findStatoProgetto(Integer valueOf) {
+
 		return statoProgettoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "CategoriaSoggetto")
 	public CategoriaSoggetto findCategoriaSoggetto(Integer valueOf) {
+
 		return categoriaSoggettoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "SottocategoriaSoggetto")
 	public SottocategoriaSoggetto findSottoCategoriaSoggetto(Integer valueOf) {
+
 		return sottocategoriaSoggettoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "Natura")
 	public Natura findNatura(Integer valueOf) {
+
 		return naturaDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "SettoreIntervento")
 	public SettoreIntervento findSettoreIntervento(Integer valueOf) {
+
 		return settoreInterventoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "AreaIntervento")
 	public AreaIntervento findAreaIntervento(Integer valueOf) {
+		
+		
+		
 		return areaInterventoDAO.findById(valueOf);
 	}
 	
 	@Cacheable(value = "SottosettoreIntervento")
 	public SottosettoreIntervento findSottosettoreIntervento(Integer valueOf) {
+
 		return sottosettoreInterventoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "CategoriaIntervento")
 	public CategoriaIntervento findCategoriaIntervento(Integer valueOf) {
+
 		return categoriaInterventoDAO.findById(valueOf);
 	}
 
 	@Cacheable(value = "AnnoDecisione")
 	public AnnoDecisione findAnniDecisione(Integer valueOf) {
+
 		return annoDecisioneDAO.findById(valueOf);
 	}
 	
 	@Cacheable(value = "SottocategoriaSoggetto")
 	public List<SottocategoriaSoggetto> findSottocategoriaSoggetto(Integer idCategoriaSoggetto) {
+
 		List<SottocategoriaSoggetto> retval = new ArrayList<SottocategoriaSoggetto>();
 
 		Criteria criteria = sottocategoriaSoggettoDAO.newCriteria();
@@ -769,6 +814,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "AreaGeografica")
 	public AreaGeografica findAreaGeograficaByCodiceArea(String codAreaGeografica) {
+
 		AreaGeografica areaGeograficaRecuperata=null;
 		List<AreaGeografica> retval = new ArrayList<AreaGeografica>();
 		Criteria criteria = areaGeograficaDAO.newCriteria();
@@ -783,6 +829,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "Regione")
 	public Regione findRegionebyCodice(String codRegione) {
+
 		Regione regioneRecuperata=null;
 		List<Regione> retval = new ArrayList<Regione>();
 		Criteria criteria = regioneDAO.newCriteria();
@@ -797,6 +844,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "AreaSoggetto")
 	public List<AreaSoggetto> findAreaSoggetto() {
+
 		List<AreaSoggetto> retval = new ArrayList<AreaSoggetto>();
 		
 		Criteria criteria = areaSoggettoDAO.newCriteria();
@@ -830,6 +878,7 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "CategoriaSoggetto")
 	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto() {
+
 		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
 		
 		Criteria criteria = categoriaSoggettoDAO.newCriteria();

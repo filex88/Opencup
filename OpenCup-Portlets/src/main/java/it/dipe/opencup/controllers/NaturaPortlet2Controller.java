@@ -67,9 +67,10 @@ public class NaturaPortlet2Controller extends NaturaPortletCommonController {
 		searchContainer.setOrderByCol(orderByCol);
 		searchContainer.setOrderByType(orderByType);
 
-		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaNav, 
-																					 searchContainer.getOrderByCol(), 
-																					 searchContainer.getOrderByType() );
+		sessionAttrNaturaNav.setOrderProperty( searchContainer.getOrderByCol() );
+		sessionAttrNaturaNav.setOrderType( searchContainer.getOrderByType() );
+		
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(sessionAttrNaturaNav );
 		
 		searchContainer.setTotal(listaAggregataDTO.size());
 		

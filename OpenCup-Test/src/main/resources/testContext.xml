@@ -23,9 +23,9 @@
 
 	<bean id="dataSourceTest" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
 	        <property name="driverClass" value="oracle.jdbc.OracleDriver" />
-	        <property name="jdbcUrl" value="jdbc:oracle:thin:@foxer.tesoro.it:1521/foxer" />
-	        <property name="user" value="U_LIFE_APP" />
-	        <property name="password" value="U_LIFE_APP" /> 
+	        <property name="jdbcUrl" value="jdbc:oracle:thin:@10.38.68.111:1521/DWMEFS" />
+	        <property name="user" value="U_CUP_OPENCUP_SNA" />
+	        <property name="password" value="opencup" /> 
 	 </bean>	
 	
 	<!-- inside container, use JndiTemplate 

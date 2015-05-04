@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.WebKeys;
 
 @Controller
@@ -41,24 +45,41 @@ public class TestataNavigazionePortletController {
 	@Value("#{config['codice.natura.open.cup']}")
 	private String codiNaturaOpenCUP;
 	
+	private NavigaAggregata newNavigaAggregata() {
+		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
+		NavigaAggregata navigaAggregata = new NavigaAggregata();
+		navigaAggregata.setIdNatura(idNatura);
+		return navigaAggregata;
+	}
+	
 	@ModelAttribute("navigaAggregata")
 	public NavigaAggregata navigaAggregata() {
-		
-		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
-		NavigaAggregata navigaAggregata = new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE, idNatura);
-		
-		return navigaAggregata;
+		return newNavigaAggregata();
+	}
+	
+	@ModelAttribute("navigaAggregataStato")
+	public NavigaAggregata navigaAggregataStato() {
+		return newNavigaAggregata();
+	}
+	
+	@ModelAttribute("navigaAggregataAnno")
+	public NavigaAggregata navigaAggregataAnno() {
+		return newNavigaAggregata();
 	}
 	
 	@RenderMapping
 	public String renderRequest(RenderRequest renderRequest, 
 								RenderResponse renderResponse,
 								Model model,
-								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata){
+								@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
+								@ModelAttribute("navigaAggregataStato") NavigaAggregata navigaAggregataStato,
+								@ModelAttribute("navigaAggregataAnno") NavigaAggregata navigaAggregataAnno){
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
+		
+		
 		
 		navigaAggregata.rimuoviZero();
 		
@@ -66,8 +87,12 @@ public class TestataNavigazionePortletController {
 		model.addAttribute("jsonResultRiepilogo",createJsonStringFromQueryResult(risultati));
 		
 		// PIE BY STATO
-		navigaAggregata.setIdStatoProgetto("0");
-		List<AggregataDTO> risultati4Stato = aggregataFacade.findAggregataByNatura(navigaAggregata, "statoProgetto.descStatoProgetto", "asc");
+		navigaAggregataStato.rimuoviZero();
+		navigaAggregataStato.setIdStatoProgetto("0");
+		navigaAggregataStato.setOrderProperty("statoProgetto.descStatoProgetto");
+		navigaAggregataStato.setOrderType("asc");
+
+		List<AggregataDTO> risultati4Stato = aggregataFacade.findAggregataByNatura(navigaAggregataStato);
 		
 //		System.out.println( "X STATO" );
 //		for( AggregataDTO tmp : risultati4Stato ){
@@ -85,29 +110,24 @@ public class TestataNavigazionePortletController {
 		}
 		model.addAttribute("jsonResultDistribuzione4PieTestataStato", createJsonStringFromQueryResultD3PieConverter(converter));
 		model.addAttribute("recordCountStato", converter.size() );
-		navigaAggregata.setIdStatoProgetto("-1");
 		
 		// HISTOGRAM BY ANNO
+		navigaAggregataAnno.rimuoviZero();
 		int endYear = Calendar.getInstance().get(Calendar.YEAR);
 		int startYear = endYear - 9;
 		List<String> idAnnoAggregatos = new ArrayList<String>();
 		for(int year=startYear;year<=endYear;year++){
 			idAnnoAggregatos.add(String.valueOf(year));
 		}
-		navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
-		navigaAggregata.setFlagAggrefaAnni(false);
-		List<AggregataDTO> tmpRisultati4Anno = aggregataFacade.findAggregataByNatura(navigaAggregata, "annoAggregato.annoAggregato", "asc");
-		navigaAggregata.setFlagAggrefaAnni(true);
-		
-		//AggregataDTO appo = tmpRisultati4Anno.get( tmpRisultati4Anno.size() - 1 );
-		//tmpRisultati4Anno.remove( tmpRisultati4Anno.size() - 1 );
+		navigaAggregataAnno.setIdAnnoAggregatos( idAnnoAggregatos );
+		navigaAggregataAnno.setFlagAggrefaAnni(false);
+		navigaAggregataAnno.setOrderProperty("annoAggregato.annoAggregato");
+		navigaAggregataAnno.setOrderType("asc");
+
+		List<AggregataDTO> tmpRisultati4Anno = aggregataFacade.findAggregataByNatura(navigaAggregataAnno);
 		
 		List<D3BarConverter> risultati4Anno = new ArrayList<D3BarConverter>();
 		
-		//D3BarConverter ele = new D3BarConverter();
-		//ele.setLabel( appo.getAnnoAnnoAggregato() );
-		//ele.setVolume( appo.getNumeProgetti() );
-		//risultati4Anno.add(ele);
 		D3BarConverter ele = null;
 		int year=startYear;
 		int currentYear=0;
@@ -138,20 +158,10 @@ public class TestataNavigazionePortletController {
 			}
 		}
 		
-		
-		//if( risultati4Anno.size() > 10 ){
-		//	risultati4Anno = risultati4Anno.subList(risultati4Anno.size()-11, risultati4Anno.size()-1);
-		//}
-		
 		model.addAttribute("jsonResultDistribuzione4TestataAnni", createJsonStringFromQueryResultD3BarConverter(risultati4Anno));
 		model.addAttribute("recordCountAnni", risultati4Anno.size() );
 		model.addAttribute("startYear", startYear );
 		model.addAttribute("endYear", endYear );
-		
-//		System.out.println( "X ANNO" );
-//		for( AggregataDTO tmp : risultati4Anno ){
-//			System.out.println( tmp.getAnnoAnnoAggregato() + "  --> " + tmp.getDesStatoProgetto() + " --> " + tmp.getNumeProgetti() );
-//		}
 		
 		return "testata-view";
 	}
@@ -163,6 +173,8 @@ public class TestataNavigazionePortletController {
 		
 		NavigaAggregata navigaAggregata = (NavigaAggregata) eventRequest.getEvent().getValue();
 		model.addAttribute("navigaAggregata", navigaAggregata.clone());
+		model.addAttribute("navigaAggregataStato", navigaAggregata.clone());
+		model.addAttribute("navigaAggregataAnno", navigaAggregata.clone());
 		
     }
 	

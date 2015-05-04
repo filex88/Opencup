@@ -12,22 +12,12 @@
 
 <portlet:defineObjects />
 
+
+
 <fmt:setLocale value="it_IT"/>
 
-<style>
-<!--
-div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
--->
-</style>
 
-<div class="stripe">	
 
-	<a href="${linkallregioni}" >NAVIGA PER REGIONI</a>
-
-	<div id="italybymacroareas"></div>
-
-</div>
-<%-- 
 <div id="my-toggler-affina-ricerca-localizzazione">
 		<div class="span10 navigazione-div-container" style="float:left;">
 				<ul class="inline barra-navigazione">
@@ -257,79 +247,82 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		
 </div>
 
+	
+
+
+
+
 <div class="summaryContainer">
+<div class="card">
+	<div class="card-title">
+	       <span class="title">Naviga per localizzazione</span>
+</div>
+
+	<div style="text-align: justify;" class="card-content">
+	La sintesi per Localizzazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati aggregati navigando nelle ulteriori classificazioni:
+	Regione > Provincia
+	</div>
+</div>
 	
 	<div class="card">
-		<div class="card-title">
-		       <span class="title">Naviga per localizzazione</span>
-		</div>
-	
-		<div style="text-align: justify;" class="card-content">
-			La sintesi per Localizzazione mette in evidenza i dati aggregati della totalità dei progetti, è possibile proseguire nei dati aggregati navigando nelle ulteriori classificazioni:
-			Regione > Provincia
-		</div>
-	</div>
-	
-	<div class="card">
-		<div class="card-title">
-          	<span class="title">Dati di sintesi</span>
-      	</div>
-       	<div class="card-content">
-			<div>
-				<fmt:setLocale value="it_IT"/>
-				<div class="span4 dati_sitesi dati_sitesi_verde">
-					<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
-					<div class="celle_dati_sitesi font-size1em">Volume</div>
-					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></div>
+				<div class="card-title">
+	            	<span class="title">Dati di sintesi</span>
+	        	</div>
+	        	<div class="card-content">
+					<div>
+						<fmt:setLocale value="it_IT"/>
+						<div class="span4 dati_sitesi dati_sitesi_verde">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Volume</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_arancio">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Costo</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						</div>
+						<div class="span4 dati_sitesi dati_sitesi_lilla">
+							<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
+							<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
+							<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+						</div>
+						<div class="clear"></div>
+					</div>
 				</div>
-				<div class="span4 dati_sitesi dati_sitesi_arancio">
-					<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
-					<div class="celle_dati_sitesi font-size1em">Costo</div>
-					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
+				<div class="card-action">
+					<div class="link_elenco-progetti span4 offset8">
+						<aui:a href="${linkElencoProgetti}" cssClass="block">
+							Vai a Elenco Progetti <i class="icon-list"></i>
+						</aui:a>
+					</div>
+					<div class="clear"></div>
 				</div>
-				<div class="span4 dati_sitesi dati_sitesi_lilla">
-					<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
-					<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" minFractionDigits="0"/></div>
-				</div>
-				<div class="clear"></div>
 			</div>
-		</div>
-		<div class="card-action">
-			<div class="link_elenco-progetti span4 offset8">
-				<aui:a href="${linkElencoProgetti}" cssClass="block">
-					Vai a Elenco Progetti <i class="icon-list"></i>
-				</aui:a>
-			</div>
-			<div class="clear"></div>
-		</div>
-	</div>
 			
+
 </div>
 
 <div class="mapContainer ">
-	<div class="card">
-		<div class="card-title">
-			<span class="title">Distribuzione</span>
-			<span class="right"> <a href="${linkallregioni}" >NAVIGA PER REGIONI</a></span>
-		</div>
-		
-		<div id="italybymacroareas"></div>
-		
-		<div id="dimensions" class="card-action">
-			<ul>
-				<li id="volumeLabel">
-					<input type="button" value="VOLUME"></input>
-				</li>
-				<li id="costoLabel">
-					<input type="button" value="COSTO"></input>
-				</li>
-				<li id="importoLabel">
-					<input type="button" value="FINANZIATO"></input>
-				</li>
-			</ul>
-		</div>
-	</div>
+<div class="card">
+<div class="card-title">
+	       <span class="title">Distribuzione</span>
+	       <span class="right"> <a href="${linkallregioni}" >NAVIGA PER REGIONI</a></span>
+</div>
+<div id="italybymacroareas"></div>
+<div id="dimensions" class="card-action">
+	<ul>
+		<li id="volumeLabel">
+			<input type="button" value="VOLUME"></input>
+		</li>
+		<li id="costoLabel">
+			<input type="button" value="COSTO"></input>
+		</li>
+		<li id="importoLabel">
+			<input type="button" value="FINANZIATO"></input>
+		</li>
+	</ul>
+</div>
+</div>
 </div>
 
 <div class="clear"></div>
@@ -374,15 +367,15 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 </div>
 
 </div>
---%>
 
 <script>
 	var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
 	
+	
+	
 	var namespaceRicerca4js = "<portlet:namespace/>";
 	
 	var namespaceRicerca = "<portlet:namespace/>";
-	
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	
 	var globalA;
@@ -394,7 +387,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
 			globalA = A;
 			
-		<%--	
+			
 		function caricaCombo2(pNamespaceRicerca, resourceId, pattern, pattern2, target){	
 			var select = document.getElementById(target);
 			select.options.length = 0;
@@ -500,7 +493,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			    	A.one('.sotto-categoria-soggetto').val(-1);
 			    	caricaCombo(namespaceRicerca, "loadSottoCategoriaSoggettoByCategoriaSoggetto", this.val(), namespaceRicerca4js+"sotto-categoria-soggetto");
 				});
-
+		
+		
+		
+		
+		
+		
+		
 //		A.one('.pulisciElementoComune').on(
 //			    'click',
 //			    function(event) {
@@ -605,7 +604,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 				          easing: 'cubic-bezier(0, 0.1, 0, 1)'
 				        }
 				      });
-		--%>	
+			
 	});
 	
 	

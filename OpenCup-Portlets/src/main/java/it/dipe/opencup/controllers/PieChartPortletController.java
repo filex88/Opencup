@@ -108,7 +108,6 @@ public class PieChartPortletController {
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		model.addAttribute("pattern", pattern);
-		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
 		//System.out.println( "JSON 1 (" + listaAggregataDTO.size() + "): " + createJsonStringFromQueryResultAggregataDTO(listaAggregataDTO) );
