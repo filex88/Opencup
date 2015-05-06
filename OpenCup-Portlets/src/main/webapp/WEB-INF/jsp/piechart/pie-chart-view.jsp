@@ -598,7 +598,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		// Create hyper linked text at right that acts as label key...
         canvas.selectAll("a.legend_link")
 		.data(dataSet) // Instruct to bind dataSet to text elements
-		.enter().append("svg:a") // Append legend elements
+		.enter()
+		.append("svg:a") // Append legend elements
 		.attr("xlink:href", function(d) { 
 			//return d.linkURL; 
 			return "#";

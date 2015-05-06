@@ -92,6 +92,14 @@
 	</portlet>
 	
 	<portlet>
+		<portlet-name>localizzazione-portlet0</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/localizzazione-portlet0.js</footer-portlet-javascript>
+		<css-class-wrapper>localizzazione-portlet0</css-class-wrapper>
+	</portlet>
+	
+	<portlet>
 		<portlet-name>localizzazione-portlet1</portlet-name>
 		<icon>/icon.png</icon>
 		<header-portlet-css>/css/main.css</header-portlet-css>

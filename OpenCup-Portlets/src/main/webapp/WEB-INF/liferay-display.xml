@@ -10,6 +10,7 @@
 		<portlet id="elenco-progetti-portlet" />
 		<portlet id="dettaglio-progetto-portlet" />
 		<portlet id="localizzazione-portlet" />
+		<portlet id="localizzazione-portlet0" />
 		<portlet id="localizzazione-portlet1" />
 		<portlet id="localizzazione-portlet2" />
 		<portlet id="localizzazione-portlet3" />

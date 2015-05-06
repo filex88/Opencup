@@ -36,7 +36,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 				
 				<div class="span6 offset1" style="padding-top: 80px">
 					<div class="span5" id=chartLegendTerritori></div>
-					<div class="span1 id="histogramChart">
+					<div class="span1" id="histogramChart">
 						<svg class="chart-bar-territori"></svg>
 					</div>
 				</div>

@@ -19,6 +19,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +47,7 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 	private AggregataFacade aggregataFacade;
 	
 	@RenderMapping
-	public String handleRenderRequest(RenderRequest request, RenderResponse response,Model model){
+	public String handleRenderRequest(RenderRequest request, RenderResponse response, Model model){
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
 		String idTerr=httpServletRequest.getParameter("idTerr")!=null?httpServletRequest.getParameter("idTerr").toString():"";
 		String filtriPrec=httpServletRequest.getParameter("filtri")!=null?httpServletRequest.getParameter("filtri").toString():"";
@@ -176,6 +177,52 @@ public class LocalizzazionePortlet2Controller extends LocalizzazionePortletCommo
 		
 		
 		return "localizzazione2-view";
+	}
+	
+	@ActionMapping(params="action=byLivello")
+	public void actionByLivello(ActionRequest aRequest, ActionResponse aResponse, Model model){
+		
+		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(aRequest));
+		String idTerr = httpServletRequest.getParameter("idTerr")!=null?httpServletRequest.getParameter("idTerr").toString():"";
+		String filtriPrec = httpServletRequest.getParameter("filtri")!=null?httpServletRequest.getParameter("filtri").toString():"";
+		
+		NavigaAggregata navigaAggregata = null;
+		
+		// se non vengo dalla prima request
+		if (Validator.isNull(idTerr)  || Validator.equals("", idTerr)){
+			idTerr=ParamUtil.getString(aRequest, "idTerr");
+		}
+
+		AreaGeografica areaSelezionata =aggregataFacade.findAreaGeograficaByCodiceArea(idTerr);
+		String strIdAreaSel=areaSelezionata!=null?areaSelezionata.getId().toString():"0";
+
+		// se ho parametri impostati (solo al primo caricamento)
+		if (!Validator.isNull(filtriPrec)  && !Validator.equals("", filtriPrec)){
+			navigaAggregata=super.createModelFromJsonString(filtriPrec);
+			navigaAggregata.setIdRegione("0");
+			navigaAggregata.setIdProvincia("-1");
+			navigaAggregata.setIdAreaGeografica(strIdAreaSel);
+		}else{
+			if (model.asMap().get("navigaAggregata")==null && (Validator.isNull(ParamUtil.getString(aRequest,"filtroAsString")) || "".equals(ParamUtil.getString(aRequest,"filtroAsString")))){
+				// caricamento full senza filtri				
+				navigaAggregata=new NavigaAggregata();
+				navigaAggregata.setIdRegione("0");
+				navigaAggregata.setIdAreaGeografica(strIdAreaSel);
+				Natura naturaOpenCup=aggregataFacade.findNaturaByCod(codNaturaOpenCUP);
+				navigaAggregata.setIdNatura(naturaOpenCup.getId().toString());
+				navigaAggregata.setDescNatura(naturaOpenCup.getDescNatura());
+			}else{
+				if (model.asMap().get("navigaAggregata")!=null)
+				{
+					navigaAggregata=(NavigaAggregata)model.asMap().get("navigaAggregata");
+				}else{ // lo prendo dal json
+					navigaAggregata=super.createModelFromJsonString(ParamUtil.getString(aRequest,"filtroAsString"));
+				}
+			}
+		}
+		
+		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");
+		aResponse.setEvent(eventName, navigaAggregata);
 	}
 	
 	@ActionMapping(params="action=affinaricerca")

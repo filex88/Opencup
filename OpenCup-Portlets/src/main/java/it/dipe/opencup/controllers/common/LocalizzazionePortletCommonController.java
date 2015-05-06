@@ -70,6 +70,7 @@ public class LocalizzazionePortletCommonController extends FiltriCommonControlle
 					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), PortletRequest.ACTION_PHASE);
 					renderURL.setWindowState(WindowState.NORMAL);
 					renderURL.setPortletMode(PortletMode.VIEW);
+					renderURL.setParameter("action", "byLivello");
 					returnUrl=renderURL.toString();
 					break;
 				}

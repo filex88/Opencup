@@ -308,7 +308,7 @@ public class PieChartPortletController {
 		return jsonString;
 	}
 	
-	private void impostaLinkURL(	PortletRequest request, 
+	private void impostaLinkURL(PortletRequest request, 
 			NavigaAggregata sessionAttrNav, 
 			List<AggregataDTO> listaAggregataDTO, 
 			String anchorPortlet,

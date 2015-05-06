@@ -190,12 +190,12 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	    		}
 	    		
 	   		})
-	   		.on("mouseover",function(a){
+	    	.on("mouseover",function(a){
 	    		svg.selectAll("path")
 	    		.style("fill",function (d){
 	    		if (d.properties.TERR==a.properties.TERR){
-	    			return "#F08C00";
-	    		}else{
+	    			return "#F08C00";}
+	    		else{
 	    			if( dimension=='VOLUME'){
 	    				if (typeof d.properties.VALORE_VOLUME!=="undefined"){
 	    					return color(d.properties.VALORE_VOLUME);
@@ -221,7 +221,7 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	    			
 	    		  }
 	    		});
-	    		/*
+	    		
 	    		var mouse = d3.mouse(d3.select("#content").node()).map( function(d) { return parseInt(d); } );
 	    		var labelToShow=null;
 	    		var valueToShow=null;
@@ -256,7 +256,6 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 	        	 .attr("style", "left:"+(mouse[0]+10)+"px;top:"+(mouse[1]-40)+"px")
 	        	 .html('<p><strong>AREA GEOGRAFICA: </strong>'+a.properties.TERR_DESC+'</p>'
 	        	 +'<p><strong>'+labelToShow+' </strong>'+valueToShow+'</p>');
-	        	 */
 	    	})
 	    	.on("mouseout",function(a){
 	    		svg.selectAll("."+a.properties.TERR)
@@ -285,9 +284,8 @@ var fatherUl=d3.selectAll("li.first").node().parentNode;
 						}
 					}
 	    		});
-	    		/*
+	    		
 	    	 	tooltip.classed("nascosto", true)
-	    	 	*/
 	    	});
 	     
 	     var territorio=d3.selectAll("#territorioSel");

@@ -717,7 +717,7 @@ div.celle_dati_sitesi{
 }
 
 
-
+.localizzazione-portlet0 #tooltip-pie-chart,
 .pie-chart-portlet #tooltip-pie-chart {
 	position: absolute;
 	width: 300px;
@@ -734,34 +734,28 @@ div.celle_dati_sitesi{
 	pointer-events: none;
 }
 
+.localizzazione-portlet0 .hidden,
 .pie-chart-portlet .hidden {
 	display: none;
 }
 
- .pie-chart-portlet #tooltip-pie-chart p {
+.localizzazione-portlet0 #tooltip-pie-chart p,
+.pie-chart-portlet #tooltip-pie-chart p {
 	margin: 0;
 	font-family: sans-serif;
 	font-size: 16px;
 	line-height: 20px;
 }
 
+.localizzazione-portlet0 .chart-div,
 .pie-chart-portlet .chart-div{
 	text-align: center;
 	vertical-align: middle;
 	min-height: 120 px;
 }	
 
-.pie-chart-portlet  .axis path, 
-.pie-chart-portlet  .axis line {
-    fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
-}
-.pie-chart-portlet  .axis text {
-    font-family: sans-serif;
-    font-size: 11px;
-}
-
+.localizzazione-portlet0  .axis path,
+.localizzazione-portlet0  .axis line,
 .pie-chart-portlet  .axis path, 
 .pie-chart-portlet  .axis line {
     fill: none;
@@ -769,32 +763,53 @@ div.celle_dati_sitesi{
     shape-rendering: crispEdges;
 }
 
+.localizzazione-portlet0  .axis text,
 .pie-chart-portlet  .axis text {
     font-family: sans-serif;
     font-size: 11px;
 }
 
+.localizzazione-portlet0  .axis path, 
+.localizzazione-portlet0  .axis line,
+.pie-chart-portlet  .axis path, 
+.pie-chart-portlet  .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.localizzazione-portlet0  .axis text,
+.pie-chart-portlet  .axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.localizzazione-portlet0  .chart-bar text,
 .pie-chart-portlet  .chart-bar text {
   fill: white;
   font: 10px sans-serif;
   text-anchor: end;
 }
 
+.localizzazione-portlet0  .chart-bar .label,
 .pie-chart-portlet  .chart-bar .label {
   fill: black;
   font: 14px sans-serif;
   text-anchor: end;
 }
 
+.localizzazione-portlet0 svg,
 .pie-chart-portlet  svg {
 	font: 10px sans-serif;
 	display: block;
 }
 
+.localizzazione-portlet0 .btn-carica-distribuzione,
 .pie-chart-portlet .btn-carica-distribuzione{ 
     border-radius: 0px;
 }
 
+.localizzazione-portlet0 .btn-carica-distribuzione .block,
 .pie-chart-portlet .btn-carica-distribuzione .block{ 
     display:block;
     padding:5px 15px 5px 15px;
@@ -806,18 +821,22 @@ div.celle_dati_sitesi{
     text-align: center;
 }
 
+.localizzazione-portlet0 .volume-color,
 .pie-chart-portlet .volume-color {
 	background-color:#f08c00;
 }
 
+.localizzazione-portlet0 .costo-color,
 .pie-chart-portlet .costo-color {
 	background-color:#c90061;
 }
 
+.localizzazione-portlet0 .importo-color,
 .pie-chart-portlet .importo-color {
 	background-color:#009600;
 }
 
+.localizzazione-portlet0 .arrow-down-volume,
 .pie-chart-portlet .arrow-down-volume {
 	width: 0; 
 	height: 0; 
@@ -828,6 +847,7 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #f08c00;
 }
 
+.localizzazione-portlet0 .arrow-down-costo,
 .pie-chart-portlet .arrow-down-costo {
 	width: 0; 
 	height: 0; 
@@ -838,6 +858,7 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #c90061;
 }
 
+.localizzazione-portlet0 .arrow-down-importo,
 .pie-chart-portlet .arrow-down-importo {
 	width: 0; 
 	height: 0; 
@@ -848,16 +869,21 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #009600;
 }
 
+.localizzazione-portlet0 .volume-color a.block:hover,
+.localizzazione-portlet0 .volume-color a.block:focus,
 .pie-chart-portlet .volume-color a.block:hover,
 .pie-chart-portlet .volume-color a.block:focus {
 	background-color:#d27900;
 }
-
+.localizzazione-portlet0 .costo-color a.block:hover,
+.localizzazione-portlet0 .costo-color a.block:focus,
 .pie-chart-portlet .costo-color a.block:hover,
 .pie-chart-portlet .costo-color a.block:focus {
 	background-color:#950047;
 }
 
+.localizzazione-portlet0 .importo-color a.block:hover,
+.localizzazione-portlet0.importo-color a.block:focus,
 .pie-chart-portlet .importo-color a.block:hover,
 .pie-chart-portlet .importo-color a.block:focus {
 	background-color:#005500;

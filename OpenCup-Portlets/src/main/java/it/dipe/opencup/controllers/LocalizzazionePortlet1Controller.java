@@ -42,6 +42,9 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 	@Value("#{config['pagina.elenco.progetti']}")
 	private String paginaElencoProgetti;
 	
+	@Value("#{config['codice.natura.open.cup']}")
+	private String codiNaturaOpenCUP;
+	
 	@Autowired
 	private AggregataFacade aggregataFacade;
 	
@@ -67,9 +70,9 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		}else{
 
 			if (model.asMap().get("navigaAggregata")==null && (Validator.isNull(ParamUtil.getString(request,"filtroAsString")) || "".equals(ParamUtil.getString(request,"filtroAsString")))){
-				filtro=new NavigaAggregata(NavigaAggregata.NAVIGA_LOCALIZZAZIONE,"0");
+				filtro=new NavigaAggregata();
 				filtro.setIdAreaGeografica("0");
-				Natura naturaOpenCup=aggregataFacade.findNaturaByCod(codNaturaOpenCUP);
+				Natura naturaOpenCup = aggregataFacade.findNaturaByCod(codNaturaOpenCUP);
 				filtro.setIdNatura(naturaOpenCup.getId().toString());
 				filtro.setDescNatura(naturaOpenCup.getDescNatura());
 			}else{
@@ -114,6 +117,8 @@ public class LocalizzazionePortlet1Controller extends LocalizzazionePortletCommo
 		model.addAttribute("linkallregioni",HttpUtil.encodeParameters(allRegioniUrl));
 		super.inizializzaFiltriRicercaLocalizzazione(filtro,model);
 		model.addAttribute("navigaAggregata", filtro);
+		
+		
 		
 		// link elenco progetti
 		String urlElencoProgetti=super.calcolaUrlLocalizzazioneByLivello(request, paginaElencoProgetti);
