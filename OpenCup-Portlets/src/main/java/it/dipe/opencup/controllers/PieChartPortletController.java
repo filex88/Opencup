@@ -110,10 +110,8 @@ public class PieChartPortletController {
 		model.addAttribute("pattern", pattern);
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
-		//System.out.println( "JSON 1 (" + listaAggregataDTO.size() + "): " + createJsonStringFromQueryResultAggregataDTO(listaAggregataDTO) );
 		
-		String anchorPortlet = "#pie-chart-portlet";
-		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, anchorPortlet, navigaAggregata.getPagAggregata());
+		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
 		
@@ -168,12 +166,8 @@ public class PieChartPortletController {
 			converter.add(conv);
 		}
 
-		//System.out.println( "JSON 2 (" + converter.size() + "): " + createJsonStringFromQueryResult(converter) );
-
 		model.addAttribute("recordCount", converter.size());
-
 		model.addAttribute("aggregati4Pie", createJsonStringFromQueryResult(converter));
-		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
 		return "pie-chart-view";
@@ -311,7 +305,6 @@ public class PieChartPortletController {
 	private void impostaLinkURL(PortletRequest request, 
 			NavigaAggregata sessionAttrNav, 
 			List<AggregataDTO> listaAggregataDTO, 
-			String anchorPortlet,
 			String pageTo) {
 
 		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo, (String) request.getAttribute(WebKeys.PORTLET_ID), PortletRequest.ACTION_PHASE);
@@ -348,7 +341,7 @@ public class PieChartPortletController {
 
 			renderURL.setParameter("action", "navigazione");
 
-			tmp.setLinkURL(renderURL.toString() + anchorPortlet);
+			tmp.setLinkURL(renderURL.toString());
 		}
 	}
 	

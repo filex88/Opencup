@@ -104,11 +104,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		style="display: none;">
 	
 			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
+			<aui:input type="hidden" bean="navigaAggregata" name="pagAggregata" value="${navigaAggregata.pagAggregata}" id="pagAggregata" />
 	
 			<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
 			<aui:input type="hidden" bean="navigaAggregata" name="idAreaGeografica" value="${navigaAggregata.idAreaGeografica}" id="idAreaGeografica" />
 			<aui:input type="hidden" bean="navigaAggregata" name="idRegione" value="${navigaAggregata.idRegione}" id="idRegione" />
 			<aui:input type="hidden" bean="navigaAggregata" name="idProvincia" value="${navigaAggregata.idProvincia}" id="idProvincia" />
+		
 		
 	</form>
 	
@@ -260,6 +262,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		    	.data(topojson.feature(it, it.objects.sub).features)
 		    	.enter()
 		    	.append("path")
+		    	.attr("data_linkURL", function (d){ return d.properties.LINK })
 		    	.attr("class",function(d) { return "link-url-naviga-dettaglio terr-code-" + d.properties.TERR + " " + d.properties.TERR; })
 		    	.attr("d",path)
 		    	.attr ("id",function(d) { return d.properties.ID_REG_TER; })
@@ -477,6 +480,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("index_value", function(d, i) { return "index-" + i; })
 		.attr("class", function(d, i) {
 			return "link-url-naviga-dettaglio legend-circle-" + legendName + "-cod-" + d.localizationLabel; })
+		.attr("data_linkURL", function (d){ return d.detailUrl })
 		.on("mouseover", syncMouseOver )
 		.on("mouseout", syncMouseOut );
 			
@@ -499,6 +503,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		
         .style("fill", textColor)
         .style("font-size", "1.8em")
+        .attr("data_linkURL", function (d){ return d.detailUrl })
         .on("mouseover", syncMouseOver )
 		.on("mouseout", syncMouseOut )
         .append("title")
@@ -563,6 +568,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			.attr("class", function(d, i) { return "link-url-naviga-dettaglio bar histogram-" + histogramName + "-cod-" + dataSet[i].localizationLabel; })
 		    .attr("width", x)
 		    .attr("height", barHeight - 10)
+		    .attr("data_linkURL", function (d, i){ return dataSet[i].detailUrl })
 		    .on("mouseover", syncMouseOverDrawBar )
 			.on("mouseout", syncMouseOutDrawBar );
 		
@@ -577,6 +583,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		   	.text(function(d, i) { 
 				return nFormatter(d);
 			})
+			.attr("data_linkURL", function (d, i){ return dataSet[i].detailUrl })
 		   	.on("mouseover", syncMouseOverDrawBar )
 			.on("mouseout", syncMouseOutDrawBar );
 	};
@@ -668,7 +675,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		       				});
 		       				
 		       				$(".link-url-naviga-dettaglio" ).click(function() {
-	       						var arc = d3.select(this);
+		       					var arc = d3.select(this);
 		       					var data_linkURL = arc.attr("data_linkURL");
 		       					$( ".naviga-form" ).attr("action", data_linkURL);
 		       					$( ".naviga-form" ).submit();
