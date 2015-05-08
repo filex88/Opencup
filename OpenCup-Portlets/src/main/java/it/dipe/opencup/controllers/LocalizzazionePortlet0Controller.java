@@ -85,6 +85,7 @@ public class LocalizzazionePortlet0Controller{
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		boolean flagAreaGeografica = ( Integer.valueOf( navigaAggregata.getIdAreaGeografica() ) > 0 );
+		boolean flagRegione = ( Integer.valueOf( navigaAggregata.getIdRegione() ) > 0 );
 		
 		
 		Long numeProgetti = new Long(0);
@@ -93,6 +94,7 @@ public class LocalizzazionePortlet0Controller{
 		List<Aggregata> risultati = aggregataFacade.findAggregataByLocalizzazione(navigaAggregata);
 		List<LocalizationValueConverter> valori = new ArrayList<LocalizationValueConverter>();
 		String strCodAreaGeo = "";
+		String strCodRegione= "";
 		for (Aggregata aggregata : risultati){
 			
 			LocalizationValueConverter areaGeo = new LocalizationValueConverter();
@@ -100,11 +102,17 @@ public class LocalizzazionePortlet0Controller{
 			String codice = "";
 			String nome = "";
 
-			if(flagAreaGeografica){
+			if(flagAreaGeografica && !flagRegione){
 				//Visualizzo un'area geografica precisa
 				strCodAreaGeo = aggregata.getLocalizzazione().getAreaGeografica().getCodiAreaGeografica();
 				codice = aggregata.getLocalizzazione().getRegione().getCodiRegione();
 				nome = aggregata.getLocalizzazione().getRegione().getDescRegione();
+			}else if(flagAreaGeografica && flagRegione){
+				//Visualizzo una regione
+				strCodAreaGeo = aggregata.getLocalizzazione().getAreaGeografica().getCodiAreaGeografica();
+				strCodRegione = aggregata.getLocalizzazione().getRegione().getCodiRegione();
+				codice = aggregata.getLocalizzazione().getProvincia().getCodiProvincia();
+				nome = aggregata.getLocalizzazione().getProvincia().getDescProvincia();
 			}else{
 				//Visualizzo tutta l'italia
 				codice = aggregata.getLocalizzazione().getAreaGeografica().getCodiAreaGeografica();
@@ -129,9 +137,13 @@ public class LocalizzazionePortlet0Controller{
 			
 		}
 		
-		if(flagAreaGeografica){
+		if(flagAreaGeografica && !flagRegione){
 			model.addAttribute("areaGEO", strCodAreaGeo);
 			retval = "localizzazione0area-view";
+		}else if(flagAreaGeografica && flagRegione){
+			model.addAttribute("codRegione", strCodRegione);
+			model.addAttribute("areaGEO", strCodAreaGeo);
+			retval = "localizzazione0regione-view";
 		}
 		
 		model.addAttribute("statoSelected",navigaAggregata.getDescStato());
@@ -179,7 +191,7 @@ public class LocalizzazionePortlet0Controller{
 			}
 		}
 		
-		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");
+		QName eventName = new QName( "http:eventAccediLocalizzazione/events", "event.accediLocalizzazione");
 		aResponse.setEvent(eventName, navigaAggregata);
 		
 	}
@@ -196,7 +208,7 @@ public class LocalizzazionePortlet0Controller{
 		
 		aResponse.setRenderParameter("pattern", pattern);
 		
-		QName eventName = new QName( "http:eventAccediClassificazione/events", "event.accediClassificazione");
+		QName eventName = new QName( "http:eventAccediLocalizzazione/events", "event.accediLocalizzazione");
 		aResponse.setEvent(eventName, navigaAggregata);
 		
 	}

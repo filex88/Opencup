@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.EventRequest;
+import javax.portlet.EventResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -109,7 +112,6 @@ public class PieChartPortletController {
 		
 		model.addAttribute("pattern", pattern);
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
-		
 		
 		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());
 		
@@ -249,6 +251,17 @@ public class PieChartPortletController {
 		aResponse.setEvent(eventName, navigaAggregata);
 		
 	}
+	
+	@EventMapping(value = "event.accediLocalizzazione")
+    public void processAccediLocalizzazione(EventRequest eventRequest,
+               				EventResponse eventResponse,
+               				Model model) throws CloneNotSupportedException {
+		
+		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
+		navigaAggregata.setIdAreaIntervento("0");		
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		
+    }
 	
 	protected String createJsonStringFromModelAttribute(NavigaAggregata filtro){
 		ObjectMapper mapper= new ObjectMapper();

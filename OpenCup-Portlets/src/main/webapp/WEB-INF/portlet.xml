@@ -85,8 +85,14 @@
             <qname xmlns:publishName="http:eventAccediClassificazione/events">
             	publishName:event.accediClassificazione
             </qname>
+       	</supported-processing-event>
+	
+		<supported-processing-event>
+            <qname xmlns:publishName="http:eventAccediLocalizzazione/events">
+            	publishName:event.accediLocalizzazione
+            </qname>
        </supported-processing-event>
-		
+       
 	</portlet>
 	
 	<portlet id="pie-chart-portlet">
@@ -129,12 +135,18 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 		
+		<supported-processing-event>
+            <qname xmlns:publishName="http:eventAccediLocalizzazione/events">
+            	publishName:event.accediLocalizzazione
+            </qname>
+       </supported-processing-event>
+       
 		<supported-publishing-event>
           <qname xmlns:publishName="http:eventAccediClassificazione/events">
              publishName:event.accediClassificazione
           </qname>
        </supported-publishing-event>
-		
+
 	</portlet>
 	
 	<portlet id="classificazione-portlet1">
@@ -550,8 +562,8 @@
 		</security-role-ref>
 		
 		<supported-publishing-event>
-          <qname xmlns:publishName="http:eventAccediClassificazione/events">
-             publishName:event.accediClassificazione
+          <qname xmlns:publishName="http:eventAccediLocalizzazione/events">
+             publishName:event.accediLocalizzazione
           </qname>
        </supported-publishing-event>
 
@@ -832,6 +844,13 @@
 	<event-definition>
 		<qname xmlns:publishName="http:eventAccediClassificazione/events">
 			publishName:event.accediClassificazione
+		</qname>
+		<value-type>valueobject.Name</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:publishName="http:eventAccediLocalizzazione/events">
+			publishName:event.accediLocalizzazione
 		</qname>
 		<value-type>valueobject.Name</value-type>
 	</event-definition>

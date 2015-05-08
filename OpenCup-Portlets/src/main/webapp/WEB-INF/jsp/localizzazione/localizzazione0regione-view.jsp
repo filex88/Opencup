@@ -125,6 +125,10 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	var namespaceRicerca = "<portlet:namespace/>";
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	var dimension = "${pattern}";
+	var areaGEOSel="${areaGEO}";
+	var regioneSel="${codRegione}";
+	
+	console.log( regioneSel );
 	
 	var baseColor1 = "#b2c6ff";
 	var baseColor2 = "#4472fb";
@@ -153,7 +157,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	}
 
 	d3.select("#container-localizzazione")
-	.style("border-left","10px solid "+fillColor);
+	.style("border-left", "10px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){
@@ -199,7 +203,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 
 	// scala colori in base a valori calcolati
 	var color = d3.scale.linear().domain([minData, midData, maxData]).range([baseColor1, baseColor2, baseColor3]);
-
+	
 	function drawGraphTerritori(dimension, calculated_json){
 
 		var width = 450,
@@ -210,26 +214,25 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	    smallrectH=50;
 
 		var svg = d3.select("#italybymacroareas").append("svg")
-	   	 	.attr("width", width)
+	    	.attr("width", width)
 	    	.attr("height", height)
-	   		.attr("border",border)
-			.attr("class",".italybymacroareassvg");
-	   	
-	   	var borderPath = svg.append("rect")
+	   		.attr("border",border);
+   	
+   		var borderPath = svg.append("rect")
 			.attr("height", height)
 	       	.attr("width", width)
 	       	.style("stroke", bordercolor)
 	       	.style("fill", "none")
 	       	.style("stroke-width", border);
-
-	   	d3.json("/OpenCup-Theme-theme/js/italy_macroareas.json", 
+	   	
+	   	d3.json("/OpenCup-Theme-theme/js/area_"+areaGEOSel+".json", 
 	   	function(error, it) {
 		
-	   		var territory_topojson=it.objects.sub.geometries;
-		
+	   		var territory_topojson = it.objects.sub.geometries;
+	   		
 			// unisco i dati
 			for (var i=0;i < territory_topojson.length;i++){
-				var label_toposon=territory_topojson[i].properties.TERR;
+				var label_toposon=territory_topojson[i].properties.COD_PRO;
 				for (var j=0;j<calculated_json.length;j++){
 					if (label_toposon==calculated_json[j].localizationLabel){
 						var valore_volume=calculated_json[j].volumeValue;
@@ -246,26 +249,36 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			}
 
 			var projection = d3.geo.albers()
-		        .center([0, 41])
-		        .rotate([347, 0])
-		        .parallels([35, 45])
-		        .scale(2000)
-		        .translate([width / 2, height / 2]);
-	 
-		    var path = d3.geo.path()
-		        .projection(projection);
+	        	.center([0, 41])
+	        	.rotate([347, 0])
+	       	 	.parallels([35, 45])
+	        	.scale(2000)
+	        	.translate([width / 2, height / 2]);
+ 
+	    	var path = d3.geo.path()
+	        	.projection(projection);
 	    
-		    svg.append("g").attr("id","territorioSel");
+	    	svg.append("g")
+	    		.attr("id","regioneSel")
+	    		.attr("class","elementoCartina");
 	     
-		    svg.selectAll("g")
-		    	.selectAll("path")
-		    	.data(topojson.feature(it, it.objects.sub).features)
-		    	.enter()
-		    	.append("path")
+	    	svg.selectAll("g")
+	    		.selectAll("path")
+	    		.data(topojson.feature(it, it.objects.sub).features)
+	     		.enter()
+	     		.append("path")
 		    	.attr("data_linkURL", function (d){ return d.properties.LINK })
-		    	.attr("class",function(d) { return "link-url-naviga-dettaglio terr-code-" + d.properties.TERR + " " + d.properties.TERR; })
+		    	.attr("class",function(d) { 
+		    		var retval = "";
+		    		if(	regioneSel == d.properties.COD_REG ){
+		    			retval = "link-url-naviga-dettaglio terr-code-" + d.properties.COD_PRO + " " + d.properties.COD_PRO;
+		    		}else{	
+		    			retval = retval + " notIncluded"
+		    		}
+		    		return retval; 
+		    	})
 		    	.attr("d",path)
-		    	.attr ("id",function(d) { return d.properties.ID_REG_TER; })
+		    	.attr ("id",function(d) { return d.properties.COD_PRO; })
 				.on("click", function(d){
 				
 					return null;
@@ -288,7 +301,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 					
 					svg.selectAll("path").style("fill", function (d){
 	    				var retValColor = "#fff";
-	    				if (d.properties.TERR==a.properties.TERR){
+	    				if (d.properties.COD_PRO==a.properties.COD_PRO){
 	    					if( dimension=='VOLUME'){
 	    						retValColor = "#d27900";
 	    					}else if(dimension=='COSTO'){
@@ -297,19 +310,19 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	    						retValColor = "#005500";
 	    					}
 	    					
-	    					var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + a.properties.TERR;
+	    					var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + a.properties.COD_PRO;
 		    				var circle = d3.select(legend_circle_class);
 		    				circle.style("fill", retValColor);
 		    				
-		    				var legend_class = ".legend-Legend1Territori-cod-" + a.properties.TERR;
+		    				var legend_class = ".legend-Legend1Territori-cod-" + a.properties.COD_PRO;
 		    				var legend = d3.select(legend_class);
 		    				legend.style("fill", retValColor);
 		    				
-		    				var histogram_class = ".histogram-Histogram1Territori-cod-" + a.properties.TERR;
+		    				var histogram_class = ".histogram-Histogram1Territori-cod-" + a.properties.COD_PRO;
 		    				var histogram = d3.select(histogram_class);
 		    				histogram.style("fill", retValColor);
 		    				
-		    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + a.properties.TERR;
+		    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + a.properties.COD_PRO;
 		    				var histogram_legend = d3.select(histogram_legend_class);
 		    				histogram_legend.style("fill", retValColor);
 		    				
@@ -326,11 +339,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	    			});
 				})
 				.on("mouseout", function(a){
-					
 					var ele = d3.select(this);
 					ele.style('cursor','default');
-					
-					svg.selectAll("."+a.properties.TERR).style("fill", function(d){
+					svg.selectAll(".terr-code-"+a.properties.COD_PRO).style("fill", function(d){
 						var retValColor = "#fff";
 						if( dimension=='VOLUME' && typeof d.properties.VALORE_VOLUME!=="undefined"){
 	    						retValColor = color(d.properties.VALORE_VOLUME);
@@ -338,29 +349,60 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 								retValColor = color(d.properties.VALORE_COSTO);
 						}else if (typeof d.properties.VALORE_IMPORTO!=="undefined"){
 								retValColor = color(d.properties.VALORE_IMPORTO);
-						}
-						
-						var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + a.properties.TERR;
+						}	
+						var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + a.properties.COD_PRO;
 	    				var circle = d3.select(legend_circle_class);
 	    				circle.style("fill", retValColor);
 	    				
-	    				var legend_class = ".legend-Legend1Territori-cod-" + a.properties.TERR;
+	    				var legend_class = ".legend-Legend1Territori-cod-" + a.properties.COD_PRO;
 	    				var legend = d3.select(legend_class);
 	    				legend.style("fill", textColor);
 						
-	    				var histogram_class = ".histogram-Histogram1Territori-cod-" + a.properties.TERR;
+	    				var histogram_class = ".histogram-Histogram1Territori-cod-" + a.properties.COD_PRO;
 	    				var histogram = d3.select(histogram_class);
 	    				histogram.style("fill", retValColor);
 	    				
-	    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + a.properties.TERR;
+	    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + a.properties.COD_PRO;
 	    				var histogram_legend = d3.select(histogram_legend_class);
 	    				histogram_legend.style("fill", textColor);
 	    				
 						return retValColor;
 					});
 	    		});
+	    	
+	    		svg.selectAll(".notIncluded").remove();
+	    	
+	    		var selection = d3.select('.elementoCartina');
+	    	   	
+	    		// trovo coordinate quadrato che circonda la selezione  
+	    		var currentX=selection[0][0].getBBox().x;
+	    		var currentY=selection[0][0].getBBox().y;
+	    		var currentW=selection[0][0].getBBox().width;
+	    		var currentH=selection[0][0].getBBox().height;
+
+	    		// calcolo spostamenti per portare il riferimento su angolo superiore sx (ossia sottraggo ascissa e ordinata)
+	    		var xFirstTranslation=-currentX;
+	    		var yFirstTranslation=-currentY;
+
+
+	    		// dopo aver scalato sposto al centro il g contenitore
+	    		var maxScale=6;
+
+	    		var xSecondTranslation=(width/2)-(currentW*(maxScale/2));
+	    		 	var ySecondTranslation=(height/2)-(currentH*(maxScale/2));
+
+	    		//lo shape del veneto risulta piu' lungo e deve essere centrato manualmente veneto =150y x60
+	    		if (regioneSel=='05'){
+	    			xSecondTranslation+=60;
+	    			ySecondTranslation+=150;
+	    		}
+	    		
+	    		// sposta all'angolo, poi quintuplica, poi sposta al centro
+	    		selection.attr("transform", "translate("+xSecondTranslation+","+10+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
+	    			var newBorder=border/maxScale;
+	    		selection.style("stroke-width", newBorder);
+
    			});
-		
 	}
 	
 	function switchColor(identificativo, coloreGrafico, coloreTesto){
@@ -387,6 +429,28 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			return coloreGrafico;
 		});
 		
+	}
+	
+	syncMouseOverDrawBar = function(d, i){
+		var ele = d3.select(this);
+		ele.style('cursor','pointer');
+		
+		if( dimension=='VOLUME'){
+			retValColor = "#d27900";
+		}else if(dimension=='COSTO'){
+			retValColor = "#950047";
+		}else{
+			retValColor = "#005500";
+		}
+		switchColor(dataSet[i].localizationLabel, retValColor, retValColor);
+	}
+	
+	syncMouseOutDrawBar = function(d, i){
+		var ele = d3.select(this);
+		ele.style('cursor','default');
+		
+		var retValColor = color(d);
+		switchColor(dataSet[i].localizationLabel, retValColor, textColor);
 	}
 	
 	syncMouseOver = function(a){
@@ -545,27 +609,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		    .attr("width", x)
 		    .attr("height", barHeight - 10)
 		    .attr("data_linkURL", function (d, i){ return dataSet[i].detailUrl })
-		    .on("mouseover", function(d, i){
-				
-				var ele = d3.select(this);
-				ele.style('cursor','pointer');
-				
-				if( dimension=='VOLUME'){
-					retValColor = "#d27900";
-				}else if(dimension=='COSTO'){
-					retValColor = "#950047";
-				}else{
-					retValColor = "#005500";
-				}
-				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, retValColor);
-			} )
-			.on("mouseout", function(d, i){
-				var ele = d3.select(this);
-				ele.style('cursor','default');
-				
-				var retValColor = color(d);
-				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, textColor);
-			} );
+		    .on("mouseover", syncMouseOverDrawBar )
+			.on("mouseout", syncMouseOutDrawBar );
 		
 		// Draw labels
 		bar.append("text")
@@ -579,27 +624,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 				return nFormatter(d);
 			})
 			.attr("data_linkURL", function (d, i){ return dataSet[i].detailUrl })
-		   	.on("mouseover", function(d, i){
-				
-				var ele = d3.select(this);
-				ele.style('cursor','pointer');
-				
-				if( dimension=='VOLUME'){
-					retValColor = "#d27900";
-				}else if(dimension=='COSTO'){
-					retValColor = "#950047";
-				}else{
-					retValColor = "#005500";
-				}
-				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, retValColor);
-			} )
-			.on("mouseout", function(d, i){
-				var ele = d3.select(this);
-				ele.style('cursor','default');
-				
-				var retValColor = color(d);
-				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, textColor);
-			} );
+		   	.on("mouseover", syncMouseOverDrawBar )
+			.on("mouseout", syncMouseOutDrawBar );
 	};
 
 	function formatEuro(number){

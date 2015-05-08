@@ -19,33 +19,33 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	<c:if test="${ config.mostraPulsanti }">
 		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
-				<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+				<div class="btn-carica-distribuzione volume-color volume-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">
 						PROGETTI
 					</aui:a>
 				</div>
 				<c:if test='${pattern eq "VOLUME"}'>
-					<div class="arrow-down-volume"></div>
+					<div class="arrow-down-volume arrow-down-volume-pie"></div>
 				</c:if>
 			</div>
 			<div class="span2">	
-				<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+				<div class="btn-carica-distribuzione costo-color costo-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="COSTO">
 					<aui:a href="#" onClick="return false" cssClass="block">
 						COSTO
 					</aui:a>
 				</div>
 				<c:if test='${pattern eq "COSTO"}'>
-					<div class="arrow-down-costo"></div>
+					<div class="arrow-down-costo arrow-down-costo-pie"></div>
 				</c:if>
 			</div>
 			<div class="span2">	
-				<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+				<div class="btn-carica-distribuzione importo-color importo-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="IMPORTO">
 					<aui:a href="#" onClick="return false" cssClass="block">
 						IMPORTO
 					</aui:a>
 				</div>
 				<c:if test='${pattern eq "IMPORTO"}'>
-					<div class="arrow-down-importo"></div>
+					<div class="arrow-down-importo arrow-down-importo-pie"></div>
 				</c:if>
 			</div>
 			<div class="clear"></div>
@@ -71,7 +71,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 						<div class="span3" id="histogramChart">
 							<svg class="chart-bar"></svg>
 						</div>
-					</div>
+					</div> 
 				</div>
 			</div>
 		</div>
@@ -97,12 +97,12 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	<form 
 		action="${urlActionVar}" 
 		method="post" 
-		name="naviga-form" 
-		class="naviga-form"
-		id="naviga-form"
+		name="naviga-form-pie" 
+		class="naviga-form-pie"
+		id="naviga-form-pie"
 		style="display: none;">
 	
-			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
+			<aui:input cssClass="pattern-pie" type="hidden" name="pattern" value="${pattern}" id="pattern-pie" />
 			<aui:input type="hidden" bean="navigaAggregata" name="pagAggregata" value="${navigaAggregata.pagAggregata}" id="pagAggregata" />
 	
 			<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
@@ -187,34 +187,39 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		var arc = d3.select(this);
 		
 		if(selezionabile){
+			
 			arc.style('cursor','default');
-		}
 		
-		var indexValue = arc.attr("index_value");
-		var label = arc.attr("data_label");
-		var percentage = arc.attr("data_percentage");
-		var value = arc.attr("data_value");
-	
-		var pieArcSelector = "." + "pie-" + "Pie1" + "-arc-" + indexValue;
-		var pieSelectedArc = d3.selectAll(pieArcSelector);
-		pieSelectedArc.style("fill", fillColor);
-		
-		var histogramArcSelector = "." + "histogram-" + "Histogram1" + "-arc-" + indexValue;
-		var histogramSelectedArc = d3.selectAll(histogramArcSelector);
-		histogramSelectedArc.style("fill", fillColor);
-		
-		var histogramLabelSelector = "." + "histogram-" + "Histogram1" + "-label-" + indexValue;
-		var histogramSelectedLabel = d3.selectAll(histogramLabelSelector);
-		histogramSelectedLabel.style("fill", fillColor);
-		
-		var legendBulletSelector = "." + "legend-" + "Legend1" + "-legendBullet-" + indexValue;
-		var legendBulletSelected = d3.selectAll(legendBulletSelector);
-		legendBulletSelected.style("fill", fillColor);
-		
-		var legendTextSelector = "." + "legend-" + "Legend1" + "-legendText-" + indexValue;
-		var legendTextSelected = d3.selectAll(legendTextSelector);
-		legendTextSelected.style("fill", fillColor);
+		}else{
 
+			arc.style('cursor','pointer');
+			
+			var indexValue = arc.attr("index_value");
+			var label = arc.attr("data_label");
+			var percentage = arc.attr("data_percentage");
+			var value = arc.attr("data_value");
+		
+			var pieArcSelector = "." + "pie-" + "Pie1" + "-arc-" + indexValue;
+			var pieSelectedArc = d3.selectAll(pieArcSelector);
+			pieSelectedArc.style("fill", fillColor);
+			
+			var histogramArcSelector = "." + "histogram-" + "Histogram1" + "-arc-" + indexValue;
+			var histogramSelectedArc = d3.selectAll(histogramArcSelector);
+			histogramSelectedArc.style("fill", fillColor);
+			
+			var histogramLabelSelector = "." + "histogram-" + "Histogram1" + "-label-" + indexValue;
+			var histogramSelectedLabel = d3.selectAll(histogramLabelSelector);
+			histogramSelectedLabel.style("fill", fillColor);
+			
+			var legendBulletSelector = "." + "legend-" + "Legend1" + "-legendBullet-" + indexValue;
+			var legendBulletSelected = d3.selectAll(legendBulletSelector);
+			legendBulletSelected.style("fill", fillColor);
+			
+			var legendTextSelector = "." + "legend-" + "Legend1" + "-legendText-" + indexValue;
+			var legendTextSelected = d3.selectAll(legendTextSelector);
+			
+			legendTextSelected.style("fill", fillColor);
+		}
 //		//Update the tooltip
 //		var tooltip = d3.select("#tooltip-pie-chart");
 //			
@@ -378,10 +383,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		// with a selection. The result is creating a <g> for every object in the data array
 		// Create a group to hold each slice (we will have a <path> and a <text>      // element associated with each slice)
 		.enter()
+		/*
 		.append("svg:a")
 		.attr("xlink:href", function(d) {
 			return "#"; //d.data.linkURL;
-		}).on('onclick',  function() {return false;})
+		})
+		.on('onclick',  function() {return false;})
+		*/
 		.append("svg:g").attr("class", "slice") //allow us to style things in the slices (like text)
 		// Set the color for each slice to be chosen from the color function defined above
 		// This creates the actual SVG path using the associated data (pie) with the arc drawing function
@@ -400,7 +408,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
 		
-		.attr("class", function(d, i) { return "link-url-naviga-dettaglio pie-" + pieName + "-arc-index-" + i; })
+		.attr("class", function(d, i) { 
+			retval = "pie-" + pieName + "-arc-index-" + i;
+			if(!selezionabile){
+				retval = retval + " link-url-naviga-pie";
+			}
+			return retval;
+		})
 		.style("stroke", "White")
 		.attr("d", arc)
 		.on('mouseover', synchronizedMouseOver)
@@ -434,8 +448,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
-		.attr("class", function(d, i) { return "link-url-naviga-dettaglio pie-" + pieName + "-perc-index-" + i; })
-		
+		.attr("class", function(d, i) { 
+			retval = "pie-" + pieName + "-perc-index-" + i;
+			if(!selezionabile){
+				retval = retval + " link-url-naviga-pie";
+			}
+			return retval;
+		 })
 		.style("fill", "White")
 		.style("font", "normal 18px Arial")
 		//.style("cursor", function(){
@@ -497,10 +516,12 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		var bar = chart.selectAll("g")
 		    .data(zippedData)
 		    .enter()
-			.append("svg:a")
+			/*
+		    .append("svg:a")
 			.attr("xlink:href", function(d) {
 				return "#"; //d.data.linkURL;
 			}).on('onclick',  function() {return false;})
+			*/
 			.append("g")
 		    .attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 			.attr("index_value", function(d, i) { return "index-" + i; })
@@ -510,9 +531,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			.attr("data_value", function(d, i) { return dataSet[i].value })
 			.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 			.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
-			
-			.attr("class", "link-url-naviga-dettaglio")
-			
+			.attr("class", function(d, i) { 
+				retval = "";
+				if(!selezionabile){
+					retval = retval + " link-url-naviga-pie";
+				}
+				return retval;
+			 })
 			.on('mouseover', synchronizedMouseOver)
 			.on("mouseout", synchronizedMouseOut)
 			
@@ -570,10 +595,12 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		canvas.selectAll("circle")
 		.data(dataSet)
 		.enter()
+		/*
 		.append("svg:a")
 		.attr("xlink:href", function(d) {
 			return "#"; //d.data.linkURL;
 		}).on('onclick',  function() {return false;})
+		*/
 		.append("svg:circle") // Append circle elements
 		
 		.attr("cx", widthTotal)
@@ -591,21 +618,29 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("stroke-width", ".5").style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
 		.attr("r", 5).attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-" + i; })
-		.attr("class", function(d, i) { return "link-url-naviga-dettaglio legend-" + legendName + "-legendBullet-index-" + i; })
+		.attr("class", function(d, i) { 
+			retval = "legend-" + legendName + "-legendBullet-index-" + i;
+			if(!selezionabile){
+				retval = retval + " link-url-naviga-pie";
+			}
+			return retval;
+		 })
 		.on('mouseover', synchronizedMouseOver)
 		.on("mouseout", synchronizedMouseOut);
 		
 		
 		// Create hyper linked text at right that acts as label key...
-        canvas.selectAll("a.legend_link")
+        canvas.selectAll(".legend_link")
 		.data(dataSet) // Instruct to bind dataSet to text elements
 		.enter()
+		/*
 		.append("svg:a") // Append legend elements
 		.attr("xlink:href", function(d) { 
 			//return d.linkURL; 
 			return "#";
 		})
 		.on('mouseclick', function(){ return false;})
+		*/
 		.append("text")
 		.attr("text-anchor", "center")
 		.attr("x", widthTotal + 20)
@@ -624,9 +659,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
-			
-        .attr("class", function(d, i) { return "link-url-naviga-dettaglio label legend-" + legendName + "-legendText-index-" + i; })
-		
+		.attr("class", function(d, i) { 
+			retval = "label legend-" + legendName + "-legendText-index-" + i;
+			if(!selezionabile){
+				retval = retval + " link-url-naviga-pie";
+			}
+			return retval;
+		 })
         .style("fill", textColor)
         .style("font-size", "1.8em")
         .on('mouseover', synchronizedMouseOver)
@@ -635,7 +674,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
         .text(function(d) { return d.label; });
 		
 	};
-	
+/*
 	function createEventMouseOver(divElementRef){
 		
 		var SVGRoot = d3.select( divElementRef ).select('svg')[0][0];
@@ -654,7 +693,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			return pt.matrixTransform(SVGRoot.getScreenCTM().inverse());
 		}
 	};
-	
+*/	
 	var margin = 10;
 	var outerRadius = 130;
 	
@@ -674,40 +713,40 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	       		A.Get.script('${jsFolder}/bootstrap.min.js', {
 	       			onSuccess: function(){	
 	       				
-	       				$(".volume-color").mouseover(function() { 
-	       					$(".arrow-down-volume").css('border-top','10px solid #d27900'); 
+	       				$(".volume-color-pie").mouseover(function() { 
+	       					$(".arrow-down-volume-pie").css('border-top','10px solid #d27900'); 
 	       				});
-	       				$(".volume-color").mouseout(function() { 
-	       					$(".arrow-down-volume").css('border-top','10px solid #f08c00'); 
-	       				});
-	       				
-	       				$(".costo-color").mouseover(function() { 
-	       					$(".arrow-down-costo").css('border-top','10px solid #950047'); 
-	       				});
-	       				$(".costo-color").mouseout(function() { 
-	       					$(".arrow-down-costo").css('border-top','10px solid #c90061'); 
+	       				$(".volume-color-pie").mouseout(function() { 
+	       					$(".arrow-down-volume-pie").css('border-top','10px solid #f08c00'); 
 	       				});
 	       				
-	       				$(".importo-color").mouseover(function() { 
-	       					$(".arrow-down-importo").css('border-top','10px solid #005500'); 
+	       				$(".costo-color-pie").mouseover(function() { 
+	       					$(".arrow-down-costo-pie").css('border-top','10px solid #950047'); 
 	       				});
-	       				$(".importo-color").mouseout(function() { 
-	       					$(".arrow-down-importo").css('border-top','10px solid #009600'); 
+	       				$(".costo-color-pie").mouseout(function() { 
+	       					$(".arrow-down-costo-pie").css('border-top','10px solid #c90061'); 
 	       				});
 	       				
-	       				$( ".sel-type-btn" ).click(function() {
+	       				$(".importo-color-pie").mouseover(function() { 
+	       					$(".arrow-down-importo-pie").css('border-top','10px solid #005500'); 
+	       				});
+	       				$(".importo-color-pie").mouseout(function() { 
+	       					$(".arrow-down-importo-pie").css('border-top','10px solid #009600'); 
+	       				});
+	       				
+	       				$( ".sel-type-btn-pie" ).click(function() {
        						var arc = d3.select(this);
 	       					var distribuzione = arc.attr("data-distribuzione");
-	       					$( ".pattern" ).val(distribuzione);
-	       					$( ".naviga-form" ).submit();
+	       					$( ".pattern-pie" ).val(distribuzione);
+	       					$( ".naviga-form-pie" ).submit();
 	       				});
 	       				
-	       				$( ".link-url-naviga-dettaglio" ).click(function() {
+	       				$( ".link-url-naviga-pie" ).click(function() {
 	       					if(!selezionabile){
 	       						var arc = d3.select(this);
 		       					var data_linkURL = arc.attr("data_linkURL");
-		       					$( ".naviga-form" ).attr("action", data_linkURL);
-		       					$( ".naviga-form" ).submit();
+		       					$( ".naviga-form-pie" ).attr("action", data_linkURL);
+		       					$( ".naviga-form-pie" ).submit();
 	       					}
 	       				});
 	       				
