@@ -111,8 +111,27 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
 			
 	</form>
-
 </div>
+
+<portlet:actionURL var="urlActionVar">
+   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
+</portlet:actionURL>
+
+<form 
+	action="${urlActionVar}" 
+	method="post" 
+	name="naviga-form" 
+	class="naviga-form"
+	id="naviga-form">
+
+		<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
+
+		<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
+		<aui:input type="hidden" bean="navigaAggregata" name="idAreaIntervento" value="${navigaAggregata.idAreaIntervento}" id="idAreaIntervento" />
+		<aui:input type="hidden" bean="navigaAggregata" name="idSottosettoreIntervento" value="${navigaAggregata.idSottosettoreIntervento}" id="idSottosettoreIntervento" />
+		<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
+	
+</form>
 
 <script type="text/javascript">
 
@@ -123,7 +142,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	var selezionabile = ! ${config.selezionabile};
 	
 	//var segments = [ "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3" ];
-	
 	var baseColor1 = "#b2c6ff";
 	var baseColor2 = "#4472fb";
 	var baseColor3 = "#0932a3";
@@ -172,6 +190,10 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	    }
 	    return num;
 	}
+	//var colorScale = d3.scale.ordinal().range(segments);
+
+	
+	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	
 	String.prototype.trunc =
 	     function(n,useWordBoundary){
@@ -191,9 +213,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			arc.style('cursor','default');
 		
 		}else{
-
 			arc.style('cursor','pointer');
-			
+
 			var indexValue = arc.attr("index_value");
 			var label = arc.attr("data_label");
 			var percentage = arc.attr("data_percentage");
@@ -407,7 +428,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
-		
 		.attr("class", function(d, i) { 
 			retval = "pie-" + pieName + "-arc-index-" + i;
 			if(!selezionabile){
@@ -696,7 +716,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 */	
 	var margin = 10;
 	var outerRadius = 130;
-	
 	pie = drawPie("Pie1", dataSet1, ".pie_chart_1", "segments", margin, outerRadius, 0, 0);
 	
 	legend = drawLegend("#chartLegend", "Legend1", dataSet1);
@@ -712,7 +731,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	       	onSuccess: function(){
 	       		A.Get.script('${jsFolder}/bootstrap.min.js', {
 	       			onSuccess: function(){	
-	       				
+
 	       				$(".volume-color-pie").mouseover(function() { 
 	       					$(".arrow-down-volume-pie").css('border-top','10px solid #d27900'); 
 	       				});
