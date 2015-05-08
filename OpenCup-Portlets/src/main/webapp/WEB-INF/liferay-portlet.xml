@@ -143,10 +143,12 @@
 	</portlet>
 	
 	<portlet>
-		<portlet-name>ricercarisultati-portlet</portlet-name>
+		<portlet-name>ricerca-configurazione-portlet</portlet-name>
 		<icon>/icon.png</icon>
+		<control-panel-entry-category>site_administration.content</control-panel-entry-category>
+		<control-panel-entry-weight>1.5</control-panel-entry-weight>
 		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/ricercarisultati-portlet.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/ricerca-configurazione-portlet.js</footer-portlet-javascript>
 		<css-class-wrapper>ricercarisultati-portlet</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
 	</portlet>

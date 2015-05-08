@@ -204,5 +204,7 @@
 	 
 	 
 	<bean class="it.dipe.opencup.utils.SpringContextUtil" /> 
+	
+	<bean id="progettoIndicizzatoreMessageListener" class="it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener" />
 	 
 </beans>

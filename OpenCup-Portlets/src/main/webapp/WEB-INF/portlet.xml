@@ -790,24 +790,24 @@
 		</supported-publishing-event>
 	</portlet>
 	
-	<portlet id="ricercarisultati-portlet">
-		<portlet-name>ricercarisultati-portlet</portlet-name>
-		<display-name>Ricerca Risultati</display-name>
+	<portlet id="ricerca-configurazione-portlet">
+		<portlet-name>ricerca-configurazione-portlet</portlet-name>
+		<display-name>Configurazione Ricerca</display-name>
 
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ricercarisultati-portlet.xml</value>
+			<value>/WEB-INF/ricerca-configurazione-portlet.xml</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
-		<resource-bundle>RicercaRisultati-language</resource-bundle>
+		<resource-bundle>RicercaConfigurazione-language</resource-bundle>
 		<portlet-info>
-			<title>Ricerca Risultati</title>
+			<title>Configurazione Ricerca</title>
 			<short-title></short-title>
-			<keywords>Ricerca Risultati</keywords>
+			<keywords>Configurazione Ricerca</keywords>
 		</portlet-info>
 		<portlet-preferences>
 			<preference>
@@ -827,11 +827,6 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
-		<supported-processing-event>
-			<qname xmlns:publishName="http:risultatiRicerca/events">publishName:event.risultatiRicerca</qname>
-		</supported-processing-event>
-		
 	</portlet>	
 	
 	<event-definition>

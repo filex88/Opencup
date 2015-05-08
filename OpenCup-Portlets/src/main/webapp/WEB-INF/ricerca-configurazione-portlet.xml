@@ -19,11 +19,11 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 	  		value="org.springframework.web.servlet.view.InternalResourceView" />
-		<property name="prefix" value="/WEB-INF/jsp/ricercarisultati/" />
+		<property name="prefix" value="/WEB-INF/jsp/ricercalibera/" />
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
 		
 
-	<bean class="it.dipe.opencup.controllers.RicercaRisultatiPortletController" />
+	<bean class="it.dipe.opencup.controllers.RicercaConfigurazionePortletController" />
 </beans>
