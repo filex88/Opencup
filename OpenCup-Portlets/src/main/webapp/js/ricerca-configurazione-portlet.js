@@ -6,4 +6,5 @@ AUI().use(
 		'aui-toggler',
 		function( A ) {
 			
-		});
+		}
+);

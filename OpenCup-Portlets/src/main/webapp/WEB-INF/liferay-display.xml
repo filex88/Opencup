@@ -18,4 +18,7 @@
 		<portlet id="ricercalibera-portlet" />
 		<portlet id="ricercarisultati-portlet" />
 	</category>
+	<category name="category.hidden">
+		<portlet id="ricerca-configurazione-portlet" />
+	</category>
 </display>
