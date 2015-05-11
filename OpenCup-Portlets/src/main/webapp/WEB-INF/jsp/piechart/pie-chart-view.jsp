@@ -113,26 +113,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	</form>
 </div>
 
-<portlet:actionURL var="urlActionVar">
-   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
-</portlet:actionURL>
-
-<form 
-	action="${urlActionVar}" 
-	method="post" 
-	name="naviga-form" 
-	class="naviga-form"
-	id="naviga-form">
-
-		<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
-
-		<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
-		<aui:input type="hidden" bean="navigaAggregata" name="idAreaIntervento" value="${navigaAggregata.idAreaIntervento}" id="idAreaIntervento" />
-		<aui:input type="hidden" bean="navigaAggregata" name="idSottosettoreIntervento" value="${navigaAggregata.idSottosettoreIntervento}" id="idSottosettoreIntervento" />
-		<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
-	
-</form>
-
 <script type="text/javascript">
 
 	var dataSet = ${aggregati4Pie};
