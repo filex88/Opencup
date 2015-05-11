@@ -267,7 +267,15 @@ public class PieChartPortletController {
                				Model model) throws CloneNotSupportedException {
 		
 		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
+		
 		navigaAggregata.setIdAreaIntervento("0");		
+		if( "0".equals(navigaAggregata.getIdRegione()) ){
+			navigaAggregata.setIdRegione("-1");
+		}
+		if( "0".equals(navigaAggregata.getIdProvincia()) ){
+			navigaAggregata.setIdProvincia("-1");
+		}
+
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
     }

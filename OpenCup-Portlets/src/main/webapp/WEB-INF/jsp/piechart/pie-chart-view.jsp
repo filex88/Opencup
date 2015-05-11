@@ -65,14 +65,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			<div class="row chart-div">
 				<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="height: 260px">
 				</div>
-				<div style="overflow-y: auto; height: 260px ">
-					<div>
-						<div class="span5" id="chartLegend"></div>
-						<div class="span3" id="histogramChart">
-							<svg class="chart-bar"></svg>
-						</div>
-					</div> 
-				</div>
+				<div class="span4" id="chartLegendPie"></div>
+				<div class="span4" id="histogramChartPie"></div>
 			</div>
 		</div>
 		
@@ -508,7 +502,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		    .orient("left");
 
 		// Specify the chart area and dimensions
-		var chart = d3.select(chartName)
+		
+		var chart = d3.select(chartName).append("svg:svg")
 		    .attr("width", spaceForLabels + chartWidth)
 		    .attr("height", chartHeight);
 
@@ -564,7 +559,14 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		// Draw labels
 		bar.append("text")
 		   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
-		   .attr("x", function(d) { return - 10; })
+		   .attr("x", 
+				function(d, i) { 
+					var delta = 60;
+					if(nFormatter( d ).length > 6){
+						delta = nFormatter( d ).length * 10
+					}
+					return - delta; 
+			})
 		   .attr("y", (barHeight-10) / 2)
 		   .attr("dy", ".25em")
 		   .style("fill", textColor)
@@ -585,7 +587,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		var textVerticalSpace = 20;
 		
 		var canvas = d3.select(divLegend).append("svg:svg")
-		    .attr("width", 800)
+		    .attr("width", 450)
 		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
 			
 		
@@ -698,14 +700,10 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	var outerRadius = 130;
 	pie = drawPie("Pie1", dataSet1, ".pie_chart_1", "segments", margin, outerRadius, 0, 0);
 	
-	legend = drawLegend("#chartLegend", "Legend1", dataSet1);
+	legend = drawLegend("#chartLegendPie", "Legend1", dataSet1);
 	
-	bar = drawBar(".chart-bar", "Histogram1", dataSet1);
+	bar = drawBar("#histogramChartPie", "Histogram1", dataSet1);
 	
-//	createEventMouseOver('#pie_chart_1');
-//	createEventMouseOver('#chartLegend');
-//	createEventMouseOver('#histogramChart');
-
 	AUI().use('get', function(A){
 	   A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
 	       	onSuccess: function(){

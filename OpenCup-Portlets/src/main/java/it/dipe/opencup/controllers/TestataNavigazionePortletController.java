@@ -75,8 +75,14 @@ public class TestataNavigazionePortletController {
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
 		
-		
-		
+		String url = themeDisplay.getURLCurrent();
+		String fileName = url.substring( url.lastIndexOf('/')+1, url.length() );		
+		if( fileName.lastIndexOf('?') > 0 ){
+			fileName = fileName.substring(0, fileName.lastIndexOf('?'));
+		}
+
+		model.addAttribute("pagNavigazioneLogo", fileName );
+
 		navigaAggregata.rimuoviZero();
 		
 		List<AggregataDTO> risultati = aggregataFacade.findAggregataByNatura(navigaAggregata);

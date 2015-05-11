@@ -180,7 +180,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 																			searchContainerElenco.getOrderByCol(), 
 																			searchContainerElenco.getOrderByType(),
 																			searchContainerElenco.getStart(), 
-																			searchContainerElenco.getEnd());
+																			delta);
 		
 		searchContainerElenco.setTotal(size);
 		searchContainerElenco.setResults(elencoProgetti);

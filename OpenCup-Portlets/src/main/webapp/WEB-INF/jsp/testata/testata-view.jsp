@@ -147,6 +147,10 @@
 	.attr("src",function(d){
 		var areaCorrente=d.desArea.split(/[\s,]+/);
 	 	var firstDesc=areaCorrente[0].toLowerCase();
+	 	if( firstDesc == 'tutte' ){
+	 		var appoUrl = "${imgFolder}/icona-${pagNavigazioneLogo}.svg"
+	 		console.log(appoUrl);
+	 	}
 	 	return "${imgFolder}/icona-"+firstDesc+".svg";
 	});
 
