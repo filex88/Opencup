@@ -13,382 +13,387 @@
 
 <style>
 	div.padding-dettaglio{padding:1em;}
+	div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 </style>
+
+
 
 <c:if test="${not empty dettProgetto}">
 
-	<fmt:formatDate value="${dettProgetto.anagraficaCup.dataGenerazione}" var="dataGenerazione" pattern="dd/MM/yyyy" />
+	<div class="stripe">
 	
-	<div>
-		<div class="span6">
-			<c:if test="${not empty returnUrl}">
-				<div class="indietro-div" style="float: left; height: 0px; padding-top: 20px; padding-left: 20px">
-					<div id="tasto-indietro" class="tasto-indietro cursor-pointer" style="border-radius: 10px;">
-						<a class="tasto-indietro-link" href="${returnUrl}" title="Indietro">
-						Indietro
-						<span><i class="icon-circle-arrow-left"></i></span></a>
+		<fmt:formatDate value="${dettProgetto.anagraficaCup.dataGenerazione}" var="dataGenerazione" pattern="dd/MM/yyyy" />
+		
+		<div>
+			<div class="span6">
+				<c:if test="${not empty returnUrl}">
+					<div class="indietro-div" style="float: left; height: 0px; padding-top: 20px; padding-left: 20px">
+						<div id="tasto-indietro" class="tasto-indietro cursor-pointer" style="border-radius: 10px;">
+							<a class="tasto-indietro-link" href="${returnUrl}" title="Indietro">
+							Indietro
+							<span><i class="icon-circle-arrow-left"></i></span></a>
+						</div>
+					</div>
+				</c:if>
+			</div>
+			<div class="span6">
+				<div class="invia-segnalazione-div" style="float: right; height: 0px; padding-top: 20px; padding-right: 20px">
+					<div id="invia-segnalazione" class="invia-segnalazione cursor-pointer" style="border-radius: 10px;">
+						Invia Segnalazione
+						<span><i class="icon-comment"></i></span>
 					</div>
 				</div>
-			</c:if>
-		</div>
-		<div class="span6">
-			<div class="invia-segnalazione-div" style="float: right; height: 0px; padding-top: 20px; padding-right: 20px">
-				<div id="invia-segnalazione" class="invia-segnalazione cursor-pointer" style="border-radius: 10px;">
-					Invia Segnalazione
-					<span><i class="icon-comment"></i></span>
-				</div>
 			</div>
+			<div class="clear"></div>
 		</div>
-		<div class="clear"></div>
-	</div>
 	
-	<div class="padding-dettaglio">
-		<span class="titolo">${ dettProgetto.anagraficaCup.descCup }</span>
-	</div>
-	
-	<div>
-		<div class="padding-dettaglio span6">
-		
-			<p>
-				<span class="dett-label">CUP:</span>
-				<span class="dett-value">${ dettProgetto.anagraficaCup.codiCup  }</span><br/>
-				<span class="dett-label">Data generazione:</span>
-				<span class="dett-value">${ dataGenerazione }</span><br/>
-				<span class="dett-label">Anno decisione:</span>
-				<span class="dett-value">${ dettProgetto.annoDecisione.annoDadeAnnoDecisione }</span><br/>
-				<span class="dett-label">Stato:</span>
-				<span class="dett-value">${ dettProgetto.statoProgetto.descDecodStatoProgetto }</span>
-			</p>
-			
-			<div class="row dett-titolo">
-				<span>LOCALIZZAZIONE DEL PROGETTO</span>
-			</div>
-						
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Comune:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.comuniProgetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Provincia:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.provinceProgetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Regione:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.regioneProgetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Stato:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>Italia</span>
-				</div>
-			</div>
-			
-			<div class="row dett-titolo">
-				<span>CLASSIFICAZIONE DEL PROGETTO</span>
-			</div>
-						
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Natura:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.natura.descNatura }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Tipo:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.tipologiaIntervento.descTipologiaIntervento }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Area:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.areaIntervento.descAreaIntervento }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Sottosettore:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.sottosettoreIntervento.descSottosettoreInt }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Categoria:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.categoriaIntervento.descCategoriaIntervento }</span>
-				</div>
-			</div>
-			
-			<div class="row dett-titolo">
-				<span>SOGGETTO TITOLARE</span>
-			</div>
-			
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Soggetto Titolare:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.soggettoTitolare.descSoggettoTitolare }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Area:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.areaSoggetto.descAreaSoggetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Categoria:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.soggettoTitolare.categoriaSoggetto.descCategoriaSoggetto }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Sotto-categoria:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.descSottocategSoggetto }</span>
-				</div>
-			</div>
-			
-			<div class="row dett-titolo">
-				<span>DATI DI DETTAGLIO</span>
-			</div>
-						
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Oggetto Progettale:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descStrutturaInfrast }</span>
-				</div>
-			</div>
-			
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Descrizione Intervento:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descCup }</span>
-				</div>
-			</div>
-			
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Indirizzo Intervento:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.textIndirizzo }</span>
-				</div>
-			</div>
-			
-			<div class="row dett-titolo">
-				<span>FINANZA DI PROGETTO</span>
-			</div>
-						
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Stato finanza di progetto:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descFinanzaProgetto }</span>
-				</div>
-			</div>
-			
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Sponzorizzazione:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descSponsorizzazioni }</span>
-				</div>
-			</div>
-			
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Tipologia copertura finanziaria:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descTipoCopertura }</span>
-				</div>
-			</div>
-			
-			
+		<div class="padding-dettaglio">
+			<span class="titolo">${ dettProgetto.anagraficaCup.descCup }</span>
 		</div>
-		
-		<div class="padding-dettaglio span6">
-		
-			<div class="row">
-				<div class="span4 offset2">
-					<div style="display: block; text-align: center; font-weight: bold; color: #f08c00; border-bottom: solid 2px #f08c00 !important; padding-bottom: 10px; font-size: 1.4em">
-						Costo
+	
+		<div>
+			<div class="padding-dettaglio span6">
+			
+				<p>
+					<span class="dett-label">CUP:</span>
+					<span class="dett-value">${ dettProgetto.anagraficaCup.codiCup  }</span><br/>
+					<span class="dett-label">Data generazione:</span>
+					<span class="dett-value">${ dataGenerazione }</span><br/>
+					<span class="dett-label">Anno decisione:</span>
+					<span class="dett-value">${ dettProgetto.annoDecisione.annoDadeAnnoDecisione }</span><br/>
+					<span class="dett-label">Stato:</span>
+					<span class="dett-value">${ dettProgetto.statoProgetto.descDecodStatoProgetto }</span>
+				</p>
+				
+				<div class="row dett-titolo">
+					<span>LOCALIZZAZIONE DEL PROGETTO</span>
+				</div>
+							
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Comune:</span>
 					</div>
-					<div style="display: block; text-align: center; font-weight: bold; color: #1f4e78; padding-top: 10px; padding-bottom: 15px">
-						<fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.comuniProgetto }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Provincia:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.provinceProgetto }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Regione:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.regioneProgetto }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Stato:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>Italia</span>
 					</div>
 				</div>
 				
-				<div class="span4">
-					<div style="display: block; text-align: center; font-weight: bold; color: #c90061; border-bottom: solid 2px #c90061 !important; padding-bottom: 10px; font-size: 1.4em">
-						Finanziamento Pubblico
+				<div class="row dett-titolo">
+					<span>CLASSIFICAZIONE DEL PROGETTO</span>
+				</div>
+							
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Natura:</span>
 					</div>
-					<div style="display: block; text-align: center; font-weight: bold; color: #1f4e78; padding-top: 10px; padding-bottom: 15px">
-						<fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.natura.descNatura }</span>
 					</div>
 				</div>
-				<div class="clear"></div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Tipo:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.tipologiaIntervento.descTipologiaIntervento }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Area:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.areaIntervento.descAreaIntervento }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Sottosettore:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.sottosettoreIntervento.descSottosettoreInt }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Categoria:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.categoriaIntervento.descCategoriaIntervento }</span>
+					</div>
+				</div>
+				
+				<div class="row dett-titolo">
+					<span>SOGGETTO TITOLARE</span>
+				</div>
+				
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Soggetto Titolare:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.soggettoTitolare.descSoggettoTitolare }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Area:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.areaSoggetto.descAreaSoggetto }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Categoria:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.soggettoTitolare.categoriaSoggetto.descCategoriaSoggetto }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Sotto-categoria:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.soggettoTitolare.sottocategoriaSoggetto.descSottocategSoggetto }</span>
+					</div>
+				</div>
+				
+				<div class="row dett-titolo">
+					<span>DATI DI DETTAGLIO</span>
+				</div>
+							
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Oggetto Progettale:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descStrutturaInfrast }</span>
+					</div>
+				</div>
+				
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Descrizione Intervento:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descCup }</span>
+					</div>
+				</div>
+				
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Indirizzo Intervento:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.textIndirizzo }</span>
+					</div>
+				</div>
+				
+				<div class="row dett-titolo">
+					<span>FINANZA DI PROGETTO</span>
+				</div>
+							
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Stato finanza di progetto:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descFinanzaProgetto }</span>
+					</div>
+				</div>
+				
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Sponzorizzazione:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descSponsorizzazioni }</span>
+					</div>
+				</div>
+				
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Tipologia copertura finanziaria:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descTipoCopertura }</span>
+					</div>
+				</div>
+
 			</div>
+		
+			<div class="padding-dettaglio span6">
+		
+				<div class="row">
+					<div class="span4 offset2">
+						<div style="display: block; text-align: center; font-weight: bold; color: #f08c00; border-bottom: solid 2px #f08c00 !important; padding-bottom: 10px; font-size: 1.4em">
+							Costo
+						</div>
+						<div style="display: block; text-align: center; font-weight: bold; color: #1f4e78; padding-top: 10px; padding-bottom: 15px">
+							<fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/>
+						</div>
+					</div>
+					
+					<div class="span4">
+						<div style="display: block; text-align: center; font-weight: bold; color: #c90061; border-bottom: solid 2px #c90061 !important; padding-bottom: 10px; font-size: 1.4em">
+							Finanziamento Pubblico
+						</div>
+						<div style="display: block; text-align: center; font-weight: bold; color: #1f4e78; padding-top: 10px; padding-bottom: 15px">
+							<fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
 			
-			<%-- 
-			<div>
-				<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
-					<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
-					<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
-					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
+				<%-- 
+				<div>
+					<div class="span4 offset2 dati_sitesi dati_sitesi_arancio">
+						<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
+						<div class="celle_dati_sitesi font-size1em">Costo Progetto</div>
+						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoCostoProgetto }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
+					</div>
+					<div class="span4 dati_sitesi dati_sitesi_lilla">
+						<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
+						<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
+						<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
+					</div>
+					<div class="clear"></div>
 				</div>
-				<div class="span4 dati_sitesi dati_sitesi_lilla">
-					<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
-					<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-					<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${ dettProgetto.impoImportoFinanziato }" type="currency" minIntegerDigits="1" maxFractionDigits="2"  minFractionDigits="2"/></div>
-				</div>
-				<div class="clear"></div>
-			</div>
-			--%>
-			<div class="row" style="text-align: center">
-				<div id="map-canvas"></div>
-				<c:choose>
-					<c:when test="${ 'S' eq multiLocalizzazione }">Progetto Multi-localizzato</c:when>
-				</c:choose>
-			</div>
-			
-			<div class="row dett-titolo">
-				<span>DATI AGGIUNTIVI DEL PROGETTO</span>
-			</div>
-			<fmt:formatDate value="${ maxDataModifica }" var="dataUltimaModifica" pattern="dd/MM/yyyy" />
-			
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Data Ultima Modifica:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dataUltimaModifica }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>CUP Master:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>${ dettProgetto.anagraficaCup.anagraficaCup.codiCup }</span>
-				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span3 dett-label">
-					<span>Legge Obiettivo:</span>
-				</div>
-				<div class="span9 dett-value">
-					<span>
-						<c:choose>
-							<c:when test="${ 'S' eq dettProgetto.anagraficaCup.flagLeggeObiettivo }">SI</c:when>
-							<c:otherwise>NO</c:otherwise>
-						</c:choose>
-					</span>
-				</div>
-			</div>
-			
-			<div class="row dett-titolo">
-				<span>DATI CIPE</span>
-			</div>
-			
-			
-			<div class="row dettaglio">
-				<div class="span6 dett-label">
-					<span>Numero e Anno Delibera CIPE:</span>
-				</div>
-				<div class="span6 dett-value">
-					<span>
+				--%>
+				<div class="row" style="text-align: center">
+					<div id="map-canvas"></div>
 					<c:choose>
-						<c:when test=" ${ (not empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (not empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
-							${ dettProgetto.anagraficaCup.numeDeliberaCipe } del ${ dettProgetto.anagraficaCup.annoAnnoDelibera }
-						</c:when>
-						<c:when test=" ${ (empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (not empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
-							${ dettProgetto.anagraficaCup.annoAnnoDelibera }
-						</c:when>
-						<c:when test=" ${ (not empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
-							${ dettProgetto.anagraficaCup.numeDeliberaCipe }
-						</c:when>
+						<c:when test="${ 'S' eq multiLocalizzazione }">Progetto Multi-localizzato</c:when>
 					</c:choose>
-					</span>
 				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span6 dett-label">
-					<span>Soggetto Richiedente:</span>
+				
+				<div class="row dett-titolo">
+					<span>DATI AGGIUNTIVI DEL PROGETTO</span>
 				</div>
-				<div class="span6 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descSoggettoRichiedente }</span>
+				<fmt:formatDate value="${ maxDataModifica }" var="dataUltimaModifica" pattern="dd/MM/yyyy" />
+				
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Data Ultima Modifica:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dataUltimaModifica }</span>
+					</div>
 				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span6 dett-label">
-					<span>Stato Finanza di Progetto:</span>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>CUP Master:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>${ dettProgetto.anagraficaCup.anagraficaCup.codiCup }</span>
+					</div>
 				</div>
-				<div class="span6 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descFinanzaProgetto }</span>
+				<div class="row dettaglio">
+					<div class="span3 dett-label">
+						<span>Legge Obiettivo:</span>
+					</div>
+					<div class="span9 dett-value">
+						<span>
+							<c:choose>
+								<c:when test="${ 'S' eq dettProgetto.anagraficaCup.flagLeggeObiettivo }">SI</c:when>
+								<c:otherwise>NO</c:otherwise>
+							</c:choose>
+						</span>
+					</div>
 				</div>
-			</div>
-			<div class="row dettaglio">
-				<div class="span6 dett-label">
-					<span>Tipo Copertura Finanziaria:</span>
+				
+				<div class="row dett-titolo">
+					<span>DATI CIPE</span>
 				</div>
-				<div class="span6 dett-value">
-					<span>${ dettProgetto.anagraficaCup.descTipoCup }</span>
+			
+			
+				<div class="row dettaglio">
+					<div class="span6 dett-label">
+						<span>Numero e Anno Delibera CIPE:</span>
+					</div>
+					<div class="span6 dett-value">
+						<span>
+						<c:choose>
+							<c:when test=" ${ (not empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (not empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
+								${ dettProgetto.anagraficaCup.numeDeliberaCipe } del ${ dettProgetto.anagraficaCup.annoAnnoDelibera }
+							</c:when>
+							<c:when test=" ${ (empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (not empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
+								${ dettProgetto.anagraficaCup.annoAnnoDelibera }
+							</c:when>
+							<c:when test=" ${ (not empty dettProgetto.anagraficaCup.numeDeliberaCipe) and (empty dettProgetto.anagraficaCup.annoAnnoDelibera) }">
+								${ dettProgetto.anagraficaCup.numeDeliberaCipe }
+							</c:when>
+						</c:choose>
+						</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span6 dett-label">
+						<span>Soggetto Richiedente:</span>
+					</div>
+					<div class="span6 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descSoggettoRichiedente }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span6 dett-label">
+						<span>Stato Finanza di Progetto:</span>
+					</div>
+					<div class="span6 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descFinanzaProgetto }</span>
+					</div>
+				</div>
+				<div class="row dettaglio">
+					<div class="span6 dett-label">
+						<span>Tipo Copertura Finanziaria:</span>
+					</div>
+					<div class="span6 dett-value">
+						<span>${ dettProgetto.anagraficaCup.descTipoCup }</span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-<%-- 	
-<div>
-	<div class="span4 copertura-finanziamento">
-		<p>
-			<span class="dett-titolo2 row-no-wrap">Copertura Finanziamento</span>
-		</p>
-		<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
+	<%-- 	
+	<div>
+		<div class="span4 copertura-finanziamento">
+			<p>
+				<span class="dett-titolo2 row-no-wrap">Copertura Finanziamento</span>
+			</p>
+			<h2><fmt:formatNumber value="${coperturaPercentuale}" type="number" minIntegerDigits="1"/>%</h2>
+		</div>
+		<div class="span8 chart-fianziamento">
+			<svg class="chart"></svg>
+		</div>
 	</div>
-	<div class="span8 chart-fianziamento">
-		<svg class="chart"></svg>
-	</div>
-</div>
---%>
+	--%>
 
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
 

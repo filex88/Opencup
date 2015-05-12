@@ -95,12 +95,14 @@ public class LocalizzazionePortlet0Controller{
 		List<LocalizationValueConverter> valori = new ArrayList<LocalizationValueConverter>();
 		String strCodAreaGeo = "";
 		String strCodRegione= "";
+		LocalizationValueConverter areaGeo = null;
+		String codice = "";
+		String nome = "";
 		for (Aggregata aggregata : risultati){
 			
-			LocalizationValueConverter areaGeo = new LocalizationValueConverter();
-			
-			String codice = "";
-			String nome = "";
+			areaGeo = new LocalizationValueConverter();
+			codice = "";
+			nome = "";
 
 			if(flagAreaGeografica && !flagRegione){
 				//Visualizzo un'area geografica precisa

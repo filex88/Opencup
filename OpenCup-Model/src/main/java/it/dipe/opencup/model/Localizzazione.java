@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "S_DMA_DLOC_LOCALIZZAZIONE")
 public class Localizzazione extends AbstractCommonEntity implements Serializable {
@@ -41,21 +44,25 @@ public class Localizzazione extends AbstractCommonEntity implements Serializable
 	 
 	
 	@ManyToOne(targetEntity = Provincia.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DLOC_DPRO_ID", referencedColumnName = "SEQU_DPRO_ID")
 	private Provincia provincia;
 	 
 
 	@ManyToOne(targetEntity = Regione.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DLOC_DREG_ID", referencedColumnName = "SEQU_DREG_ID")
 	private Regione regione;
 	 
 
 	@ManyToOne(targetEntity = Stato.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DLOC_DSTA_ID", referencedColumnName = "SEQU_DSTA_ID")
 	private Stato stato;
 	 
 
 	@ManyToOne(targetEntity = AreaGeografica.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DLOC_DAGE_ID", referencedColumnName = "SEQU_DAGE_ID")
 	private AreaGeografica areaGeografica;
 

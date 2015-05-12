@@ -716,7 +716,7 @@ div.celle_dati_sitesi{
     background-color: #004383;
 }
 
-
+.soggetto-portlet #tooltip-pie-chart,
 .localizzazione-portlet0 #tooltip-pie-chart,
 .pie-chart-portlet #tooltip-pie-chart {
 	position: absolute;
@@ -734,11 +734,13 @@ div.celle_dati_sitesi{
 	pointer-events: none;
 }
 
+.soggetto-portlet .hidden,
 .localizzazione-portlet0 .hidden,
 .pie-chart-portlet .hidden {
 	display: none;
 }
 
+.soggetto-portlet #tooltip-pie-chart p,
 .localizzazione-portlet0 #tooltip-pie-chart p,
 .pie-chart-portlet #tooltip-pie-chart p {
 	margin: 0;
@@ -747,6 +749,7 @@ div.celle_dati_sitesi{
 	line-height: 20px;
 }
 
+.soggetto-portlet .chart-div,
 .localizzazione-portlet0 .chart-div,
 .pie-chart-portlet .chart-div{
 	text-align: center;
@@ -754,61 +757,72 @@ div.celle_dati_sitesi{
 	min-height: 120 px;
 }	
 
-.localizzazione-portlet0  .axis path,
-.localizzazione-portlet0  .axis line,
-.pie-chart-portlet  .axis path, 
-.pie-chart-portlet  .axis line {
+.soggetto-portlet .axis path,
+.soggetto-portlet .axis line,
+.localizzazione-portlet0 .axis path,
+.localizzazione-portlet0 .axis line,
+.pie-chart-portlet .axis path, 
+.pie-chart-portlet .axis line {
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;
 }
 
-.localizzazione-portlet0  .axis text,
-.pie-chart-portlet  .axis text {
+.soggetto-portlet .axis text,
+.localizzazione-portlet0 .axis text,
+.pie-chart-portlet .axis text {
     font-family: sans-serif;
     font-size: 11px;
 }
 
-.localizzazione-portlet0  .axis path, 
-.localizzazione-portlet0  .axis line,
-.pie-chart-portlet  .axis path, 
-.pie-chart-portlet  .axis line {
+.soggetto-portlet .axis path, 
+.soggetto-portlet .axis line,
+.localizzazione-portlet0 .axis path, 
+.localizzazione-portlet0 .axis line,
+.pie-chart-portlet .axis path, 
+.pie-chart-portlet .axis line {
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;
 }
 
-.localizzazione-portlet0  .axis text,
-.pie-chart-portlet  .axis text {
+.soggetto-portlet .axis text,
+.localizzazione-portlet0 .axis text,
+.pie-chart-portlet .axis text {
     font-family: sans-serif;
     font-size: 11px;
 }
 
-.localizzazione-portlet0  .chart-bar text,
-.pie-chart-portlet  .chart-bar text {
+.soggetto-portlet .chart-bar text,
+.localizzazione-portlet0 .chart-bar text,
+.pie-chart-portlet .chart-bar text {
   fill: white;
   font: 10px sans-serif;
   text-anchor: end;
 }
 
-.localizzazione-portlet0  .chart-bar .label,
-.pie-chart-portlet  .chart-bar .label {
+.soggetto-portlet .chart-bar .label,
+.localizzazione-portlet0 .chart-bar .label,
+.pie-chart-portlet .chart-bar .label {
   fill: black;
   font: 14px sans-serif;
   text-anchor: end;
 }
 
+.soggetto-portlet svg,
 .localizzazione-portlet0 svg,
 .pie-chart-portlet  svg {
 	font: 10px sans-serif;
 	display: block;
 }
 
+.soggetto-portlet .btn-carica-distribuzione,
 .localizzazione-portlet0 .btn-carica-distribuzione,
 .pie-chart-portlet .btn-carica-distribuzione{ 
     border-radius: 0px;
 }
 
+.soggetto-portlet .btn-carica-distribuzione .block,
 .localizzazione-portlet0 .btn-carica-distribuzione .block,
 .pie-chart-portlet .btn-carica-distribuzione .block{ 
     display:block;
@@ -821,21 +835,25 @@ div.celle_dati_sitesi{
     text-align: center;
 }
 
+.soggetto-portlet .volume-color,
 .localizzazione-portlet0 .volume-color,
 .pie-chart-portlet .volume-color {
 	background-color:#f08c00;
 }
 
+.soggetto-portlet .costo-color,
 .localizzazione-portlet0 .costo-color,
 .pie-chart-portlet .costo-color {
 	background-color:#c90061;
 }
 
+.soggetto-portlet .importo-color,
 .localizzazione-portlet0 .importo-color,
 .pie-chart-portlet .importo-color {
 	background-color:#009600;
 }
 
+.soggetto-portlet .arrow-down-volume,
 .localizzazione-portlet0 .arrow-down-volume,
 .pie-chart-portlet .arrow-down-volume {
 	width: 0; 
@@ -847,6 +865,7 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #f08c00;
 }
 
+.soggetto-portlet .arrow-down-costo,
 .localizzazione-portlet0 .arrow-down-costo,
 .pie-chart-portlet .arrow-down-costo {
 	width: 0; 
@@ -858,6 +877,7 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #c90061;
 }
 
+.soggetto-portlet .arrow-down-importo,
 .localizzazione-portlet0 .arrow-down-importo,
 .pie-chart-portlet .arrow-down-importo {
 	width: 0; 
@@ -869,6 +889,8 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #009600;
 }
 
+.soggetto-portlet .volume-color a.block:hover,
+.soggetto-portlet .volume-color a.block:focus,
 .localizzazione-portlet0 .volume-color a.block:hover,
 .localizzazione-portlet0 .volume-color a.block:focus,
 .pie-chart-portlet .volume-color a.block:hover,
@@ -876,6 +898,8 @@ div.celle_dati_sitesi{
 	background-color:#d27900;
 }
 
+.soggetto-portlet .costo-color a.block:hover,
+.soggetto-portlet .costo-color a.block:focus,
 .localizzazione-portlet0 .costo-color a.block:hover,
 .localizzazione-portlet0 .costo-color a.block:focus,
 .pie-chart-portlet .costo-color a.block:hover,
@@ -883,8 +907,10 @@ div.celle_dati_sitesi{
 	background-color:#950047;
 }
 
+.soggetto-portlet .importo-color a.block:hover,
+.soggetto-portlet .importo-color a.block:focus,
 .localizzazione-portlet0 .importo-color a.block:hover,
-.localizzazione-portlet0.importo-color a.block:focus,
+.localizzazione-portlet0 .importo-color a.block:focus,
 .pie-chart-portlet .importo-color a.block:hover,
 .pie-chart-portlet .importo-color a.block:focus {
 	background-color:#005500;
@@ -908,7 +934,7 @@ div.celle_dati_sitesi{
 	min-height: 120 px;
 }	
 
-.localizzazione-portlet  .chart-bar-territori text {
+.localizzazione-portlet .chart-bar-territori text {
   fill: white;
   font: 10px sans-serif;
   text-anchor: end;

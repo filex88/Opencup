@@ -75,7 +75,7 @@
 </style>
 
 <div class="stripe">
-	<div style="height: 280px; border-left:10px solid #1f4e78">
+	<div style="height: auto; border-left:10px solid #1f4e78; overflow: auto;">
 		<div class="span12" id="conteiner" >
 			<div id="titolo"></div>
 			<div id="corpo"></div>

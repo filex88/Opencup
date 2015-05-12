@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "S_DMA_DCLA_CLASSIFICAZIONE")
 public class Classificazione extends AbstractCommonEntity implements Serializable {
@@ -41,21 +44,25 @@ public class Classificazione extends AbstractCommonEntity implements Serializabl
 	private String descCategoria;
 	 
 	@ManyToOne(targetEntity = Natura.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DCLA_DNAT_ID", referencedColumnName = "SEQU_DNAT_ID")
 	private Natura natura;
 	 
 
 	@ManyToOne(targetEntity = AreaIntervento.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DCLA_DAIN_ID", referencedColumnName = "SEQU_DAIN_ID")
 	private AreaIntervento areaIntervento;
 
 	
 	@ManyToOne(targetEntity = SottosettoreIntervento.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DCLA_DSSI_ID", referencedColumnName = "SEQU_DSSI_ID")
 	private SottosettoreIntervento sottosettoreIntervento;
 	 
 	
 	@ManyToOne(targetEntity = CategoriaIntervento.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DCAL_DCAI_ID", referencedColumnName = "SEQU_DCAI_ID")
 	private CategoriaIntervento categoriaIntervento;
 

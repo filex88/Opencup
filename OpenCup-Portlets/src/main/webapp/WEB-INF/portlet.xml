@@ -93,6 +93,60 @@
             </qname>
        </supported-processing-event>
        
+       <supported-processing-event>
+            <qname xmlns:publishName="http:eventAccediSoggetto/events">
+            	publishName:event.accediSoggetto
+            </qname>
+       </supported-processing-event>
+       
+	</portlet>
+	
+	<portlet id="soggetto-portlet">
+		<portlet-name>soggetto-portlet</portlet-name>
+		<display-name>Soggetto</display-name>
+
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/soggetto-portlet.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+		</supports>
+		<resource-bundle>Soggetto-language</resource-bundle>
+		<portlet-info>
+			<title>Soggetto</title>
+			<short-title></short-title>
+			<keywords>Soggetto</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>portlet-setup-show-borders</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+       
+		<supported-publishing-event>
+          <qname xmlns:publishName="http:eventAccediSoggetto/events">
+             publishName:event.accediSoggetto
+          </qname>
+       	</supported-publishing-event>
+
 	</portlet>
 	
 	<portlet id="pie-chart-portlet">
@@ -139,13 +193,13 @@
             <qname xmlns:publishName="http:eventAccediLocalizzazione/events">
             	publishName:event.accediLocalizzazione
             </qname>
-       </supported-processing-event>
+       	</supported-processing-event>
        
 		<supported-publishing-event>
           <qname xmlns:publishName="http:eventAccediClassificazione/events">
              publishName:event.accediClassificazione
           </qname>
-       </supported-publishing-event>
+       	</supported-publishing-event>
 
 	</portlet>
 	
@@ -846,6 +900,13 @@
 	<event-definition>
 		<qname xmlns:publishName="http:eventAccediLocalizzazione/events">
 			publishName:event.accediLocalizzazione
+		</qname>
+		<value-type>valueobject.Name</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:publishName="http:eventAccediSoggetto/events">
+			publishName:event.accediSoggetto
 		</qname>
 		<value-type>valueobject.Name</value-type>
 	</event-definition>

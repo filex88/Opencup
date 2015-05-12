@@ -431,28 +431,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		
 	}
 	
-	syncMouseOverDrawBar = function(d, i){
-		var ele = d3.select(this);
-		ele.style('cursor','pointer');
-		
-		if( dimension=='VOLUME'){
-			retValColor = "#d27900";
-		}else if(dimension=='COSTO'){
-			retValColor = "#950047";
-		}else{
-			retValColor = "#005500";
-		}
-		switchColor(dataSet[i].localizationLabel, retValColor, retValColor);
-	}
-	
-	syncMouseOutDrawBar = function(d, i){
-		var ele = d3.select(this);
-		ele.style('cursor','default');
-		
-		var retValColor = color(d);
-		switchColor(dataSet[i].localizationLabel, retValColor, textColor);
-	}
-	
 	syncMouseOver = function(a){
 		
 		var ele = d3.select(this);
@@ -609,8 +587,27 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		    .attr("width", x)
 		    .attr("height", barHeight - 10)
 		    .attr("data_linkURL", function (d, i){ return dataSet[i].detailUrl })
-		    .on("mouseover", syncMouseOverDrawBar )
-			.on("mouseout", syncMouseOutDrawBar );
+		    .on("mouseover", function(d, i){
+				
+				var ele = d3.select(this);
+				ele.style('cursor','pointer');
+				
+				if( dimension=='VOLUME'){
+					retValColor = "#d27900";
+				}else if(dimension=='COSTO'){
+					retValColor = "#950047";
+				}else{
+					retValColor = "#005500";
+				}
+				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, retValColor);
+			} )
+			.on("mouseout", function(d, i){
+				var ele = d3.select(this);
+				ele.style('cursor','default');
+				
+				var retValColor = color(d);
+				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, textColor);
+			} );
 		
 		// Draw labels
 		bar.append("text")
@@ -624,8 +621,27 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 				return nFormatter(d);
 			})
 			.attr("data_linkURL", function (d, i){ return dataSet[i].detailUrl })
-		   	.on("mouseover", syncMouseOverDrawBar )
-			.on("mouseout", syncMouseOutDrawBar );
+			.on("mouseover", function(d, i){
+				
+				var ele = d3.select(this);
+				ele.style('cursor','pointer');
+				
+				if( dimension=='VOLUME'){
+					retValColor = "#d27900";
+				}else if(dimension=='COSTO'){
+					retValColor = "#950047";
+				}else{
+					retValColor = "#005500";
+				}
+				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, retValColor);
+			} )
+			.on("mouseout", function(d, i){
+				var ele = d3.select(this);
+				ele.style('cursor','default');
+				
+				var retValColor = color(d);
+				switchColor(jsonResultLocalizzazione[i].localizationLabel, retValColor, textColor);
+			} );
 	};
 
 	function formatEuro(number){

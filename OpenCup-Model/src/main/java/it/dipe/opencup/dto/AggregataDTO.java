@@ -1,8 +1,8 @@
 package it.dipe.opencup.dto;
 
-import java.io.Serializable;
-
 import it.dipe.opencup.model.Aggregata;
+
+import java.io.Serializable;
 
 
 public class AggregataDTO implements Serializable{
@@ -57,7 +57,19 @@ public class AggregataDTO implements Serializable{
 	private String desStatoProgetto;
 	
 	private String desDecodStatoProgetto;
-
+	
+	private Integer idAreaSoggetto;
+	
+	private Integer idCategSoggetto;
+	
+	private Integer idSottocategSoggetto;
+	
+	private String descAreaSoggetto;
+	
+	private String descCategSoggetto;
+	
+	private String descSottocategSoggetto;
+	
 	public AggregataDTO() {
 
 	}
@@ -92,6 +104,13 @@ public class AggregataDTO implements Serializable{
 		this.codStatoProgetto = aggregata.getStatoProgetto().getCodiStatoProgetto();
 		this.desStatoProgetto = aggregata.getStatoProgetto().getDescStatoProgetto();
 		this.desDecodStatoProgetto = aggregata.getStatoProgetto().getDescDecodStatoProgetto();
+		
+		this.idCategSoggetto = aggregata.getGerarchiaSoggetto().getCategoriaSoggetto().getId();
+		this.idSottocategSoggetto = aggregata.getGerarchiaSoggetto().getSottocategoriaSoggetto().getId();
+		this.idAreaSoggetto = aggregata.getGerarchiaSoggetto().getAreaSoggetto().getId();
+		this.descCategSoggetto = aggregata.getGerarchiaSoggetto().getCategoriaSoggetto().getDescCategoriaSoggetto();
+		this.descSottocategSoggetto = aggregata.getGerarchiaSoggetto().getSottocategoriaSoggetto().getDescSottocategSoggetto();
+		this.descAreaSoggetto = aggregata.getGerarchiaSoggetto().getAreaSoggetto().getDescAreaSoggetto();
 	}
 
 	public Integer getId() {
@@ -278,6 +297,54 @@ public class AggregataDTO implements Serializable{
 		this.desDecodStatoProgetto = desDecodStatoProgetto;
 	}
 
+	public Integer getIdCategSoggetto() {
+		return idCategSoggetto;
+	}
+
+	public void setIdCategSoggetto(Integer idCategSoggetto) {
+		this.idCategSoggetto = idCategSoggetto;
+	}
+
+	public Integer getIdSottocategSoggetto() {
+		return idSottocategSoggetto;
+	}
+
+	public void setIdSottocategSoggetto(Integer idSottocategSoggetto) {
+		this.idSottocategSoggetto = idSottocategSoggetto;
+	}
+
+	public Integer getIdAreaSoggetto() {
+		return idAreaSoggetto;
+	}
+
+	public void setIdAreaSoggetto(Integer idAreaSoggetto) {
+		this.idAreaSoggetto = idAreaSoggetto;
+	}
+
+	public String getDescCategSoggetto() {
+		return descCategSoggetto;
+	}
+
+	public void setDescCategSoggetto(String descCategSoggetto) {
+		this.descCategSoggetto = descCategSoggetto;
+	}
+
+	public String getDescSottocategSoggetto() {
+		return descSottocategSoggetto;
+	}
+
+	public void setDescSottocategSoggetto(String descSottocategSoggetto) {
+		this.descSottocategSoggetto = descSottocategSoggetto;
+	}
+
+	public String getDescAreaSoggetto() {
+		return descAreaSoggetto;
+	}
+
+	public void setDescAreaSoggetto(String descAreaSoggetto) {
+		this.descAreaSoggetto = descAreaSoggetto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -314,9 +381,24 @@ public class AggregataDTO implements Serializable{
 		result = prime
 				* result
 				+ ((desStatoProgetto == null) ? 0 : desStatoProgetto.hashCode());
+		result = prime
+				* result
+				+ ((descAreaSoggetto == null) ? 0 : descAreaSoggetto.hashCode());
+		result = prime
+				* result
+				+ ((descCategSoggetto == null) ? 0 : descCategSoggetto
+						.hashCode());
+		result = prime
+				* result
+				+ ((descSottocategSoggetto == null) ? 0
+						: descSottocategSoggetto.hashCode());
 		result = prime * result + ((descURL == null) ? 0 : descURL.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idArea == null) ? 0 : idArea.hashCode());
+		result = prime * result
+				+ ((idAreaSoggetto == null) ? 0 : idAreaSoggetto.hashCode());
+		result = prime * result
+				+ ((idCategSoggetto == null) ? 0 : idCategSoggetto.hashCode());
 		result = prime
 				* result
 				+ ((idCategoriaIntervento == null) ? 0 : idCategoriaIntervento
@@ -325,6 +407,10 @@ public class AggregataDTO implements Serializable{
 				+ ((idNatura == null) ? 0 : idNatura.hashCode());
 		result = prime * result
 				+ ((idSottoSettore == null) ? 0 : idSottoSettore.hashCode());
+		result = prime
+				* result
+				+ ((idSottocategSoggetto == null) ? 0 : idSottocategSoggetto
+						.hashCode());
 		result = prime * result
 				+ ((idStatoProgetto == null) ? 0 : idStatoProgetto.hashCode());
 		result = prime
@@ -410,6 +496,21 @@ public class AggregataDTO implements Serializable{
 				return false;
 		} else if (!desStatoProgetto.equals(other.desStatoProgetto))
 			return false;
+		if (descAreaSoggetto == null) {
+			if (other.descAreaSoggetto != null)
+				return false;
+		} else if (!descAreaSoggetto.equals(other.descAreaSoggetto))
+			return false;
+		if (descCategSoggetto == null) {
+			if (other.descCategSoggetto != null)
+				return false;
+		} else if (!descCategSoggetto.equals(other.descCategSoggetto))
+			return false;
+		if (descSottocategSoggetto == null) {
+			if (other.descSottocategSoggetto != null)
+				return false;
+		} else if (!descSottocategSoggetto.equals(other.descSottocategSoggetto))
+			return false;
 		if (descURL == null) {
 			if (other.descURL != null)
 				return false;
@@ -425,6 +526,16 @@ public class AggregataDTO implements Serializable{
 				return false;
 		} else if (!idArea.equals(other.idArea))
 			return false;
+		if (idAreaSoggetto == null) {
+			if (other.idAreaSoggetto != null)
+				return false;
+		} else if (!idAreaSoggetto.equals(other.idAreaSoggetto))
+			return false;
+		if (idCategSoggetto == null) {
+			if (other.idCategSoggetto != null)
+				return false;
+		} else if (!idCategSoggetto.equals(other.idCategSoggetto))
+			return false;
 		if (idCategoriaIntervento == null) {
 			if (other.idCategoriaIntervento != null)
 				return false;
@@ -439,6 +550,11 @@ public class AggregataDTO implements Serializable{
 			if (other.idSottoSettore != null)
 				return false;
 		} else if (!idSottoSettore.equals(other.idSottoSettore))
+			return false;
+		if (idSottocategSoggetto == null) {
+			if (other.idSottocategSoggetto != null)
+				return false;
+		} else if (!idSottocategSoggetto.equals(other.idSottocategSoggetto))
 			return false;
 		if (idStatoProgetto == null) {
 			if (other.idStatoProgetto != null)
@@ -467,7 +583,5 @@ public class AggregataDTO implements Serializable{
 			return false;
 		return true;
 	}
-
-	
 
 }

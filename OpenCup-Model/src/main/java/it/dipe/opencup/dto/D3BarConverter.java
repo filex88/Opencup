@@ -10,6 +10,7 @@ public class D3BarConverter implements Serializable{
 	
 	private String label;
 	private Long volume;
+	private String LinkURL;
 	
 	public String getLabel() {
 		return label;
@@ -23,7 +24,12 @@ public class D3BarConverter implements Serializable{
 	public void setVolume(Long volume) {
 		this.volume = volume;
 	}
-	
+	public String getLinkURL() {
+		return LinkURL;
+	}
+	public void setLinkURL(String linkURL) {
+		LinkURL = linkURL;
+	}
 	
 	
 }

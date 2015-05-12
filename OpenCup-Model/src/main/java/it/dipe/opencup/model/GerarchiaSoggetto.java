@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "S_DMA_DGSO_GERARCHIA_SOGGETTO")
 public class GerarchiaSoggetto extends AbstractCommonEntity implements Serializable {
@@ -37,20 +40,21 @@ public class GerarchiaSoggetto extends AbstractCommonEntity implements Serializa
 	@Column(name = "DESC_DGSO_AREA_SOGGETTO", length = 100)
 	private String descAreaSoggetto;
 		
-	
+	@ManyToOne(targetEntity = AreaSoggetto.class)
+	@Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "FK_DGSO_DASO_ID", referencedColumnName = "SEQU_DASO_ID")
+	private AreaSoggetto areaSoggetto;
+
 	@ManyToOne(targetEntity = CategoriaSoggetto.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DGSO_DCSO_ID", referencedColumnName = "SEQU_DCSO_ID")
 	private CategoriaSoggetto categoriaSoggetto;
 	
 	
 	@ManyToOne(targetEntity = SottocategoriaSoggetto.class)
+	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "FK_DGSO_DSCS_ID", referencedColumnName = "SEQU_DSCS_ID")
 	private SottocategoriaSoggetto sottocategoriaSoggetto;
-	
-	
-	@ManyToOne(targetEntity = AreaSoggetto.class)
-	@JoinColumn(name = "FK_DGSO_DASO_ID", referencedColumnName = "SEQU_DASO_ID")
-	private AreaSoggetto areaSoggetto;
 	
 
 	public Integer getId() {
