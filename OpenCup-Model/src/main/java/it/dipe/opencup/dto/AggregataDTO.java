@@ -108,9 +108,10 @@ public class AggregataDTO implements Serializable{
 		this.idCategSoggetto = aggregata.getGerarchiaSoggetto().getCategoriaSoggetto().getId();
 		this.idSottocategSoggetto = aggregata.getGerarchiaSoggetto().getSottocategoriaSoggetto().getId();
 		this.idAreaSoggetto = aggregata.getGerarchiaSoggetto().getAreaSoggetto().getId();
-		this.descCategSoggetto = aggregata.getGerarchiaSoggetto().getCategoriaSoggetto().getDescCategoriaSoggetto();
-		this.descSottocategSoggetto = aggregata.getGerarchiaSoggetto().getSottocategoriaSoggetto().getDescSottocategSoggetto();
-		this.descAreaSoggetto = aggregata.getGerarchiaSoggetto().getAreaSoggetto().getDescAreaSoggetto();
+		this.descCategSoggetto = aggregata.getGerarchiaSoggetto().getDescCategSoggetto();
+		this.descSottocategSoggetto = aggregata.getGerarchiaSoggetto().getDescSottocategSoggetto();
+		this.descAreaSoggetto = aggregata.getGerarchiaSoggetto().getDescAreaSoggetto();
+		
 	}
 
 	public Integer getId() {

@@ -131,8 +131,8 @@ public class SoggettoPortletController {
 				conv.setLabel( aggregataDTO.getDescSottocategSoggetto() );
 			}else if( navigaAggregata.getIdCategoriaSoggetto().equals("0") ){
 				conv.setLabel( aggregataDTO.getDescCategSoggetto() );
-			}else if( navigaAggregata.getIdSottoCategoriaSoggetto().equals("0") ){
-				conv.setLabel( aggregataDTO.getDescSottocategSoggetto() );
+			}else if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
+				conv.setLabel( aggregataDTO.getDescAreaSoggetto() );
 			}else if( navigaAggregata.getIdNatura().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesNatura());
 			}
@@ -152,7 +152,7 @@ public class SoggettoPortletController {
 			converter.add(conv);
 		}
 
-		model.addAttribute("recordCount", converter.size());
+		model.addAttribute("recordCountSoggetto", converter.size());
 
 		model.addAttribute("aggregati4Soggetto", createJsonStringFromQueryResult(converter));
 		model.addAttribute("navigaAggregata", navigaAggregata);

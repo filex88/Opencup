@@ -20,44 +20,42 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 -->
 </style>
 
-
-<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
-	<div class="offset3 span2">
-		<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
-			<aui:a href="#" onClick="return false" cssClass="block">
-				PROGETTI
-			</aui:a>
-		</div>
-		<c:if test='${pattern eq "VOLUME"}'>
-			<div class="arrow-down-volume"></div>
-		</c:if>
-	</div>
-	<div class="span2">	
-		<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
-			<aui:a href="#" onClick="return false" cssClass="block">
-				COSTO
-			</aui:a>
-		</div>
-		<c:if test='${pattern eq "COSTO"}'>
-			<div class="arrow-down-costo"></div>
-		</c:if>
-	</div>
-	<div class="span2">	
-		<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
-			<aui:a href="#" onClick="return false" cssClass="block">
-				IMPORTO
-			</aui:a>
-		</div>
-		<c:if test='${pattern eq "IMPORTO"}'>
-			<div class="arrow-down-importo"></div>
-		</c:if>
-	</div>
-	<div class="clear"></div>
-
-</div>	
-		
 <div class="stripe">
+	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
+		<div class="offset3 span2">
+			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					PROGETTI
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "VOLUME"}'>
+				<div class="arrow-down-volume"></div>
+			</c:if>
+		</div>
+		<div class="span2">	
+			<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					COSTO
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "COSTO"}'>
+				<div class="arrow-down-costo"></div>
+			</c:if>
+		</div>
+		<div class="span2">	
+			<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					IMPORTO
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "IMPORTO"}'>
+				<div class="arrow-down-importo"></div>
+			</c:if>
+		</div>
+		<div class="clear"></div>
 	
+	</div>	
+
 	<div id="container-localizzazione" style="padding-top: 30px; padding-bottom: 30px">
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------

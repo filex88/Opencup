@@ -16,6 +16,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 
 <portlet:defineObjects />
 
+<div class="stripe">	
 	<c:if test="${ config.mostraPulsanti }">
 		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
@@ -52,8 +53,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		
 		</div>	
 	</c:if>
-	
-<div class="stripe">	
+
 	<div id="container-pie-chart" style="padding-top: 30px; padding-bottom: 30px">
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
