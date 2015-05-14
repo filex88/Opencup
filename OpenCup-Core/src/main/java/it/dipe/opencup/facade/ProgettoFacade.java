@@ -1,5 +1,6 @@
 package it.dipe.opencup.facade;
 
+import it.dipe.opencup.dao.AnagraficaCupDAO;
 import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.CupCoperturaFinanziariaDAO;
 import it.dipe.opencup.dao.ProgettoDAO;
@@ -10,6 +11,7 @@ import it.dipe.opencup.dto.SizeDTO;
 import it.dipe.opencup.model.CupCoperturaFinanziaria;
 import it.dipe.opencup.model.Progetto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -26,6 +28,9 @@ public class ProgettoFacade {
 	
 	@Autowired
 	private ProgettoDAO progettoDAO;
+	
+	@Autowired
+	private AnagraficaCupDAO anagraficaCupDAO;
 	
 	@Autowired
 	private RegioneDAO regioneDAO;
@@ -241,68 +246,18 @@ public class ProgettoFacade {
 		else
 			criteria.addOrder(Order.desc(orderByCol));
 		
-		List<Progetto> retval = progettoDAO.findByCriteria(criteria);
-		
-//		List<Progetti> retval = new ArrayList<Progetti>(); 		
-//		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		int index = 0;
-//		
-//		Progetti p = null;
-//		
-//		SoggettoTitolare st = new SoggettoTitolare();
-//		st.setDescSoggettoTitolare("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
-//		
-//		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
-//		categoriaIntervento.setDescCategoriaIntervento("CATEGORIA INTERVENTO");
-//		
-//		AnnoDecisione annoDecisione = new AnnoDecisione();
-//		annoDecisione.setAnnoDadeAnnoDecisione("2013");
-//		
-//		Comune comune = new Comune();
-//		comune.setDescComune("ROMA");
-//		
-//		CupLocalizzazione cupLocalizzazione = new CupLocalizzazione();
-//		cupLocalizzazione.setComune(comune);
-//		
-//		List<CupLocalizzazione> lCupLocalizzazione = new ArrayList<CupLocalizzazione>();
-//		
-//		AnagraficaCup anagraficaCup = new AnagraficaCup();
-//		lCupLocalizzazione.add(cupLocalizzazione);
-//		anagraficaCup.setCupLocalizzazione(lCupLocalizzazione);
-//		
-//		
-//		for(int i=0 ; i<10 ; i++){
-//			p = new Progetti();
-//			p.setId(index++);
-//			p.setSoggettoTitolare(st);
-//			p.setImpoCostoProgetto(1.1);
-//			p.setImpoImportoFinanziato(2);
-//			p.setCategoriaIntervento(categoriaIntervento);
-//			p.setAnnoDecisione(annoDecisione);
-//			p.setAnagraficaCup(anagraficaCup);
-//			retval.add(p);
-//	
-//			p = new Progetti();
-//			p.setId(index++);
-//			p.setSoggettoTitolare(st);
-//			p.setImpoCostoProgetto(3.3);
-//			p.setImpoImportoFinanziato(4);
-//			p.setCategoriaIntervento(categoriaIntervento);
-//			p.setAnnoDecisione(annoDecisione);
-//			p.setAnagraficaCup(anagraficaCup);
-//			retval.add(p);
-//	
-//			p = new Progetti();
-//			p.setId(index++);
-//			p.setSoggettoTitolare(st);
-//			p.setImpoCostoProgetto(5.5);
-//			p.setImpoImportoFinanziato(6);
-//			p.setCategoriaIntervento(categoriaIntervento);
-//			p.setAnnoDecisione(annoDecisione);
-//			p.setAnagraficaCup(anagraficaCup);
-//			retval.add(p);
-//		}
-//		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		List<Progetto> progetti = progettoDAO.findByCriteria(criteria);
+		List<Progetto> retval = new ArrayList<Progetto>();
+		for( Progetto tmp : progetti ){
+			if( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() != null ){
+				
+				tmp.getAnagraficaCup().setAnagraficaCup(
+						anagraficaCupDAO.findById( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() ) );
+				
+				retval.add(tmp);
+				
+			}
+		}
 		
 		return retval;
 	}
@@ -318,38 +273,10 @@ public class ProgettoFacade {
 		List<CupCoperturaFinanziaria> cupCoperturaFinanziaria = cupCoperturaFinanziariaDAO.findByCriteria(criteria);
 		p.getAnagraficaCup().setCupCoperturaFinanziaria(cupCoperturaFinanziaria);
 		
-//		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		
-//		SoggettoTitolare st = new SoggettoTitolare();
-//		st.setDescSoggettoTitolare("PARCO DELLA MUSICA - REALIZZAZIONE I LOTTO: SALA GRANDE / TEATRO LIRICO");
-//		
-//		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
-//		categoriaIntervento.setDescCategoriaIntervento("CATEGORIA INTERVENTO");
-//		
-//		AnnoDecisione annoDecisione = new AnnoDecisione();
-//		annoDecisione.setAnnoDadeAnnoDecisione("2013");
-//		
-//		Comune comune = new Comune();
-//		comune.setDescComune("ROMA");
-//		
-//		CupLocalizzazione cupLocalizzazione = new CupLocalizzazione();
-//		cupLocalizzazione.setComune(comune);
-//		
-//		List<CupLocalizzazione> lCupLocalizzazione = new ArrayList<CupLocalizzazione>();
-//		
-//		AnagraficaCup anagraficaCup = new AnagraficaCup();
-//		lCupLocalizzazione.add(cupLocalizzazione);
-//		anagraficaCup.setCupLocalizzazione(lCupLocalizzazione);
-//		
-//		p = new Progetti();
-//		p.setId(id);
-//		p.setSoggettoTitolare(st);
-//		p.setImpoCostoProgetto(1.1);
-//		p.setImpoImportoFinanziato(2);
-//		p.setCategoriaIntervento(categoriaIntervento);
-//		p.setAnnoDecisione(annoDecisione);
-//		p.setAnagraficaCup(anagraficaCup);
-//		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		if( p.getAnagraficaCup().getFkDcupDcupIdMaster() != null ){
+			p.getAnagraficaCup().setAnagraficaCup(
+			anagraficaCupDAO.findById( p.getAnagraficaCup().getFkDcupDcupIdMaster() ) );
+		}
 		
 		return p;
 	}	

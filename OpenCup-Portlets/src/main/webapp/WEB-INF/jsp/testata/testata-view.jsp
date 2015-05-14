@@ -111,18 +111,31 @@
 	var singleLiWClass = (containerWClass-60)/3;
 	var singleElMwClass = singleLiWClass/10;
 
+	var pagNavigazioneLogo = "${pagNavigazioneLogo}";
+	var separatore = " <i style='font-size:0.5em; vertical-align:middle; padding:10px;' class='icon-circle'></i> ";
+	
 	d3.selectAll("#titolo")
 	.selectAll("div")
 	.data(calculatedJsonClass)
 	.enter()
 	.append("div")
-	.attr("class","titolo")
+	.attr("class", "titolo")
 	.append("p")
-	.text(function(d){
+	.html(function(d){
 		var retval = d.desNatura;
-		if( d.codArea != "-1" ){retval = d.desArea;	} 
-		if( d.codSottoSettore != "-1" ){retval = retval + " // " + d.desSottoSettore;} 
-		if( d.codCategoriaIntervento != "-1" ){retval = retval + " // " + d.desCategoriaIntervento;} 
+		if( pagNavigazioneLogo == 'natura' ){
+			if( d.idArea != "-1" ){retval = d.desArea;} 
+			if( d.idSottoSettore != "-1" ){retval = retval + separatore + d.desSottoSettore;} 
+			if( d.idCategoriaIntervento != "-1" ){retval = retval + separatore + d.desCategoriaIntervento;} 
+		}else if( pagNavigazioneLogo == 'localizzazione' ){
+			if( d.idAreaGeografica != "-1"){retval = d.descAreaGeografica;}
+			if( d.idRegione != "-1" ){retval = retval + separatore + d.descRegione;} 
+			if( d.idProvincia != "-1" ){retval = retval + separatore + d.descProvincia;} 
+		}else if( pagNavigazioneLogo == 'soggetto' ){
+			if( d.idAreaSoggetto != "-1" ){retval = d.descAreaSoggetto;} 
+			if( d.idCategSoggetto != "-1" ){retval = retval + separatore + d.descCategSoggetto;} 
+			if( d.idSottocategSoggetto != "-1" ){retval = retval + separatore + d.descSottocategSoggetto;} 
+		}
 		return retval;
 	});
 	
@@ -148,7 +161,7 @@
 		var areaCorrente=d.desArea.split(/[\s,]+/);
 	 	var firstDesc=areaCorrente[0].toLowerCase();
 	 	if( firstDesc == 'tutte' ){
-	 		var appoUrl = "${imgFolder}/icona-${pagNavigazioneLogo}.svg"
+	 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg"
 	 		console.log(appoUrl);
 	 	}
 	 	return "${imgFolder}/icona-"+firstDesc+".svg";

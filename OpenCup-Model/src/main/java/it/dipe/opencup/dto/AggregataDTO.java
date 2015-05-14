@@ -69,6 +69,18 @@ public class AggregataDTO implements Serializable{
 	private String descCategSoggetto;
 	
 	private String descSottocategSoggetto;
+
+	private Integer idAreaGeografica;
+
+	private String descAreaGeografica;
+
+	private Integer idRegione;
+
+	private String descRegione;
+
+	private Integer idProvincia;
+
+	private String descProvincia;
 	
 	public AggregataDTO() {
 
@@ -112,6 +124,13 @@ public class AggregataDTO implements Serializable{
 		this.descSottocategSoggetto = aggregata.getGerarchiaSoggetto().getDescSottocategSoggetto();
 		this.descAreaSoggetto = aggregata.getGerarchiaSoggetto().getDescAreaSoggetto();
 		
+		this.idAreaGeografica = aggregata.getLocalizzazione().getAreaGeografica().getId();
+		this.descAreaGeografica = aggregata.getLocalizzazione().getAreaGeografica().getDescAreaGeografica();
+		this.idRegione = aggregata.getLocalizzazione().getRegione().getId();
+		this.descRegione = aggregata.getLocalizzazione().getRegione().getDescRegione();
+		this.idProvincia = aggregata.getLocalizzazione().getProvincia().getId();
+		this.descProvincia = aggregata.getLocalizzazione().getProvincia().getDescProvincia();
+
 	}
 
 	public Integer getId() {
@@ -346,6 +365,54 @@ public class AggregataDTO implements Serializable{
 		this.descAreaSoggetto = descAreaSoggetto;
 	}
 
+	public Integer getIdAreaGeografica() {
+		return idAreaGeografica;
+	}
+
+	public void setIdAreaGeografica(Integer idAreaGeografica) {
+		this.idAreaGeografica = idAreaGeografica;
+	}
+
+	public String getDescAreaGeografica() {
+		return descAreaGeografica;
+	}
+
+	public void setDescAreaGeografica(String descAreaGeografica) {
+		this.descAreaGeografica = descAreaGeografica;
+	}
+
+	public Integer getIdRegione() {
+		return idRegione;
+	}
+
+	public void setIdRegione(Integer idRegione) {
+		this.idRegione = idRegione;
+	}
+
+	public String getDescRegione() {
+		return descRegione;
+	}
+
+	public void setDescRegione(String descRegione) {
+		this.descRegione = descRegione;
+	}
+
+	public Integer getIdProvincia() {
+		return idProvincia;
+	}
+
+	public void setIdProvincia(Integer idProvincia) {
+		this.idProvincia = idProvincia;
+	}
+
+	public String getDescProvincia() {
+		return descProvincia;
+	}
+
+	public void setDescProvincia(String descProvincia) {
+		this.descProvincia = descProvincia;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -384,11 +451,19 @@ public class AggregataDTO implements Serializable{
 				+ ((desStatoProgetto == null) ? 0 : desStatoProgetto.hashCode());
 		result = prime
 				* result
+				+ ((descAreaGeografica == null) ? 0 : descAreaGeografica
+						.hashCode());
+		result = prime
+				* result
 				+ ((descAreaSoggetto == null) ? 0 : descAreaSoggetto.hashCode());
 		result = prime
 				* result
 				+ ((descCategSoggetto == null) ? 0 : descCategSoggetto
 						.hashCode());
+		result = prime * result
+				+ ((descProvincia == null) ? 0 : descProvincia.hashCode());
+		result = prime * result
+				+ ((descRegione == null) ? 0 : descRegione.hashCode());
 		result = prime
 				* result
 				+ ((descSottocategSoggetto == null) ? 0
@@ -396,6 +471,9 @@ public class AggregataDTO implements Serializable{
 		result = prime * result + ((descURL == null) ? 0 : descURL.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idArea == null) ? 0 : idArea.hashCode());
+		result = prime
+				* result
+				+ ((idAreaGeografica == null) ? 0 : idAreaGeografica.hashCode());
 		result = prime * result
 				+ ((idAreaSoggetto == null) ? 0 : idAreaSoggetto.hashCode());
 		result = prime * result
@@ -406,6 +484,10 @@ public class AggregataDTO implements Serializable{
 						.hashCode());
 		result = prime * result
 				+ ((idNatura == null) ? 0 : idNatura.hashCode());
+		result = prime * result
+				+ ((idProvincia == null) ? 0 : idProvincia.hashCode());
+		result = prime * result
+				+ ((idRegione == null) ? 0 : idRegione.hashCode());
 		result = prime * result
 				+ ((idSottoSettore == null) ? 0 : idSottoSettore.hashCode());
 		result = prime
@@ -497,6 +579,11 @@ public class AggregataDTO implements Serializable{
 				return false;
 		} else if (!desStatoProgetto.equals(other.desStatoProgetto))
 			return false;
+		if (descAreaGeografica == null) {
+			if (other.descAreaGeografica != null)
+				return false;
+		} else if (!descAreaGeografica.equals(other.descAreaGeografica))
+			return false;
 		if (descAreaSoggetto == null) {
 			if (other.descAreaSoggetto != null)
 				return false;
@@ -506,6 +593,16 @@ public class AggregataDTO implements Serializable{
 			if (other.descCategSoggetto != null)
 				return false;
 		} else if (!descCategSoggetto.equals(other.descCategSoggetto))
+			return false;
+		if (descProvincia == null) {
+			if (other.descProvincia != null)
+				return false;
+		} else if (!descProvincia.equals(other.descProvincia))
+			return false;
+		if (descRegione == null) {
+			if (other.descRegione != null)
+				return false;
+		} else if (!descRegione.equals(other.descRegione))
 			return false;
 		if (descSottocategSoggetto == null) {
 			if (other.descSottocategSoggetto != null)
@@ -527,6 +624,11 @@ public class AggregataDTO implements Serializable{
 				return false;
 		} else if (!idArea.equals(other.idArea))
 			return false;
+		if (idAreaGeografica == null) {
+			if (other.idAreaGeografica != null)
+				return false;
+		} else if (!idAreaGeografica.equals(other.idAreaGeografica))
+			return false;
 		if (idAreaSoggetto == null) {
 			if (other.idAreaSoggetto != null)
 				return false;
@@ -546,6 +648,16 @@ public class AggregataDTO implements Serializable{
 			if (other.idNatura != null)
 				return false;
 		} else if (!idNatura.equals(other.idNatura))
+			return false;
+		if (idProvincia == null) {
+			if (other.idProvincia != null)
+				return false;
+		} else if (!idProvincia.equals(other.idProvincia))
+			return false;
+		if (idRegione == null) {
+			if (other.idRegione != null)
+				return false;
+		} else if (!idRegione.equals(other.idRegione))
 			return false;
 		if (idSottoSettore == null) {
 			if (other.idSottoSettore != null)
@@ -584,5 +696,7 @@ public class AggregataDTO implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 
 }

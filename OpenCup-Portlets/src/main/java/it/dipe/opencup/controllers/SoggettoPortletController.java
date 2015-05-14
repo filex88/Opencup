@@ -170,7 +170,6 @@ public class SoggettoPortletController {
 		navigaAggregata.setDistribuzione(pattern);
 		
 		QName eventName = new QName( "http:eventAccediSoggetto/events", "event.accediSoggetto");
-		
 		aResponse.setEvent(eventName, navigaAggregata);
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);

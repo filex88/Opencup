@@ -192,6 +192,18 @@ public class TestataNavigazionePortletController {
 		
     }
 	
+	@EventMapping(value = "event.accediSoggetto")
+    public void processAccediSoggetto(EventRequest eventRequest,
+               				EventResponse eventResponse,
+               				Model model) throws CloneNotSupportedException {
+		
+		NavigaAggregata navigaAggregata = (NavigaAggregata) eventRequest.getEvent().getValue();
+		model.addAttribute("navigaAggregata", navigaAggregata.clone());
+		model.addAttribute("navigaAggregataStato", navigaAggregata.clone());
+		model.addAttribute("navigaAggregataAnno", navigaAggregata.clone());
+		
+    }
+	
 	protected String createJsonStringFromQueryResult(List<AggregataDTO> formattedResult){
 		ObjectMapper mapper= new ObjectMapper();
 		String jsonString=null;

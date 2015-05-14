@@ -20,33 +20,33 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	<c:if test="${ config.mostraPulsanti }">
 		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
-				<div class="btn-carica-distribuzione volume-color volume-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="VOLUME">
+				<div class="btn-carica-distribuzione volume-color volume-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">
 						PROGETTI
 					</aui:a>
 				</div>
 				<c:if test='${pattern eq "VOLUME"}'>
-					<div class="arrow-down-volume arrow-down-volume-pie"></div>
+					<div class="arrow-down-volume arrow-down-volume-soggetto"></div>
 				</c:if>
 			</div>
 			<div class="span2">	
-				<div class="btn-carica-distribuzione costo-color costo-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="COSTO">
+				<div class="btn-carica-distribuzione costo-color costo-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="COSTO">
 					<aui:a href="#" onClick="return false" cssClass="block">
 						COSTO
 					</aui:a>
 				</div>
 				<c:if test='${pattern eq "COSTO"}'>
-					<div class="arrow-down-costo arrow-down-costo-pie"></div>
+					<div class="arrow-down-costo arrow-down-costo-soggetto"></div>
 				</c:if>
 			</div>
 			<div class="span2">	
-				<div class="btn-carica-distribuzione importo-color importo-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="IMPORTO">
+				<div class="btn-carica-distribuzione importo-color importo-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="IMPORTO">
 					<aui:a href="#" onClick="return false" cssClass="block">
 						IMPORTO
 					</aui:a>
 				</div>
 				<c:if test='${pattern eq "IMPORTO"}'>
-					<div class="arrow-down-importo arrow-down-importo-pie"></div>
+					<div class="arrow-down-importo arrow-down-importo-soggetto"></div>
 				</c:if>
 			</div>
 			<div class="clear"></div>
@@ -71,6 +71,29 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		</div>
 		
 	</div>
+	
+	<portlet:actionURL var="urlActionSoggettoVar">
+	   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
+	</portlet:actionURL>
+	
+	<form 
+		action="${urlActionSoggettoVar}" 
+		method="post" 
+		name="naviga-form-soggetto" 
+		class="naviga-form-soggetto"
+		id="naviga-form-soggetto"
+		style="display: none;">
+	
+			<aui:input cssClass="pattern-soggetto" type="hidden" name="pattern" value="${pattern}" id="pattern-soggetto" />
+			<aui:input type="hidden" bean="navigaAggregata" name="pagAggregata" value="${navigaAggregata.pagAggregata}" id="pagAggregata" />
+	
+			<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
+			<aui:input type="hidden" bean="navigaAggregata" name="idAreaSoggetto" value="${navigaAggregata.idAreaSoggetto}" id="idAreaSoggetto" />
+			<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaSoggetto" value="${navigaAggregata.idCategoriaSoggetto}" id="idCategoriaSoggetto" />
+			<aui:input type="hidden" bean="navigaAggregata" name="idSottoCategoriaSoggetto" value="${navigaAggregata.idSottoCategoriaSoggetto}" id="idSottoCategoriaSoggetto" />
+			
+	</form>
+	
 </div>
 
 <script type="text/javascript">
@@ -144,11 +167,35 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	d3.select("#container-soggetto-chart").style("border-left", "10px solid "+fillColor);
 
 	synchronizedMouseOver = function(info) {
-		console.log(info);
+		var obj = d3.select(this);
+		var indexValue = obj.attr("index_value");
+
+		obj.style('cursor','pointer');
+		
+		var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"+indexValue);
+		histogramSoggetto.style("fill", fillColor);
+		
+		var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"+indexValue);
+		circleSoggetto.style("fill", fillColor);
+		
+		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
+		textSoggetto.style("fill", fillColor);
+		
 	}
 	
 	synchronizedMouseOut = function(info) {
-		console.log(info);
+		var obj = d3.select(this);
+		var indexValue = obj.attr("index_value");
+		var colorValue = obj.attr("color_value");
+
+		var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"+indexValue);
+		histogramSoggetto.style("fill", colorValue);
+		
+		var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"+indexValue);
+		circleSoggetto.style("fill", colorValue);
+		
+		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
+		textSoggetto.style("fill", textColor);
 	}
 	
 	function drawHistogramSoggetto ( elementName, dataSet, selectString, totHeight ) {
@@ -202,10 +249,12 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	  	.append("rect")
 	  	.attr("fill", function(d, i) { return color(i); })
 	  	.attr("class", function(d, i){
-	  		var className = "bar_soggetto historgam-"+elementName+"-index-"+i;	
+	  		var className = "link-url-naviga-soggetto bar_soggetto historgam-"+elementName+"-index-"+i;	
 	  		return className;
 	  	})
-	  	.attr("index_value", function(d, i) { return "index-"+i; })
+	  	.attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+		.attr("index_value", function(d, i) { return "index-"+i; })
+		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 	    .attr("x", function(d, i) { return x(d.label); })
 	    .attr("width", x.rangeBand())
 	    .attr("y", function(d) { return y(d.volume); })
@@ -282,8 +331,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.style("fill", function(d, i) { return color(i); }) // Bullet fill color
 		.attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
+		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 		.attr("class", function(d, i){
-	  		var className = "legend-circle-"+elementName+"-index-"+i;	
+	  		var className = "link-url-naviga-soggetto legend-circle-"+elementName+"-index-"+i;	
 	  		return className;
 	  	})
 		.on('mouseover', synchronizedMouseOver)
@@ -303,8 +353,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
         .text(function(d) { return (d.label).trunc(36, true); })
         .attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
+		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 		.attr("class", function(d, i){
-	  		var className = "legend legend-text-"+elementName+"-index-"+i;	
+	  		var className = "link-url-naviga-soggetto label legend-text-"+elementName+"-index-"+i;	
 	  		return className;
 	  	})
         .style("fill", textColor)
@@ -322,8 +373,61 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
 	drawLegendSoggetto("LegendSoggetto", calculatedJsonClass4Soggetto, ".soggetto_2" );
 	
-	
-	
+	AUI().use('get', function(A){
+		A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
+			onSuccess: function(){
+		    	A.Get.script('${jsFolder}/bootstrap.min.js', {
+		       		onSuccess: function(){	
+						
+		       			$(".volume-color-soggetto").mouseover(function() { 
+		       				$(".arrow-down-volume-soggetto").css('border-top','10px solid #d27900'); 
+		       			});
+		       			$(".volume-color-soggetto").mouseout(function() { 
+		       				$(".arrow-down-volume-soggetto").css('border-top','10px solid #f08c00'); 
+		       			});
+		       				
+		       			$(".costo-color-soggetto").mouseover(function() { 
+		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #950047'); 
+		       			});
+		       			$(".costo-color-soggetto").mouseout(function() { 
+		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #c90061'); 
+		       			});
+		       				
+		       			$(".importo-color-soggetto").mouseover(function() { 
+		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #005500'); 
+		       			});
+		       			$(".importo-color-soggetto").mouseout(function() { 
+		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #009600'); 
+		       			});
+		       				
+		       			$( ".sel-type-btn-soggetto" ).click(function() {
+	       					var arc = d3.select(this);
+		       				var distribuzione = arc.attr("data-distribuzione");
+		       				$( ".pattern-soggetto" ).val(distribuzione);
+		       				$( ".naviga-form-soggetto" ).submit();
+		       			});
+		       			
+		       			$( ".sel-type-btn-soggetto" ).click(function() {
+       						var arc = d3.select(this);
+	       					var distribuzione = arc.attr("data-distribuzione");
+	       					$( ".pattern-soggetto" ).val(distribuzione);
+	       					$( ".naviga-form-soggetto" ).submit();
+	       				});
+		       				
+		       			$( ".link-url-naviga-soggetto" ).click(function() {
+		       				if(!selezionabile){
+		       					var obj = d3.select(this);
+			       				var data_linkURL = obj.attr("data_linkURL");
+			       				$( ".naviga-form-soggetto" ).attr("action", data_linkURL);
+			       				$( ".naviga-form-soggetto" ).submit();
+		       				}
+		       			});	
+		      		}
+			 	});
+		    }
+		});
+	});
+		
 </script>
 	
 
