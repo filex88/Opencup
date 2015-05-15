@@ -186,7 +186,6 @@ public class SoggettoPortletController {
 									@RequestParam(required=false, value="pattern") String pattern){
 		
 		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
-		
 		navigaAggregata.setIdAreaSoggetto(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		navigaAggregata.setIdCategoriaSoggetto(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdSottoCategoriaSoggetto(ParamUtil.getString(aRequest, "rowIdLiv4"));
