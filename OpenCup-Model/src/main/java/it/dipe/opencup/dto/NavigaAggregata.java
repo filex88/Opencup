@@ -74,6 +74,33 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.countAffRicerca4Natura = countAffRicerca4Natura;
 	}
 
+	public void importa(NavigaProgetti navigaProgetti) {
+		this.pagAggregata = navigaProgetti.getPagAggregata();
+		
+		this.naviga = navigaProgetti.getNaviga();
+		this.idNatura = navigaProgetti.getIdNatura();
+		this.idAreaIntervento = navigaProgetti.getIdAreaIntervento();
+		this.idSottosettoreIntervento = navigaProgetti.getIdSottosettoreIntervento();
+		this.idCategoriaIntervento = navigaProgetti.getIdCategoriaIntervento();
+		
+		this.idAreaSoggetto = navigaProgetti.getIdAreaSoggetto();
+		this.idCategoriaSoggetto = navigaProgetti.getIdCategoriaSoggetto();
+		this.idSottoCategoriaSoggetto = navigaProgetti.getIdSottoCategoriaSoggetto();
+		
+		this.idTipologiaIntervento = navigaProgetti.getIdTipologiaIntervento();
+		this.idStatoProgetto = navigaProgetti.getIdStatoProgetto();
+		this.idAreaGeografica = navigaProgetti.getIdAreaGeografica();
+		this.descStato = navigaProgetti.getDescStato();
+		this.idRegione = navigaProgetti.getIdRegione();
+		this.idProvincia = navigaProgetti.getIdProvincia();
+		this.idComune = navigaProgetti.getIdComune();
+
+		this.idAnnoAggregatos = new ArrayList<String>();
+		for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
+			this.idAnnoAggregatos.add(tmp);
+		}
+	}
+	
 	public void rimuoviZero() {
 		//CLASSIFICAZIONE
 		if( this.getIdNatura().equals("0") ){
@@ -988,7 +1015,5 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			return false;
 		return true;
 	}
-
-	
 
 }

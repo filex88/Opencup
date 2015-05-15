@@ -109,12 +109,13 @@ public class SoggettoPortletController {
 		*/
 		config.setSelezionabile( true );
 		config.setMostraPulsanti( true  );
-		model.addAttribute("config", config);
+		model.addAttribute("configSoggetto", config);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		model.addAttribute("pattern", pattern);
+
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
 		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());

@@ -250,13 +250,10 @@ public class ProgettoFacade {
 		List<Progetto> retval = new ArrayList<Progetto>();
 		for( Progetto tmp : progetti ){
 			if( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() != null ){
-				
 				tmp.getAnagraficaCup().setAnagraficaCup(
 						anagraficaCupDAO.findById( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() ) );
-				
-				retval.add(tmp);
-				
 			}
+			retval.add(tmp);
 		}
 		
 		return retval;

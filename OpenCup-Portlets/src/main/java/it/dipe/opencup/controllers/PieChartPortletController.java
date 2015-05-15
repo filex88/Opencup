@@ -280,6 +280,25 @@ public class PieChartPortletController {
 		
     }
 	
+	@EventMapping(value = "event.accediSoggetto")
+    public void processAccediSoggetto(EventRequest eventRequest,
+               				EventResponse eventResponse,
+               				Model model) throws CloneNotSupportedException {
+		
+		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
+
+		navigaAggregata.setIdAreaSoggetto("0");		
+		if( "0".equals(navigaAggregata.getIdCategoriaSoggetto()) ){
+			navigaAggregata.setIdCategoriaSoggetto("-1");
+		}
+		if( "0".equals(navigaAggregata.getIdSottoCategoriaSoggetto()) ){
+			navigaAggregata.setIdSottoCategoriaSoggetto("-1");
+		}
+
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		
+    }
+	
 	protected String createJsonStringFromModelAttribute(NavigaAggregata filtro){
 		ObjectMapper mapper= new ObjectMapper();
 

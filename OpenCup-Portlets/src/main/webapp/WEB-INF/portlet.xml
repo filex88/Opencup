@@ -194,6 +194,12 @@
             	publishName:event.accediLocalizzazione
             </qname>
        	</supported-processing-event>
+       	
+       	<supported-processing-event>
+            <qname xmlns:publishName="http:eventAccediSoggetto/events">
+            	publishName:event.accediSoggetto
+            </qname>
+       </supported-processing-event>
        
 		<supported-publishing-event>
           <qname xmlns:publishName="http:eventAccediClassificazione/events">
@@ -568,6 +574,12 @@
 		<supported-processing-event>
             <qname xmlns:publishName="http:eventAccediClassificazione/events">
             	publishName:event.accediClassificazione
+            </qname>
+       </supported-processing-event>
+       
+       <supported-processing-event>
+            <qname xmlns:publishName="http:eventAccediSoggetto/events">
+            	publishName:event.accediSoggetto
             </qname>
        </supported-processing-event>
 

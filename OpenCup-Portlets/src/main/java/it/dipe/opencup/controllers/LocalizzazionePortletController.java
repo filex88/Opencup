@@ -53,15 +53,15 @@ public class LocalizzazionePortletController{
 	}
 	
 	@RenderMapping
-	public String handleRenderRequest(	RenderRequest request, RenderResponse response, Model model, NavigaAggregata navigaAggregata){
+	public String handleRenderRequest( RenderRequest request, RenderResponse response, Model model, NavigaAggregata navigaAggregata){
 		
 		interroga(model, navigaAggregata);
 		
 		return "localizzazione-view";
 	}
 	
-	@RenderMapping(params="action=eventoClassificazione")
-	public String handleRenderRequestEventoClassificazione(	RenderRequest request, RenderResponse response, Model model, NavigaAggregata navigaAggregata){
+	@RenderMapping(params="action=evento")
+	public String handleRenderRequestEvento( RenderRequest request, RenderResponse response, Model model, NavigaAggregata navigaAggregata){
 		
 		interroga(model, navigaAggregata);
 		
@@ -112,7 +112,24 @@ public class LocalizzazionePortletController{
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
-		eventResponse.setRenderParameter("action", "eventoClassificazione");
+		eventResponse.setRenderParameter("action", "evento");
+		
+    }
+	
+	@EventMapping(value = "event.accediSoggetto")
+    public void processAccediSoggetto(EventRequest eventRequest,
+               				EventResponse eventResponse,
+               				Model model) throws CloneNotSupportedException {
+		
+		NavigaAggregata p = (NavigaAggregata) eventRequest.getEvent().getValue();
+		NavigaAggregata navigaAggregata = p.clone();
+		
+		navigaAggregata.rimuoviZero();
+		navigaAggregata.setIdAreaGeografica("0");
+		
+		model.addAttribute("navigaAggregata", navigaAggregata);
+		
+		eventResponse.setRenderParameter("action", "evento");
 		
     }
 	

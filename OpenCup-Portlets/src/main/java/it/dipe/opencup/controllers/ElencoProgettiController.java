@@ -1,6 +1,7 @@
 package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.controllers.common.FiltriCommonController;
+import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.DocumentoDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
@@ -160,14 +161,14 @@ public class ElencoProgettiController extends FiltriCommonController {
 		if(Validator.isNull(orderByType)  || Validator.equals("", orderByType)){
 		    orderByType = "desc";
 		}
-		
+
 		//delta
 		String sDelta = ParamUtil.getString(renderRequest, "delta");
 		int delta = maxResult;
 		if( ! ( Validator.isNull(sDelta) || Validator.equals("", sDelta) ) ){
 		    delta = Integer.parseInt(sDelta);
 		}
-
+		
 		SearchContainer<Progetto> searchContainerElenco = new SearchContainer<Progetto>(renderRequest, renderResponse.createRenderURL(), null, "Nessun dato trovato per la selezione fatta");
 		searchContainerElenco.setDelta(delta);
 		
@@ -196,12 +197,18 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("navigaProgetti", navigaProgetti);
 		// FINE RICERCA PROGETTI //
 		
+		
+		NavigaAggregata navigaAggregata = new NavigaAggregata();
+		navigaAggregata.importa( navigaProgetti );
+		
+		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
+		
 		// RIEPILOGO //
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		
-		for(Progetto aggregataDTO : elencoProgetti){
-			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetto();
+		for(AggregataDTO aggregataDTO : listaAggregataDTO){
+			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetti();
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
 		

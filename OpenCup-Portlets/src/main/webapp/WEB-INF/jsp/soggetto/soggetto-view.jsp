@@ -17,7 +17,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 <portlet:defineObjects />
 
 <div class="stripe">	
-	<c:if test="${ config.mostraPulsanti }">
+	<c:if test="${ configSoggetto.mostraPulsanti }">
 		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="VOLUME">
@@ -101,7 +101,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	var calculatedJsonClass4Soggetto = eval( JsonClass4Soggetto );
 	
 	var tipoAggregazioneSoggetto = '${pattern}';
-	var selezionabile = ! ${config.selezionabile};
+	var selezionabileSoggetto = ! ${configSoggetto.selezionabile};
 	
 	//var segments = [ "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3" ];
 	var baseColor1 = "#b2c6ff";
@@ -166,7 +166,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
 	d3.select("#container-soggetto-chart").style("border-left", "10px solid "+fillColor);
 
-	synchronizedMouseOver = function(info) {
+	synchronizedMouseOverSoggetto = function(info) {
 		var obj = d3.select(this);
 		var indexValue = obj.attr("index_value");
 
@@ -181,9 +181,12 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
 		textSoggetto.style("fill", fillColor);
 		
+		var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"+indexValue);
+		numberSoggetto.style("fill", fillColor);
+		
 	}
 	
-	synchronizedMouseOut = function(info) {
+	synchronizedMouseOutSoggetto = function(info) {
 		var obj = d3.select(this);
 		var indexValue = obj.attr("index_value");
 		var colorValue = obj.attr("color_value");
@@ -196,6 +199,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		
 		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
 		textSoggetto.style("fill", textColor);
+		
+		var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"+indexValue);
+		numberSoggetto.style("fill", textColor);
 	}
 	
 	function drawHistogramSoggetto ( elementName, dataSet, selectString, totHeight ) {
@@ -260,8 +266,8 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	    .attr("y", function(d) { return y(d.volume); })
 	    .attr("height", function(d) { 
 	    	return height - y(d.volume); })
-	    .on('mouseover', synchronizedMouseOver)
-		.on("mouseout", synchronizedMouseOut);
+	    .on('mouseover', synchronizedMouseOverSoggetto)
+		.on("mouseout", synchronizedMouseOutSoggetto);
 		
 	};
 	/*
@@ -336,11 +342,11 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	  		var className = "link-url-naviga-soggetto legend-circle-"+elementName+"-index-"+i;	
 	  		return className;
 	  	})
-		.on('mouseover', synchronizedMouseOver)
-		.on("mouseout", synchronizedMouseOut);
+		.on('mouseover', synchronizedMouseOverSoggetto)
+		.on("mouseout", synchronizedMouseOutSoggetto);
 		
 		// Create text at right
-        svg.selectAll("text")
+        svg.selectAll(".testo")
 		.data(dataSet) // Instruct to bind dataSet to text elements
 		.enter()
 		.append("text")
@@ -355,17 +361,42 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("index_value", function(d, i) { return "index-"+i; })
 		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 		.attr("class", function(d, i){
-	  		var className = "link-url-naviga-soggetto label legend-text-"+elementName+"-index-"+i;	
+	  		var className = "link-url-naviga-soggetto label testo legend-text-"+elementName+"-index-"+i;	
 	  		return className;
 	  	})
         .style("fill", textColor)
         .style("font-size", "1.8em")
-        .on('mouseover', synchronizedMouseOver)
-        .on("mouseout", synchronizedMouseOut)
+        .on('mouseover', synchronizedMouseOverSoggetto)
+        .on("mouseout", synchronizedMouseOutSoggetto)
         .append("title")
-        .text(function(d) { return d.label; });
+        .text(function(d) { return d.label; })
+
+     	// Create number at right
+        svg.selectAll(".valore")
+		.data(dataSet) // Instruct to bind dataSet to text elements
+		.enter()
+		.append("text")
+		.attr("x", widthTotal + 400)
+		.attr("y", function(d, i) { 
+			return gapBetweenGroups + (heightLegend*i);
+		})
+		.attr("dx", 0)
+        .attr("dy", "5px") // Controls padding to place text in alignment with bullets
+        .text(function(d) { return nFormatter(d.volume); })
+        .attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+		.attr("index_value", function(d, i) { return "index-"+i; })
+		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
+		.attr("class", function(d, i){
+	  		var className = "link-url-naviga-soggetto label valore legend-number-"+elementName+"-index-"+i;	
+	  		return className;
+	  	})
+        .style("fill", textColor)
+        .style("font-size", "1.8em")
+        .on('mouseover', synchronizedMouseOverSoggetto)
+        .on("mouseout", synchronizedMouseOutSoggetto);
 		
 	}
+
 	
 	var heightHistogramSoggetti = 250;
 	
@@ -415,7 +446,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	       				});
 		       				
 		       			$( ".link-url-naviga-soggetto" ).click(function() {
-		       				if(!selezionabile){
+		       				if(!selezionabileSoggetto){
 		       					var obj = d3.select(this);
 			       				var data_linkURL = obj.attr("data_linkURL");
 			       				$( ".naviga-form-soggetto" ).attr("action", data_linkURL);
