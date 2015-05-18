@@ -23,7 +23,17 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
-		
 
-	<bean class="it.dipe.opencup.controllers.SoggettoPortletController" />
+	<bean class="it.dipe.opencup.controllers.SoggettoPortletController" id="soggettoPortletController" />
+	
+	<bean class="it.dipe.opencup.controllers.SoggettoPortletConfigController" id="soggettoPortletConfigController" />
+	
+	<bean class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">
+	    <property name="portletModeMap">
+	        <map>
+	            <entry key="view" value-ref="soggettoPortletController"/>
+	            <entry key="edit" value-ref="soggettoPortletConfigController"/>
+	        </map>
+	    </property>
+	</bean>
 </beans>

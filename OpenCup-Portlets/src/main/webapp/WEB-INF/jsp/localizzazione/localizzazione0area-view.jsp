@@ -14,12 +14,6 @@
 
 <fmt:setLocale value="it_IT"/>
 
-<style>
-<!--
-div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
--->
-</style>
-
 <div class="stripe">
 	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 		<div class="offset3 span2">
@@ -56,7 +50,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
 	</div>	
 
-	<div id="container-localizzazione" style="padding-top: 30px; padding-bottom: 30px">
+	<div id="container-localizzazione">
+		
+		<div class="row">
+			<div class="titoloLocalizzazione" id="titoloLocalizzazione">
+				Localizzazione
+			</div>
+		</div>
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- GRAFICI --		
@@ -151,8 +151,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		fillColor = "#005500";
 	}
 
-	d3.select("#container-localizzazione")
-	.style("border-left", "10px solid "+fillColor);
+	d3.select("#titoloLocalizzazione").style("background", fillColor);
+	
+	d3.select("#container-localizzazione").style("border-left", "10px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){

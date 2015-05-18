@@ -22,7 +22,7 @@
 	#conteiner div.ic_tray:first-child{margin-left: -6px!important;}
 	#conteiner div.ic_tray:last-child{margin-left: -6px!important;}
 	#conteiner div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
-	#conteiner div.titolo p{padding:1em;font-size:18pt;color:#1f4e78;}
+	#conteiner div.titolo p{padding:1em; font-size:2em; color:#1f4e78;}
 	#conteiner .firstLoc{padding-top:1em;padding-left:1em; color:#1f4e78;font-size:16pt;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
 	#conteiner .classchart rect:first-of-type {fill: #d9d9d9;}

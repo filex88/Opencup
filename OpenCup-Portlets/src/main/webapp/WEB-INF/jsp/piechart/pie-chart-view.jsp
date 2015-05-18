@@ -8,12 +8,6 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
-<style>
-<!--
-div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
--->
-</style>
-
 <portlet:defineObjects />
 
 <div class="stripe">	
@@ -54,7 +48,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		</div>	
 	</c:if>
 
-	<div id="container-pie-chart" style="padding-top: 30px; padding-bottom: 30px">
+	<div id="container-classificazione-chart" class="container-classificazione-chart">
+		
+		<div class="row">
+			<div class="titoloClassificazione" id="titoloClassificazione">
+				Classificazione
+			</div>
+		</div>
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- GRAFICI --		
@@ -63,7 +63,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		
 		<div class="div_pie_chart_1">
 			<div class="row chart-div">
-				<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="height: 260px">
+				<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1">
 				</div>
 				<div class="span4" id="chartLegendPie"></div>
 				<div class="span4" id="histogramChartPie"></div>
@@ -147,8 +147,9 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		fillColor = "#005500";
 	}
 
-	d3.select("#container-pie-chart")
-	.style("border-left","10px solid "+fillColor);
+	d3.select("#titoloClassificazione").style("background", fillColor);
+	
+	d3.select("#container-classificazione-chart").style("border-left","10px solid "+fillColor);
 	
 	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	
@@ -285,29 +286,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		// sortArcs => Controls sorting of Arcs by value.
 		//              0 = No Sort.  Maintain original order.
 		//              1 = Sort by arc value size.
-		
-		// Color Scale Handling...
-//		var colorScale = d3.scale.category20c();
-//		
-//		switch (colors) {
-//			case "colorScale10":
-//				colorScale = d3.scale.category10();
-//				break;
-//			case "colorScale20":
-//				colorScale = d3.scale.category20();
-//				break;
-//			case "colorScale20b":
-//				colorScale = d3.scale.category20b();
-//				break;
-//			case "colorScale20c":
-//				colorScale = d3.scale.category20c();
-//				break;
-//			case "segments":
-//				colorScale = d3.scale.ordinal().range(segments);
-//				break;
-//			default:
-//				colorScale = d3.scale.category20c();
-//		};
 	
 		var pieWidthTotal = outerRadius * 2;
 			
@@ -378,13 +356,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		// with a selection. The result is creating a <g> for every object in the data array
 		// Create a group to hold each slice (we will have a <path> and a <text>      // element associated with each slice)
 		.enter()
-		/*
-		.append("svg:a")
-		.attr("xlink:href", function(d) {
-			return "#"; //d.data.linkURL;
-		})
-		.on('onclick',  function() {return false;})
-		*/
 		.append("svg:g").attr("class", "slice") //allow us to style things in the slices (like text)
 		// Set the color for each slice to be chosen from the color function defined above
 		// This creates the actual SVG path using the associated data (pie) with the arc drawing function
@@ -415,7 +386,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.on("mouseout", synchronizedMouseOut)
 		.transition()
 		.ease("linear")
-		//.ease("bounce")
 		.duration(500)
 		.delay(function(d, i) { return i * 50; })
 		.attrTween("d", tweenPie);
@@ -425,13 +395,11 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.append("svg:text")
 		.attr("dy", ".35em")
 		.attr("text-anchor", "middle")
-		//.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
 		.attr("transform", function(d) { //set the label's origin to the center of the arc
 					//we have to make sure to set these before calling arc.centroid
 					d.outerRadius = outerRadius; // Set Outer Coordinate
 					d.innerRadius = innerRadius; // Set Inner Coordinate
 					return "translate(" + arc.centroid(d) + ")";
-					//return "translate(" + arc.centroid(d) + ")rotate("	+ angle(d) + ")";
 				})
 		
 		.attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
@@ -450,14 +418,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			return retval;
 		 })
 		.style("fill", "White")
-		.style("font", "normal 18px Arial")
-		//.style("cursor", function(){
-		//		if(selezionabile){
-		//			return "default";
-		//		}else{
-		//			return "pointer";
-		//		}
-		//	})
+		.style("font-size", "1.8em")
 		.text(function(d) { return (d.data.percentage) + "%"; })
 		.on('mouseover', synchronizedMouseOver)
 		.on("mouseout", synchronizedMouseOut);
@@ -472,10 +433,14 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
 	function drawBar(chartName, histogramName, dataSet) {
 
-		var chartWidth       = 200,
-		    barHeight        = 25, //220 / dataSet.length, //310
+		
+		var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
+		
+		var chartWidth       = (width_div_chart / 100 * 70);
+		
+		var barHeight        = 25, //220 / dataSet.length, //310
 		    gapBetweenGroups = 30,
-		    spaceForLabels   = 150;
+		    spaceForLabels   = width_div_chart - chartWidth;
 
 		// Zip the series data together (first values, second values, etc.)
 		var zippedData = [];
@@ -489,9 +454,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
 		var chartHeight = barHeight * zippedData.length + (gapBetweenGroups * 2);
 
-		var x = d3.scale.linear()
-		    .domain([0, d3.max(zippedData)])
-		    .range([0, chartWidth]);
+		var x = d3.scale.linear().domain([0, d3.max(zippedData)]).range([0, chartWidth]);
 
 		var y = d3.scale.linear().range([chartHeight + gapBetweenGroups, 0]);
 
@@ -511,12 +474,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		var bar = chart.selectAll("g")
 		    .data(zippedData)
 		    .enter()
-			/*
-		    .append("svg:a")
-			.attr("xlink:href", function(d) {
-				return "#"; //d.data.linkURL;
-			}).on('onclick',  function() {return false;})
-			*/
 			.append("g")
 		    .attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 			.attr("index_value", function(d, i) { return "index-" + i; })
@@ -586,8 +543,10 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		var legendTextOffset = 20;
 		var textVerticalSpace = 20;
 		
+		var width_svg = d3.select(divLegend).node().getBoundingClientRect().width;
+		
 		var canvas = d3.select(divLegend).append("svg:svg")
-		    .attr("width", 450)
+		    .attr("width", width_svg)
 		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
 			
 		
@@ -635,14 +594,6 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
         canvas.selectAll(".legend_link")
 		.data(dataSet) // Instruct to bind dataSet to text elements
 		.enter()
-		/*
-		.append("svg:a") // Append legend elements
-		.attr("xlink:href", function(d) { 
-			//return d.linkURL; 
-			return "#";
-		})
-		.on('mouseclick', function(){ return false;})
-		*/
 		.append("text")
 		.attr("text-anchor", "center")
 		.attr("x", widthTotal + 20)
@@ -696,8 +647,15 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		}
 	};
 */	
+	
+	
+	width_pie_chart_1 = d3.select(".pie_chart_1").node().getBoundingClientRect().width;
+	d3.select("#titoloClassificazione").style("height", width_pie_chart_1);
+	
 	var margin = 10;
-	var outerRadius = 130;
+	var outerRadius = (width_pie_chart_1 / 2) - margin;
+	
+	
 	pie = drawPie("Pie1", dataSet1, ".pie_chart_1", "segments", margin, outerRadius, 0, 0);
 	
 	legend = drawLegend("#chartLegendPie", "Legend1", dataSet1);

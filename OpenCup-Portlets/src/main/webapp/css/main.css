@@ -950,3 +950,27 @@ div.celle_dati_sitesi{
 	font: 10px sans-serif;
 	display: block;
 }
+
+
+div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
+
+div.titoloClassificazione,
+div.titoloLocalizzazione,
+div.titoloSoggetto  {
+	padding:0.5em; 
+	font-size: 1.2em; 
+	color:#fff; 
+	display:block; 
+	text-align: center; 
+	width: 200px;
+	margin-bottom: 1.5em; 
+	margin-left: .5em;
+	margin-top: .5em;
+	border-radius: 0px 0px 0px 10px;
+	-moz-border-radius: 0px 0px 0px 10px; /* firefox */
+ 	-webkit-border-radius: 0px 0px 0px 10px; /* safari, chrome */
+}
+
+div.container-soggetto-chart,
+div.container-classificazione-chart,
+div.container-localizzazione {padding-bottom: 2em}

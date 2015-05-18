@@ -59,14 +59,6 @@ public class LocalizzazionePortletController{
 		
 		return "localizzazione-view";
 	}
-	
-	@RenderMapping(params="action=evento")
-	public String handleRenderRequestEvento( RenderRequest request, RenderResponse response, Model model, NavigaAggregata navigaAggregata){
-		
-		interroga(model, navigaAggregata);
-		
-		return "localizzazione-view";
-	}
 
 	private void interroga(Model model, NavigaAggregata navigaAggregata) {
 		Long numeProgetti = new Long(0);
@@ -111,9 +103,6 @@ public class LocalizzazionePortletController{
 		navigaAggregata.setIdAreaGeografica("0");
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
-		
-		eventResponse.setRenderParameter("action", "evento");
-		
     }
 	
 	@EventMapping(value = "event.accediSoggetto")
@@ -128,9 +117,6 @@ public class LocalizzazionePortletController{
 		navigaAggregata.setIdAreaGeografica("0");
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
-		
-		eventResponse.setRenderParameter("action", "evento");
-		
     }
 	
 	private String createJsonStringFromQueryResult(List<LocalizationValueConverter> formattedResult){

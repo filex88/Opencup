@@ -12,8 +12,6 @@
 
 <style>
 
-div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
-
 #italybymacroareas svg path:hover {cursor: default !important;}
 
 </style>
@@ -24,7 +22,13 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 
 <div class="stripe">
 	
-	<div id="container-localizzazione" style="padding-top: 30px; padding-bottom: 30px">
+	<div id="container-localizzazione">
+		
+		<div class="row">
+			<div class="titoloLocalizzazione" id="titoloLocalizzazione">
+				Localizzazione
+			</div>
+		</div>
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- GRAFICI --		
@@ -32,17 +36,15 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		<a id="localizzazione-portlet"></a>
 		
 		<div class="div_localizzazione_1">
-			<div class="row chart-div" style="height: 450px">
+			<div class="row chart-div">
 				
-				<div class="span6 offset1" style="padding-top: 80px">
-					<div class="span5" id=chartLegendTerritori></div>
-					<div class="span1" id="histogramChart">
-						<svg class="chart-bar-territori"></svg>
-					</div>
+				<div class="span3 offset1" id=chartLegendTerritori></div>
+					
+				<div class="span4" id="histogramChart">
+					<svg class="chart-bar-territori"></svg>
 				</div>
-				
-				<div class="span3 div_localizzazione chart localizzazione_1" id="localizzazione_1" style="height: 450px; width: 450px">
-					<div id="italybymacroareas"></div>
+
+				<div class="span4 chart" id="italybymacroareas">
 				</div>
 				
 				<div class="clear"></div>
@@ -92,8 +94,9 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		fillColor = "#005500";
 	}
 
-	d3.select("#container-localizzazione")
-	.style("border-left","10px solid "+fillColor);
+	d3.select("#titoloLocalizzazione").style("background", fillColor);
+	
+	d3.select("#container-localizzazione").style("border-left","10px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){
@@ -142,14 +145,17 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 
 	function drawGraphTerritori(dimension, calculated_json){
 
-		var width = 450,
-	    height = 450,
+		width_div_mappa = d3.select("#italybymacroareas").node().getBoundingClientRect().width - 30;
+		
+		var width = width_div_mappa,
+	    height = width_div_mappa,
 	    border=0.5
 	    bordercolor='none',
 	    smallrectW=50,
 	    smallrectH=50;
 
-		var svg = d3.select("#italybymacroareas").append("svg")
+		var svg = d3.select("#italybymacroareas")
+			.append("svg")
 	   	 	.attr("width", width)
 	    	.attr("height", height)
 	   		.attr("border",border);
@@ -222,6 +228,8 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 
 	function drawLegendTerritori (divLegend, legendName, dataSet){
 		
+		var width_LegendTerritori = d3.select(divLegend).node().getBoundingClientRect().width;
+		
 		var widthTotal = 50;
 		var heightLegend = 25; 
 		var gapBetweenGroups = 25;
@@ -230,7 +238,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		var textVerticalSpace = 20;
 		
 		var canvas = d3.select(divLegend).append("svg:svg")
-		    .attr("width", 800)
+		    .attr("width", width_LegendTerritori)
 		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
 					
 		// Plot the bullet circles...
@@ -286,10 +294,12 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 	
 	function drawBarTerritori(chartName, histogramName, dataSet){
 
-		var chartWidth       = 200,
+		var width_chart = d3.select(chartName).node().getBoundingClientRect().width;
+		
+		var chartWidth       = (width_chart / 100 * 70);
 		    barHeight        = 25, //220 / dataSet.length, //310
 		    gapBetweenGroups = 30,
-		    spaceForLabels   = 150;
+		    spaceForLabels   = spaceForLabels   = width_chart - chartWidth;
 
 		// Zip the series data together (first values, second values, etc.)
 		var zippedData = [];
@@ -345,7 +355,7 @@ div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
 		// Draw labels
 		bar.append("text")
 		   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
-		   .attr("x", function(d) { return - 60; })
+		   .attr("x", function(d) { return - 10; })
 		   .attr("y", (barHeight-10) / 2)
 		   .attr("dy", ".25em")
 		   .style("fill", textColor)

@@ -8,12 +8,6 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
-<style>
-<!--
-div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
--->
-</style>
-
 <portlet:defineObjects />
 
 <div class="stripe">	
@@ -54,7 +48,13 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		</div>	
 	</c:if>
 	
-	<div id="container-soggetto-chart" style="padding-top: 30px; padding-bottom: 30px">
+	<div id="container-soggetto-chart" class="container-soggetto-chart">
+		
+		<div class="row">
+			<div class="titoloSoggetto" id="titoloSoggetto">
+				Soggetto
+			</div>
+		</div>
 		
 		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
 		 -- GRAFICI --		
@@ -129,18 +129,23 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		baseColor3 = "#009600";
 		fillColor = "#005500";
 	}
+	
+	d3.select("#titoloSoggetto").style("background", fillColor);
+	
+	d3.select("#container-soggetto-chart").style("border-left", "10px solid "+fillColor);
+	
 	/*
-	var minData = d3.min(calculatedJsonClass4Soggetto, function(d) { return d.volume; });
-	var midData = d3.mean(calculatedJsonClass4Soggetto, function(d) { return d.volume; });
-	var maxData = d3.max(calculatedJsonClass4Soggetto, function(d) { return d.volume; });
+	var minDataSoggetto = d3.min(calculatedJsonClass4Soggetto, function(d) { return d.volume; });
+	var midDataSoggetto = d3.mean(calculatedJsonClass4Soggetto, function(d) { return d.volume; });
+	var maxDataSoggetto = d3.max(calculatedJsonClass4Soggetto, function(d) { return d.volume; });
 	*/
 	
-	var minData = 0;
-	var maxData = ${ recordCountSoggetto };
-	var midData = maxData / 2;
+	var minDataSoggetto = 0;
+	var maxDataSoggetto = ${ recordCountSoggetto };
+	var midDataSoggetto = maxDataSoggetto / 2;
 	
 	// scala colori in base a valori calcolati
-	var color = d3.scale.linear().domain([minData, midData, maxData]).range([baseColor1, baseColor2, baseColor3]);
+	var colorSoggetto = d3.scale.linear().domain([minDataSoggetto, midDataSoggetto, maxDataSoggetto]).range([baseColor1, baseColor2, baseColor3]);
 	
 	function nFormatter(num) {
 	    if (num >= 1000000000) {
@@ -163,26 +168,32 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	         //return  toLong ? s_ + '&hellip;' : s_;
 	         return  toLong ? s_ + '...' : s_;
 	      };
-	
-	d3.select("#container-soggetto-chart").style("border-left", "10px solid "+fillColor);
 
 	synchronizedMouseOverSoggetto = function(info) {
 		var obj = d3.select(this);
-		var indexValue = obj.attr("index_value");
-
-		obj.style('cursor','pointer');
 		
-		var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"+indexValue);
-		histogramSoggetto.style("fill", fillColor);
+		if(selezionabileSoggetto){
+			
+			obj.style('cursor','default');
 		
-		var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"+indexValue);
-		circleSoggetto.style("fill", fillColor);
-		
-		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
-		textSoggetto.style("fill", fillColor);
-		
-		var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"+indexValue);
-		numberSoggetto.style("fill", fillColor);
+		}else{
+			
+			var indexValue = obj.attr("index_value");
+	
+			obj.style('cursor','pointer');
+			
+			var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"+indexValue);
+			histogramSoggetto.style("fill", fillColor);
+			
+			var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"+indexValue);
+			circleSoggetto.style("fill", fillColor);
+			
+			var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
+			textSoggetto.style("fill", fillColor);
+			
+			var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"+indexValue);
+			numberSoggetto.style("fill", fillColor);
+		}
 		
 	}
 	
@@ -253,12 +264,15 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	  	.data(dataSet)
 	  	.enter()
 	  	.append("rect")
-	  	.attr("fill", function(d, i) { return color(i); })
+	  	.attr("fill", function(d, i) { return colorSoggetto(i); })
 	  	.attr("class", function(d, i){
-	  		var className = "link-url-naviga-soggetto bar_soggetto historgam-"+elementName+"-index-"+i;	
-	  		return className;
+	  		retval = "bar_soggetto historgam-"+elementName+"-index-"+i;
+			if(!selezionabileSoggetto){
+				retval = retval + " link-url-naviga-soggetto";
+			}
+			return retval;
 	  	})
-	  	.attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+	  	.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
 		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 	    .attr("x", function(d, i) { return x(d.label); })
@@ -295,7 +309,7 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
         .append("rect")
         .attr("width", '16')
         .attr("height", '16')
-        .attr("fill", function(d, i) { return color(i); });
+        .attr("fill", function(d, i) { return colorSoggetto(i); });
             
         // create the second column for each segment.
         tr
@@ -334,13 +348,16 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 			return gapBetweenGroups + (heightLegend * i);
 		})
 		.attr("stroke-width", ".5")
-		.style("fill", function(d, i) { return color(i); }) // Bullet fill color
-		.attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+		.style("fill", function(d, i) { return colorSoggetto(i); }) // Bullet fill color
+		.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
 		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 		.attr("class", function(d, i){
-	  		var className = "link-url-naviga-soggetto legend-circle-"+elementName+"-index-"+i;	
-	  		return className;
+			retval = "legend-circle-"+elementName+"-index-"+i;
+			if(!selezionabileSoggetto){
+				retval = retval + " link-url-naviga-soggetto";
+			}
+			return retval;
 	  	})
 		.on('mouseover', synchronizedMouseOverSoggetto)
 		.on("mouseout", synchronizedMouseOutSoggetto);
@@ -357,12 +374,15 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("dx", 0)
         .attr("dy", "5px") // Controls padding to place text in alignment with bullets
         .text(function(d) { return (d.label).trunc(36, true); })
-        .attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+        .attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
 		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 		.attr("class", function(d, i){
-	  		var className = "link-url-naviga-soggetto label testo legend-text-"+elementName+"-index-"+i;	
-	  		return className;
+			retval = "label testo legend-text-"+elementName+"-index-"+i;
+			if(!selezionabileSoggetto){
+				retval = retval + " link-url-naviga-soggetto";
+			}
+			return retval;
 	  	})
         .style("fill", textColor)
         .style("font-size", "1.8em")
@@ -383,12 +403,15 @@ div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 		.attr("dx", 0)
         .attr("dy", "5px") // Controls padding to place text in alignment with bullets
         .text(function(d) { return nFormatter(d.volume); })
-        .attr("color_value", function(d, i) { return color(i); }) // Bar fill color...
+        .attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
 		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
 		.attr("class", function(d, i){
-	  		var className = "link-url-naviga-soggetto label valore legend-number-"+elementName+"-index-"+i;	
-	  		return className;
+			retval = "label valore legend-number-"+elementName+"-index-"+i;
+			if(!selezionabileSoggetto){
+				retval = retval + " link-url-naviga-soggetto";
+			}
+			return retval;
 	  	})
         .style("fill", textColor)
         .style("font-size", "1.8em")

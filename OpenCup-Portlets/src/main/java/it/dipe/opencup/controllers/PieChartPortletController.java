@@ -277,7 +277,6 @@ public class PieChartPortletController {
 		}
 
 		model.addAttribute("navigaAggregata", navigaAggregata);
-		
     }
 	
 	@EventMapping(value = "event.accediSoggetto")
@@ -287,7 +286,7 @@ public class PieChartPortletController {
 		
 		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
 
-		navigaAggregata.setIdAreaSoggetto("0");		
+		navigaAggregata.setIdAreaIntervento("0");		
 		if( "0".equals(navigaAggregata.getIdCategoriaSoggetto()) ){
 			navigaAggregata.setIdCategoriaSoggetto("-1");
 		}

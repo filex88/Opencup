@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.EventRequest;
+import javax.portlet.EventResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -78,7 +81,6 @@ public class SoggettoPortletController {
 		navigaAggregata.setIdCategoriaSoggetto("-1");
 		navigaAggregata.setIdSottoCategoriaSoggetto("-1");
 		
-		
 		return navigaAggregata;
 	}
 	
@@ -103,12 +105,13 @@ public class SoggettoPortletController {
 		}
 		
 		PieChartConfigDTO config = new PieChartConfigDTO();
-		/*
+		
 		config.setSelezionabile( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_SELEZIONABILE, "N") ) );
 		config.setMostraPulsanti( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
-		*/
+		/*
 		config.setSelezionabile( true );
 		config.setMostraPulsanti( true  );
+		*/
 		model.addAttribute("configSoggetto", config);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
@@ -211,6 +214,37 @@ public class SoggettoPortletController {
 		aResponse.setEvent(eventName, navigaAggregata);
 		
 	}
+	
+	@EventMapping(value = "event.accediClassificazione")
+    public void processAccediClassificazione(EventRequest eventRequest,
+               				EventResponse eventResponse,
+               				Model model) throws CloneNotSupportedException {
+		
+		NavigaAggregata p = (NavigaAggregata) eventRequest.getEvent().getValue();
+		NavigaAggregata navigaAggregata = p.clone();
+		
+		navigaAggregata.rimuoviZero();
+		navigaAggregata.setIdAreaSoggetto("0");
+		navigaAggregata.setIdCategoriaSoggetto("-1");
+		navigaAggregata.setIdSottoCategoriaSoggetto("-1");
+		
+		model.addAttribute("navigaAggregata", navigaAggregata);
+    }
+	
+	@EventMapping(value = "event.accediLocalizzazione")
+    public void processAccediLocalizzazione(EventRequest eventRequest,
+               				EventResponse eventResponse,
+               				Model model) throws CloneNotSupportedException {
+		
+		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
+
+		navigaAggregata.rimuoviZero();
+		navigaAggregata.setIdAreaSoggetto("0");
+		navigaAggregata.setIdCategoriaSoggetto("-1");
+		navigaAggregata.setIdSottoCategoriaSoggetto("-1");
+
+		model.addAttribute("navigaAggregata", navigaAggregata);
+    }
 	
 	protected String createJsonStringFromModelAttribute(NavigaAggregata filtro){
 		ObjectMapper mapper= new ObjectMapper();
