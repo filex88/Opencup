@@ -19,8 +19,6 @@
 <portlet:defineObjects />
 <fmt:setLocale value="it_IT"/>
 
-
-<div class="stripe">
 	
 	<div id="container-localizzazione">
 		
@@ -38,15 +36,21 @@
 		<div class="div_localizzazione_1">
 			<div class="row chart-div">
 				
-				<div class="span3 offset1" id=chartLegendTerritori></div>
+				<div class="span6 offset1 chart" id="italybymacroareas">
+				</div>
+
+				<div class="clear"></div>
+				
+			</div>
+			
+			<div class="row chart-div">
+				
+				<div class="span5 offset1" id=chartLegendTerritori></div>
 					
-				<div class="span4" id="histogramChart">
+				<div class="span5" id="histogramChart">
 					<svg class="chart-bar-territori"></svg>
 				</div>
 
-				<div class="span4 chart" id="italybymacroareas">
-				</div>
-				
 				<div class="clear"></div>
 				
 			</div>
@@ -55,8 +59,6 @@
 		<div class="alert alert-info localizzazioneEmpty" id="localizzazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
 					
 	</div>
-	
-</div>
 
 <script>
 	var dataSet = ${jsonResultLocalizzazione};
@@ -145,7 +147,7 @@
 
 	function drawGraphTerritori(dimension, calculated_json){
 
-		width_div_mappa = d3.select("#italybymacroareas").node().getBoundingClientRect().width - 30;
+		var width_div_mappa = d3.select("#italybymacroareas").node().getBoundingClientRect().width - 30;
 		
 		var width = width_div_mappa,
 	    height = width_div_mappa,
@@ -200,7 +202,7 @@
 		    var path = d3.geo.path()
 		        .projection(projection);
 	    
-		    svg.append("g").attr("id","territorioSel");
+		    svg.append("g").attr("id","territorioSel").attr("class","elementoCartina");
 	     
 		    svg.selectAll("g")
 		    	.selectAll("path")
@@ -222,6 +224,35 @@
 						return color(d.properties.VALORE_IMPORTO);
 					}
 		    	});
+		    
+		    	
+		    var selection = d3.select('.elementoCartina');
+    	   	
+    		// trovo coordinate quadrato che circonda la selezione  
+    		var currentX=selection[0][0].getBBox().x;
+    		var currentY=selection[0][0].getBBox().y;
+    		
+    		var currentW=selection[0][0].getBBox().width;
+    		var currentH=selection[0][0].getBBox().height;
+    		
+    		// calcolo spostamenti per portare il riferimento su angolo superiore sx (ossia sottraggo ascissa e ordinata)
+    		var xFirstTranslation=-currentX;
+    		var yFirstTranslation=-currentY;
+
+    		var maxCurrentWH = (currentW>currentH)?currentW:currentH;
+
+    		// dopo aver scalato sposto al centro il g contenitore
+    		var maxScale=width_div_mappa/maxCurrentWH;
+
+    		var xSecondTranslation=(width/2)-(currentW*(maxScale/2));
+    		 	
+    		var ySecondTranslation=(height/2)-(currentH*(maxScale/2));
+    		
+    		// sposta all'angolo, poi quintuplica, poi sposta al centro
+    		selection.attr("transform", "translate("+xSecondTranslation+","+10+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
+    			var newBorder=border/maxScale;
+    		selection.style("stroke-width", newBorder);
+		    
    		});
 		
 	}

@@ -65,10 +65,9 @@
 		<a id="localizzazione-portlet"></a>
 		
 		<div class="div_localizzazione_1">
-			<div class="row chart-div" style="height: 450px">
+			<div class="row chart-div">
 				
-				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="localizzazione_1" style="height: 450px; width: 450px">
-					<div id="italybymacroareas"></div>
+				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas" >
 				</div>
 				
 				<div class="span6" style="padding-top: 80px">
@@ -204,8 +203,10 @@
 	
 	function drawGraphTerritori(dimension, calculated_json){
 
-		var width = 450,
-	    height = 450,
+		var width_div_mappa = d3.select("#italybymacroareas").node().getBoundingClientRect().width - 30;
+		
+		var width = width_div_mappa,
+	    height = width_div_mappa,
 	    border=0.5
 	    bordercolor='none',
 	    smallrectW=50,
@@ -382,9 +383,10 @@
 	    		var xFirstTranslation=-currentX;
 	    		var yFirstTranslation=-currentY;
 
+	    		var maxCurrentWH = (currentW>currentH)?currentW:currentH;
 
 	    		// dopo aver scalato sposto al centro il g contenitore
-	    		var maxScale=6;
+	    		var maxScale=width_div_mappa/maxCurrentWH;
 
 	    		var xSecondTranslation=(width/2)-(currentW*(maxScale/2));
 	    		 	var ySecondTranslation=(height/2)-(currentH*(maxScale/2));

@@ -10,8 +10,9 @@
 
 <portlet:defineObjects />
 
-<div class="stripe">	
-	<c:if test="${ configSoggetto.mostraPulsanti }">
+
+<c:if test="${ configSoggetto.mostraPulsanti }">
+	<div class="stripe">	
 		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="VOLUME">
@@ -46,8 +47,14 @@
 			<div class="clear"></div>
 		
 		</div>	
-	</c:if>
-	
+	</div>
+
+</c:if>
+
+<c:if test="${ configSoggetto.portletPrincipale }">
+	<div class="stripe">
+</c:if>
+		
 	<div id="container-soggetto-chart" class="container-soggetto-chart">
 		
 		<div class="row">
@@ -61,15 +68,31 @@
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<a id="soggetto-portlet"></a>
 		
-		<div class="div_soggetto_1 row">
-			<div class="row chart-div">
-				<div class="span6 div_soggetto chart soggetto_1">
+		<c:choose>
+			<c:when test="${ configSoggetto.portletPrincipale }">
+				<div class="div_soggetto_1 row">
+					<div class="row chart-div">
+						<div class="span6 div_soggetto chart soggetto_1">
+						</div>
+						<div class="span6 div_soggetto chart soggetto_2">
+						</div>
+					</div>
 				</div>
-				<div class="span6 div_soggetto chart soggetto_2">
+			</c:when>
+			<c:otherwise>
+				<div class="div_soggetto_1">
+					<div class="row chart-div">
+						<div class="span8 offset1 div_soggetto chart soggetto_1">
+						</div>
+					</div>
+					<div class="row chart-div">
+						<div class="span10 span1 div_soggetto chart soggetto_2"></div>
+					</div>
 				</div>
-			</div>
-		</div>
+			</c:otherwise>
+		</c:choose>
 		
+
 	</div>
 	
 	<portlet:actionURL var="urlActionSoggettoVar">
@@ -94,7 +117,9 @@
 			
 	</form>
 	
-</div>
+<c:if test="${ configSoggetto.portletPrincipale }">
+	</div>
+</c:if>
 
 <script type="text/javascript">
 	var JsonClass4Soggetto = ${aggregati4Soggetto};
@@ -215,7 +240,7 @@
 		numberSoggetto.style("fill", textColor);
 	}
 	
-	function drawHistogramSoggetto ( elementName, dataSet, selectString, totHeight ) {
+	function drawHistogramSoggetto ( elementName, dataSet, selectString ) {
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;			
 		
@@ -223,7 +248,7 @@
 		
 		var width = totWidth - margin.left - margin.right;
 		
-		var height = totHeight - margin.top - margin.bottom;
+		var height = (totWidth - margin.top - margin.bottom)/2;
 		
 		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
 		
@@ -421,9 +446,9 @@
 	}
 
 	
-	var heightHistogramSoggetti = 250;
+	//var heightHistogramSoggetti = 250;
 	
-	drawHistogramSoggetto("HistogramSoggetto", calculatedJsonClass4Soggetto, ".soggetto_1", heightHistogramSoggetti );
+	drawHistogramSoggetto("HistogramSoggetto", calculatedJsonClass4Soggetto, ".soggetto_1" );
 	
 	drawLegendSoggetto("LegendSoggetto", calculatedJsonClass4Soggetto, ".soggetto_2" );
 	

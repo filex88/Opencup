@@ -34,6 +34,13 @@
 				<springform:checkbox path="selezionabile" />
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<span class="control-label">Portlet Principale</span>
+			<div class="controls">
+				<springform:checkbox path="portletPrincipale" />
+			</div>
+		</div>
 	
 		<div class="control-group">
 			<div class="controls">

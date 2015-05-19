@@ -10,8 +10,9 @@
 
 <portlet:defineObjects />
 
-<div class="stripe">	
-	<c:if test="${ config.mostraPulsanti }">
+	
+<c:if test="${ config.mostraPulsanti }">
+	<div class="stripe">
 		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="VOLUME">
@@ -44,9 +45,14 @@
 				</c:if>
 			</div>
 			<div class="clear"></div>
-		
-		</div>	
-	</c:if>
+		</div>
+	</div>	
+</c:if>
+
+<c:if test="${ config.portletPrincipale }">
+	<div class="stripe">
+</c:if>
+
 
 	<div id="container-classificazione-chart" class="container-classificazione-chart">
 		
@@ -61,15 +67,32 @@
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<a id="pie-chart-portlet"></a>
 		
-		<div class="div_pie_chart_1">
-			<div class="row chart-div">
-				<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1">
+		<c:choose>
+			<c:when test="${ config.portletPrincipale }">
+				<div class="div_pie_chart_1">
+					<div class="row chart-div">
+						<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1">
+						</div>
+						<div class="span4" id="chartLegendPie"></div>
+						<div class="span4" id="histogramChartPie"></div>
+					</div>
 				</div>
-				<div class="span4" id="chartLegendPie"></div>
-				<div class="span4" id="histogramChartPie"></div>
-			</div>
-		</div>
+			</c:when>
+			<c:otherwise>
+				<div class="div_pie_chart_1">
+					<div class="row chart-div">
+						<div class="span5 offset2 div_pie_chart chart pie_chart_1" id="pie_chart_1">
+						</div>
+					</div>
+					<div class="row chart-div">
+						<div class="span5 offset1" id="chartLegendPie"></div>
+						<div class="span5" id="histogramChartPie"></div>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
 		
+		<%-- 
 		<div id="tooltip-pie-chart" class="tooltip-pie-chart hidden">
 	    	<p><span id="label-tooltip-pie-chart"></span></p>
 			<p><strong><span>Percentuale</span>:&nbsp;</strong><span id="percentuale-tooltip-pie-chart"></span></p>
@@ -81,7 +104,7 @@
 		</div>
 		
 		<div class="alert alert-info pieChartEmpty" id="pieChartEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
-					
+		--%>			
 	</div>
 	
 	<portlet:actionURL var="urlActionVar">
@@ -105,7 +128,10 @@
 			<aui:input type="hidden" bean="navigaAggregata" name="idCategoriaIntervento" value="${navigaAggregata.idCategoriaIntervento}" id="idCategoriaIntervento" />
 			
 	</form>
-</div>
+	
+<c:if test="${ config.portletPrincipale }">
+	</div>
+</c:if>
 
 <script type="text/javascript">
 

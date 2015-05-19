@@ -3,7 +3,7 @@ package it.dipe.opencup.controllers;
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.NavigaAggregata;
-import it.dipe.opencup.dto.PieChartConfigDTO;
+import it.dipe.opencup.dto.PortletConfigDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 
 import java.io.IOException;
@@ -108,9 +108,10 @@ public class PieChartPortletController {
 		    prefs = PortletPreferencesFactoryUtil.getPortletSetup(renderRequest, portletResource);
 		}
 		
-		PieChartConfigDTO config = new PieChartConfigDTO();
-		config.setSelezionabile( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_SELEZIONABILE, "N") ) );
-		config.setMostraPulsanti( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
+		PortletConfigDTO config = new PortletConfigDTO();
+		config.setSelezionabile( "S".equals( prefs.getValue(PortletConfigDTO.PROP_SELEZIONABILE, "N") ) );
+		config.setMostraPulsanti( "S".equals( prefs.getValue(PortletConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
+		config.setPortletPrincipale( "S".equals( prefs.getValue(PortletConfigDTO.PROP_PORTLET_PRINCIPALE, "N") ) );
 		model.addAttribute("config", config);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);

@@ -1,6 +1,6 @@
 package it.dipe.opencup.controllers;
 
-import it.dipe.opencup.dto.PieChartConfigDTO;
+import it.dipe.opencup.dto.PortletConfigDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 
 import java.io.IOException;
@@ -60,9 +60,10 @@ public class PieChartPortletConfigController {
 		    prefs = PortletPreferencesFactoryUtil.getPortletSetup(renderRequest, portletResource);
 		}
 		
-		PieChartConfigDTO config = new PieChartConfigDTO();
-		config.setSelezionabile( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_SELEZIONABILE, "N") ) );
-		config.setMostraPulsanti( "S".equals( prefs.getValue(PieChartConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
+		PortletConfigDTO config = new PortletConfigDTO();
+		config.setSelezionabile( "S".equals( prefs.getValue(PortletConfigDTO.PROP_SELEZIONABILE, "N") ) );
+		config.setMostraPulsanti( "S".equals( prefs.getValue(PortletConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
+		config.setPortletPrincipale( "S".equals( prefs.getValue(PortletConfigDTO.PROP_PORTLET_PRINCIPALE, "N") ) );
 		model.addAttribute("config", config);
 		
 		
@@ -81,14 +82,16 @@ public class PieChartPortletConfigController {
 	}
 	
 	@ActionMapping(params="action=save")
-	public void salva(@ModelAttribute("config") PieChartConfigDTO config, PortletPreferences prefs, ActionRequest actionRequest) throws ReadOnlyException, ValidatorException, IOException {
+	public void salva(@ModelAttribute("config") PortletConfigDTO config, PortletPreferences prefs, ActionRequest actionRequest) throws ReadOnlyException, ValidatorException, IOException {
 		
 		
-		prefs.reset(PieChartConfigDTO.PROP_MOSTRAPULTANTI);
-		prefs.reset(PieChartConfigDTO.PROP_SELEZIONABILE);
+		prefs.reset(PortletConfigDTO.PROP_MOSTRAPULTANTI);
+		prefs.reset(PortletConfigDTO.PROP_SELEZIONABILE);
+		prefs.reset(PortletConfigDTO.PROP_PORTLET_PRINCIPALE);
 		
-		prefs.setValue(PieChartConfigDTO.PROP_MOSTRAPULTANTI, config.isMostraPulsanti() ?  "S" : "N");
-		prefs.setValue(PieChartConfigDTO.PROP_SELEZIONABILE, config.isSelezionabile() ?  "S" : "N");
+		prefs.setValue(PortletConfigDTO.PROP_MOSTRAPULTANTI, config.isMostraPulsanti() ?  "S" : "N");
+		prefs.setValue(PortletConfigDTO.PROP_SELEZIONABILE, config.isSelezionabile() ?  "S" : "N");
+		prefs.setValue(PortletConfigDTO.PROP_PORTLET_PRINCIPALE, config.isPortletPrincipale() ?  "S" : "N");
 		
 		prefs.store();
 		

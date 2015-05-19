@@ -952,7 +952,9 @@ div.celle_dati_sitesi{
 }
 
 
-div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
+div.stripe{
+	background: #fff;
+	border-bottom:.5em solid #f0f0f0;}
 
 div.titoloClassificazione,
 div.titoloLocalizzazione,

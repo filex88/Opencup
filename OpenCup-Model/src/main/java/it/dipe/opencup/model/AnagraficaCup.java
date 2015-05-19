@@ -122,6 +122,9 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	
 	@Column(name = "DESC_DCUP_STRUTTURA_INFRAST", length = 255)
 	private String descStrutturaInfrast;
+	
+	@Column(name = "DESC_DCUP_QUALITA", length = 200)
+	private String descQualita;
 
 	@Column(name = "FK_DCUP_DCUP_ID_MASTER")
 	private Integer fkDcupDcupIdMaster;
@@ -370,9 +373,16 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 //		this.subordinatesCupList = subordinatesCupList;
 //	}
 
-
 	public List<CupLocalizzazione> getCupLocalizzazioneList() {
 		return cupLocalizzazioneList;
+	}
+
+	public String getDescQualita() {
+		return descQualita;
+	}
+
+	public void setDescQualita(String descQualita) {
+		this.descQualita = descQualita;
 	}
 
 	public Date getDataGenerazione() {

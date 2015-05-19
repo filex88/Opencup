@@ -64,10 +64,9 @@
 		<a id="localizzazione-portlet"></a>
 		
 		<div class="div_localizzazione_1">
-			<div class="row chart-div" style="height: 450px">
+			<div class="row chart-div">
 				
-				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="localizzazione_1" style="height: 450px; width: 450px">
-					<div id="italybymacroareas"></div>
+				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
 				</div>
 				
 				<div class="span6" style="padding-top: 80px">
@@ -201,8 +200,10 @@
 
 	function drawGraphTerritori(dimension, calculated_json){
 
-		var width = 450,
-	    height = 450,
+		var width_div_mappa = d3.select("#italybymacroareas").node().getBoundingClientRect().width - 30;
+		
+		var width = width_div_mappa,
+	    height = width_div_mappa,
 	    border=0.5
 	    bordercolor='none',
 	    smallrectW=50,
@@ -253,8 +254,10 @@
 	 
 		    var path = d3.geo.path()
 		        .projection(projection);
-	    
-		    svg.append("g").attr("id","territorioSel");
+		    
+	    	svg.append("g")
+    		.attr("id","regioneSel")
+    		.attr("class","elementoCartina");
 	     
 		    svg.selectAll("g")
 		    	.selectAll("path")
@@ -358,6 +361,33 @@
 						return retValColor;
 					});
 	    		});
+		    
+			    var selection = d3.select('.elementoCartina');
+	    	   	
+	    		// trovo coordinate quadrato che circonda la selezione  
+	    		var currentX=selection[0][0].getBBox().x;
+	    		var currentY=selection[0][0].getBBox().y;
+	    		var currentW=selection[0][0].getBBox().width;
+	    		var currentH=selection[0][0].getBBox().height;
+	
+	    		// calcolo spostamenti per portare il riferimento su angolo superiore sx (ossia sottraggo ascissa e ordinata)
+	    		var xFirstTranslation=-currentX;
+	    		var yFirstTranslation=-currentY;
+	
+	    		var maxCurrentWH = (currentW>currentH)?currentW:currentH;
+
+	    		// dopo aver scalato sposto al centro il g contenitore
+	    		var maxScale=width_div_mappa/maxCurrentWH;
+	
+	    		var xSecondTranslation=(width/2)-(currentW*(maxScale/2));
+	    		 var ySecondTranslation=(height/2)-(currentH*(maxScale/2));
+	    		
+	    		// sposta all'angolo, poi quintuplica, poi sposta al centro
+	    		selection.attr("transform", "translate("+xSecondTranslation+","+10+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
+	    		var newBorder=border/maxScale;
+	    		
+	    		selection.style("stroke-width", newBorder);
+		    	
    			});
 		
 	}

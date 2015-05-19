@@ -2,13 +2,16 @@ package it.dipe.opencup.dto;
 
 import java.io.Serializable;
 
-public class PieChartConfigDTO implements Serializable {
+public class PortletConfigDTO implements Serializable {
 
 	private static final long serialVersionUID = -2276042836988266597L;
 	
 	public static final String PROP_MOSTRAPULTANTI = "MOSTRA_PULSANTI";
 	public static final String PROP_SELEZIONABILE = "SELEZIONABILE";
-
+	public static final String PROP_PORTLET_PRINCIPALE = "PORTLET_PRINCIPALE";
+	
+	private boolean portletPrincipale;
+	
 	private boolean mostraPulsanti;
 	
 	private boolean selezionabile;
@@ -27,6 +30,14 @@ public class PieChartConfigDTO implements Serializable {
 
 	public void setSelezionabile(boolean selezionabile) {
 		this.selezionabile = selezionabile;
+	}
+
+	public boolean isPortletPrincipale() {
+		return portletPrincipale;
+	}
+
+	public void setPortletPrincipale(boolean portletPrincipale) {
+		this.portletPrincipale = portletPrincipale;
 	}
 	
 	
