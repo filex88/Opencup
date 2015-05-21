@@ -67,7 +67,7 @@
 		<div class="div_localizzazione_1">
 			<div class="row chart-div">
 				
-				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas" >
+				<div class="span4 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas" >
 				</div>
 				
 				<div class="span6" style="padding-top: 80px">

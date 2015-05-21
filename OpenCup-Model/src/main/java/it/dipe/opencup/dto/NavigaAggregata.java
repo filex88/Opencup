@@ -15,6 +15,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	public static final String NAVIGA_LOCALIZZAZIONE = "localizzazione";
 	
 	private String pagAggregata;
+	private String indicatoreNavigaLocalizzazione;
 	
 	private String naviga;
 	private String distribuzione;
@@ -99,6 +100,8 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
 			this.idAnnoAggregatos.add(tmp);
 		}
+		
+		this.indicatoreNavigaLocalizzazione = "A";
 	}
 	
 	public void rimuoviZero() {
@@ -155,6 +158,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.idNatura = id;
 		this.idAreaIntervento = "-1";
 		this.pagAggregata = "";
+		this.indicatoreNavigaLocalizzazione = "A";
 		
 		/*
 		if(NAVIGA_CLASSIFICAZIONE.equals(this.naviga)){
@@ -195,6 +199,8 @@ public class NavigaAggregata implements Serializable, Cloneable{
 
 	public NavigaAggregata(){
 		this.distribuzione = "VOLUME";
+		this.indicatoreNavigaLocalizzazione = "A";
+		
 		this.pagAggregata = "";
 		this.naviga = "";
 		this.idNatura = "-1";
@@ -235,7 +241,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		toString = toString + "naviga: (" + naviga + "); ";
 		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
 		toString = toString + "distribuzione: (" + distribuzione + "); ";
-		
+		toString = toString + "indicatoreNavigaLocalizzazione: (" + indicatoreNavigaLocalizzazione + "); ";		
 		return toString;
 	}
 	
@@ -705,6 +711,15 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.orderProperty = orderProperty;
 	}
 
+	public String getIndicatoreNavigaLocalizzazione() {
+		return indicatoreNavigaLocalizzazione;
+	}
+
+	public void setIndicatoreNavigaLocalizzazione(
+			String indicatoreNavigaLocalizzazione) {
+		this.indicatoreNavigaLocalizzazione = indicatoreNavigaLocalizzazione;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -808,6 +823,10 @@ public class NavigaAggregata implements Serializable, Cloneable{
 				* result
 				+ ((idTipologiaIntervento == null) ? 0 : idTipologiaIntervento
 						.hashCode());
+		result = prime
+				* result
+				+ ((indicatoreNavigaLocalizzazione == null) ? 0
+						: indicatoreNavigaLocalizzazione.hashCode());
 		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
 		result = prime * result
 				+ ((orderProperty == null) ? 0 : orderProperty.hashCode());
@@ -993,6 +1012,12 @@ public class NavigaAggregata implements Serializable, Cloneable{
 				return false;
 		} else if (!idTipologiaIntervento.equals(other.idTipologiaIntervento))
 			return false;
+		if (indicatoreNavigaLocalizzazione == null) {
+			if (other.indicatoreNavigaLocalizzazione != null)
+				return false;
+		} else if (!indicatoreNavigaLocalizzazione
+				.equals(other.indicatoreNavigaLocalizzazione))
+			return false;
 		if (naviga == null) {
 			if (other.naviga != null)
 				return false;
@@ -1015,5 +1040,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			return false;
 		return true;
 	}
+
+	
 
 }

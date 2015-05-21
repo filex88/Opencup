@@ -78,7 +78,7 @@ public class LocalizzazionePortlet0Controller{
 										Model model,
 										@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
 										@RequestParam(required=false, value="pattern") String pattern ){
-		
+
 		String retval = "localizzazione0-view";
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
@@ -87,11 +87,24 @@ public class LocalizzazionePortlet0Controller{
 		boolean flagAreaGeografica = ( Integer.valueOf( navigaAggregata.getIdAreaGeografica() ) > 0 );
 		boolean flagRegione = ( Integer.valueOf( navigaAggregata.getIdRegione() ) > 0 );
 		
+		String idAreaGeografica = navigaAggregata.getIdAreaGeografica();
+		String idRegione = navigaAggregata.getIdRegione();
 		
+		if( "R".equals( navigaAggregata.getIndicatoreNavigaLocalizzazione() ) 
+				&&
+			"-1".equals( navigaAggregata.getIdRegione() )
+		){
+			navigaAggregata.setIdAreaGeografica( "0" );
+			navigaAggregata.setIdRegione( "0" );
+		}
+		List<Aggregata> risultati = aggregataFacade.findAggregataByLocalizzazione(navigaAggregata);
+		
+		navigaAggregata.setIdAreaGeografica( idAreaGeografica );
+		navigaAggregata.setIdRegione( idRegione );
+
 		Long numeProgetti = new Long(0);
 		double impoCostoProgetti = 0.0;
 		double impoImportoFinanziato = 0.0;
-		List<Aggregata> risultati = aggregataFacade.findAggregataByLocalizzazione(navigaAggregata);
 		List<LocalizationValueConverter> valori = new ArrayList<LocalizationValueConverter>();
 		String strCodAreaGeo = "";
 		String strCodRegione= "";
@@ -115,6 +128,10 @@ public class LocalizzazionePortlet0Controller{
 				strCodRegione = aggregata.getLocalizzazione().getRegione().getCodiRegione();
 				codice = aggregata.getLocalizzazione().getProvincia().getCodiProvincia();
 				nome = aggregata.getLocalizzazione().getProvincia().getDescProvincia();
+			}else if( "R".equals( navigaAggregata.getIndicatoreNavigaLocalizzazione() ) ){
+				//Visualizzo tutta l'italia
+				codice = aggregata.getLocalizzazione().getRegione().getCodiRegione();
+				nome = aggregata.getLocalizzazione().getRegione().getDescRegione();
 			}else{
 				//Visualizzo tutta l'italia
 				codice = aggregata.getLocalizzazione().getAreaGeografica().getCodiAreaGeografica();
@@ -156,10 +173,8 @@ public class LocalizzazionePortlet0Controller{
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
 		model.addAttribute("pattern", navigaAggregata.getDistribuzione());
-		
-		
+		model.addAttribute("indicatoreNavigaLocalizzazione", navigaAggregata.getIndicatoreNavigaLocalizzazione());
 		model.addAttribute("linkallregioni", "#");
-		
 		
 		return retval;
 	}
@@ -262,15 +277,28 @@ public class LocalizzazionePortlet0Controller{
 		rowIdLiv3URL = String.valueOf(navigaAggregata.getIdRegione());
 		rowIdLiv4URL = String.valueOf(navigaAggregata.getIdProvincia());
 
-		if( navigaAggregata.getIdProvincia().equals("0") ){
-			rowIdLiv4URL = aggregata.getLocalizzazione().getProvincia().getId().toString();
-		}else if( navigaAggregata.getIdRegione().equals("0") ){
-			rowIdLiv3URL = aggregata.getLocalizzazione().getRegione().getId().toString();
-			rowIdLiv4URL = "0";
-		}else if( navigaAggregata.getIdAreaGeografica().equals("0") ){
-			rowIdLiv2URL = aggregata.getLocalizzazione().getAreaGeografica().getId().toString();
-			rowIdLiv3URL = "0";
-			rowIdLiv4URL = "-1";
+		if( "R".equals( navigaAggregata.getIndicatoreNavigaLocalizzazione() ) ){
+			if( navigaAggregata.getIdProvincia().equals("0") ){
+				rowIdLiv4URL = aggregata.getLocalizzazione().getProvincia().getId().toString();
+			}else if( navigaAggregata.getIdRegione().equals("0") ){
+				rowIdLiv3URL = aggregata.getLocalizzazione().getRegione().getId().toString();
+				rowIdLiv4URL = "0";
+			}else if( navigaAggregata.getIdAreaGeografica().equals("0") ){
+				rowIdLiv2URL = aggregata.getLocalizzazione().getAreaGeografica().getId().toString();
+				rowIdLiv3URL = aggregata.getLocalizzazione().getRegione().getId().toString();
+				rowIdLiv4URL = "0";
+			}
+		}else{
+			if( navigaAggregata.getIdProvincia().equals("0") ){
+				rowIdLiv4URL = aggregata.getLocalizzazione().getProvincia().getId().toString();
+			}else if( navigaAggregata.getIdRegione().equals("0") ){
+				rowIdLiv3URL = aggregata.getLocalizzazione().getRegione().getId().toString();
+				rowIdLiv4URL = "0";
+			}else if( navigaAggregata.getIdAreaGeografica().equals("0") ){
+				rowIdLiv2URL = aggregata.getLocalizzazione().getAreaGeografica().getId().toString();
+				rowIdLiv3URL = "0";
+				rowIdLiv4URL = "-1";
+			}
 		}
 
 		renderURL.setParameter("rowIdLiv1", rowIdLiv1URL); 

@@ -269,7 +269,11 @@ public class PieChartPortletController {
 		
 		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
 
-		navigaAggregata.setIdAreaIntervento("0");		
+		navigaAggregata.setIdAreaIntervento("0");
+		
+		if( "0".equals(navigaAggregata.getIdAreaGeografica()) ){
+			navigaAggregata.setIdAreaGeografica("-1");
+		}
 		if( "0".equals(navigaAggregata.getIdRegione()) ){
 			navigaAggregata.setIdRegione("-1");
 		}
@@ -288,6 +292,10 @@ public class PieChartPortletController {
 		NavigaAggregata navigaAggregata = ((NavigaAggregata) eventRequest.getEvent().getValue()).clone();
 
 		navigaAggregata.setIdAreaIntervento("0");		
+		
+		if( "0".equals(navigaAggregata.getIdAreaSoggetto()) ){
+			navigaAggregata.setIdAreaSoggetto("-1");
+		}
 		if( "0".equals(navigaAggregata.getIdCategoriaSoggetto()) ){
 			navigaAggregata.setIdCategoriaSoggetto("-1");
 		}

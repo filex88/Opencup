@@ -53,8 +53,27 @@
 	<div id="container-localizzazione">
 		
 		<div class="row">
-			<div class="titoloLocalizzazione" id="titoloLocalizzazione">
-				Localizzazione
+			<div class="span6" style="height: 4em;">
+				<div class="titoloLocalizzazione" id="titoloLocalizzazione">
+					Localizzazione
+				</div>
+			</div>
+			<div class="span3 offset2" style="height: 4em;">
+				<div class="row">
+					<div class="span6 indicatoreNavigaLocalizzazioneLabel">Naviga per:</div> 
+					
+				
+						<c:choose>
+							<c:when test='${navigaAggregata.indicatoreNavigaLocalizzazione eq "R"}'>
+								<div class="span6 indicatoreNavigaLocalizzazione" id="indicatoreNavigaLocalizzazione" data-indicatoreNavigaLocalizzazione="A">Area</div>
+							</c:when>
+							<c:otherwise>
+								<div class="span6 indicatoreNavigaLocalizzazione" id="indicatoreNavigaLocalizzazione" data-indicatoreNavigaLocalizzazione="R">Regione</div>
+							</c:otherwise>
+						</c:choose>
+					
+					
+				</div>
 			</div>
 		</div>
 		
@@ -66,18 +85,13 @@
 		<div class="div_localizzazione_1">
 			<div class="row chart-div">
 				
-				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
+				<div class="span4 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
 				</div>
 				
-				<div class="span6" style="padding-top: 80px">
+				<div class="span6">
 					<div class="span5" id="chartLegendTerritori"></div>
-					<div class="span1" id="histogramChart">
-						<svg class="chart-bar-territori"></svg>
-					</div>
+					<div class="span1" id="histogramChart"></div>
 				</div>
-				
-				
-				
 				<div class="clear"></div>
 				
 			</div>
@@ -102,6 +116,8 @@
 	
 			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
 			<aui:input type="hidden" bean="navigaAggregata" name="pagAggregata" value="${navigaAggregata.pagAggregata}" id="pagAggregata" />
+			
+			<aui:input cssClass="indicatoreNavigaLocalizzazione" type="hidden" bean="navigaAggregata" name="indicatoreNavigaLocalizzazione" value="${navigaAggregata.indicatoreNavigaLocalizzazione}" id="indicatoreNavigaLocalizzazione" />
 	
 			<aui:input type="hidden" bean="navigaAggregata" name="idNatura" value="${navigaAggregata.idNatura}" id="idNatura" />
 			<aui:input type="hidden" bean="navigaAggregata" name="idAreaGeografica" value="${navigaAggregata.idAreaGeografica}" id="idAreaGeografica" />
@@ -117,6 +133,8 @@
 	var dataSet = ${jsonResultLocalizzazione};
 	var jsonResultLocalizzazione = eval( dataSet );
 
+	var indicatoreNavigaLocalizzazione = "${indicatoreNavigaLocalizzazione}";
+	
 	//var jsonResultLocalizzazione=eval('('+'${jsonResultLocalizzazione}'+')');
 	var namespaceRicerca4js = "<portlet:namespace/>";
 	var namespaceRicerca = "<portlet:namespace/>";
@@ -195,12 +213,17 @@
 				}
 			});
 
+
 	// scala colori in base a valori calcolati
 	var color = d3.scale.linear().domain([minData, midData, maxData]).range([baseColor1, baseColor2, baseColor3]);
 
-	function drawGraphTerritori(dimension, calculated_json){
+	var classCharTerr = "chart-bar-territori";
+	var classItalySvg = "italybymacroareassvg";
+	var classLegendTerr = "legend-territori";
+	
+	function drawGraphTerritori(identificativo, dimension, calculated_json){
 
-		var width_div_mappa = d3.select("#italybymacroareas").node().getBoundingClientRect().width - 30;
+		var width_div_mappa = d3.select(identificativo).node().getBoundingClientRect().width - 30;
 		
 		var width = width_div_mappa,
 	    height = width_div_mappa,
@@ -209,11 +232,11 @@
 	    smallrectW=50,
 	    smallrectH=50;
 
-		var svg = d3.select("#italybymacroareas").append("svg")
+		var svg = d3.select(identificativo).append("svg")
 	   	 	.attr("width", width)
 	    	.attr("height", height)
 	   		.attr("border",border)
-			.attr("class",".italybymacroareassvg");
+			.attr("class", classItalySvg);
 	   	
 	   	var borderPath = svg.append("rect")
 			.attr("height", height)
@@ -229,9 +252,14 @@
 		
 			// unisco i dati
 			for (var i=0;i < territory_topojson.length;i++){
-				var label_toposon=territory_topojson[i].properties.TERR;
+				
+				var label_toposon = territory_topojson[i].properties.TERR;
+				if( indicatoreNavigaLocalizzazione == 'R' ){
+					label_toposon = territory_topojson[i].properties.COD_REG;
+				}
+
 				for (var j=0;j<calculated_json.length;j++){
-					if (label_toposon==calculated_json[j].localizationLabel){
+					if (label_toposon == calculated_json[j].localizationLabel){
 						var valore_volume=calculated_json[j].volumeValue;
 						var valore_costo=calculated_json[j].costoValue;
 						var valore_importo=calculated_json[j].importoValue;
@@ -265,7 +293,13 @@
 		    	.enter()
 		    	.append("path")
 		    	.attr("data_linkURL", function (d){ return d.properties.LINK })
-		    	.attr("class",function(d) { return "link-url-naviga-dettaglio terr-code-" + d.properties.TERR + " " + d.properties.TERR; })
+		    	.attr("class",function(d) { 
+		    		var code = d.properties.TERR;
+					if( indicatoreNavigaLocalizzazione == 'R' ){
+						code = d.properties.COD_REG;
+					}
+		    		return "link-url-naviga-dettaglio terr-code-" + code + " " + code; 
+		    	})
 		    	.attr("d",path)
 		    	.attr ("id",function(d) { return d.properties.ID_REG_TER; })
 				.on("click", function(d){
@@ -273,7 +307,8 @@
 					return null;
 				
 				}).style("fill", function(d){
-		    		if( dimension=='VOLUME'){
+					
+					if( dimension=='VOLUME'){
 						return color(d.properties.VALORE_VOLUME);
 					}
 					else if(dimension=='COSTO'){
@@ -290,7 +325,17 @@
 					
 					svg.selectAll("path").style("fill", function (d){
 	    				var retValColor = "#fff";
-	    				if (d.properties.TERR==a.properties.TERR){
+	    				
+	    				var codeA = a.properties.TERR;
+						if( indicatoreNavigaLocalizzazione == 'R' ){
+							codeA = a.properties.COD_REG;
+						}
+						var codeD = d.properties.TERR;
+						if( indicatoreNavigaLocalizzazione == 'R' ){
+							codeD = d.properties.COD_REG;
+						}
+
+	    				if (codeA == codeD){
 	    					if( dimension=='VOLUME'){
 	    						retValColor = "#d27900";
 	    					}else if(dimension=='COSTO'){
@@ -299,19 +344,19 @@
 	    						retValColor = "#005500";
 	    					}
 	    					
-	    					var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + a.properties.TERR;
+	    					var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + codeA;
 		    				var circle = d3.select(legend_circle_class);
 		    				circle.style("fill", retValColor);
 		    				
-		    				var legend_class = ".legend-Legend1Territori-cod-" + a.properties.TERR;
+		    				var legend_class = ".legend-Legend1Territori-cod-" + codeA;
 		    				var legend = d3.select(legend_class);
 		    				legend.style("fill", retValColor);
 		    				
-		    				var histogram_class = ".histogram-Histogram1Territori-cod-" + a.properties.TERR;
+		    				var histogram_class = ".histogram-Histogram1Territori-cod-" + codeA;
 		    				var histogram = d3.select(histogram_class);
 		    				histogram.style("fill", retValColor);
 		    				
-		    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + a.properties.TERR;
+		    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + codeA;
 		    				var histogram_legend = d3.select(histogram_legend_class);
 		    				histogram_legend.style("fill", retValColor);
 		    				
@@ -332,7 +377,14 @@
 					var ele = d3.select(this);
 					ele.style('cursor','default');
 					
-					svg.selectAll("."+a.properties.TERR).style("fill", function(d){
+					var code = a.properties.TERR;
+					if( indicatoreNavigaLocalizzazione == 'R' ){
+						code = a.properties.COD_REG;
+					}
+					
+					svg
+					.selectAll(".terr-code-"+code)
+					.style("fill", function(d){
 						var retValColor = "#fff";
 						if( dimension=='VOLUME' && typeof d.properties.VALORE_VOLUME!=="undefined"){
 	    						retValColor = color(d.properties.VALORE_VOLUME);
@@ -342,19 +394,19 @@
 								retValColor = color(d.properties.VALORE_IMPORTO);
 						}
 						
-						var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + a.properties.TERR;
+						var legend_circle_class = ".legend-circle-Legend1Territori-cod-" + code;
 	    				var circle = d3.select(legend_circle_class);
 	    				circle.style("fill", retValColor);
 	    				
-	    				var legend_class = ".legend-Legend1Territori-cod-" + a.properties.TERR;
+	    				var legend_class = ".legend-Legend1Territori-cod-" + code;
 	    				var legend = d3.select(legend_class);
 	    				legend.style("fill", textColor);
 						
-	    				var histogram_class = ".histogram-Histogram1Territori-cod-" + a.properties.TERR;
+	    				var histogram_class = ".histogram-Histogram1Territori-cod-" + code;
 	    				var histogram = d3.select(histogram_class);
 	    				histogram.style("fill", retValColor);
 	    				
-	    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + a.properties.TERR;
+	    				var histogram_legend_class = ".histogram-legend-Histogram1Territori-cod-" + code;
 	    				var histogram_legend = d3.select(histogram_legend_class);
 	    				histogram_legend.style("fill", textColor);
 	    				
@@ -459,7 +511,8 @@
 		
 		var canvas = d3.select(divLegend).append("svg:svg")
 		    .attr("width", 800)
-		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
+		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) )
+		    .attr("class", classLegendTerr );
 					
 		// Plot the bullet circles...
 		canvas.selectAll("circle")
@@ -516,7 +569,7 @@
 		
 	};
 	
-	function drawBarTerritori(chartName, histogramName, dataSet){
+	function drawBarTerritori(divChart, histogramName, dataSet){
 
 		var chartWidth       = 200,
 		    barHeight        = 25, //220 / dataSet.length, //310
@@ -547,11 +600,11 @@
 		    .tickFormat('')
 		    .tickSize(0)
 		    .orient("left");
-
-		// Specify the chart area and dimensions
-		var chart = d3.select(chartName)
-		    .attr("width", spaceForLabels + chartWidth)
-		    .attr("height", chartHeight);
+		
+		var chart = d3.select(divChart).append("svg")
+	    .attr("width", spaceForLabels + chartWidth)
+		.attr("height", chartHeight)
+	    .attr("class", classCharTerr);
 
 		// Create bars
 		var bar = chart.selectAll("g")
@@ -677,18 +730,46 @@
 	         return  toLong ? s_ + '...' : s_;
 	      };
 	
-	drawGraphTerritori(dimension, jsonResultLocalizzazione);
+	drawGraphTerritori("#italybymacroareas", dimension, jsonResultLocalizzazione);
 	
 	drawLegendTerritori("#chartLegendTerritori", "Legend1Territori", jsonResultLocalizzazione);
 	
-	drawBarTerritori(".chart-bar-territori", "Histogram1Territori", jsonResultLocalizzazione);
+	drawBarTerritori("#histogramChart", "Histogram1Territori", jsonResultLocalizzazione);
+	
+	
+	/*
+	var indicatoreNavigaLocalizzazione = d3.select("#indicatoreNavigaLocalizzazione");
+	
+	indicatoreNavigaLocalizzazione.text('Regione');
+	
+	indicatoreNavigaLocalizzazione.on('click', function(){
+
+		d3.select("#italybymacroareas").selectAll( "."+classItalySvg ).remove();
+		d3.select("#chartLegendTerritori").selectAll( "."+classLegendTerr ).remove();
+		d3.select("#histogramChart").selectAll( "."+classCharTerr ).remove();
+		
+		if( indicatoreNavigaLocalizzazione.text() == 'Regione' ){
+			indicatoreNavigaLocalizzazione.text('Area Geografica');
+
+			drawGraphTerritori("#italybymacroareas", dimension, jsonResultLocalizzazione);
+			drawLegendTerritori("#chartLegendTerritori", "Legend1Territori", jsonResultLocalizzazione);
+			drawBarTerritori("#histogramChart", "Histogram1Territori", jsonResultLocalizzazione);
+		}else{
+			indicatoreNavigaLocalizzazione.text('Regione');
+			
+			drawGraphTerritori("#italybymacroareas", dimension, jsonResultLocalizzazione);
+			drawLegendTerritori("#chartLegendTerritori", "Legend1Territori", jsonResultLocalizzazione);
+			drawBarTerritori("#histogramChart", "Histogram1Territori", jsonResultLocalizzazione);
+		}		
+	});	
+	*/
 	
 	AUI().use('get', function(A){
 		   A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
 		       	onSuccess: function(){
 		       		A.Get.script('${jsFolder}/bootstrap.min.js', {
 		       			onSuccess: function(){	
-
+		       			
 		       				$(".volume-color").mouseover(function() { 
 		       					$(".arrow-down-volume").css('border-top','10px solid #d27900'); 
 		       				});
@@ -723,6 +804,15 @@
 		       					$( ".naviga-form" ).attr("action", data_linkURL);
 		       					$( ".naviga-form" ).submit();
 		       				});
+		       				
+		       				$("#indicatoreNavigaLocalizzazione" ).click(function() {
+		       					var arc = d3.select(this);
+		       					var dataIndicatoreNavigaLocalizzazione = arc.attr("data-indicatoreNavigaLocalizzazione");
+		       					$( ".indicatoreNavigaLocalizzazione" ).val(dataIndicatoreNavigaLocalizzazione);
+		       					$( ".naviga-form" ).submit();
+		       				});
+		       				
+		       				
 		       				
 		      			}
 			 		});

@@ -66,7 +66,7 @@
 		<div class="div_localizzazione_1">
 			<div class="row chart-div">
 				
-				<div class="span3 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
+				<div class="span4 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
 				</div>
 				
 				<div class="span6" style="padding-top: 80px">
@@ -328,8 +328,10 @@
 	    			});
 				})
 				.on("mouseout", function(a){
+					
 					var ele = d3.select(this);
 					ele.style('cursor','default');
+					
 					svg.selectAll(".terr-code-"+a.properties.COD_REG).style("fill", function(d){
 						var retValColor = "#fff";
 						if( dimension=='VOLUME' && typeof d.properties.VALORE_VOLUME!=="undefined"){

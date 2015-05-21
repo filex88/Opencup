@@ -86,7 +86,7 @@
 					</div>
 					<div class="row chart-div">
 						<div class="span5 offset1" id="chartLegendPie"></div>
-						<div class="span5" id="histogramChartPie"></div>
+						<div class="span6" id="histogramChartPie"></div>
 					</div>
 				</div>
 			</c:otherwise>
