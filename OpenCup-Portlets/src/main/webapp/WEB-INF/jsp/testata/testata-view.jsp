@@ -15,7 +15,8 @@
 	
 	div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
 	
-	#conteiner{padding-bottom: 0.5em; display: inline-block;}
+	#conteiner{padding-bottom: 0.5em;}
+	#conteiner2{padding-bottom: 0.5em; display: inline-block;}
 	#conteiner .infiniteCarousel{background-color: #f0f0f0;height: 16em!important;}
 	#conteiner .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
 	#conteiner i.icon-chevron-right, #rulloLoc i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
@@ -38,9 +39,49 @@
 	.legendValue{text-align: right; width:50px;color: #1f4e78;}
 	
 	.bar_testata {fill: #1f4e78;}
+	.bar_testata_costo {fill: #1f4e78;}
+	.bar_testata_finanziato {fill: #005500;}
 	.axis {font: 10px;color:#1f4e78;}
 	.axis path,	.axis line {fill: none; stroke: #000; shape-rendering: crispEdges;}
 	.x.axis path {display: none;}
+	
+	
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+	.x.axis path {
+	  display: none;
+	}
+
+	.line {
+		stroke: blue;
+		fill:none;
+		stroke-width: 3;
+	}
+	
+	.axis path,
+	.axis line {
+		fill: none;
+		stroke: black;
+		shape-rendering: crispEdges;
+	}
+	
+	.axis text {
+		font-size: 10px;
+		font-family: sans-serif;
+	}
+	
+	.text-label {
+		font-size: 10px;
+		font-family: sans-serif;
+	}
+	
+	
+
 	
 	.d3-tip {
 	  line-height: 1;
@@ -76,9 +117,15 @@
 
 <div class="stripe">
 	<div style="height: auto; border-left:10px solid #1f4e78; overflow: auto;">
-		<div class="span12" id="conteiner" >
-			<div id="titolo"></div>
-			<div id="corpo"></div>
+		<div class="row" id="conteiner" >
+			<div class="span12 titolo" id="titolo"></div>
+		</div>
+		<div class="row" id="conteiner" >
+			<div class="span3 corpo_logo" id="corpo_logo"></div>
+			<div class="span2 pie_chart_testata_stato" id="pie_chart_testata_stato"></div>
+			<div class="span1 pie_chart_testata_stato_legend" id="pie_chart_testata_stato_legend"></div>
+			<div class="span3 bar_chart_testata_anni" id="bar_chart_testata_anni"></div>
+			<div class="span3 trend_chart_testata_anni" id="trend_chart_testata_anni"></div>
 		</div>
 	</div>
 </div>
@@ -88,11 +135,7 @@
 	var baseColor1 = "#b2c6ff";
 	var baseColor2 = "#4472fb";
 	var baseColor3 = "#1f4e78";
-	
 	var textColor = "#1f4e78";
-	
-	var JsonClass = ${jsonResultRiepilogo};
-	var calculatedJsonClass=eval( JsonClass );
 
 	function nFormatter(num) {
 	    if (num >= 1000000000) {
@@ -107,137 +150,141 @@
 	    return num;
 	}
 	
-	var containerWClass = d3.select("#conteiner")[0][0].clientWidth;
-	var singleLiWClass = (containerWClass-60)/3;
-	var singleElMwClass = singleLiWClass/10;
-
-	var pagNavigazioneLogo = "${pagNavigazioneLogo}";
-	var separatore = " <i style='font-size:0.5em; vertical-align:middle; padding:10px;' class='icon-circle'></i> ";
-	
-	d3.selectAll("#titolo")
-	.selectAll("div")
-	.data(calculatedJsonClass)
-	.enter()
-	.append("div")
-	.attr("class", "titolo")
-	.append("p")
-	.html(function(d){
-		var retval = d.desNatura;
-		if( pagNavigazioneLogo == 'natura' ){
-			if( d.idArea != "-1" ){retval = d.desArea;} 
-			if( d.idSottoSettore != "-1" ){retval = retval + separatore + d.desSottoSettore;} 
-			if( d.idCategoriaIntervento != "-1" ){retval = retval + separatore + d.desCategoriaIntervento;} 
-		}else if( pagNavigazioneLogo == 'localizzazione' ){
-			if( d.idAreaGeografica != "-1"){retval = d.descAreaGeografica;}
-			if( d.idRegione != "-1" ){retval = retval + separatore + d.descRegione;} 
-			if( d.idProvincia != "-1" ){retval = retval + separatore + d.descProvincia;} 
-		}else if( pagNavigazioneLogo == 'soggetto' ){
-			if( d.idAreaSoggetto != "-1" ){retval = d.descAreaSoggetto;} 
-			if( d.idCategSoggetto != "-1" ){retval = retval + separatore + d.descCategSoggetto;} 
-			if( d.idSottocategSoggetto != "-1" ){retval = retval + separatore + d.descSottocategSoggetto;} 
-		}
-		return retval;
-	});
-	
-	d3.selectAll("#corpo")
-	.selectAll("div")
-	.data(calculatedJsonClass)
-	.enter()
-	.append("div")
-	.style("width",singleLiWClass+"px")
-	.style("display","inline")
-	.style("list-style","none")
-	.style("float","left")
-	.append("div")
-	.attr("class","classificazione");
-	
-	d3.selectAll("#corpo")
-	.selectAll("div.classificazione")
-	.append("div")
-	.attr("class", "left effHistogram")
-	.style("width", (singleElMwClass*4.3)+"px")
-	.append("img")
-	.attr("src",function(d){
-		var areaCorrente=d.desArea.split(/[\s,]+/);
-	 	var firstDesc=areaCorrente[0].toLowerCase();
-	 	if( firstDesc == 'tutte' ){
-	 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg"
-	 		console.log(appoUrl);
-	 	}
-	 	return "${imgFolder}/icona-"+firstDesc+".svg";
-	});
-
-	d3.selectAll("#corpo")
-	.selectAll("div.classificazione")
-	.append("div")
-	.attr("class","right")
-	.style("width",(singleElMwClass*5.5)+"px")
-    .html(function(d){
-    	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"+nFormatter(d.impoCostoProgetti)+"</p>";
-    });
-
-	d3.selectAll("#corpo")
-	.selectAll("div.classificazione")
-	.append("div")
-	.attr("class","barchart")
-	.style("padding-top","8em")
-	.append("div")
-	.attr("class","left")
-	.style("width",(singleElMwClass*4.3)+"px")
-	.html("<p><small>Finanziamenti pubblici</small></p>");
-	
-	d3.selectAll("#corpo")
-	.selectAll("div.barchart")
-	.append("div")
-	.attr("class","right barcontainer")
-	.style("width",(singleElMwClass*5.5)+"px")
-	.append("svg")
-	.attr("class","classchart")
-	.attr("width",(singleElMwClass*5))
-	.attr("height",20);
-	
-	d3.selectAll(".classchart")
-	.each(function(d){
-		var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
-		var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
-		d3.select(this)
-		.selectAll("rect")
-		.data(range)
-		.enter().append("rect")
-	 	.attr("width", x)
-	 	.attr("height", 20);
-	 	
-	});
-	
-	d3.selectAll(".barcontainer")
-	.append("div")
-	.style("width",(singleElMwClass*5)+"px")
-	.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	var minDataStato = 0;
-	var maxDataStato = ${ recordCountStato };
-	var midDataStato = maxDataStato / 2;
-	
-	var dataSetTestataStato = ${jsonResultDistribuzione4PieTestataStato};
-	var dataSetTestataStato1 = eval( dataSetTestataStato );
-	
-	function drawPieTestataStato ( pieName, dataSet, selectString, margin, outerRadius, innerRadius, sortArcs ) {
+	function drawTitoloIntestazione ( elementName, calculatedJsonClass, pagNavigazioneLogo, separatore ) {
 		
-		// pieName => A unique drawing identifier that has no spaces, no "." and no "#" characters.
-		// dataSet => Input Data for the chart, itself.
-		// selectString => String that allows you to pass in
-		//           a D3 select string.
-		// margin => Integer margin offset value.
-		// outerRadius => Integer outer radius value.
-		// innerRadius => Integer inner radius value.
-		// sortArcs => Controls sorting of Arcs by value.
-		//              0 = No Sort.  Maintain original order.
-		//              1 = Sort by arc value size.
-				
+		d3.selectAll(elementName)
+		.selectAll("div")
+		.data(calculatedJsonClass)
+		.enter()
+		.append("p")
+		.html(function(d){
+			var retval = d.desNatura;
+			if( pagNavigazioneLogo == 'natura' ){
+				if( d.idArea != "-1" ){retval = d.desArea;} 
+				if( d.idSottoSettore != "-1" ){retval = retval + separatore + d.desSottoSettore;} 
+				if( d.idCategoriaIntervento != "-1" ){retval = retval + separatore + d.desCategoriaIntervento;} 
+			}else if( pagNavigazioneLogo == 'localizzazione' ){
+				if( d.idAreaGeografica != "-1"){retval = d.descAreaGeografica;}
+				if( d.idRegione != "-1" ){retval = retval + separatore + d.descRegione;} 
+				if( d.idProvincia != "-1" ){retval = retval + separatore + d.descProvincia;} 
+			}else if( pagNavigazioneLogo == 'soggetto' ){
+				if( d.idAreaSoggetto != "-1" ){retval = d.descAreaSoggetto;} 
+				if( d.idCategSoggetto != "-1" ){retval = retval + separatore + d.descCategSoggetto;} 
+				if( d.idSottocategSoggetto != "-1" ){retval = retval + separatore + d.descSottocategSoggetto;} 
+			}
+			return retval;
+		});
+		
+		
+	}
+	
+	function drawLogoIntestazione( elementName, calculatedJsonClass ){
+		
+		var totWidth = d3.select(elementName).node().getBoundingClientRect().width;	
+		var singleElMwClass = totWidth / 10;
+		
+		d3.selectAll(elementName)
+		.selectAll("div")
+		.data(calculatedJsonClass)
+		.enter()
+		.append("div")
+		.style("width",totWidth+"px")
+		.style("display","inline")
+		.style("list-style","none")
+		.style("float","left")
+		.append("div")
+		.attr("class","classificazione");
+		
+		d3.selectAll(elementName)
+		.selectAll("div.classificazione")
+		.append("div")
+		.attr("class", "left effHistogram")
+		.style("width", (singleElMwClass*4.3)+"px")
+		.append("img")
+		.attr("src",function(d){
+			var areaCorrente=d.desArea.split(/[\s,]+/);
+		 	var firstDesc=areaCorrente[0].toLowerCase();
+		 	if( firstDesc == 'tutte' ){
+		 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg"
+		 		console.log(appoUrl);
+		 	}
+		 	return "${imgFolder}/icona-"+firstDesc+".svg";
+		});
+		
+		d3.selectAll(elementName)
+		.selectAll("div.classificazione")
+		.append("div")
+		.attr("class","right")
+		.style("width",(singleElMwClass*5.5)+"px")
+	    .html(function(d){
+	    	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"+nFormatter(d.impoCostoProgetti)+"</p>";
+	    });
+		
+		d3.selectAll(elementName)
+		.selectAll("div.classificazione")
+		.append("div")
+		.attr("class","barchart")
+		.style("padding-top","8em")
+		.append("div")
+		.attr("class","left")
+		.style("width",(singleElMwClass*4.3)+"px")
+		.html("<p><small>Finanziamenti pubblici</small></p>");
+		
+		d3.selectAll(elementName)
+		.selectAll("div.barchart")
+		.append("div")
+		.attr("class","right barcontainer")
+		.style("width",(singleElMwClass*5.5)+"px")
+		.append("svg")
+		.attr("class","classchart")
+		.attr("width",(singleElMwClass*5))
+		.attr("height",20);
+		
+		d3.selectAll(".classchart")
+		.each(function(d){
+			var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
+			var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
+			d3.select(this)
+			.selectAll("rect")
+			.data(range)
+			.enter().append("rect")
+		 	.attr("width", x)
+		 	.attr("height", 20);
+		 	
+		});
+		
+		d3.selectAll(".barcontainer")
+		.append("div")
+		.style("width",(singleElMwClass*5)+"px")
+		.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
+		
+	}
+	
+	function drawPieTestataStato ( pieName, dataSet, selectString) {
+		
+		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
+		
+		var margin = 0;
+		var outerRadius = (totWidth/100*70)/2;
+		var innerRadius = outerRadius - (outerRadius / 3);
+		var sortArcs = 0;
+		
+		
+		var minDataStato = 0;
+		var maxDataStato = ${ recordCountStato };
+		var midDataStato = maxDataStato / 2;
+		
+		d3.selectAll(selectString)
+		.append("div")
+		.style("width",totWidth+"px")
+		.style("display", "inline")
+		.style("list-style", "none")
+		.style("float", "left")
+		.attr("class", "div_pie_chart_testata_stato pie_chart_testata_stato")
+		.attr("id", "pie_chart_testata_stato");
+	
 		// Color Scale Handling...
-		var colorScale = d3.scale.linear().domain([minDataStato, midDataStato, maxDataStato]).range([baseColor1,baseColor2,baseColor3]);
+		var colorScale = d3.scale.linear().domain([minDataStato, midDataStato, maxDataStato]).range([baseColor1, baseColor2, baseColor3]);
 		
 		var pieWidthTotal = outerRadius * 2;
 			
@@ -347,84 +394,46 @@
 	};
 	
 	// function to handle legend.
-    function legend(pieName, dataSet, selectString){
-        
+    function legendTestata(pieName, dataSet, selectString){
+       	
+		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
+		
+		var minDataStato = 0;
+		var maxDataStato = ${ recordCountStato };
+		var midDataStato = maxDataStato / 2;
+		
      	// Color Scale Handling...
-		var colorScale = d3.scale.linear().domain([minDataStato, midDataStato, maxDataStato]).range([baseColor1,baseColor2,baseColor3]);
+		var colorScale = d3.scale.linear().domain([minDataStato, midDataStato, maxDataStato]).range([baseColor1, baseColor2, baseColor3]);
         
      	// create table for legend.
-        var legend = d3.select(selectString).append("table").attr('class','legend');
+        var legend = d3.select(selectString).append("table").attr('class', 'legend');
         
         // create one row per segment.
         var tr = legend.append("tbody").selectAll("tr").data(dataSet).enter().append("tr");
             
         // create the first column for each segment.
-        tr.append("td").append("svg")
+        tr.append("td")
+        .attr("width", '16')
+        .append("svg")
         .attr("width", '16').attr("height", '16').append("rect")
         .attr("width", '16').attr("height", '16')
         .attr("fill", function(d, i) { return colorScale(i); });
             
         // create the second column for each segment.
-        tr.append("td").attr("class",'legendLabel').text(function(d){ return d.label; });
-
-    	// create the third column for each segment.
-        //tr.append("td").attr("class",'legendValue').text( function(d){ return d3.format(",")(d.value); } );
+        tr.append("td")
+        .attr("width", totWidth-16)
+        .attr("class", 'legendLabel').text(function(d){ return d.label; });
+        
     }
 	
-	d3.selectAll("#corpo")
-	.append("div")
-	.style("width",singleLiWClass/2+"px")
-	.style("display","inline")
-	.style("list-style","none")
-	.style("float","left")
-	.attr("class","div_pie_chart_testata_stato pie_chart_testata_stato")
-	.attr("id","pie_chart_testata_stato");
-	
-	var margin = 0;
-	var outerRadius = 70;
-	var innerRadius = 50;
-	var sortArcs = 0;
-	
-	drawPieTestataStato("TestataPieStato", dataSetTestataStato1, ".pie_chart_testata_stato", margin, outerRadius, innerRadius, sortArcs);
-	
-	d3.selectAll("#corpo")
-	.append("div")
-	.style("width",singleLiWClass/2+"px")
-	.style("display","inline")
-	.style("list-style","none")
-	.style("float","left")
-	.attr("class","div_pie_chart_testata_stato pie_chart_testata_stato_legend")
-	.attr("id","pie_chart_testata_stato_legend");
-	
-	legend("TestataPieStatoLegenda", dataSetTestataStato1, ".pie_chart_testata_stato_legend");
-	
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	var minDataStato = 0;
-	var maxDataStato = ${ recordCountAnni };
-	var midDataStato = maxDataStato / 2;
-	
-	var dataSetTestataAnni = ${jsonResultDistribuzione4TestataAnni};
-	var dataSetTestataAnni1 = eval( dataSetTestataAnni );
-	
-	var startYear = ${startYear};
-	var endYear = ${endYear};
-	
-	d3.selectAll("#corpo")
-	.append("div")
-	.style("width",singleLiWClass+"px")
-	.style("display","inline")
-	.style("list-style","none")
-	.style("float","left")
-	.attr("class","div_bar_chart_testata_anni bar_chart_testata_anni")
-	.attr("id","bar_chart_testata_anni");
-	
-	function drawBarTestataAnni ( barName, dataSet, selectString, totWidth , totHeight ) {
+	function drawBarTestataAnni( barName, dataSet, selectString  ) {
 		
-		var margin = {top: 5, right: 0, bottom: 30, left: 50},
+		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
+		
+		var margin = {top: 5, right: 5, bottom: 30, left: 5},
+		
 	    width = totWidth - margin.left - margin.right,
-	    height = totHeight - margin.top - margin.bottom;
+	    height = (totWidth/2) - margin.top - margin.bottom;
 
 		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
 
@@ -433,7 +442,6 @@
 		var xAxis = d3.svg.axis().scale(x).orient("bottom");
 
 		var yAxis = d3.svg.axis().scale(y).orient("left");
-		//.ticks(10, "%");
 
 		var svg = d3.select(selectString).append("svg")
 	  	.attr("width", width + margin.left + margin.right)
@@ -448,17 +456,7 @@
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis);
-/*
-	  	svg.append("g")
-	    .attr("class", "y axis")
-	    .call(yAxis)
-	    .append("text")
-	    .attr("transform", "rotate(-90)")
-	    .attr("y", 6)
-	    .attr("dy", ".71em")
-	    .style("text-anchor", "end")
-	    .text("progetti");
-*/
+
 		svg.selectAll(".bar_testata")
 	  	.data(dataSet)
 	  	.enter()
@@ -471,8 +469,83 @@
 
 	};
 	
-	var heightBarAnni = 160;
+	function drawTrendTestataAnni( barName, dataSet, selectString  ) {
+		
+		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
+		
+		var margin = {top: 5, right: 5, bottom: 30, left: 5},
+		
+	    width = totWidth - margin.left - margin.right,
+	    height = (totWidth/2) - margin.top - margin.bottom;
+
+		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+
+		var y = d3.scale.linear().range([height, 0]);
+
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+
+		var yAxis = d3.svg.axis().scale(y).orient("left");
+
+		var svg = d3.select(selectString).append("svg")
+	  	.attr("width", width + margin.left + margin.right)
+	  	.attr("height", height + margin.top + margin.bottom)
+	  	.append("g")
+	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	  	x.domain(dataSet.map(function(d) { return d.label; }));
+	  	y.domain([0, d3.max(dataSet, function(d) { return d.volume; })]);
+	  	
+	  	var line = d3.svg.line()
+		.x(function(d) { console.log( xScale(d.label) ); return xScale(d.label); })
+		.y(function(d) { console.log( yScale(d.volume) ); return yScale(d.volume); });
+	  	
+	  	svg.append("path")
+		.data(dataSet)
+		.attr("class", "line")
+		.attr("d", line);
+	  	
+	  	
+	  	/*
+	  	svg.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);
+
+		svg.selectAll(".bar_testata")
+	  	.data(dataSet)
+	  	.enter()
+	  	.append("rect")
+	  	.attr("class", "bar_testata")
+	    .attr("x", function(d, i) { return x(d.label); })
+	    .attr("width", x.rangeBand())
+	    .attr("y", function(d) { return y(d.volume); })
+	    .attr("height", function(d) { return height - y(d.volume); });
+		*/
+		
+	};
 	
-	drawBarTestataAnni("TestataBarAnni", dataSetTestataAnni1, ".bar_chart_testata_anni", singleLiWClass, heightBarAnni );
+	var JsonClass = ${jsonResultRiepilogo};
+	var calculatedJsonClass = eval( JsonClass );
+	
+	var pagNavigazioneLogo = "${pagNavigazioneLogo}";
+	var separatore = " <i style='font-size:0.5em; vertical-align:middle; padding:10px;' class='icon-circle'></i> ";
+	
+	drawTitoloIntestazione( '#titolo', calculatedJsonClass, pagNavigazioneLogo, separatore);
+	
+	drawLogoIntestazione( '#corpo_logo', calculatedJsonClass );
+	
+	var dataSetTestataStato = ${jsonResultDistribuzione4PieTestataStato};
+	var dataSetTestataStato1 = eval( dataSetTestataStato );
+
+	drawPieTestataStato("TestataPieStato", dataSetTestataStato1, ".pie_chart_testata_stato");
+	
+	legendTestata("TestataPieStatoLegenda", dataSetTestataStato1, ".pie_chart_testata_stato_legend");
+	
+	var dataSetTestataAnni = ${jsonResultDistribuzione4TestataAnni};
+	var dataSetTestataAnni1 = eval( dataSetTestataAnni );
+	
+	drawBarTestataAnni("TestataBarAnni", dataSetTestataAnni1, ".bar_chart_testata_anni" );
+	
+	drawTrendTestataAnni("TestataTrendAnni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
 	
 </script>

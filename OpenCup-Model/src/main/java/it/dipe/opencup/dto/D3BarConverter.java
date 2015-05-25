@@ -10,6 +10,8 @@ public class D3BarConverter implements Serializable{
 	
 	private String label;
 	private Long volume;
+	private Double costo;
+	private Double finanziato;
 	private String linkURL;
 	
 	public String getLabel() {
@@ -30,6 +32,16 @@ public class D3BarConverter implements Serializable{
 	public void setLinkURL(String linkURL) {
 		this.linkURL = linkURL;
 	}
-	
-	
+	public Double getCosto() {
+		return costo;
+	}
+	public void setCosto(Double costo) {
+		this.costo = costo;
+	}
+	public Double getFinanziato() {
+		return finanziato;
+	}
+	public void setFinanziato(Double finanziato) {
+		this.finanziato = finanziato;
+	}
 }
