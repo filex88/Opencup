@@ -81,7 +81,7 @@
 	}
 	
 	.area {
-	  fill: #1f4e78;
+	  fill: #b2c6ff;
 	}
 
 	.legendTrend{
@@ -437,9 +437,8 @@
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		
-		var margin = {top: 25, right: 5, bottom: 20, left: 5},
-		
-	    width = totWidth - margin.left - margin.right,
+		var margin = {top: 5, right: 5, bottom: 20, left: 0},
+	    width = totWidth - margin.left - margin.right - 5,
 	    height = (totWidth/2) - margin.top - margin.bottom;
 
 		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
@@ -451,8 +450,8 @@
 		var yAxis = d3.svg.axis().scale(y).orient("left");
 
 		var svg = d3.select(selectString).append("svg")
-	  	.attr("width", width + margin.left + margin.right)
-	  	.attr("height", height + margin.top + margin.bottom)
+	  	.attr("width", width-5)
+	  	.attr("height", (totWidth/2))
 	  	.append("g")
 	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -460,8 +459,10 @@
 	  	
 	  	y.domain([0, d3.max(dataSet, function(d) { return d.volume; })]);
 
+	  	/*
 	 	// extract the x labels for the axis and scale domain
 		var xLabels = dataSet.map(function (d) { return d.label; })
+		
 		
 	  	svg.append("g")
 	    .attr("class", "x axis")
@@ -473,7 +474,17 @@
 					})))
 		.selectAll("text")
 		.style("text-anchor", "end")
+	  	*/
 	  	
+	    svg.append("g")
+      	.attr("class", "x axis")
+     	.attr("transform", "translate(0," + height + ")")
+      	.call(xAxis)
+    	.append("text")
+      	.attr("class", "label")
+      	.attr("x", width)
+      	.attr("y", -6)
+      	.style("text-anchor", "end")
 
 		svg.selectAll(".bar_testata")
 	  	.data(dataSet)
@@ -493,15 +504,12 @@
 		
 		var decimalFormat = d3.format("0.2f");
 		
-		var margin = {top: 25, right: 5, bottom: 20, left: 5},
-	    width = totWidth - margin.left - margin.right,
+		var margin = {top: 5, right: 5, bottom: 20, left: 0},
+	    width = totWidth - margin.left - margin.right - 5,
 	    height = (totWidth/2) - margin.top - margin.bottom;
-
-		// extract the x labels for the axis and scale domain
-		var xLabels = dataSet.map(function (d) { return d.label; })
 		
 		var svgAll = d3.select(selectString).append("svg")
-		  	.attr("width", totWidth)
+		  	.attr("width", totWidth-5)
 		  	.attr("height", totWidth/2)
 		  	.attr("class", barName)
 		
@@ -542,7 +550,10 @@
 			.attr("class", "line")
 			.attr("d", lineCosto);
 	  	
-	  	svg.select(".x.axis")
+	  	/*// extract the x labels for the axis and scale domain
+		var xLabels = dataSet.map(function (d) { return d.label; })
+		
+		svg.select(".x.axis")
 			.attr("transform", "translate(0," + (height) + ")")
 			.call(xCostoAxis.tickValues( xLabels.filter( 
 					function(d, i) { 
@@ -557,10 +568,22 @@
 						return "rotate(-45)";
 			})*/;
 	
+	  	
+	    svg.append("g")
+	      	.attr("class", "x axis")
+	     	.attr("transform", "translate(0," + height + ")")
+	      	.call(xCostoAxis)
+	    	.append("text")
+	      	.attr("class", "label")
+	      	.attr("x", width)
+	      	.attr("y", -6)
+	      	.style("text-anchor", "end")
+	  	
+	  	/*
 		svg.select(".y.axis")
 			.attr("transform", "translate(" + (margin.left) + ",0)")
 			.call(yCostoAxis.tickFormat(decimalFormat));
-		
+		*/
 		
 		///FINANZIATO
 		var xFinanziato = d3.scale.ordinal().rangeRoundBands([0, width], .1);
@@ -603,17 +626,32 @@
 		  // draw legend colored rectangles
 		  legend.append("rect")
 		      .attr("x", width - 18)
-		      .attr("width", 18)
-		      .attr("height", 18)
-		      .style("fill", "#1f4e78");
+		      .attr("y", 0)
+		      .attr("width", 16)
+		      .attr("height", 16)
+		      .style("fill", baseColor1);
+		 
+		 legend.append("rect")
+	      	.attr("x", width - 18)
+	      	.attr("y", 29)
+	      	.attr("width", 16)
+	      	.attr("height", 2)
+	      	.style("fill", baseColor3);
 
 		  // draw legend text
 		  legend.append("text")
 		      .attr("x", width - 24)
-		      .attr("y", 9)
+		      .attr("y", 8)
 		      .attr("dy", ".35em")
 		      .style("text-anchor", "end")
-		      .text("Importo Finanziato")
+		      .text("Finanziato pubblico");
+		  
+		legend.append("text")
+		      .attr("x", width - 24)
+		      .attr("y", 29)
+		      .attr("dy", ".35em")
+		      .style("text-anchor", "end")
+		      .text("Costo progetti");
 		
 		/*
 		var legend = svgAll.append("g")
