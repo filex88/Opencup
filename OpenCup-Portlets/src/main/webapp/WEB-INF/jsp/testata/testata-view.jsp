@@ -58,9 +58,9 @@
 	}
 
 	.line {
-		stroke: blue;
+		stroke: #1f4e78;
 		fill:none;
-		stroke-width: 3;
+		stroke-width: 2;
 	}
 	
 	.axis path,
@@ -80,8 +80,16 @@
 		font-family: sans-serif;
 	}
 	
-	
+	.area {
+	  fill: #1f4e78;
+	}
 
+	.legendTrend{
+		padding: 3px;
+        font-size: 85%;
+        background: #f0f0f0;
+        box-shadow: 2px 2px 1px #888;
+	}
 	
 	.d3-tip {
 	  line-height: 1;
@@ -269,7 +277,6 @@
 		var innerRadius = outerRadius - (outerRadius / 3);
 		var sortArcs = 0;
 		
-		
 		var minDataStato = 0;
 		var maxDataStato = ${ recordCountStato };
 		var midDataStato = maxDataStato / 2;
@@ -430,7 +437,7 @@
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		
-		var margin = {top: 5, right: 5, bottom: 30, left: 5},
+		var margin = {top: 25, right: 5, bottom: 20, left: 5},
 		
 	    width = totWidth - margin.left - margin.right,
 	    height = (totWidth/2) - margin.top - margin.bottom;
@@ -450,12 +457,23 @@
 	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	  	x.domain(dataSet.map(function(d) { return d.label; }));
+	  	
 	  	y.domain([0, d3.max(dataSet, function(d) { return d.volume; })]);
 
+	 	// extract the x labels for the axis and scale domain
+		var xLabels = dataSet.map(function (d) { return d.label; })
+		
 	  	svg.append("g")
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
-	    .call(xAxis);
+	    .call(xAxis.tickValues( xLabels.filter( 
+				function(d, i) { 
+					if ( i == 0 || i == 9 )
+						return d;
+					})))
+		.selectAll("text")
+		.style("text-anchor", "end")
+	  	
 
 		svg.selectAll(".bar_testata")
 	  	.data(dataSet)
@@ -473,55 +491,162 @@
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		
-		var margin = {top: 5, right: 5, bottom: 30, left: 5},
+		var decimalFormat = d3.format("0.2f");
 		
+		var margin = {top: 25, right: 5, bottom: 20, left: 5},
 	    width = totWidth - margin.left - margin.right,
 	    height = (totWidth/2) - margin.top - margin.bottom;
 
-		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+		// extract the x labels for the axis and scale domain
+		var xLabels = dataSet.map(function (d) { return d.label; })
+		
+		var svgAll = d3.select(selectString).append("svg")
+		  	.attr("width", totWidth)
+		  	.attr("height", totWidth/2)
+		  	.attr("class", barName)
+		
+		var svg = svgAll
+		  	.append("g")
+		  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		
+		//svg.append("g")
+		//	.attr("class", "y axis");
+		
+		svg.append("g")
+			.attr("class", "x axis");
+		
+		///COSTO
+		var xCosto = d3.scale.ordinal().rangeRoundBands([0, width], .1);
 
-		var y = d3.scale.linear().range([height, 0]);
+		var yCosto = d3.scale.linear().range([height, 0]);
 
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var xCostoAxis = d3.svg.axis().scale(xCosto).orient("bottom");
 
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var yCostoAxis = d3.svg.axis().scale(yCosto).orient("left");
 
-		var svg = d3.select(selectString).append("svg")
-	  	.attr("width", width + margin.left + margin.right)
-	  	.attr("height", height + margin.top + margin.bottom)
-	  	.append("g")
-	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-	  	x.domain(dataSet.map(function(d) { return d.label; }));
-	  	y.domain([0, d3.max(dataSet, function(d) { return d.volume; })]);
+	  	xCosto.domain(dataSet.map(function(d) { return d.label; }));
 	  	
-	  	var line = d3.svg.line()
-		.x(function(d) { console.log( xScale(d.label) ); return xScale(d.label); })
-		.y(function(d) { console.log( yScale(d.volume) ); return yScale(d.volume); });
+	  	yCosto.domain([0, d3.max(dataSet, function(d) { 
+				if( d.costo > d.finanziato )
+  					return d.costo;
+  				else
+  					return d.finanziato;
+  			})]);
+	  	
+	  	var lineCosto = d3.svg.line()
+			.x(function(d) { return xCosto(d.label); })
+			.y(function(d) { return yCosto(d.costo); });
 	  	
 	  	svg.append("path")
-		.data(dataSet)
-		.attr("class", "line")
-		.attr("d", line);
+			.datum(dataSet)
+			.attr("class", "line")
+			.attr("d", lineCosto);
 	  	
-	  	
-	  	/*
-	  	svg.append("g")
-	    .attr("class", "x axis")
-	    .attr("transform", "translate(0," + height + ")")
-	    .call(xAxis);
-
-		svg.selectAll(".bar_testata")
-	  	.data(dataSet)
-	  	.enter()
-	  	.append("rect")
-	  	.attr("class", "bar_testata")
-	    .attr("x", function(d, i) { return x(d.label); })
-	    .attr("width", x.rangeBand())
-	    .attr("y", function(d) { return y(d.volume); })
-	    .attr("height", function(d) { return height - y(d.volume); });
-		*/
+	  	svg.select(".x.axis")
+			.attr("transform", "translate(0," + (height) + ")")
+			.call(xCostoAxis.tickValues( xLabels.filter( 
+					function(d, i) { 
+						if ( i == 0 || i == 9 )
+							return d;
+						})))
+			.selectAll("text")
+			.style("text-anchor", "end")
+			/*
+			.attr("transform", 
+					function(d) {
+						return "rotate(-45)";
+			})*/;
+	
+		svg.select(".y.axis")
+			.attr("transform", "translate(" + (margin.left) + ",0)")
+			.call(yCostoAxis.tickFormat(decimalFormat));
 		
+		
+		///FINANZIATO
+		var xFinanziato = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+
+		var yFinanziato = d3.scale.linear().range([height, 0]);
+
+		var xFinanziatoAxis = d3.svg.axis().scale(xFinanziato).orient("bottom");
+
+		var yFinanziatoAxis = d3.svg.axis().scale(yFinanziato).orient("left");
+
+	  	xFinanziato.domain(dataSet.map(function(d) { return d.label; }));
+	  	
+	  	yFinanziato.domain([0, d3.max(dataSet, function(d) { 
+			if( d.costo > d.finanziato )
+					return d.costo;
+				else
+					return d.finanziato;
+			})]);
+	  	
+	  	var areaFinanziato = d3.svg.area()
+	  	 	.x(function(d) { return xFinanziato(d.label); })
+	  	 	.y0(height)
+    		.y1(function(d) { return yFinanziato(d.finanziato); });
+	  	
+	  	svg.append("path")
+			.datum(dataSet)
+			.attr("class", "area")
+			.attr("d", areaFinanziato);
+	
+		svg.select(".y.axis")
+			.attr("transform", "translate(" + (margin.left) + ",0)")
+			.call(yFinanziatoAxis.tickFormat(decimalFormat));
+	
+		
+		// draw legend
+		  var legend = svgAll.append("g")
+		    .attr("class", "legend")
+		    .attr("transform", "translate(0,0)");
+
+		  // draw legend colored rectangles
+		  legend.append("rect")
+		      .attr("x", width - 18)
+		      .attr("width", 18)
+		      .attr("height", 18)
+		      .style("fill", "#1f4e78");
+
+		  // draw legend text
+		  legend.append("text")
+		      .attr("x", width - 24)
+		      .attr("y", 9)
+		      .attr("dy", ".35em")
+		      .style("text-anchor", "end")
+		      .text("Importo Finanziato")
+		
+		/*
+		var legend = svgAll.append("g")
+			  .attr("class", "legendTrend")
+			  .attr("x", margin.right)
+			  .attr("y", margin.top)
+			  .attr("height", margin.top)
+			  .attr("width", width);
+		
+		legend.append("rect")
+			  .attr("x", margin.left)
+			  .attr("y", 0)
+			  .attr("width", 10)
+			  .attr("height", 10)
+			  .style("fill", "#1f4e78");
+
+		legend.append("text")
+			  .attr("x", margin.left + 15)
+			  .attr("y", 9)
+			  .text("Importo Finanziato");
+	
+		legend.append("rect")
+			  .attr("x", margin.left)
+			  .attr("y", 0)
+			  .attr("width", 10)
+			  .attr("height", 10)
+			  .style("fill", "#1f4e78");
+
+		legend.append("text")
+			  .attr("x", margin.left + 15)
+			  .attr("y", 9)
+			  .text("Importo Finanziato");
+		*/
 	};
 	
 	var JsonClass = ${jsonResultRiepilogo};
@@ -546,6 +671,6 @@
 	
 	drawBarTestataAnni("TestataBarAnni", dataSetTestataAnni1, ".bar_chart_testata_anni" );
 	
-	drawTrendTestataAnni("TestataTrendAnni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
+	drawTrendTestataAnni("trend_svg_testata_anni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
 	
 </script>

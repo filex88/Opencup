@@ -130,6 +130,7 @@ public class TestataNavigazionePortletController {
 		int currentYear=0;
 		
 		for(AggregataDTO tmp : tmpRisultati4Anno){
+			
 			currentYear = Integer.valueOf( tmp.getAnnoAnnoAggregato() );
 			if( currentYear > year ){
 				//Riempio i buchi
@@ -149,8 +150,9 @@ public class TestataNavigazionePortletController {
 			ele.setFinanziato( tmp.getImpoImportoFinanziato() );
 			risultati4Anno.add(ele);
 			year = currentYear + 1;
+			
 		}
-		if( currentYear<endYear ){
+		if( currentYear < endYear ){
 			for( int y=currentYear+1 ; y<=endYear ; y++ ){
 				ele = new D3BarConverter();
 				ele.setLabel( String.valueOf( y ) );
