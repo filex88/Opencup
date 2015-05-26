@@ -2,6 +2,7 @@ package it.dipe.opencup.utils;
 
 import it.dipe.opencup.model.Progetto;
 
+import java.util.Date;
 import java.util.Locale;
 
 import javax.portlet.PortletURL;
@@ -60,8 +61,8 @@ public class ProgettoIndexer extends BaseIndexer {
 		document.addUID(Constants.RICERCALIBERA_PORTLET_ID, progetto.getId());
 	
 		// impostazione 
-		
-		document.addDate(Field.MODIFIED_DATE, progetto.getAnagraficaCup().getDataUltimaModUtente());
+		Date dataUltimaModifica = maggiore( maggiore(progetto.getAnagraficaCup().getDataGenerazione(), progetto.getAnagraficaCup().getDataUltimaModUtente()), progetto.getAnagraficaCup().getDataUltimaModSSC());
+		document.addDate(Field.MODIFIED_DATE, dataUltimaModifica);
 		document.addKeyword(Field.PORTLET_ID, Constants.RICERCALIBERA_PORTLET_ID);
 		document.addKeyword(Field.COMPANY_ID, PortalUtil.getDefaultCompanyId());
 		document.addKeyword(Field.GROUP_ID, Constants.RICERCALIBERA_GROUP_ID);
@@ -138,6 +139,11 @@ public class ProgettoIndexer extends BaseIndexer {
 	protected String getPortletId(SearchContext searchContext) {
 		
 		return Constants.RICERCALIBERA_PORTLET_ID;
+	}
+	
+	
+	public static Date maggiore(Date a, Date b) {
+	    return a == null ? b : (b == null ? a : (a.after(b) ? a : b));
 	}
 
 }

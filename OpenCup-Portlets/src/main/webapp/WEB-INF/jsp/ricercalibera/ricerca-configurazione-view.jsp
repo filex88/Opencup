@@ -13,25 +13,128 @@
 
 <liferay-ui:error key="config-mancante" message="config-mancante-1" />
 <liferay-ui:success key="indicizzazione-avviata" message="indicizzazione-avviata-1" />
+<liferay-ui:success key="indicizzazione-schedulata" message="indicizzazione-schedulata-1" />
+<liferay-ui:success key="indicizzazione-non-schedulata" message="indicizzazione-non-schedulata-1" />
 
 <portlet:actionURL var="actionURL">
-	<portlet:param name="action" value="avviaIndicizzazione"/>
+	<portlet:param name="action" value="azioneDaAvviare"/> 
 </portlet:actionURL>
 
-<aui:form action="${actionURL}" method="POST">
+<portlet:resourceURL var="statoIndicizzazioneURL" id="loadSChedulazione" escapeXml="false"   />
+
+<script>
+function submitTheForm(action){
 	
+	var actionURL = "${actionURL}";
+		
+    document.forms['<portlet:namespace/>form'].action = actionURL.replace('azioneDaAvviare', action);
+    document.forms['<portlet:namespace/>form'].submit();
+}
+
+var Aui = null;
+
+function checkJob() {
+	var resourceURL = "${statoIndicizzazioneURL}";
+	Aui.io.request( resourceURL, {
+			method: 'GET',
+			dataType: 'json',
+			on: {
+	   			success: function(event, id, obj) {
+	   				var jobInd = this.get('responseData').jobInd;
+	   				
+	   				
+	   				
+	   				if (jobInd.stato == 'ESECUZIONE') {
+	   					Aui.one('#statoIndicizzazione').set('text', 'IN ESECUZIONE');
+	   					Aui.one('#statoIndicizzazione').setStyle('color', 'green');
+	   					Aui.one('#statoIndicizzazione').setStyle('font-weight', 'bold');
+	   					Aui.one('#boxAvanzamento').show();
+	   					Aui.one('#boxProssimaEsecuzione').hide();
+	   				}
+	   				
+	   				if (jobInd.stato == 'SCHEDULATO') {
+	   					Aui.one('#statoIndicizzazione').set('text', 'SCHEDULATO');
+	   					Aui.one('#statoIndicizzazione').setStyle('color', '#DDE432');
+	   					Aui.one('#statoIndicizzazione').setStyle('font-weight', 'bold');
+	   					Aui.one('#boxAvanzamento').hide();
+	   					Aui.one('#boxProssimaEsecuzione').show();
+	   					Aui.one('#prossimaEsecuzione').set('text', jobInd.prossimaEsecuzione );
+	   				}
+	   				
+	   				if (jobInd.stato == 'ASSENTE') {
+	   					Aui.one('#statoIndicizzazione').set('text', 'NON SCHEDULATO');
+	   					Aui.one('#statoIndicizzazione').setStyle('color', 'red');
+	   					Aui.one('#statoIndicizzazione').setStyle('font-weight', 'bold');
+	   					Aui.one('#boxAvanzamento').hide();
+	   					Aui.one('#boxProssimaEsecuzione').hide();
+	   				}
+	   				
+	   				
+	   			},
+	   			failure: function (e) {
+	   				var message = this.get('responseData');
+	   				alert("Ajax Error : "+message);	
+	   			}
+			}
+		});
+}
+
+
+AUI().use(
+		'liferay-portlet-url', 
+		'aui-base', 
+		'aui-io-deprecated',
+		function( A ) {
+			
+			Aui = A;
+			
+			checkJob();
+			
+			setInterval(checkJob, 5000);
+		}
+);
+
+
+</script>
+
+
+<aui:form action="${actionURL}" method="POST" cssClass="form-horizontal" name="form" >
+	
+	<div class="control-group" >
+		<label class="control-label" for="stato">Batch di indicizzazione</label>
+		<div class="controls">
+			<span id="statoIndicizzazione"></span>
+		</div>
+	</div>
+	
+	<div class="control-group" id="boxAvanzamento" style="display: none;">
+		<label class="control-label" for="stato">Avanzamento</label>
+		<div class="controls">
+			<span id="statoIndicizzazione"></span>
+		</div>
+	</div>
+
+
+	<div class="control-group" id="boxProssimaEsecuzione" style="display: none;">
+		<label class="control-label" for="stato">Prossima esecuzione</label>
+		<div class="controls">
+			<span id="prossimaEsecuzione"></span>
+		</div>
+	</div>	
 	
 	<div class="control-group" >
 		<label class="control-label" for="stato">Schedulazione cron</label>
 		<div class="controls">
-			<aui:input type="text" value="${cronExp}" cssClass="input-xlarge" label="" name="cronExp" ></aui:input>
+			<aui:input type="text" value="${cronExp}" cssClass="input-xlarge" label="" inlineField="true"  name="cronExp" ></aui:input>
 		</div>
 	</div>
 
 	<div class="control-group">
 		<div class="pull-right">
-			<aui:button type="submit" cssClass="btn"
-				value="Schedula indicizzazione"></aui:button>
+			<aui:button type="button" cssClass="btn-primary" value="Schedula indicizzazione" onClick="javascript:submitTheForm('schedulaIndicizzazione')"></aui:button>
+			<aui:button type="button" cssClass="btn" value="Cancella schedulazione" onClick="javascript:submitTheForm('cancellaSchedulazione')"></aui:button>
 		</div>
 	</div>
 </aui:form>
+
+

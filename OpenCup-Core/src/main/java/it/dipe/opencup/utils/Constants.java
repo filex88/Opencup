@@ -21,4 +21,14 @@ public class Constants {
 	public static final String RICERCALIBERA_FIELD_COSTO = "costo";
 	
 	public static final String RICERCALIBERA_FIELD_IMPORTO = "importo";
+	
+	public static final int BATCH_INDICIZZAZIONE_PK = 888;
+	
+	public static final String BATCH_STATUS_SCHEDULATO = "SCHEDULATO";
+	public static final String BATCH_STATUS_ASSENTE = "ASSENTE";
+	public static final String BATCH_STATUS_ESECUZIONE = "ESECUZIONE";
+	
+	public static final String BATCH_INDICIZZAZIONE_DEFAULT_CRON = "0 38 16 * * ?";
+	public static final String BATCH_INDICIZZAZIONE_NOME = "it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener";
+	public static final String BATCH_INDICIZZAZIONE_DESC = "Indicizzazione progetti Opencup";
 }

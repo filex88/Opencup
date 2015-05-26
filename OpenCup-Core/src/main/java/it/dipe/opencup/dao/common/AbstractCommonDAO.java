@@ -4,6 +4,7 @@ package it.dipe.opencup.dao.common;
 import it.dipe.opencup.exception.DatabaseException;
 import it.dipe.opencup.model.common.AbstractCommonEntity;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -496,5 +497,47 @@ public abstract class AbstractCommonDAO <T extends AbstractCommonEntity> {
 		Query query = currentSession().createQuery(hql);
 		return query.executeUpdate();
 	}
+	
+	public Serializable save( T transientInstance ) {
+		log.debug("saving "+nomeOggetto + " instance");
+		try {
+			Serializable id = currentSession().save(transientInstance);
+			log.debug("save successful");
+			return id;
+		} catch (Exception re) {
+			log.error("save failed", re);
+			throw new DatabaseException(re);
+		}
+	}
+	
+	public Serializable saveOrUpdate( T transientDetachedInstance ) {
+		log.debug("saving "+nomeOggetto + " instance");
+		try {
+			Serializable id = transientDetachedInstance.getId();
+			if (id == null) {
+				id = currentSession().save(transientDetachedInstance);
+			} else {
+				currentSession().update(transientDetachedInstance);
+			}
+			log.debug("save successful");
+			return id;
+		} catch (Exception re) {
+			log.error("save failed", re);
+			throw new DatabaseException(re);
+		}
+	}
+	
+	public  void delete(T persistentInstance) {
+		log.debug("deleting "+nomeOggetto + " instance");
+		try {
+			currentSession().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (Exception re) {
+			log.error("delete failed", re);
+			throw new DatabaseException(re);
+		}
+	}
+	
+	
 }
 	

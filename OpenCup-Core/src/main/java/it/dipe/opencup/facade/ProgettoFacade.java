@@ -3,6 +3,7 @@ package it.dipe.opencup.facade;
 import it.dipe.opencup.dao.AnagraficaCupDAO;
 import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.CupCoperturaFinanziariaDAO;
+import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.ProgettoDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
 @Component("progettoFacade")
 public class ProgettoFacade {
 	
+	
 	@Autowired
 	private ProgettoDAO progettoDAO;
 	
@@ -40,6 +42,10 @@ public class ProgettoFacade {
 	
 	@Autowired
 	private ComuneDAO comuneDAO;
+	
+	@Autowired
+	private NaturaDAO naturaDAO;
+	
 	
 	@Autowired
 	private CupCoperturaFinanziariaDAO cupCoperturaFinanziariaDAO;
@@ -277,5 +283,33 @@ public class ProgettoFacade {
 		
 		return p;
 	}	
+	
+	
+	public int countProgettiIndicizzazione() {
+		
+		String codiNatura = "03"; // natura lavori pubblici
+		
+		NavigaProgetti filtro = new NavigaProgetti();
+		filtro.setIdNatura( naturaDAO.findByProperty("codiNatura", codiNatura).get(0).getId().toString() );
+		
+		Criteria criteria = buildCriteria(filtro);
+		
+		return progettoDAO.countByCriteria(criteria);
+	}
+	
+	public List<Progetto> findProgettiIndicizzazione(int firstRecord, int pageSize) {
+		
+		String codiNatura = "03"; // natura lavori pubblici
+		
+		NavigaProgetti filtro = new NavigaProgetti();
+		filtro.setIdNatura( naturaDAO.findByProperty("codiNatura", codiNatura).get(0).getId().toString() );
+		
+		Criteria criteria = buildCriteria(filtro);
+		criteria.setFirstResult(firstRecord);
+		criteria.setMaxResults(pageSize);
+		
+		return progettoDAO.findByCriteria(criteria);
+		
+	}
 	
 }

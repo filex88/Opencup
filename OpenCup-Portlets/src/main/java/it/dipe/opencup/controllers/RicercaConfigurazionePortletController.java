@@ -1,10 +1,17 @@
 package it.dipe.opencup.controllers;
 
-import java.util.List;
-
+import it.dipe.opencup.dto.JobDTO;
+import it.dipe.opencup.facade.BatchFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
+import it.dipe.opencup.model.Batch;
+import it.dipe.opencup.utils.Constants;
 import it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -15,17 +22,15 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.liferay.portal.kernel.dao.orm.Criterion;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.scheduler.CronTrigger;
-import com.liferay.portal.kernel.scheduler.IntervalTrigger;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelperUtil;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
@@ -34,13 +39,8 @@ import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.TriggerType;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.util.WebKeys;
-import com.liferay.portlet.dynamicdatalists.model.DDLRecord;
-import com.liferay.portlet.dynamicdatalists.model.DDLRecordSet;
-import com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalServiceUtil;
-import com.liferay.portlet.dynamicdatalists.service.DDLRecordSetLocalServiceUtil;
 
 @Controller
 @RequestMapping("VIEW")
@@ -51,114 +51,49 @@ public class RicercaConfigurazionePortletController  {
 	@Autowired
 	private ProgettoFacade progettoFacade;
 	
-	@Autowired
-	private ProgettoIndicizzatoreMessageListener progettoIndicizzatoreMessageListener;
+	@Autowired 
+	private BatchFacade batchFacade;
+	
+	@PostConstruct
+	void init() {
+		try {
+			SchedulerEngineHelperUtil.resume(Constants.BATCH_INDICIZZAZIONE_NOME, StorageType.PERSISTED);
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@RenderMapping
 	public String defaultRender(RenderRequest renderRequest, 
 			RenderResponse renderResponse,
 			Model model) {
 		
-//		DDLRecord ddlRecordConfig = null;
-//		
-//		try {
-//			DynamicQuery dynamicQuery = DDLRecordSetLocalServiceUtil.dynamicQuery();
-//			Criterion criterion = RestrictionsFactoryUtil.like("name", "%configurazione_ricerca%");
-//			dynamicQuery.add(criterion).setLimit(0, 1);
-//			DDLRecordSet recordSetConfig = (DDLRecordSet) DDLRecordSetLocalServiceUtil.dynamicQuery(dynamicQuery).get(0);
-//			ddlRecordConfig = DDLRecordLocalServiceUtil.getRecords(recordSetConfig.getRecordSetId()).get(0);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		if (ddlRecordConfig == null) {
-//			SessionErrors.add(renderRequest, "config-mancante");
-//		}
-		
-	    
-		
-		
-		
-//		if (config == null) {
-//			
-//			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DDLRecord.class);
-//			try {
-//				
-//				System.out.println("################################## 1");
-//				
-//				List<DDLRecord> records = DDLRecordLocalServiceUtil.dynamicQuery(dynamicQuery);
-//				
-//				System.out.println("################################## 2");
-//				
-//				boolean found = false;
-//				for (DDLRecord record : records) {
-//					Iterator<Field> iterator = record.getFields().iterator();
-//	
-//					System.out.println("################################## 3 record id: " + record.getRecordId() + ", model: " + record.getModelClassName());
-//				
-//					while (iterator.hasNext()) {
-//						
-//						Field field = iterator.next();
-//						if (field.getName().equals("Identificativo") && field.getValue().equals("CONFIG")) {
-//							config = record;
-//							found = true;
-//							break;
-//						};
-//						System.out.println("-- " +  field.getName() + ": " + field.getValue() );
-//					}
-//					
-//					if (found) {
-//						break;
-//					}
-//					
-//				}
-//			} catch (SystemException e) {
-//				e.printStackTrace();
-//			} catch (PortalException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
-		
-		// test
-
-//		try {
-//			Field field = config.getField("Prova");
-//			field.setValue("OK");
-//							
-//			config.getFields().put(field);
-//			config.setNew(true);
-//			
-//			DDLRecordLocalServiceUtil.updateDDLRecord(config);
-//			
-//			
-//			
-//			
-//		} catch (PortalException e) {
-//
-//			e.printStackTrace();
-//		} catch (SystemException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		String cronExp = null;
+		String portletId = (String) renderRequest.getAttribute(WebKeys.PORTLET_ID);
+	
+		String batchIndCronExp = null;
 		try {
-			List<SchedulerResponse> jobs = SchedulerEngineHelperUtil.getScheduledJobs(StorageType.PERSISTED);
-			for (SchedulerResponse job : jobs) {
-				if (job.getJobName().equals("it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener") && job.getTrigger() instanceof CronTrigger) {
-					CronTrigger trigger = (CronTrigger)job.getTrigger();
-					cronExp = trigger.getTriggerContent();
-				}
+			Batch batchInd = batchFacade.ricercaBatchByNome(Constants.BATCH_INDICIZZAZIONE_NOME);
+			if (batchInd == null) {
+				// creo una riga con le impostazioni di default
+				batchInd = new Batch();
+				batchInd.setId(Constants.BATCH_INDICIZZAZIONE_PK);
+				batchInd.setNome(Constants.BATCH_INDICIZZAZIONE_NOME);
+				batchInd.setDescrizione(Constants.BATCH_INDICIZZAZIONE_DESC);
+				batchInd.setCron(Constants.BATCH_INDICIZZAZIONE_DEFAULT_CRON);
+				
+				batchFacade.inserisciBatch(batchInd);
+
+				schedulaJob(Constants.BATCH_INDICIZZAZIONE_NOME, Constants.BATCH_INDICIZZAZIONE_DESC, Constants.BATCH_INDICIZZAZIONE_DEFAULT_CRON, portletId);
 			}
+			batchIndCronExp = batchInd.getCron();
 			
-		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		model.addAttribute("cronExp", cronExp);
+	
+		model.addAttribute("cronExp", batchIndCronExp);
 		
 		return "ricerca-configurazione-view";
 	}
@@ -166,43 +101,127 @@ public class RicercaConfigurazionePortletController  {
 
 	
 	
-	@ActionMapping(params = "action=avviaIndicizzazione")
+	@ActionMapping(params = "action=schedulaIndicizzazione")
 	private void avviaIndicizzazione(@RequestParam("cronExp") String cronExp, ActionRequest actionRequest, ActionResponse actionResponse) {
 		
-		System.out.println("avviaIndicizzazione cronExp = " + cronExp);
+		System.out.println("schedulaIndicizzazione cronExp = " + cronExp);
 		
-		actionResponse.setRenderParameter("show", "avviaIndicizzazione");
+		actionResponse.setRenderParameter("show", "schedulaIndicizzazione");
 		
 		String portletId = (String) actionRequest.getAttribute(WebKeys.PORTLET_ID);
 		
+		cancellaJob(Constants.BATCH_INDICIZZAZIONE_NOME);
 		
+		schedulaJob(Constants.BATCH_INDICIZZAZIONE_NOME, Constants.BATCH_INDICIZZAZIONE_DESC, cronExp, portletId);
+		
+		
+	}
+	
+	@RenderMapping(params = "show=schedulaIndicizzazione")
+	public String showSchedulandicizzazione(RenderRequest renderRequest, 
+			RenderResponse renderResponse,
+			Model model) {	
+		
+		SessionMessages.add(renderRequest, "indicizzazione-schedulata");
+		
+		return defaultRender(renderRequest, renderResponse, model);
+	}
+	
+	
+	@ActionMapping(params = "action=cancellaSchedulazione")
+	private void cancellaSchedulazione(ActionRequest actionRequest, ActionResponse actionResponse) {
+		
+		actionResponse.setRenderParameter("show", "cancellaSchedulazione");
+		
+		cancellaJob(Constants.BATCH_INDICIZZAZIONE_NOME);
+	}
+	
+	@RenderMapping(params = "show=cancellaSchedulazione")
+	public String showCancellaSchedulazione(RenderRequest renderRequest, 
+			RenderResponse renderResponse,
+			Model model) {	
+		
+		SessionMessages.add(renderRequest, "indicizzazione-non-schedulata");
+		
+		return defaultRender(renderRequest, renderResponse, model);
+	}
+	
+	
+	@ResourceMapping(value =  "loadSChedulazione")	
+	protected View loadSChedulazione() {
+		
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
+				
+		view.addStaticAttribute("jobInd", getJob(Constants.BATCH_INDICIZZAZIONE_NOME));
+		return view;
+	}
+	
+	
+	private JobDTO getJob(String jobName) {
+		
+		JobDTO jobDTO = new JobDTO();
+		jobDTO.setStato("ASSENTE");
+		
+		try {
+			List<SchedulerResponse> jobs = SchedulerEngineHelperUtil.getScheduledJobs(StorageType.PERSISTED);
+			for (SchedulerResponse job : jobs) {
+				if (job.getJobName().equals(jobName) && job.getTrigger() instanceof CronTrigger) {
+					CronTrigger trigger = (CronTrigger)job.getTrigger();
+					jobDTO.setCronExp(trigger.getTriggerContent());
+					jobDTO.setStato(Constants.BATCH_STATUS_SCHEDULATO);
+					
+					Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					try {
+						jobDTO.setProssimaEsecuzione( formatter.format( SchedulerEngineHelperUtil.getNextFireTime(jobName, jobName, StorageType.PERSISTED)) );
+					} catch (IllegalArgumentException iae) {
+						iae.printStackTrace();
+					}
+					
+					jobDTO.setPrecedenteEsecuzione( SchedulerEngineHelperUtil.getPreviousFireTime(job) );
+					
+				}
+			}
+			
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		
+//		if (progettoIndicizzatoreMessageListener.isExecuting()) {
+//			
+//			jobDTO.setStato("ESECUZIONE");
+//			jobDTO.setTotale("" + progettoIndicizzatoreMessageListener.getTotal());
+//			jobDTO.setStep("" + progettoIndicizzatoreMessageListener.getStep());
+//			
+//		}
+		
+		return jobDTO;
+		
+	}
+	
+	private void cancellaJob(String jobName) {
+		try {
+			SchedulerEngineHelperUtil.delete(jobName, jobName, StorageType.PERSISTED);
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void schedulaJob(String jobName, String descrizione, String cron, String portletId) {
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl();  
-		schedulerEntry.setDescription("This is a programatically created process");  
-		//schedulerEntry.setEventListenerClass(ProgettoIndicizzatoreMessageListener.class.getName());
-		schedulerEntry.setEventListener(progettoIndicizzatoreMessageListener);
+		schedulerEntry.setDescription(descrizione);  
+		schedulerEntry.setEventListenerClass(ProgettoIndicizzatoreMessageListener.class.getName());
 		schedulerEntry.setTimeUnit(TimeUnit.SECOND);  
 		schedulerEntry.setTriggerType(TriggerType.CRON);  
-		schedulerEntry.setTriggerValue(cronExp);  
+		schedulerEntry.setTriggerValue(cron);  
 		
 		try {  
-			
-			SchedulerEngineHelperUtil.delete("it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener", "it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener", StorageType.PERSISTED);
 			
 			SchedulerEngineHelperUtil.schedule(schedulerEntry, StorageType.PERSISTED, portletId, 0);  
 		} catch (SchedulerException e) {  
 
 			e.printStackTrace();  
 		}  
-		
 	}
 	
-	@RenderMapping(params = "show=avviaIndicizzazione")
-	public String showAvviaIndicizzazione(RenderRequest renderRequest, 
-			RenderResponse renderResponse,
-			Model model) {	
-		
-		SessionMessages.add(renderRequest, "indicizzazione-avviata");
-		
-		return defaultRender(renderRequest, renderResponse, model);
-	}
 }

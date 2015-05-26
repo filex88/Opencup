@@ -17,7 +17,6 @@
 		<portlet id="localizzazione-portlet3" />
 		<portlet id="localizzazione-portlet4" />
 		<portlet id="ricercalibera-portlet" />
-		<portlet id="ricercarisultati-portlet" />
 	</category>
 	<category name="category.hidden">
 		<portlet id="ricerca-configurazione-portlet" />

@@ -4,7 +4,6 @@ import it.dipe.opencup.controllers.common.FiltriCommonController;
 import it.dipe.opencup.dto.RicercaLiberaDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
-import it.dipe.opencup.model.Progetto;
 
 import java.util.List;
 
@@ -34,9 +33,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -100,16 +96,16 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 	
 		
 		// TODO da rimuovere
-		Indexer indexer = IndexerRegistryUtil.getIndexer(Progetto.class);
-		try {
-						
-			logger.info("Indicizzazione di prova - metodo indiretto");
-			
-			indexer.reindex(progettoFacade.findProgettoById(17085970));
-			
-		} catch (SearchException e) {
-			logger.error("SearchException: ", e);
-		}
+//		Indexer indexer = IndexerRegistryUtil.getIndexer(Progetto.class);
+//		try {
+//						
+//			logger.info("Indicizzazione di prova - metodo indiretto");
+//			
+//			indexer.reindex(progettoFacade.findProgettoById(17085970));
+//			
+//		} catch (SearchException e) {
+//			logger.error("SearchException: ", e);
+//		}
 		
 		
 		return "ricercalibera-view";

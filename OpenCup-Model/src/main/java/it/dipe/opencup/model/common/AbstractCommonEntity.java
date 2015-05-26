@@ -7,26 +7,24 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @MappedSuperclass
-public class AbstractCommonEntity implements Serializable {
+public abstract class AbstractCommonEntity implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8160944469195783015L;
 	
-	@Version
-	@Transient
-	private Integer versione;
+//	@Version
+//	@Transient
+//	private Integer versione;
+//
+//	public Integer getVersione() {
+//		return versione;
+//	}
+//
+//	public void setVersione(Integer versione) {
+//		this.versione = versione;
+//	}
 
-	public Integer getVersione() {
-		return versione;
-	}
-
-	public void setVersione(Integer versione) {
-		this.versione = versione;
-	}
-
-	
-	
-	
+	public abstract Integer getId();
 }
