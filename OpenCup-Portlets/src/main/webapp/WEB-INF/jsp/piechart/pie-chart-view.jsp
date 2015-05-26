@@ -9,7 +9,6 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 
 <portlet:defineObjects />
-
 	
 <c:if test="${ config.mostraPulsanti }">
 	<div class="stripe">
@@ -458,7 +457,6 @@
 	};
 	
 	function drawBar(chartName, histogramName, dataSet) {
-
 		
 		var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
 		
@@ -568,7 +566,7 @@
 		var legendBulletOffset = 30;
 		var legendTextOffset = 20;
 		var textVerticalSpace = 20;
-		
+
 		var width_svg = d3.select(divLegend).node().getBoundingClientRect().width;
 		
 		var canvas = d3.select(divLegend).append("svg:svg")
@@ -680,7 +678,6 @@
 	
 	var margin = 10;
 	var outerRadius = (width_pie_chart_1 / 2) - margin;
-	
 	
 	pie = drawPie("Pie1", dataSet1, ".pie_chart_1", "segments", margin, outerRadius, 0, 0);
 	

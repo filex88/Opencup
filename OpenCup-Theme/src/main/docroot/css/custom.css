@@ -126,11 +126,11 @@ div#searchBar button{background:#fff;border: none; color: #1f4e78;box-shadow:NON
 
 #footer ul#main-footer-list li ul.inner-sublist-footer li a{color: #1f4e78;}
 
-.aui .breadcrumb{line-height: 2em!important;background-color: #f08c00!important;}
+.aui .breadcrumb {line-height: 2em!important; background-color: #f0f0f0!important; margin: 0px;}
 
 .aui .breadcrumb  li{text-shadow: none!important;}
 
-.aui .breadcrumb  li a{color: #fcfcfc;}
+.aui .breadcrumb  li a{color: #1f4e78; font-size: 1.2em}
 
 .pad{padding: 0 8em 0!important;}
 

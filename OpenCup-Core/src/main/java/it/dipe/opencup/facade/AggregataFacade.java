@@ -383,7 +383,15 @@ public class AggregataFacade {
 	
 	@Cacheable(value = "AggregataDTO")
 	public List<AggregataDTO> findAggregataByNatura(NavigaAggregata navigaAggregata) {
-		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
+		Criteria criteria = buildCriteria(navigaAggregata);
+		if( ! StringUtils.isEmpty(navigaAggregata.getOrderProperty()) ){
+			if("asc".equals(navigaAggregata.getOrderType())){
+				criteria.addOrder(Order.asc(navigaAggregata.getOrderProperty()));
+			}else{
+				criteria.addOrder(Order.desc(navigaAggregata.getOrderProperty()));
+			}
+		}
+		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
 	}
