@@ -6,6 +6,7 @@ import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.model.Aggregata;
 import it.dipe.opencup.model.Natura;
+import it.dipe.opencup.model.ProgettiTotali;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class HomePagePortletController {
 		model.addAttribute("valoriLoc", valori);
 		model.addAttribute("jsonResultLocalizzazione",createJsonStringLocalizzazioneFromQueryResult(valori));
 		
+		//** CAROUSEL 1 Pagina **//
 		
 		Long numeProgettiClass = new Long(0);
 		double impoCostoProgettiClass = 0.0;
@@ -89,6 +91,28 @@ public class HomePagePortletController {
 		model.addAttribute("numeProgettiClass", numeProgettiClass);
 		model.addAttribute("impoCostoProgettiClass", impoCostoProgettiClass);
 		model.addAttribute("impoImportoFinanziatoClass", impoImportoFinanziatoClass);
+		
+		//** CAROUSEL 2 - Progetti Totali **//
+		
+		Double numeProgettiTotaliClass = new Double(0);
+		double impoCostoProgetti = 0.0;
+		double importoFinanziato = 0.0;
+		
+		NavigaAggregata filtroTotaliClass=new NavigaAggregata(NavigaAggregata.NAVIGA_CLASSIFICAZIONE,"0");
+		filtroTotaliClass.setIdNatura(naturaOpenCup.getId().toString());
+		filtroTotaliClass.setDescNatura(naturaOpenCup.getDescNatura());
+		filtroTotaliClass.setIdAreaIntervento("0");
+		List<ProgettiTotali> risultatiTotaliClassificazione=aggregataFacade.findDatiCUPByNatura(Integer.parseInt(filtroTotaliClass.getIdNatura()));
+		for(ProgettiTotali progettiTotali : risultatiTotaliClassificazione){
+			numeProgettiTotaliClass = numeProgettiTotaliClass + progettiTotali.getNumeProgetti();
+			impoCostoProgetti = impoCostoProgetti + progettiTotali.getImpoCostoProgetti();
+			importoFinanziato = importoFinanziato + progettiTotali.getImpoImportoFinanziato();
+		}
+		
+		model.addAttribute("jsonResultClassificazione",createJsonStringClassificazioneFromQueryResult(risultatiClassificazione));
+		model.addAttribute("numeProgettiTotaliClass", numeProgettiTotaliClass);
+		model.addAttribute("impoCostoProgetti", impoCostoProgetti);
+		model.addAttribute("importoFinanziato", importoFinanziato);
 	
 	
 		

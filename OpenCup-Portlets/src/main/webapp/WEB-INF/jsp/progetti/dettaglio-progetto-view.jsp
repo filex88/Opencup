@@ -433,8 +433,32 @@
  	var zoomMap = ${zoomMap};
 	
 	function initialize() {
-		var mapCanvas = document.getElementById('map-canvas');
-		var mapOptions = {
+		var element = document.getElementById('map-canvas');
+        var mapTypeIds = [];
+/*         for(var type in google.maps.MapTypeId) {
+            mapTypeIds.push(google.maps.MapTypeId[type]);
+        } */
+        mapTypeIds.push("OSM");
+
+        var map = new google.maps.Map(element, {
+            center: new google.maps.LatLng(lat, lng),
+            zoom: 11,
+            mapTypeId: "OSM",
+            mapTypeControlOptions: {
+                mapTypeIds: mapTypeIds
+            } 
+        });
+
+        map.mapTypes.set("OSM", new google.maps.ImageMapType({
+            getTileUrl: function(coord, zoom) {
+                return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+            },
+            tileSize: new google.maps.Size(256, 256),
+            name: "Mappa",
+            maxZoom: 18
+        }));
+		
+		/* var mapOptions = {
 			center: new google.maps.LatLng(lat, lng),
          	disableDefaultUI: true,
          	disableDoubleClickZoom: false,
@@ -455,7 +479,7 @@
      	google.maps.event.addListener(marker, 'click', 
      			function() {
          			infowindow.open(map, marker);
-     			});
+     			}); */
 	}
 	
 	google.maps.event.addDomListener(window, 'load', initialize);
