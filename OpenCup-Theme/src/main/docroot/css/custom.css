@@ -157,3 +157,15 @@ div.newsContainer div.textContainer{float:left; padding-left:1em;}
 div.newsContainer div.textContainer p {text-align:justify}
 div.newsImageContainer{width:14em;height:14em;float:right;padding-right:1em;}
 
+
+#content{
+	position:relative;
+	zoom:1;
+	width:1180px;
+	padding:0px 0px 0px 0px;
+	margin:0 auto;
+	background-color: #f0f0f0;
+	-webkit-box-shadow: 0 0 5px rgba(150,150,150,0.3);
+	-moz-box-shadow: 0 0 5px rgba(150,150,150,0.3);
+	box-shadow: 0 0 5px rgba(150,150,150,0.3);
+}

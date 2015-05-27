@@ -459,11 +459,11 @@
 	  	
 	  	y.domain([0, d3.max(dataSet, function(d) { return d.volume; })]);
 
-	  	/*
+	  	
 	 	// extract the x labels for the axis and scale domain
 		var xLabels = dataSet.map(function (d) { return d.label; })
 		
-		
+		/*
 	  	svg.append("g")
 	    .attr("class", "x axis")
 	    .attr("transform", "translate(0," + height + ")")
@@ -479,7 +479,14 @@
 	    svg.append("g")
       	.attr("class", "x axis")
      	.attr("transform", "translate(0," + height + ")")
-      	.call(xAxis)
+      	//.call(xAxis)
+      	.call( xAxis.tickValues( xLabels.filter( 
+      		function(d, i) { 
+      			if ( i == 0 || i == 9 ){
+      				return d;
+      			}
+      		}
+      	) ) )
     	.append("text")
       	.attr("class", "label")
       	.attr("x", width)
@@ -550,9 +557,9 @@
 			.attr("class", "line")
 			.attr("d", lineCosto);
 	  	
-	  	/*// extract the x labels for the axis and scale domain
+	  	// extract the x labels for the axis and scale domain
 		var xLabels = dataSet.map(function (d) { return d.label; })
-		
+		/*
 		svg.select(".x.axis")
 			.attr("transform", "translate(0," + (height) + ")")
 			.call(xCostoAxis.tickValues( xLabels.filter( 
@@ -572,8 +579,15 @@
 	    svg.append("g")
 	      	.attr("class", "x axis")
 	     	.attr("transform", "translate(0," + height + ")")
-	      	.call(xCostoAxis)
-	    	.append("text")
+	      	//.call(xCostoAxis)
+	    	.call( xCostoAxis.tickValues( xLabels.filter( 
+	      		function(d, i) { 
+	      			if ( i == 0 || i == 9 ){
+	      				return d;
+	      			}
+	      		}
+	      	) ) )
+	      	.append("text")
 	      	.attr("class", "label")
 	      	.attr("x", width)
 	      	.attr("y", -6)
