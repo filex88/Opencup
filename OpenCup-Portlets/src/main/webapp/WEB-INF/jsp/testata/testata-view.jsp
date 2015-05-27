@@ -24,7 +24,7 @@
 	#conteiner div.ic_tray:last-child{margin-left: -6px!important;}
 	#conteiner div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
 	#conteiner div.titolo p{padding:1em; font-size:2em; color:#1f4e78;}
-	#conteiner .firstLoc{padding-top:1em;padding-left:1em; color:#1f4e78;font-size:16pt;}
+	#conteiner .firstLoc{ padding-top:1em; padding-left:1em; color:#1f4e78; font-size:16pt; white-space: nowrap;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
 	#conteiner .classchart rect:first-of-type {fill: #d9d9d9;}
 	#conteiner .classchart rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #1f4e78;}
@@ -33,7 +33,7 @@
 	div.div_pie_chart_testata_stato, div.div_bar_chart_testata_anni {text-align: center;}
 	.legend tr{border-bottom:0px solid #1f4e78;}
 	.legend tr:first-child{border-top:0px solid #1f4e78;}
-	.legend{margin-bottom:76px; display:inline-block; border-collapse: collapse; border-spacing: 0px;}
+	.legend{ margin-bottom: 10px; display:inline-block; border-collapse: collapse; border-spacing: 0px;}
 	.legend td{padding:4px 5px; vertical-align:bottom;}
 	.legendLabel{text-align: left; width:50px; color: #1f4e78; white-space: nowrap;}
 	.legendValue{text-align: right; width:50px;color: #1f4e78;}
@@ -72,12 +72,12 @@
 	
 	.axis text {
 		font-size: 10px;
-		font-family: sans-serif;
+		/* font-family: sans-serif; */
 	}
 	
 	.text-label {
 		font-size: 10px;
-		font-family: sans-serif;
+		/* font-family: sans-serif; */
 	}
 	
 	.area {
@@ -131,8 +131,8 @@
 		<div class="row" id="conteiner" >
 			<div class="span3 corpo_logo" id="corpo_logo"></div>
 			<div class="span2 pie_chart_testata_stato" id="pie_chart_testata_stato"></div>
-			<div class="span1 pie_chart_testata_stato_legend" id="pie_chart_testata_stato_legend"></div>
-			<div class="span3 bar_chart_testata_anni" id="bar_chart_testata_anni"></div>
+			<div class="span1 pie_chart_testata_stato_legend" id="pie_chart_testata_stato_legend" style="margin-left: 15px;"></div>
+			<div class="span3 bar_chart_testata_anni" id="bar_chart_testata_anni" style="padding-left: 25px;"></div>
 			<div class="span3 trend_chart_testata_anni" id="trend_chart_testata_anni"></div>
 		</div>
 	</div>
@@ -246,7 +246,7 @@
 		.append("svg")
 		.attr("class","classchart")
 		.attr("width",(singleElMwClass*5))
-		.attr("height",20);
+		.attr("height", 15);
 		
 		d3.selectAll(".classchart")
 		.each(function(d){
@@ -257,7 +257,7 @@
 			.data(range)
 			.enter().append("rect")
 		 	.attr("width", x)
-		 	.attr("height", 20);
+		 	.attr("height", 15);
 		 	
 		});
 		
@@ -281,7 +281,7 @@
 		var maxDataStato = ${ recordCountStato };
 		var midDataStato = maxDataStato / 2;
 		
-		d3.selectAll(selectString)
+		var divCanvas = d3.selectAll(selectString)
 		.append("div")
 		.style("width",totWidth+"px")
 		.style("display", "inline")
@@ -324,7 +324,7 @@
 		}
 	
 		// Create a drawing canvas...
-		var canvas = d3.select(selectString).append("svg:svg") //create the SVG element
+		var canvas = divCanvas.append("svg:svg") //create the SVG element
 		.data([ dataSet ]) //associate our data with the document
 		.attr("width", canvasWidth) //set the width of the canvas
 		.attr("height", canvasHeight) //set the height of the canvas
