@@ -13,6 +13,7 @@ import it.dipe.opencup.dao.ComuneDAO;
 import it.dipe.opencup.dao.LocalizzazioneDAO;
 import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.NaturaSettoreDAO;
+import it.dipe.opencup.dao.ProgettiTotaliDAO;
 import it.dipe.opencup.dao.ProgettoDAO;
 import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
@@ -34,6 +35,7 @@ import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
 import it.dipe.opencup.model.Natura;
 import it.dipe.opencup.model.NaturaSettore;
+import it.dipe.opencup.model.ProgettiTotali;
 import it.dipe.opencup.model.Provincia;
 import it.dipe.opencup.model.Regione;
 import it.dipe.opencup.model.SettoreIntervento;
@@ -119,6 +121,9 @@ public class AggregataFacade {
 	
 	@Autowired
 	private AreaSoggettoDAO areaSoggettoDAO;
+	
+	@Autowired
+	private ProgettiTotaliDAO progettiTotaliDAO;
 	
 //	private Criteria buildCriteria4Testata(NavigaAggregata navigaAggregata){
 //		Criteria criteria = aggregataDAO.newCriteria();
@@ -394,6 +399,15 @@ public class AggregataFacade {
 		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(criteria);
 		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 
+	}
+	
+	@Cacheable(value = "AggregataDTO")
+	public List<ProgettiTotali> findDatiCUPByNatura(Integer idNatura) {
+		List<ProgettiTotali> retVal = new ArrayList<ProgettiTotali>();
+		Criteria criteria = progettiTotaliDAO.newCriteria();
+		criteria.add( Restrictions.eq("idNatura", idNatura) );
+		retVal.addAll(progettiTotaliDAO.findByCriteria(criteria));
+		return retVal;
 	}
 	
 	

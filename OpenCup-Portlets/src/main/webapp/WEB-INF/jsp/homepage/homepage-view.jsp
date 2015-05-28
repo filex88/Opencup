@@ -35,13 +35,13 @@
 	div#news-list div.allNewsLink a{color: #fff;line-height: 2em;}
 	div#news-list div.allNewsLink a:hover{text-decoration: underline;}
 
-	div#noticeCarousel.carousel {height:12.5em;}
-	ol#noticeSpinner.carousel-indicators{position: relative!important;padding-top:11em;padding-right: 30em;z-index: 0;}
+	div#noticeCarousel.carousel {height:18em;}
+	ol#noticeSpinner.carousel-indicators{padding-right: 40em;z-index: 0; padding-top:17em;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
 	ol#noticeSpinner li:hover{cursor: pointer;}
 	ol#noticeSpinner li.active{background-color:#0084b0;}
-	div#textHome {text-align: center;margin-top: -14em;}
-	div.stripe{background: #fff;height:14em;border-top:.5em solid #f0f0f0;}
+	div#textHome {text-align: center;}
+	div.stripe{background: #fff;height:20em;border-top:.5em solid #f0f0f0;}
 	
 	div.firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
 	div.firstStripeLeft small{font-size: .5em;}
@@ -60,8 +60,8 @@
 	
 	
 	#rulloLoc{padding-bottom: 1em;}
-	#rulloLoc .infiniteCarousel{background-color: #f0f0f0;height: 15em!important;}
-	#rulloLoc .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
+	#rulloLoc .infiniteCarousel{background-color: #f0f0f0;height: 20em!important;}
+	#rulloLoc .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:19.5em!important;}
 	#rulloLoc .firstLoc{padding-top:1.5em;padding-left:1em; color:#00b0f0;font-size:18pt;}
 	#rulloLoc .secondLoc{padding-top:1.5em;padding-left:1em; color:#00b0f0;font-size:16pt;}
 	#rulloLoc i.icon-chevron-right, #rulloLoc i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
@@ -72,7 +72,7 @@
 	
 	#rulloClass{padding-bottom: 0.5em;}
 	#rulloClass .infiniteCarousel{background-color: #f0f0f0;height: 16em!important;}
-	#rulloClass .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:14.5em!important;}
+	#rulloClass .infiniteCarousel_item{float:left; background-color: #fff!important;margin: 0 6px 0 0;height:19.5em!important;}
 	#rulloClass i.icon-chevron-right, #rulloClass i.icon-chevron-left {color:#f0f0f0!important; font-size: 40px!important;}
 	#rulloClass div.ic_tray:first-child{margin-left: -6px!important;}
 	#rulloClass div.ic_tray:last-child{margin-left: -6px!important;}
@@ -92,17 +92,9 @@
 	<div class="clear"></div>
 	<div class="stripe">
 	
-	<div class="span9" >
+	<div class="span12" >
 		
-		<div id="noticeCarousel" class="carousel slide">
-			<div class="right">
-				<ol id="noticeSpinner" class="carousel-indicators">
-   			 		<li data-target="#noticeCarousel" data-slide-to="0" class="active"></li>
-   			 		<li data-target="#noticeCarousel" data-slide-to="1"></li>
-   					 <li data-target="#noticeCarousel" data-slide-to="2"></li>
- 			 	</ol>
-			</div>
-  			
+		<div id="noticeCarousel" class="carousel slide"> 			
  		 <div id="textHome" class="carousel-inner left">
    			 <div class="active item">
 				<div  class="firstStripeLeft left w30">
@@ -110,7 +102,7 @@
 							<br/>
 				<small>Ambito - Lavori Pubblici 1</small>
 				</div>
-				<div class="right secondStripeLeft w70">
+				<div class="left secondStripeLeft w40">
 					<div>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
@@ -118,33 +110,99 @@
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 					 </div>
-					 <br/>
-					 <br/>
+					 <br /><br />
 					 <div class="linkScopri">
 					 		<a class="linkHome" href="#">Approfondisci</a>
 
 					 </div>
 				</div>
-				
+				<div class="right secondStripeLeft w20">
+					<div class="summary">
+						<ul>
+							<li class="sumVolume w100">
+								<div>
+									<span class="left"><small>Progetti censiti</small></span>
+									<span class="right"><small><fmt:formatNumber value="${numeProgettiClass}" type="number" minIntegerDigits="0"/></small></span>
+									<svg class="w100"></svg>
+								</div>
+							</li>
+							<li class="sumCosto w100">
+								<div>
+									<span class="left"><small>Costo</small></span>
+									<span class="right"><small id="costoTotale"></small></span>
+									<svg class="w100"></svg>
+								</div>
+							</li>
+							<li class="sumImporto w100">
+							<div>
+								<span class="left"><small>Finanziamento pubblico</small></span>
+								<span class="right"><small id="importoTotale"></small></span>
+								<svg class="w100"></svg>
+							</div>
+							</li>
+						</ul>
+					
+					</div>
+				</div>
 			</div>
    			 <div class="item">
 				<div  class="firstStripeLeft left w30">
-					OpenCUP<br/>
+					CUP<br/>
 							<br/>
 				<small>Ambito - Lavori Pubblici 2</small>
 				</div>
-				<div class="right secondStripeLeft w70">
+				<div class="left secondStripeLeft w40">
+					<div>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				</div>
+					 </div>
+					 <br /><br />
+					 <div class="linkScopri">
+					 		<a class="linkHome" href="#">Approfondisci</a>
 
+					 </div>
+				</div>
+				<div class="right secondStripeLeft w20">
+					<div class="summary">
+						<ul>
+							<li class="sumVolume w100">
+								<div>
+									<div class="right">
+										<small>Progetti</small>
+										<div><fmt:formatNumber value="${numeProgettiTotaliClass}" type="number" minIntegerDigits="0"/></div>
+									</div>
+									<div class="borderProgettiTotali"></div>
+								</div>
+							</li>
+							<li class="sumCosto w100">
+								<div>
+									<div class="right">
+										<small>Costo</small>
+										<div><fmt:formatNumber value="${impoCostoProgetti}" type="number" minIntegerDigits="0"/></div>
+									</div>
+									<div class="borderProgettiTotali"></div>
+								</div>
+							</li>
+							<li class="sumImporto w100">
+								<div>
+									<div class="rigth">
+										<small>Finanziamento pubblico</small>
+										<div><fmt:formatNumber value="${importoFinanziato}" type="number" minIntegerDigits="0"/></div>
+									</div>
+									<div class="borderProgettiTotali"></div>
+								</div>
+							</li>
+						</ul>
+					
+					</div>
+				</div>
 			</div>
    			<div class="item">
 				<div  class="firstStripeLeft left w30">
-					OpenCUP<br/>
+					OpenData<br/>
 							<br/>
 				<small>Ambito - Lavori Pubblici 3</small>
 				</div>
@@ -157,36 +215,16 @@
 				</div>
 			</div>
   		</div>
-  
+ 		<div class="">
+			<ol id="noticeSpinner" class="carousel-indicators">
+  			 		<li data-target="#noticeCarousel" data-slide-to="0" class="active"></li>
+  			 		<li data-target="#noticeCarousel" data-slide-to="1"></li>
+  					 <li data-target="#noticeCarousel" data-slide-to="2"></li>
+			 	</ol>
+		</div>
 	</div>
 		
 		
-	</div>
-	<div class="span3 summary">
-		<ul>
-			<li class="sumVolume w100">
-				<div>
-					<span class="left"><small>Progetti censiti</small></span>
-					<span class="right"><small><fmt:formatNumber value="${numeProgettiClass}" type="number" minIntegerDigits="0"/></small></span>
-					<svg class="w100"></svg>
-				</div>
-			</li>
-			<li class="sumCosto w100">
-				<div>
-					<span class="left"><small>Costo</small></span>
-					<span class="right"><small id="costoTotale"></small></span>
-					<svg class="w100"></svg>
-				</div>
-			</li>
-			<li class="sumImporto w100">
-			<div>
-				<span class="left"><small>Finanziamento pubblico</small></span>
-				<span class="right"><small id="importoTotale"></small></span>
-				<svg class="w100"></svg>
-			</div>
-			</li>
-		</ul>
-	
 	</div>
 		
 </div>
@@ -194,7 +232,7 @@
 <div class="clear"></div>
 
 	<div class="stripe" id="rulloClass">
-		<ul id="classCarousel" style="max-height: 14em;list-style: none;display: inline;" class="span12">
+		<ul id="classCarousel" style="max-height: 20em;list-style: none;display: inline;" class="span12">
 		</ul>
 	</div>
 
@@ -203,7 +241,7 @@
 <div class="clear"></div>
 
 	<div class="stripe" id="rulloLoc">
-		<ul id="locCarousel" style="max-height: 14em;list-style: none;display: inline;" class="span12">
+		<ul id="locCarousel" style="max-height: 20em;list-style: none;display: inline;" class="span12">
 		</ul>
 
 	</div>
