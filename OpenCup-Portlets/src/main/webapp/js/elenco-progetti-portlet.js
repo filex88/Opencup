@@ -31,9 +31,9 @@ AUI().use(
 		        animated: true,
 		        closeAllOnExpand: true,
 		        container: '#my-toggler-affina-ricerca-elenco-progetti',
-		        content: '.content',
+		        content: '.content-elenco-progetti',
 		        expanded: false,
-		        header: '.header',
+		        header: '.header-elenco-progetti',
 		        transition: {
 		          duration: 0.6,
 		          easing: 'cubic-bezier(0, 0.1, 0, 1)'

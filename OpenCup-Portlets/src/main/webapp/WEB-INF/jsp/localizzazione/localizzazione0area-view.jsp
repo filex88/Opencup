@@ -50,7 +50,7 @@
 	
 	</div>	
 
-	<div id="container-localizzazione">
+	<div id="container-localizzazione" style="height: 400px;">
 		
 		<div class="row">
 			<div class="titoloLocalizzazione" id="titoloLocalizzazione">
@@ -152,7 +152,7 @@
 
 	d3.select("#titoloLocalizzazione").style("background", fillColor);
 	
-	d3.select("#container-localizzazione").style("border-left", "10px solid "+fillColor);
+	d3.select("#container-localizzazione").style("border-left", "5px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){

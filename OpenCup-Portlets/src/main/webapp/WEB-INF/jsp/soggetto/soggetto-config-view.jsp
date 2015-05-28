@@ -43,6 +43,13 @@
 		</div>
 		
 		<div class="control-group">
+			<span class="control-label">Portlet Secondaria DX</span>
+			<div class="controls">
+				<springform:checkbox path="portletSecondariaDX" />
+			</div>
+		</div>
+		
+		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary">Salva &nbsp;<i class="icon-save"></i></button>
 			</div>

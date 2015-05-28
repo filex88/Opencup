@@ -11,18 +11,10 @@
 <portlet:defineObjects />
 
 <div class="portlet-body">
-
-
 	<aui:form action="${ricercaLiberaURL }" method="POST">
-	
-			<div class="input-append">
-				<aui:input type="text" cssClass="span3" label="" bean="ricerca"  name="cercaPerKeyword" inlineField="true"  ></aui:input>
-				
-				<aui:button type="submit" cssClass="btn" value="<i class='icon-search'></i>" ></aui:button>
-				
-			</div>
-
+		<div class="input-append">
+			<aui:input type="text" cssClass="span3" label="" bean="ricerca"  name="cercaPerKeyword" inlineField="true"  ></aui:input>	
+			<aui:button type="submit" cssClass="btn" value="<i class='icon-search'></i>" ></aui:button>	
+		</div>
 	</aui:form>
-
-
 </div>

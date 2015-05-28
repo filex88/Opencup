@@ -20,7 +20,7 @@
 <fmt:setLocale value="it_IT"/>
 
 	
-	<div id="container-localizzazione">
+	<div id="container-localizzazione" style="height: 500px;">
 		
 		<div class="row">
 			<div class="titoloLocalizzazione" id="titoloLocalizzazione">
@@ -45,7 +45,7 @@
 			
 			<div class="row chart-div">
 				
-				<div class="span5 offset1" id=chartLegendTerritori></div>
+				<div class="span4 offset1" id=chartLegendTerritori></div>
 					
 				<div class="span5" id="histogramChart">
 					<svg class="chart-bar-territori"></svg>
@@ -98,7 +98,7 @@
 
 	d3.select("#titoloLocalizzazione").style("background", fillColor);
 	
-	d3.select("#container-localizzazione").style("border-left","10px solid "+fillColor);
+	d3.select("#container-localizzazione").style("border-left","5px solid #f0f0f0");
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){

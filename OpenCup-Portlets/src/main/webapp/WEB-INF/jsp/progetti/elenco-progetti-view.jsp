@@ -135,10 +135,14 @@
 			</div>
 			--%>
 		</div>
+		<div class="clear"></div>
+		
+	</div>
+	<div>	
 		
 		<div id="my-toggler-affina-ricerca-elenco-progetti" class="my-toggler-affina-ricerca-elenco-progetti">
 			
-			<div class="header toggler-header-collapsed" style="float: right; height: 0px">
+			<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px">
 				<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
 					AFFINA LA RICERCA
 					<span>
@@ -154,7 +158,7 @@
 				</div>
 			</div>
 			
-			<div class="content toggler-content-collapsed bordo">
+			<div class="content-elenco-progetti toggler-content-collapsed bordo">
 				<portlet:actionURL var="affinaRicercaActionVar">
 				   	<portlet:param name="action" value="ricerca"></portlet:param>
 				</portlet:actionURL>

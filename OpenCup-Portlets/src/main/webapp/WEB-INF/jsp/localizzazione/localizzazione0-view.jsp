@@ -50,7 +50,7 @@
 	
 	</div>	
 		
-	<div id="container-localizzazione">
+	<div id="container-localizzazione" style="height: 400px;">
 		
 		<div class="row">
 			<div class="span6" style="height: 4em;">
@@ -61,7 +61,6 @@
 			<div class="span3 offset2" style="height: 4em;">
 				<div class="row">
 					<div class="span6 indicatoreNavigaLocalizzazioneLabel">Naviga per:</div> 
-					
 				
 						<c:choose>
 							<c:when test='${navigaAggregata.indicatoreNavigaLocalizzazione eq "R"}'>
@@ -169,7 +168,7 @@
 
 	d3.select("#titoloLocalizzazione").style("background", fillColor);
 	
-	d3.select("#container-localizzazione").style("border-left","10px solid "+fillColor);
+	d3.select("#container-localizzazione").style("border-left","5px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){

@@ -54,8 +54,15 @@
 <c:if test="${ configSoggetto.portletPrincipale }">
 	<div class="stripe">
 </c:if>
-		
-	<div id="container-soggetto-chart" class="container-soggetto-chart">
+	
+	<c:choose>
+		<c:when test="${ configSoggetto.portletPrincipale }">
+			<div id="container-soggetto-chart" class="container-soggetto-chart" style="height: 400px;">
+		</c:when>
+		<c:otherwise>
+			<div id="container-soggetto-chart" class="container-soggetto-chart" style="height: 500px;">
+		</c:otherwise>
+	</c:choose>
 		
 		<div class="row">
 			<div class="titoloSoggetto" id="titoloSoggetto">
@@ -157,7 +164,12 @@
 	
 	d3.select("#titoloSoggetto").style("background", fillColor);
 	
-	d3.select("#container-soggetto-chart").style("border-left", "10px solid "+fillColor);
+	var bordoSoggetto = fillColor;
+	var portletSecondariaDXSoggetto = "${ configSoggetto.portletSecondariaDX }";
+	if(portletSecondariaDXSoggetto=="true"){
+		bordoSoggetto = "#f0f0f0";
+	}
+	d3.select("#container-soggetto-chart").style("border-left", "5px solid " + bordoSoggetto);
 	
 	/*
 	var minDataSoggetto = d3.min(calculatedJsonClass4Soggetto, function(d) { return d.volume; });

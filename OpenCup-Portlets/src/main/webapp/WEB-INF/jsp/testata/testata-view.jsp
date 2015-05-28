@@ -124,7 +124,7 @@
 </style>
 
 <div class="stripe">
-	<div style="height: auto; border-left:10px solid #1f4e78; overflow: auto;">
+	<div style="height: auto; border-left: 5px solid #1f4e78; overflow: auto;">
 		<div class="row" id="conteiner" >
 			<div class="span12 titolo" id="titolo"></div>
 		</div>
