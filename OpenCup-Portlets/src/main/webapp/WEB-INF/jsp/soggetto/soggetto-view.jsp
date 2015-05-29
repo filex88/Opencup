@@ -57,7 +57,7 @@
 	
 	<c:choose>
 		<c:when test="${ configSoggetto.portletPrincipale }">
-			<div id="container-soggetto-chart" class="container-soggetto-chart" style="height: 400px;">
+			<div id="container-soggetto-chart" class="container-soggetto-chart">
 		</c:when>
 		<c:otherwise>
 			<div id="container-soggetto-chart" class="container-soggetto-chart" style="height: 500px;">
@@ -192,7 +192,7 @@
 	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
 	    }
 	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K';
+	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
 	    }
 	    return num;
 	}
@@ -361,7 +361,7 @@
 		var widthTotal = 50;
 		var heightLegend = 25; 
 		var gapBetweenGroups = 25;		
-		var margin = {top: 15, right: 25, bottom: 15, left: 25};
+		var margin = {top: 15, right: 5, bottom: 15, left: 5};
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		var width = totWidth - margin.left - margin.right;

@@ -23,7 +23,7 @@
 	#conteiner div.ic_tray:first-child{margin-left: -6px!important;}
 	#conteiner div.ic_tray:last-child{margin-left: -6px!important;}
 	#conteiner div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
-	#conteiner div.titolo p{padding:1em; font-size:2em; color:#1f4e78;}
+	#conteiner div.titolo p{padding:1em; font-size:1.6em; color:#1f4e78;}
 	#conteiner .firstLoc{ padding-top:1em; padding-left:1em; color:#1f4e78; font-size:16pt; white-space: nowrap;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
 	#conteiner .classchart rect:first-of-type {fill: #d9d9d9;}
@@ -153,7 +153,7 @@
 	       return '<strong>'+ (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
 	    }
 	    if (num >= 1000) {
-	       return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K </strong><small>progetti</small>';
+	       return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small>progetti</small>';
 	    }
 	    return num;
 	}
@@ -236,7 +236,7 @@
 		.append("div")
 		.attr("class","left")
 		.style("width",(singleElMwClass*4.3)+"px")
-		.html("<p><small>Finanziamenti pubblici</small></p>");
+		.html("<p><small>Finanziamenti</small></p>");
 		
 		d3.selectAll(elementName)
 		.selectAll("div.barchart")
@@ -246,7 +246,7 @@
 		.append("svg")
 		.attr("class","classchart")
 		.attr("width",(singleElMwClass*5))
-		.attr("height", 15);
+		.attr("height", 20);
 		
 		d3.selectAll(".classchart")
 		.each(function(d){
@@ -257,14 +257,14 @@
 			.data(range)
 			.enter().append("rect")
 		 	.attr("width", x)
-		 	.attr("height", 15);
+		 	.attr("height", 20);
 		 	
 		});
 		
-		d3.selectAll(".barcontainer")
-		.append("div")
-		.style("width",(singleElMwClass*5)+"px")
-		.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
+		//d3.selectAll(".barcontainer")
+		//.append("div")
+		//.style("width",(singleElMwClass*5)+"px")
+		//.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
 		
 	}
 	

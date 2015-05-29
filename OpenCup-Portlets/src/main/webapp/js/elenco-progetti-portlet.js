@@ -32,7 +32,7 @@ AUI().use(
 		        closeAllOnExpand: true,
 		        container: '#my-toggler-affina-ricerca-elenco-progetti',
 		        content: '.content-elenco-progetti',
-		        expanded: false,
+		        expanded: filtroExpanded,
 		        header: '.header-elenco-progetti',
 		        transition: {
 		          duration: 0.6,
@@ -40,6 +40,8 @@ AUI().use(
 		        }
 		      });
 			
+
+			toggler.expandAll = filtroExpanded;
 
 			function caricaCombo2(pNamespaceRicerca, resourceId, pattern, pattern2, target){	
 				var select = document.getElementById(target);

@@ -50,7 +50,7 @@
 	
 	</div>	
 		
-	<div id="container-localizzazione" style="height: 400px;">
+	<div id="container-localizzazione">
 		
 		<div class="row">
 			<div class="span6" style="height: 4em;">
@@ -715,7 +715,7 @@
 	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
 	    }
 	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K';
+	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
 	    }
 	    return num;
 	}

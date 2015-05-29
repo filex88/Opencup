@@ -54,7 +54,7 @@
 
 	<c:choose>
 		<c:when test="${ config.portletPrincipale }">
-			<div id="container-classificazione-chart" class="container-classificazione-chart" style="height: 400px;">
+			<div id="container-classificazione-chart" class="container-classificazione-chart">
 		</c:when>
 		<c:otherwise>
 			<div id="container-classificazione-chart" class="container-classificazione-chart" style="height: 500px;">
@@ -198,7 +198,7 @@
 	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
 	    }
 	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K';
+	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
 	    }
 	    return num;
 	}

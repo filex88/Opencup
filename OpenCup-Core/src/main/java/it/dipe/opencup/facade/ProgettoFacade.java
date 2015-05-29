@@ -245,7 +245,6 @@ public class ProgettoFacade {
 			criteria.addOrder(Order.asc(orderByCol));
 		else
 			criteria.addOrder(Order.desc(orderByCol));
-		
 		List<Progetto> progetti = progettoDAO.findByCriteria(criteria);
 		List<Progetto> retval = new ArrayList<Progetto>();
 		for( Progetto tmp : progetti ){
