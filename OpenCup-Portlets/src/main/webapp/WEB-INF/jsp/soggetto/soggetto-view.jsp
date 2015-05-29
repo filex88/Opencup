@@ -93,7 +93,7 @@
 						</div>
 					</div>
 					<div class="row chart-div">
-						<div class="span10 span1 div_soggetto chart soggetto_2"></div>
+						<div class="span12 div_soggetto chart soggetto_2"></div>
 					</div>
 				</div>
 			</c:otherwise>
@@ -361,7 +361,7 @@
 		var widthTotal = 50;
 		var heightLegend = 25; 
 		var gapBetweenGroups = 25;		
-		var margin = {top: 15, right: 5, bottom: 15, left: 5};
+		var margin = {top: 15, right: 25, bottom: 15, left: 25};
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		var width = totWidth - margin.left - margin.right;
