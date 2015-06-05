@@ -8,5 +8,12 @@
 			<wap-template-path>/1_2_columns_iii.wap.tpl</wap-template-path>
 			<thumbnail-path>/1_2_columns_iii.png</thumbnail-path>
 		</layout-template>
+		
+		<layout-template id="1_2_1_columns_iii" name="1-2-1 Columns per Opencup (30/70)">
+			<template-path>/1_2_1_columns_iii.tpl</template-path>
+			<wap-template-path>/1_2_1_columns_iii.wap.tpl</wap-template-path>
+			<thumbnail-path>/1_2_1_columns_iii.png</thumbnail-path>
+		</layout-template>
+		
 	</custom>
 </layout-templates>
