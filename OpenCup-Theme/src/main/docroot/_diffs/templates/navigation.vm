@@ -28,19 +28,18 @@
 					#set ($linkLast=$nav_item.getName().substring($lastSpaceIndex))
 					
 					<li class="$nav_item_css_class" id="layout_$nav_item.getLayoutId()" $nav_item_attr_selected role="presentation" >
-						<a aria-labelledby="layout_$nav_item.getLayoutId()" $nav_item_attr_has_popup class="$nav_item_link_css_class" href="$nav_item.getURL()" $nav_item.getTarget() role="menuitem" title="$nav_item.getName()" style="border-top: 1em solid $cur_color">
-								
-								<span>
-									<i class="$nav_item.getLayout().getExpandoBridge().getAttribute("icona_navigazione") icon-2x right" style="border:0.25em solid  $cur_color;color:$cur_color"></i>
-									<p>
+						<a aria-labelledby="layout_$nav_item.getLayoutId()" $nav_item_attr_has_popup class="$nav_item_link_css_class" href="$nav_item.getURL()" $nav_item.getTarget() role="menuitem" title="$nav_item.getName()" style="border-top: 0.5em solid $cur_color">
+							<span>
+								<i class="$nav_item.getLayout().getExpandoBridge().getAttribute("icona_navigazione") right" style="font-size:1.5em; border:0.25em solid  $cur_color;color:$cur_color"></i>
+								<p style="margin: 0px;">
 									$nav_item.icon() $linkFirst $nav_item_caret 
-									</p>
-									<p>
-										<strong>
-											$linkLast
-										</strong>
-									</p>
-								</span>
+								</p>
+								<p style="margin: 0px;">
+									<strong>
+										$linkLast
+									</strong>
+								</p>
+							</span>
 						</a>
 
 						#if ($nav_item.hasChildren())

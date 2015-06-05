@@ -107,6 +107,9 @@ public class ElencoProgettiController extends FiltriCommonController {
 	@Value("#{config['ricerca.dettaglioProgetto.instanceId']}")
 	private String dettaglioProgettoInstanceId;
 	
+	@Value("#{config['codice.natura.open.cup']}")
+	private String codiNaturaOpenCUP;
+	
 	@Autowired
 	private ProgettoFacade progettoFacade;
 	
@@ -115,7 +118,10 @@ public class ElencoProgettiController extends FiltriCommonController {
 	
 	@ModelAttribute("navigaProgetti")
 	public NavigaProgetti modelAttrNavigaProgetti() {
-		return new NavigaProgetti();
+		NavigaProgetti navigaProgetti = new NavigaProgetti();
+		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
+		navigaProgetti.setIdNatura(idNatura);
+		return navigaProgetti;
 	}
 	
 	@RenderMapping
@@ -130,6 +136,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 			NavigaAggregata navigaAggregata = createModelAggregataFromJsonString(jsonnavigaaggregata);
 			navigaProgetti.importa( navigaAggregata );
 		}
+		navigaProgetti.setCurrentAction("elencoProgetti");
 		
 		return elencoProgettiRenderRequest(renderRequest, renderResponse, model, navigaProgetti);
 
@@ -146,7 +153,11 @@ public class ElencoProgettiController extends FiltriCommonController {
 		//	navigaProgetti = createModelProgettiFromJsonString(jsonnavigaprogetti);
 		//}
 
-		model.addAttribute("currentAction", "elencoProgetti");
+		if(StringUtils.isEmpty( navigaProgetti.getCurrentAction() ) ){
+			navigaProgetti.setCurrentAction("elencoProgetti");
+		}
+		
+		model.addAttribute("currentAction", navigaProgetti.getCurrentAction() );
 		model.addAttribute("paginate", "true");
 		
 		// LISTA PROGETTI //
@@ -217,18 +228,49 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		// FINE RIEPILOGO //
 		
+		model.addAttribute("valoreRicercaValido", "SI");
+		
 		return "elenco-progetti-view";
 		
 	}
+	
+	@RenderMapping(params="action=ricercaAvanzata")
+	public String effettuaRicercaAvanzata(	RenderRequest renderRequest, 
+									RenderResponse renderResponse, 
+									Model model, 
+									@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti,
+									@RequestParam("cercaPerKeyword") String cercaPerKeyword) {
+			
+		model.addAttribute("currentAction", "ricercaAvanzata");
+		navigaProgetti.setCurrentAction("ricercaAvanzata");
+
+		model.addAttribute("paginate", "false");
+		
+		model.addAttribute("navigaProgetti", navigaProgetti);
+		model.addAttribute("valoreRicercaValido", "NO");
+		
+		// MASCHERA RICERCA PROGETTI //
+		initInModelMascheraRicerca(model, navigaProgetti);
+		
+		model.addAttribute("navigaProgetti", navigaProgetti);
+		// FINE RICERCA PROGETTI //
+		
+		return "elenco-progetti-view";
+		
+	}
+	
 	@RenderMapping(params="action=ricercaLibera")
 	public String effettuaRicerca(	RenderRequest renderRequest, 
 									RenderResponse renderResponse, 
 									Model model, 
+									@ModelAttribute("navigaProgetti") NavigaProgetti navigaProgetti,
 									@RequestParam("cercaPerKeyword") String cercaPerKeyword) {
 			
 		model.addAttribute("currentAction", "ricercaLibera");
+		navigaProgetti.setCurrentAction("ricercaLibera");
+		
 		model.addAttribute("cercaPerKeyword", cercaPerKeyword);
-		model.addAttribute("paginate", "false");
+		model.addAttribute("navigaProgetti", navigaProgetti);
 		
 		logger.info("effettuaRicerca.cercaPerKeyword: " + cercaPerKeyword );
 		try {
@@ -249,10 +291,12 @@ public class ElencoProgettiController extends FiltriCommonController {
 				
 				logger.info("hits = " + hits.getLength());
 				documents = hits.getDocs();
+				model.addAttribute("valoreRicercaValido", "SI");
 			}else{
-				
 				SessionMessages.add(renderRequest, "valore-ricerca-non-valido");
+				model.addAttribute("valoreRicercaValido", "NO");
 			}
+			
 			if( documents != null ){
 				DocumentoDTO documento = null;
 				Progetto progetto = null;
@@ -400,50 +444,9 @@ public class ElencoProgettiController extends FiltriCommonController {
 	@EventMapping(value = "event.risultatiRicerca")
 	public void effettuaRicerca(EventRequest request, EventResponse response) {
 		RicercaLiberaDTO ricercaDTO = (RicercaLiberaDTO) request.getEvent().getValue();
-		response.setRenderParameter("action", "ricercaLibera");
-		response.setRenderParameter("cercaPerKeyword", ricercaDTO.getCercaPerKeyword());
+		response.setRenderParameter("action", ricercaDTO.getTipoRicerca() );
+		response.setRenderParameter("cercaPerKeyword", ricercaDTO.getCercaPerKeyword() );
 	}
-	
-//	private String getProgettoViewURL(
-//			PortletRequest request, PortletResponse response, String key, String keywords) {
-//		
-//        PortletURL viewURL = null;
-//        
-//        ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-//		
-//		String localHost = themeDisplay.getPortalURL();		
-//		List<Layout> layouts = null;
-//		try{
-//			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
-//			for (Layout layout : layouts){
-//
-//				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
-//
-//				//Viene ricercato l'URL esatto per la pagina successiva
-//				if(nodeNameRemoved.indexOf(paginaDettaglioProgetto) > 0) {
-//					
-//					viewURL = PortletURLFactoryUtil.create(request, (String) request.getAttribute(WebKeys.PORTLET_ID), layout.getPlid(), PortletRequest.RENDER_PHASE);
-//					viewURL.setWindowState(WindowState.NORMAL);
-//					viewURL.setPortletMode(PortletMode.VIEW);
-//					
-//					String currentURL = HttpUtil.addParameter(PortalUtil.getCurrentURL(request), "_" + request.getAttribute(WebKeys.PORTLET_ID) + "_cercaPerKeyword", keywords);
-//					viewURL.setParameter("redirect", currentURL);
-//					
-//			        String returnURL =  UriComponentsBuilder.fromHttpUrl(viewURL.toString()).queryParam("idPj", key).build().toUriString();
-//					return returnURL;
-//					
-//				}
-//			}
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//        
-//        
-//        
-//        return viewURL.toString();
-//
-//	}
 	
 	private String getAssetViewURL(
 			PortletRequest request, PortletResponse response, AssetEntry assetEntry, String keywords) {

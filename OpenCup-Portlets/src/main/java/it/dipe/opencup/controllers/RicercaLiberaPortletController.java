@@ -69,10 +69,10 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 				RenderResponse response, Model model) throws WindowStateException, PortletModeException, PortalException, SystemException {
 		
 		model.addAttribute("ricerca", new RicercaLiberaDTO());
-
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		LiferayPortletURL renderURL = null;
 		String localHost = themeDisplay.getPortalURL();		
@@ -88,25 +88,16 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 				renderURL.setWindowState(WindowState.NORMAL);
 				renderURL.setPortletMode(PortletMode.VIEW);
 				renderURL.setParameter("action", "ricerca");
-	
 				model.addAttribute("ricercaLiberaURL", renderURL.toString());
+				
+				renderURL.setParameter("action", "ricercaAvanzata");
+				model.addAttribute("ricercaAvanzataURL", renderURL.toString());
+				
 				break;
 			}
 		}
 	
-		
-		// TODO da rimuovere
-//		Indexer indexer = IndexerRegistryUtil.getIndexer(Progetto.class);
-//		try {
-//						
-//			logger.info("Indicizzazione di prova - metodo indiretto");
-//			
-//			indexer.reindex(progettoFacade.findProgettoById(17085970));
-//			
-//		} catch (SearchException e) {
-//			logger.error("SearchException: ", e);
-//		}
-		
+
 		
 		return "ricercalibera-view";
 	}	
@@ -120,9 +111,23 @@ public class RicercaLiberaPortletController extends FiltriCommonController {
 		
 		logger.info("cercaPerKeyword: " + ricercaDTO.getCercaPerKeyword());
 		
+		// invia evento a portlet risultati
+		QName eventName = new QName( "http:risultatiRicerca/events", "event.risultatiRicerca");
+		ricercaDTO.setTipoRicerca("ricercaLibera");
+	    response.setEvent(eventName, ricercaDTO);
+	}
+	
+	@ActionMapping(params="action=ricercaAvanzata")
+	public void effettuaRicercaAvanzata(ActionRequest request, 
+								ActionResponse response, 
+								Model model, 
+								@ModelAttribute("ricerca") RicercaLiberaDTO ricercaDTO) {
+		
+		logger.info("cercaPerKeyword: " + ricercaDTO.getCercaPerKeyword());
 		
 		// invia evento a portlet risultati
 		QName eventName = new QName( "http:risultatiRicerca/events", "event.risultatiRicerca");
+		ricercaDTO.setTipoRicerca("ricercaAvanzata");
 	    response.setEvent(eventName, ricercaDTO);
 	}
 	

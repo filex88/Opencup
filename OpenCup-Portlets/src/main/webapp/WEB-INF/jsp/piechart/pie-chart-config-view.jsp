@@ -41,6 +41,13 @@
 				<springform:checkbox path="portletPrincipale" />
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<span class="control-label">Portlet Secondaria DX</span>
+			<div class="controls">
+				<springform:checkbox path="portletSecondariaDX" />
+			</div>
+		</div>
 	
 		<div class="control-group">
 			<div class="controls">

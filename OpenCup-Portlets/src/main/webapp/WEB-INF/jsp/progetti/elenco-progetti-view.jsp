@@ -105,40 +105,18 @@
 					</div>
 					</li>
 				</ul>
-			
-				<%-- 
-			 	<div class="card">
-					<div class="card-title">
-			           	<span class="title">Dati di sintesi</span>
-			       	</div>
-			       	<div class="card-content">
-						<div>
-							<div class="span4 dati_sitesi dati_sitesi_verde">
-								<div class="celle_dati_sitesi font-size3em"><i class="icon-bar-chart"></i></div>
-								<div class="celle_dati_sitesi font-size1em">Volume</div>
-								<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${volumeDeiProgetti}" type="number" maxFractionDigits="0" minIntegerDigits="0"/></div>
-							</div>
-							<div class="span4 dati_sitesi dati_sitesi_arancio">
-								<div class="celle_dati_sitesi font-size3em"><i class="icon-tags"></i></div>
-								<div class="celle_dati_sitesi font-size1em">Costo</div>
-								<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${costoDeiProgetti}" type="currency" minIntegerDigits="0" maxFractionDigits="0" minFractionDigits="0"/></div>
-							</div>
-							<div class="span4 dati_sitesi dati_sitesi_lilla">
-								<div class="celle_dati_sitesi font-size3em"><i class="icon-eur"></i></div>
-								<div class="celle_dati_sitesi font-size1em">Importo Finanziato</div>
-								<div class="celle_dati_sitesi font-size2em"><fmt:formatNumber value="${importoFinanziamenti}" type="currency" minIntegerDigits="0" maxFractionDigits="0" minFractionDigits="0"/></div>
-							</div>
-							<div class="clear"></div>
-						</div>
-					</div>
-				</div>
+				
 			</div>
-			--%>
-		</div>
+			
+			<div class="clear"></div>
 		
+		</div>	
+	</c:if>
+	
+	<c:if test="${currentAction eq 'elencoProgetti' || currentAction eq 'ricercaAvanzata'}">
 		<div id="my-toggler-affina-ricerca-elenco-progetti" class="my-toggler-affina-ricerca-elenco-progetti">
 			
-			<div class="header toggler-header-collapsed" style="float: right; height: 0px">
+			<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px">
 				<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
 					AFFINA LA RICERCA
 					<span>
@@ -154,7 +132,7 @@
 				</div>
 			</div>
 			
-			<div class="content toggler-content-collapsed bordo">
+			<div class="content-elenco-progetti toggler-content-collapsed bordo">
 				<portlet:actionURL var="affinaRicercaActionVar">
 				   	<portlet:param name="action" value="ricerca"></portlet:param>
 				</portlet:actionURL>
@@ -173,6 +151,7 @@
 				       	<div>
 				       		<div class="span6">
 				       		
+								<aui:input type="hidden" bean="navigaProgetti" name="currentAction" value="${navigaProgetti.currentAction}" />
 								<aui:input type="hidden" bean="navigaProgetti" name="naviga" value="${navigaProgetti.naviga}" />
 								<aui:input type="hidden" bean="navigaProgetti" name="idNatura" value="${navigaProgetti.idNatura}" />
 								
@@ -431,34 +410,37 @@
 			</div>
 		
 		</div>
-	</c:if>
-	
-	<div class="intestazione">
-		<span><strong>Elenco dei progetti <i class="icon-list"></i></strong></span>
-	</div>
-	<div class="table-container">
-		<liferay-ui:search-container searchContainer="${searchContainerElenco}" delta="${searchContainerElenco.delta}" orderByType="${searchContainerElenco.orderByType}" deltaParam="delta">
-			
-			<liferay-ui:search-container-results results="${searchContainerElenco.results}" total="${searchContainerElenco.total}"/>    
-			
-			<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetto" keyProperty="id" modelVar="progetti">
 		
-				<liferay-ui:search-container-column-jsp path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
+	</c:if>	
+	
+	<c:if test="${valoreRicercaValido eq 'SI'}">
+		<div class="intestazione">
+			<span><strong>Elenco dei progetti <i class="icon-list"></i></strong></span>
+		</div>
+		<div class="table-container">
+			<liferay-ui:search-container searchContainer="${searchContainerElenco}" delta="${searchContainerElenco.delta}" orderByType="${searchContainerElenco.orderByType}" deltaParam="delta">
 				
-				<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
-					<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
-				</liferay-ui:search-container-column-text>
+				<liferay-ui:search-container-results results="${searchContainerElenco.results}" total="${searchContainerElenco.total}"/>    
 				
-				<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
-					<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
-				</liferay-ui:search-container-column-text>
+				<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetto" keyProperty="id" modelVar="progetti">
 			
-			</liferay-ui:search-container-row>
+					<liferay-ui:search-container-column-jsp path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
+					
+					<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
+						<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+						<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
+					</liferay-ui:search-container-column-text>
 				
-			<liferay-ui:search-iterator paginate="${paginate}" searchContainer="${searchContainerElenco}" />
-				
-		</liferay-ui:search-container>
-	</div>
+				</liferay-ui:search-container-row>
+					
+				<liferay-ui:search-iterator paginate="${paginate}" searchContainer="${searchContainerElenco}" />
+					
+			</liferay-ui:search-container>
+		</div>
+	</c:if>
 	
 	<c:if test="${action eq 'ricercaLibera'}">
 		<div class="intestazione">
@@ -502,6 +484,11 @@
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	
 	var currentAction = "${currentAction}";
+	var filtroExpanded = false;
+	
+	if(currentAction=='ricercaAvanzata'){
+		filtroExpanded = true;
+	}
 
 	function nFormatterBar(num){
 		if (num >= 1000000000) {
@@ -511,7 +498,7 @@
 	        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil ';
 	     }
 	     if (num >= 1000) {
-	        return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K ';
+	        return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 ';
 	     }
 	     return num;
 

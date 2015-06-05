@@ -1,6 +1,5 @@
 package it.dipe.opencup.controllers;
 
-import it.dipe.opencup.dto.JobDTO;
 import it.dipe.opencup.facade.BatchFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.Batch;
@@ -68,32 +67,10 @@ public class RicercaConfigurazionePortletController  {
 	public String defaultRender(RenderRequest renderRequest, 
 			RenderResponse renderResponse,
 			Model model) {
-		
-		String portletId = (String) renderRequest.getAttribute(WebKeys.PORTLET_ID);
 	
-		String batchIndCronExp = null;
-		try {
-			Batch batchInd = batchFacade.ricercaBatchByNome(Constants.BATCH_INDICIZZAZIONE_NOME);
-			if (batchInd == null) {
-				// creo una riga con le impostazioni di default
-				batchInd = new Batch();
-				batchInd.setId(Constants.BATCH_INDICIZZAZIONE_PK);
-				batchInd.setNome(Constants.BATCH_INDICIZZAZIONE_NOME);
-				batchInd.setDescrizione(Constants.BATCH_INDICIZZAZIONE_DESC);
-				batchInd.setCron(Constants.BATCH_INDICIZZAZIONE_DEFAULT_CRON);
-				
-				batchFacade.inserisciBatch(batchInd);
-
-				schedulaJob(Constants.BATCH_INDICIZZAZIONE_NOME, Constants.BATCH_INDICIZZAZIONE_DESC, Constants.BATCH_INDICIZZAZIONE_DEFAULT_CRON, portletId);
-			}
-			batchIndCronExp = batchInd.getCron();
+		Batch batch = ricercaJob(Constants.BATCH_INDICIZZAZIONE_NOME, true);
 			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	
-		model.addAttribute("cronExp", batchIndCronExp);
+		model.addAttribute("cronExp", batch.getCron());
 		
 		return "ricerca-configurazione-view";
 	}
@@ -102,17 +79,21 @@ public class RicercaConfigurazionePortletController  {
 	
 	
 	@ActionMapping(params = "action=schedulaIndicizzazione")
-	private void avviaIndicizzazione(@RequestParam("cronExp") String cronExp, ActionRequest actionRequest, ActionResponse actionResponse) {
-		
-		System.out.println("schedulaIndicizzazione cronExp = " + cronExp);
-		
-		actionResponse.setRenderParameter("show", "schedulaIndicizzazione");
+	private void schedulaIndicizzazione(@RequestParam("cronExp") String cronExp, ActionRequest actionRequest, ActionResponse actionResponse) {
 		
 		String portletId = (String) actionRequest.getAttribute(WebKeys.PORTLET_ID);
 		
 		cancellaJob(Constants.BATCH_INDICIZZAZIONE_NOME);
 		
-		schedulaJob(Constants.BATCH_INDICIZZAZIONE_NOME, Constants.BATCH_INDICIZZAZIONE_DESC, cronExp, portletId);
+		try {
+			boolean esito = schedulaJob(Constants.BATCH_INDICIZZAZIONE_NOME, Constants.BATCH_INDICIZZAZIONE_DESC, cronExp, portletId);
+			if (esito) {
+				actionResponse.setRenderParameter("show", "schedulaIndicizzazione");
+			} else {
+				actionResponse.setRenderParameter("show", "cancellaSchedulazione");
+			}
+		} catch (Exception e) {
+		}
 		
 		
 	}
@@ -152,76 +133,86 @@ public class RicercaConfigurazionePortletController  {
 		
 		MappingJackson2JsonView view = new MappingJackson2JsonView();
 				
-		view.addStaticAttribute("jobInd", getJob(Constants.BATCH_INDICIZZAZIONE_NOME));
+		view.addStaticAttribute("jobInd", ricercaJob(Constants.BATCH_INDICIZZAZIONE_NOME, false));
 		return view;
 	}
 	
 	
-	private JobDTO getJob(String jobName) {
-		
-		JobDTO jobDTO = new JobDTO();
-		jobDTO.setStato("ASSENTE");
+	private Batch ricercaJob(String jobName, boolean update) {
 		
 		try {
+			Batch batch = batchFacade.ricercaBatchByNome(jobName);
+			if (batch == null) {  
+				// creo una riga con le impostazioni di default
+				batch = new Batch();
+				batch.setNome(jobName);
+				batch.setDescrizione(jobName);
+				batch.setStato(Constants.BATCH_STATUS_ASSENTE);
+				batchFacade.inserisciBatch(batch);
+			}
+			
 			List<SchedulerResponse> jobs = SchedulerEngineHelperUtil.getScheduledJobs(StorageType.PERSISTED);
 			for (SchedulerResponse job : jobs) {
 				if (job.getJobName().equals(jobName) && job.getTrigger() instanceof CronTrigger) {
 					CronTrigger trigger = (CronTrigger)job.getTrigger();
-					jobDTO.setCronExp(trigger.getTriggerContent());
-					jobDTO.setStato(Constants.BATCH_STATUS_SCHEDULATO);
-					
-					Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					try {
-						jobDTO.setProssimaEsecuzione( formatter.format( SchedulerEngineHelperUtil.getNextFireTime(jobName, jobName, StorageType.PERSISTED)) );
-					} catch (IllegalArgumentException iae) {
-						iae.printStackTrace();
+					batch.setCron(trigger.getTriggerContent());
+	
+					if (!Constants.BATCH_STATUS_ESECUZIONE.equals(batch.getStato())) {
+						batch.setStato(Constants.BATCH_STATUS_SCHEDULATO);
 					}
 					
-					jobDTO.setPrecedenteEsecuzione( SchedulerEngineHelperUtil.getPreviousFireTime(job) );
-					
+					Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					batch.setProssimaEsecuzione( formatter.format( SchedulerEngineHelperUtil.getNextFireTime(jobName, jobName, StorageType.PERSISTED)) );
+					batch.setPrecedenteEsecuzione( SchedulerEngineHelperUtil.getPreviousFireTime(job) );
 				}
 			}
 			
-		} catch (SchedulerException e) {
-			e.printStackTrace();
+			batchFacade.aggiornaBatch(batch);
+			
+			return batch;
+		} catch (Exception e) {
+			return null;
 		}
-		
-//		if (progettoIndicizzatoreMessageListener.isExecuting()) {
-//			
-//			jobDTO.setStato("ESECUZIONE");
-//			jobDTO.setTotale("" + progettoIndicizzatoreMessageListener.getTotal());
-//			jobDTO.setStep("" + progettoIndicizzatoreMessageListener.getStep());
-//			
-//		}
-		
-		return jobDTO;
-		
 	}
 	
 	private void cancellaJob(String jobName) {
 		try {
+			
+			Batch batch = batchFacade.ricercaBatchByNome(jobName);
+			batch.setStato(Constants.BATCH_STATUS_ASSENTE);
+			batchFacade.aggiornaBatch(batch);
+			
 			SchedulerEngineHelperUtil.delete(jobName, jobName, StorageType.PERSISTED);
+			
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
-	private void schedulaJob(String jobName, String descrizione, String cron, String portletId) {
-		SchedulerEntry schedulerEntry = new SchedulerEntryImpl();  
-		schedulerEntry.setDescription(descrizione);  
-		schedulerEntry.setEventListenerClass(ProgettoIndicizzatoreMessageListener.class.getName());
-		schedulerEntry.setTimeUnit(TimeUnit.SECOND);  
-		schedulerEntry.setTriggerType(TriggerType.CRON);  
-		schedulerEntry.setTriggerValue(cron);  
-		
-		try {  
-			
-			SchedulerEngineHelperUtil.schedule(schedulerEntry, StorageType.PERSISTED, portletId, 0);  
-		} catch (SchedulerException e) {  
-
-			e.printStackTrace();  
-		}  
-	}
+	private boolean schedulaJob(String jobName, String descrizione, String cron, String portletId) {
 	
+		try {		
+			SchedulerEntry schedulerEntry = new SchedulerEntryImpl();  
+			schedulerEntry.setDescription(descrizione);  
+			schedulerEntry.setEventListenerClass(ProgettoIndicizzatoreMessageListener.class.getName());
+			schedulerEntry.setTimeUnit(TimeUnit.SECOND);  
+			schedulerEntry.setTriggerType(TriggerType.CRON);  
+			schedulerEntry.setTriggerValue(cron);  
+		
+			SchedulerEngineHelperUtil.schedule(schedulerEntry, StorageType.PERSISTED, portletId, 0);
+			
+			Batch batch = batchFacade.ricercaBatchByNome(jobName);
+			if (Constants.BATCH_STATUS_ASSENTE.equals(batch.getStato())) {
+				return false;
+			}
+			
+			return true;			
+			
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
 }

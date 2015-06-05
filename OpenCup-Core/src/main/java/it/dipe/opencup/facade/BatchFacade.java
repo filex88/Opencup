@@ -36,4 +36,7 @@ public class BatchFacade {
 		return (Integer) batchDAO.save(batch);
 	}
 	
+	public void aggiornaBatch(Batch batch) {
+		batchDAO.saveOrUpdate(batch);
+	}
 }

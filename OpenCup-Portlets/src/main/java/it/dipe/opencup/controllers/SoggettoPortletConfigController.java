@@ -58,6 +58,7 @@ public class SoggettoPortletConfigController {
 		config.setSelezionabile( "S".equals( prefs.getValue(PortletConfigDTO.PROP_SELEZIONABILE, "N") ) );
 		config.setMostraPulsanti( "S".equals( prefs.getValue(PortletConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
 		config.setPortletPrincipale( "S".equals( prefs.getValue(PortletConfigDTO.PROP_PORTLET_PRINCIPALE, "N") ) );
+		config.setPortletSecondariaDX( "S".equals( prefs.getValue(PortletConfigDTO.PROP_PORTLET_SECONDARIA_DX, "N") ) );
 		model.addAttribute("config", config);
 		
 		
@@ -82,11 +83,12 @@ public class SoggettoPortletConfigController {
 		prefs.reset(PortletConfigDTO.PROP_MOSTRAPULTANTI);
 		prefs.reset(PortletConfigDTO.PROP_SELEZIONABILE);
 		prefs.reset(PortletConfigDTO.PROP_PORTLET_PRINCIPALE);
+		prefs.reset(PortletConfigDTO.PROP_PORTLET_SECONDARIA_DX);
 		
 		prefs.setValue(PortletConfigDTO.PROP_MOSTRAPULTANTI, config.isMostraPulsanti() ?  "S" : "N");
 		prefs.setValue(PortletConfigDTO.PROP_SELEZIONABILE, config.isSelezionabile() ?  "S" : "N");
 		prefs.setValue(PortletConfigDTO.PROP_PORTLET_PRINCIPALE, config.isPortletPrincipale() ?  "S" : "N");
-		
+		prefs.setValue(PortletConfigDTO.PROP_PORTLET_SECONDARIA_DX, config.isPortletSecondariaDX() ?  "S" : "N");
 		prefs.store();
 		
 		SessionMessages.add(actionRequest, "config-salvata");

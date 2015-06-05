@@ -14,6 +14,7 @@ public class NavigaProgetti implements Serializable{
 	private String idProgetto;
 	
 	private String naviga;
+	private String currentAction;
 	
 	private String pagAggregata;
 	
@@ -327,10 +328,20 @@ public class NavigaProgetti implements Serializable{
 		this.idAreaSoggetto = idAreaSoggetto;
 	}
 
+	public String getCurrentAction() {
+		return currentAction;
+	}
+
+	public void setCurrentAction(String currentAction) {
+		this.currentAction = currentAction;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((currentAction == null) ? 0 : currentAction.hashCode());
 		result = prime * result
 				+ ((descStato == null) ? 0 : descStato.hashCode());
 		result = prime
@@ -391,6 +402,11 @@ public class NavigaProgetti implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		NavigaProgetti other = (NavigaProgetti) obj;
+		if (currentAction == null) {
+			if (other.currentAction != null)
+				return false;
+		} else if (!currentAction.equals(other.currentAction))
+			return false;
 		if (descStato == null) {
 			if (other.descStato != null)
 				return false;
@@ -485,5 +501,6 @@ public class NavigaProgetti implements Serializable{
 			return false;
 		return true;
 	}
+
 	
 }

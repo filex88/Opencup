@@ -108,6 +108,7 @@ public class SoggettoPortletController {
 		config.setSelezionabile( "S".equals( prefs.getValue(PortletConfigDTO.PROP_SELEZIONABILE, "N") ) );
 		config.setMostraPulsanti( "S".equals( prefs.getValue(PortletConfigDTO.PROP_MOSTRAPULTANTI, "N") ) );
 		config.setPortletPrincipale( "S".equals( prefs.getValue(PortletConfigDTO.PROP_PORTLET_PRINCIPALE, "N") ) );
+		config.setPortletSecondariaDX( "S".equals( prefs.getValue(PortletConfigDTO.PROP_PORTLET_SECONDARIA_DX, "N") ) );
 		model.addAttribute("configSoggetto", config);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);

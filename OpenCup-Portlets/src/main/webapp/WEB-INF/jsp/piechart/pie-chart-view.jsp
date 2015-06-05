@@ -52,8 +52,14 @@
 	<div class="stripe">
 </c:if>
 
-
-	<div id="container-classificazione-chart" class="container-classificazione-chart">
+	<c:choose>
+		<c:when test="${ config.portletPrincipale }">
+			<div id="container-classificazione-chart" class="container-classificazione-chart">
+		</c:when>
+		<c:otherwise>
+			<div id="container-classificazione-chart" class="container-classificazione-chart" style="height: 500px;">
+		</c:otherwise>
+	</c:choose>
 		
 		<div class="row">
 			<div class="titoloClassificazione" id="titoloClassificazione">
@@ -174,7 +180,13 @@
 
 	d3.select("#titoloClassificazione").style("background", fillColor);
 	
-	d3.select("#container-classificazione-chart").style("border-left","10px solid "+fillColor);
+	
+	var bordoPie = fillColor;
+	var portletSecondariaDXPie = "${ config.portletSecondariaDX }";
+	if(portletSecondariaDXPie=="true"){
+		bordoPie = "#f0f0f0";
+	}
+	d3.select("#container-classificazione-chart").style("border-left","5px solid " + bordoPie);
 	
 	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	
@@ -186,7 +198,7 @@
 	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
 	    }
 	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K';
+	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
 	    }
 	    return num;
 	}

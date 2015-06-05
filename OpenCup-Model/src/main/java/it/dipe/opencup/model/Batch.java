@@ -3,12 +3,18 @@ package it.dipe.opencup.model;
 import it.dipe.opencup.model.common.AbstractCommonEntity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "D_SNA_LIFB_BATCH")
@@ -17,6 +23,8 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 	private static final long serialVersionUID = -1741849034438391979L;
 
 
+	@GenericGenerator(name = "generator", strategy = "sequence-identity", parameters = @Parameter(name = "sequence", value = "SEQU_LIFB"))
+	@GeneratedValue(generator = "generator")
 	@Id
 	@Column(name = "SEQU_LIFB_ID")
 	private Integer id;
@@ -38,9 +46,19 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 	@Column(name = "NUME_LIFB_STEP")
 	private Integer step;
 	
+	@Column(name = "TEXT_LIFB_STATO")
+	private String stato;
+	
+	
 	@Version
 	@Column(name = "NUME_LIFB_VERSIONE")
 	private Integer versione;
+	
+	@Transient
+	private String prossimaEsecuzione;
+	
+	@Transient
+	private Date precedenteEsecuzione;
 
 	@Override
 	public Integer getId() {
@@ -98,6 +116,31 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 	public void setVersione(Integer versione) {
 		this.versione = versione;
 	}
+	
+
+	public String getStato() {
+		return stato;
+	}
+
+	public void setStato(String stato) {
+		this.stato = stato;
+	}
+	
+	public String getProssimaEsecuzione() {
+		return prossimaEsecuzione;
+	}
+
+	public void setProssimaEsecuzione(String prossimaEsecuzione) {
+		this.prossimaEsecuzione = prossimaEsecuzione;
+	}
+
+	public Date getPrecedenteEsecuzione() {
+		return precedenteEsecuzione;
+	}
+
+	public void setPrecedenteEsecuzione(Date precedenteEsecuzione) {
+		this.precedenteEsecuzione = precedenteEsecuzione;
+	}
 
 	@Override
 	public int hashCode() {
@@ -108,6 +151,7 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 				+ ((descrizione == null) ? 0 : descrizione.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((stato == null) ? 0 : stato.hashCode());
 		result = prime * result + ((step == null) ? 0 : step.hashCode());
 		result = prime * result + ((totale == null) ? 0 : totale.hashCode());
 		result = prime * result
@@ -144,6 +188,11 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
+		if (stato == null) {
+			if (other.stato != null)
+				return false;
+		} else if (!stato.equals(other.stato))
+			return false;
 		if (step == null) {
 			if (other.step != null)
 				return false;
@@ -161,6 +210,7 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 			return false;
 		return true;
 	}
-	 	
+
+
 	
 }

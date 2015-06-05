@@ -152,7 +152,7 @@
 
 	d3.select("#titoloLocalizzazione").style("background", fillColor);
 	
-	d3.select("#container-localizzazione").style("border-left", "10px solid "+fillColor);
+	d3.select("#container-localizzazione").style("border-left", "5px solid "+fillColor);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){
@@ -662,7 +662,7 @@
 	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
 	    }
 	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + ' K';
+	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
 	    }
 	    return num;
 	}
