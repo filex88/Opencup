@@ -34,9 +34,9 @@
 		<a id="localizzazione-portlet"></a>
 		
 		<div class="div_localizzazione_1">
-			<div class="row chart-div">
+			<div class="row chart-div" style="min-height: 250px;">
 				
-				<div class="span6 offset1 chart" id="italybymacroareas">
+				<div class="span6 offset3 chart" id="italybymacroareas" style="min-height: 250px;">
 				</div>
 
 				<div class="clear"></div>
@@ -76,27 +76,32 @@
 	
 	var textColor = "#1f4e78";
 	var fillColor = "Maroon";
+	var coloreMisura = "#1f4e78";
 	
 	if (dimension == "VOLUME"){
 		baseColor1 = "#ffdbaa";
 		baseColor2 = "#ffb551";
 		baseColor3 = "#f08c00";
 		fillColor = "#d27900";
+		coloreMisura = "#f08c00";
 	}else
 	if (dimension == "COSTO"){
-		baseColor1 = "#ffc6e1";
-		baseColor2 = "#ff55a6";
-		baseColor3 = "#c90061";
-		fillColor = "#950047";
+		baseColor1 = "#69d876";
+		baseColor2 = "#58b663";
+		baseColor3 = "#499652";
+		fillColor = "#3e7d46";
+		coloreMisura = "#499652";
 	}else
 	if (dimension == "IMPORTO"){
 		baseColor1 = "#c1ffc1";
 		baseColor2 = "#48ff48";
-		baseColor3 = "#009600";
+		baseColor3 = "#7ade87";
 		fillColor = "#005500";
+		coloreMisura = "#7ade87";
 	}
 
-	d3.select("#titoloLocalizzazione").style("background", fillColor);
+	d3.select("#titoloLocalizzazione").style("color", coloreMisura);
+	d3.select("#titoloLocalizzazione").style("text-align", "left");
 	
 	d3.select("#container-localizzazione").style("border-left","5px solid #f0f0f0");
 	

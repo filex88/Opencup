@@ -132,29 +132,34 @@
 	
 	var textColor = "#1f4e78";
 	var fillColor = "Maroon";
+	var coloreMisura = "#1f4e78";
 	
 	if (dimension == "VOLUME"){
 		baseColor1 = "#ffdbaa";
 		baseColor2 = "#ffb551";
 		baseColor3 = "#f08c00";
 		fillColor = "#d27900";
+		coloreMisura = "#f08c00";
 	}else
 	if (dimension == "COSTO"){
-		baseColor1 = "#ffc6e1";
-		baseColor2 = "#ff55a6";
-		baseColor3 = "#c90061";
-		fillColor = "#950047";
+		baseColor1 = "#69d876";
+		baseColor2 = "#58b663";
+		baseColor3 = "#499652";
+		fillColor = "#3e7d46";
+		coloreMisura = "#499652";
 	}else
 	if (dimension == "IMPORTO"){
 		baseColor1 = "#c1ffc1";
 		baseColor2 = "#48ff48";
-		baseColor3 = "#009600";
+		baseColor3 = "#7ade87";
 		fillColor = "#005500";
+		coloreMisura = "#7ade87";
 	}
 
-	d3.select("#titoloLocalizzazione").style("background", fillColor);
+	d3.select("#titoloLocalizzazione").style("color", coloreMisura);
+	d3.select("#titoloLocalizzazione").style("text-align", "left");
 	
-	d3.select("#container-localizzazione").style("border-left", "5px solid "+fillColor);
+	d3.select("#container-localizzazione").style("border-left", "5px solid "+coloreMisura);
 	
 	var minData = d3.min(jsonResultLocalizzazione, 
 			function(d){
@@ -304,7 +309,7 @@
 	    					if( dimension=='VOLUME'){
 	    						retValColor = "#d27900";
 	    					}else if(dimension=='COSTO'){
-	    						retValColor = "#950047";
+	    						retValColor = "#3e7d46";
 	    					}else{
 	    						retValColor = "#005500";
 	    					}
@@ -439,7 +444,7 @@
 		if( dimension=='VOLUME'){
 			retValColor = "#d27900";
 		}else if(dimension=='COSTO'){
-			retValColor = "#950047";
+			retValColor = "#3e7d46";
 		}else{
 			retValColor = "#005500";
 		}
@@ -595,7 +600,7 @@
 				if( dimension=='VOLUME'){
 					retValColor = "#d27900";
 				}else if(dimension=='COSTO'){
-					retValColor = "#950047";
+					retValColor = "#3e7d46";
 				}else{
 					retValColor = "#005500";
 				}
@@ -629,7 +634,7 @@
 				if( dimension=='VOLUME'){
 					retValColor = "#d27900";
 				}else if(dimension=='COSTO'){
-					retValColor = "#950047";
+					retValColor = "#3e7d46";
 				}else{
 					retValColor = "#005500";
 				}
@@ -710,17 +715,17 @@
 		       				});
 		       				
 		       				$(".costo-color").mouseover(function() { 
-		       					$(".arrow-down-costo").css('border-top','10px solid #950047'); 
+		       					$(".arrow-down-costo").css('border-top','10px solid #2c5831'); 
 		       				});
 		       				$(".costo-color").mouseout(function() { 
-		       					$(".arrow-down-costo").css('border-top','10px solid #c90061'); 
+		       					$(".arrow-down-costo").css('border-top','10px solid #499652'); 
 		       				});
 		       				
 		       				$(".importo-color").mouseover(function() { 
 		       					$(".arrow-down-importo").css('border-top','10px solid #005500'); 
 		       				});
 		       				$(".importo-color").mouseout(function() { 
-		       					$(".arrow-down-importo").css('border-top','10px solid #009600'); 
+		       					$(".arrow-down-importo").css('border-top','10px solid #7ade87'); 
 		       				});
 		       				
 		       				$( ".sel-type-btn" ).click(function() {

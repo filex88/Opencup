@@ -26,22 +26,21 @@ AUI().use(
 		'aui-base', 
 		'aui-toggler',
 		function( A ) {
+			if( !filtroExpanded ){
+				var toggler = new A.TogglerDelegate({
+			        animated: true,
+			        closeAllOnExpand: true,
+			        container: '#my-toggler-affina-ricerca-elenco-progetti',
+			        content: '.content-elenco-progetti',
+			        expanded: filtroExpanded,
+			        header: '.header-elenco-progetti',
+			        transition: {
+			          duration: 0.6,
+			          easing: 'cubic-bezier(0, 0.1, 0, 1)'
+			        }
+			      });
+			}
 			
-			var toggler = new A.TogglerDelegate({
-		        animated: true,
-		        closeAllOnExpand: true,
-		        container: '#my-toggler-affina-ricerca-elenco-progetti',
-		        content: '.content-elenco-progetti',
-		        expanded: filtroExpanded,
-		        header: '.header-elenco-progetti',
-		        transition: {
-		          duration: 0.6,
-		          easing: 'cubic-bezier(0, 0.1, 0, 1)'
-		        }
-		      });
-			
-
-			toggler.expandAll = filtroExpanded;
 
 			function caricaCombo2(pNamespaceRicerca, resourceId, pattern, pattern2, target){	
 				var select = document.getElementById(target);

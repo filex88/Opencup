@@ -411,17 +411,17 @@
 /* Chrome, Safari, Opera */
 @-webkit-keyframes cambiacoloreto_verde {
     from {background-color: white;}
-    to {background-color: #009600;}
+    to {background-color: #7ade87;}
 }
 
 /* Standard syntax */
 @keyframes cambiacoloreto_verde {
     from {background-color: white;}
-    to {background-color: #009600;}
+    to {background-color: #7ade87;}
 }
 
 div.dati_sitesi_verde {
-    background-color: #009600;
+    background-color: #7ade87;
     -webkit-animation-name: cambiacoloreto_verde; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
     -webkit-animation-iteration-count: 1; /* Chrome, Safari, Opera */
@@ -455,17 +455,17 @@ div.dati_sitesi_arancio {
 /* Chrome, Safari, Opera */
 @-webkit-keyframes cambiacoloreto_lilla {
     from {background-color: white;}
-    to {background-color: #c90061;}
+    to {background-color: #499652;}
 }
 
 /* Standard syntax */
 @keyframes cambiacoloreto_lilla {
     from {background-color: white;}
-    to {background-color: #c90061;}
+    to {background-color: #499652;}
 }
 
 div.dati_sitesi_lilla {
-    background-color: #c90061;
+    background-color: #499652;
     -webkit-animation-name: cambiacoloreto_lilla; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 6s; /* Chrome, Safari, Opera */
     -webkit-animation-iteration-count: 1; /* Chrome, Safari, Opera */
@@ -549,7 +549,7 @@ div.celle_dati_sitesi{
 }
  
 .link_elenco-progetti a.block:active { 
-    background-color:#009600; 
+    background-color:#7ade87; 
 }
 */
 
@@ -586,7 +586,7 @@ div.celle_dati_sitesi{
 }
  
 .classificazione-portlet1 .btn-carica-distribuzione a.block:active { 
-    background-color:#009600; 
+    background-color:#7ade87; 
 }
 
 .classificazione-portlet1 .intestazione-tab,
@@ -705,7 +705,7 @@ div.celle_dati_sitesi{
 }
  
 .home-page-portlet .btn-carica a.block:active { 
-    background-color:#009600; 
+    background-color:#7ade87; 
 }
 
 .home-page-portlet .attiva { 
@@ -844,13 +844,13 @@ div.celle_dati_sitesi{
 .soggetto-portlet .costo-color,
 .localizzazione-portlet0 .costo-color,
 .pie-chart-portlet .costo-color {
-	background-color:#c90061;
+	background-color:#499652;
 }
 
 .soggetto-portlet .importo-color,
 .localizzazione-portlet0 .importo-color,
 .pie-chart-portlet .importo-color {
-	background-color:#009600;
+	background-color:#7ade87;
 }
 
 .soggetto-portlet .arrow-down-volume,
@@ -874,7 +874,7 @@ div.celle_dati_sitesi{
 	left:15px;
 	border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
-	border-top: 10px solid #c90061;
+	border-top: 10px solid #499652;
 }
 
 .soggetto-portlet .arrow-down-importo,
@@ -886,7 +886,7 @@ div.celle_dati_sitesi{
 	left:15px;
 	border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
-	border-top: 10px solid #009600;
+	border-top: 10px solid #7ade87;
 }
 
 .soggetto-portlet .volume-color a.block:hover,
@@ -904,7 +904,7 @@ div.celle_dati_sitesi{
 .localizzazione-portlet0 .costo-color a.block:focus,
 .pie-chart-portlet .costo-color a.block:hover,
 .pie-chart-portlet .costo-color a.block:focus {
-	background-color:#950047;
+	background-color:#2c5831;
 }
 
 .soggetto-portlet .importo-color a.block:hover,
@@ -924,7 +924,7 @@ div.celle_dati_sitesi{
 }
 
 .pie-chart-portlet .btn-carica-distribuzione a.block:active { 
-    background-color:#009600; 
+    background-color:#7ade87; 
 }
 */
 
