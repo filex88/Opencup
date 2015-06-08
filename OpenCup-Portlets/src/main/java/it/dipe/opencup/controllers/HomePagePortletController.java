@@ -1,6 +1,7 @@
 package it.dipe.opencup.controllers;
 
 import it.dipe.opencup.dto.AggregataDTO;
+import it.dipe.opencup.dto.D3PieConverter;
 import it.dipe.opencup.dto.LocalizationValueConverter;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
@@ -12,21 +13,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.portlet.PortletMode;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.WindowState;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
+import com.liferay.portal.model.Layout;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.WebKeys;
+import com.liferay.portlet.PortletURLFactoryUtil;
 
 @Controller
 @RequestMapping("VIEW")
@@ -37,8 +47,17 @@ public class HomePagePortletController {
 	@Value("#{config['codice.natura.open.cup']}")
 	protected String codNaturaOpenCUP;
 	
+	@Value("#{config['pagina.classificazione']}")
+	private String paginaClassificazione;
+	
+	@Value("#{config['pagina.localizzazione']}")
+	private String paginaLocalizzazione;
+	
+	@Value("#{config['pagina.soggetto']}")
+	private String paginaSoggetto;
+	
 	@RenderMapping
-	public String renderRequest(RenderRequest renderRequest, RenderResponse renderResponse,Model model){
+	public String renderRequest(RenderRequest renderRequest, RenderResponse renderResponse,Model model, @RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
@@ -116,12 +135,103 @@ public class HomePagePortletController {
 	
 	
 		
-		
+		creaGraficoClassificazione(renderRequest, renderResponse, model, pattern);
 		return "homepage-view";
 		
 		
 	}
 	
+	
+	private List<AggregataDTO> creaGraficoClassificazione(RenderRequest renderRequest, RenderResponse renderResponse, Model model,String pattern){
+		// Localizzazione
+		String idNatura =  (aggregataFacade.findNaturaByCod( codNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codNaturaOpenCUP ).getId().toString();
+		NavigaAggregata navigaAggregataClass = new NavigaAggregata();
+		navigaAggregataClass.setIdNatura(idNatura);
+		navigaAggregataClass.setPagAggregata(paginaClassificazione);
+		navigaAggregataClass.setIdAreaIntervento("0");
+		List<AggregataDTO> listaAggregataClassDTO = aggregataFacade.findAggregataByNatura(navigaAggregataClass);
+		//impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());
+		List<D3PieConverter> converterClassificazione=  getListaAggregata(pattern, listaAggregataClassDTO, navigaAggregataClass);
+		
+		
+		NavigaAggregata navigaAggregataLoc = new NavigaAggregata();
+		navigaAggregataLoc.setIdNatura(idNatura);
+		navigaAggregataLoc.setPagAggregata(paginaLocalizzazione);
+		navigaAggregataLoc.setIdAreaGeografica("0");
+		List<AggregataDTO> listaAggregataLocDTO = aggregataFacade.findAggregataByNatura(navigaAggregataLoc);
+		List<D3PieConverter> converterLocalizzazione=  getListaAggregata(pattern, listaAggregataLocDTO, navigaAggregataLoc);
+		
+		
+		NavigaAggregata navigaAggregataSog = new NavigaAggregata();
+		navigaAggregataSog.setIdNatura(idNatura);
+		navigaAggregataSog.setPagAggregata(paginaSoggetto);
+		navigaAggregataSog.setIdAreaSoggetto("0");
+		navigaAggregataSog.setIdCategoriaSoggetto("-1");
+		navigaAggregataSog.setIdSottoCategoriaSoggetto("-1");
+		List<AggregataDTO> listaAggregataSogDTO = aggregataFacade.findAggregataByNatura(navigaAggregataSog);
+		List<D3PieConverter> converterSoggetto=  getListaAggregata(pattern, listaAggregataSogDTO, navigaAggregataSog);
+		
+		
+		model.addAttribute("pattern", pattern);
+		model.addAttribute("aggregatiClassificazione", createJsonStringFromQueryResult(converterClassificazione));
+		model.addAttribute("aggregatiLocalizzazione", createJsonStringFromQueryResult(converterLocalizzazione));
+		model.addAttribute("aggregatiSoggetto", createJsonStringFromQueryResult(converterSoggetto));
+		return null;
+	}
+	
+	private List <D3PieConverter> getListaAggregata(String pattern, List<AggregataDTO> listaAggregataDTO, NavigaAggregata navigaAggregata){
+		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
+		double totale = 0.0;
+		for (AggregataDTO aggregataDTO: listaAggregataDTO){
+			if("VOLUME".equals(pattern)){
+				totale = totale + Double.valueOf( aggregataDTO.getNumeProgetti()).doubleValue();
+			}else if("COSTO".equals(pattern)){
+				totale = totale + aggregataDTO.getImpoCostoProgetti().doubleValue();
+			}else if("IMPORTO".equals(pattern)){
+				totale = totale + aggregataDTO.getImpoImportoFinanziato().doubleValue();
+			}else {
+				totale = totale + 0.0;
+			}
+		}
+		
+		D3PieConverter conv = null;
+		double value = 0.0;
+		for (AggregataDTO aggregataDTO: listaAggregataDTO){
+			
+			conv = new D3PieConverter();
+			conv.setId(aggregataDTO.getId().toString());
+			
+			if( navigaAggregata.getIdAreaGeografica().equals("0") ){
+				conv.setLabel(aggregataDTO.getDescAreaGeografica() );
+			}else if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
+				conv.setLabel(aggregataDTO.getDescAreaSoggetto() );
+			}else if( navigaAggregata.getIdAreaIntervento().equals("0") ){
+				conv.setLabel(aggregataDTO.getDesArea() );
+			}
+
+			if("VOLUME".equals(pattern)){
+				value = Double.valueOf( aggregataDTO.getNumeProgetti() );
+			}else if("COSTO".equals(pattern)){
+				value = aggregataDTO.getImpoCostoProgetti();
+			}else if("IMPORTO".equals(pattern)){
+				value = aggregataDTO.getImpoImportoFinanziato();
+			}else {
+				value = 0.0;
+			}
+			
+			int percentage = 0;
+			if( value > 0 ){
+				percentage = (int) round( ((value * 100) / totale), 0);
+			}
+			
+			conv.setPercentage( String.valueOf( percentage ) );
+			conv.setValue( value );
+			conv.setLinkURL(aggregataDTO.getLinkURL());
+			converter.add(conv);
+		}
+		
+		return converter;
+	}
 	
 	private String createJsonStringLocalizzazioneFromQueryResult(List<LocalizationValueConverter> formattedResult){
 		ObjectMapper mapper= new ObjectMapper();
@@ -157,6 +267,102 @@ public class HomePagePortletController {
 		return jsonString;
 	}
 	
+	private void impostaLinkURL(PortletRequest request, 
+			NavigaAggregata sessionAttrNav, 
+			List<AggregataDTO> listaAggregataDTO, 
+			String pageTo) {
+
+		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo, (String) request.getAttribute(WebKeys.PORTLET_ID), PortletRequest.ACTION_PHASE);
+		String rowIdLiv1URL = "", rowIdLiv2URL = "", rowIdLiv3URL = "", rowIdLiv4URL = "";
+
+		for(AggregataDTO tmp : listaAggregataDTO){		
+
+			//Per ogni elemento oltre a caricare la descrizione e i valori
+			//viene generato un linkURL che punta alla pagina successiva
+
+			rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
+			rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdAreaIntervento());
+			rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
+			rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
+
+			if( sessionAttrNav.getIdCategoriaIntervento().equals("0") ){
+				rowIdLiv4URL = tmp.getIdCategoriaIntervento().toString(); 
+				tmp.setDescURL( tmp.getDesCategoriaIntervento() );
+			}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
+				rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
+				rowIdLiv4URL = "0";
+				tmp.setDescURL( tmp.getDesSottoSettore() );
+			}else if( sessionAttrNav.getIdAreaIntervento().equals("0") ){
+				rowIdLiv2URL = tmp.getIdArea().toString(); 
+				rowIdLiv3URL = "0";
+				rowIdLiv4URL = "-1";
+				tmp.setDescURL( tmp.getDesArea() );
+			}
+
+			renderURL.setParameter("rowIdLiv1", rowIdLiv1URL); 
+			renderURL.setParameter("rowIdLiv2", rowIdLiv2URL); 
+			renderURL.setParameter("rowIdLiv3", rowIdLiv3URL); 
+			renderURL.setParameter("rowIdLiv4", rowIdLiv4URL); 
+
+			renderURL.setParameter("action", "navigazione");
+
+			tmp.setLinkURL(renderURL.toString());
+		}
+	}
 	
+	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage, String portletId, String portletRequest) {
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		LiferayPortletURL renderURL = null;
+		String localHost = themeDisplay.getPortalURL();		
+		List<Layout> layouts = null;
+		try{
+			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+			for(Layout layout : layouts){
+
+				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+
+				//Viene ricercato l'URL esatto per la pagina successiva
+				if(nodeNameRemoved.indexOf(toPage)>0){
+
+					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), portletRequest);
+					renderURL.setWindowState(WindowState.NORMAL);
+					renderURL.setPortletMode(PortletMode.VIEW);
+					
+					break;
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return renderURL;
+	}
 	
+	private double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
+	
+	protected String createJsonStringFromQueryResult(List<D3PieConverter> formattedResult){
+		ObjectMapper mapper= new ObjectMapper();
+		String jsonString=null;
+		try {
+			jsonString = mapper.writeValueAsString(formattedResult);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
 }
