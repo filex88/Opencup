@@ -20,7 +20,7 @@
 		<div class="offset3 span2">
 			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
 				<aui:a href="#" onClick="return false" cssClass="block">
-					PROGETTI
+					Progetti
 				</aui:a>
 			</div>
 			<c:if test='${pattern eq "VOLUME"}'>
@@ -30,7 +30,7 @@
 		<div class="span2">	
 			<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
 				<aui:a href="#" onClick="return false" cssClass="block">
-					COSTO
+					Costo
 				</aui:a>
 			</div>
 			<c:if test='${pattern eq "COSTO"}'>
@@ -40,7 +40,7 @@
 		<div class="span2">	
 			<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
 				<aui:a href="#" onClick="return false" cssClass="block">
-					IMPORTO
+					Finanziamento
 				</aui:a>
 			</div>
 			<c:if test='${pattern eq "IMPORTO"}'>

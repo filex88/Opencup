@@ -33,10 +33,10 @@
 	div.div_pie_chart_testata_stato, div.div_bar_chart_testata_anni {text-align: center;}
 	.legend tr{border-bottom:0px solid #1f4e78;}
 	.legend tr:first-child{border-top:0px solid #1f4e78;}
-	.legend{ margin-bottom: 10px; display:inline-block; border-collapse: collapse; border-spacing: 0px;}
+	.legend { margin-bottom: 10px; display:inline-block; border-collapse: collapse; border-spacing: 0px;}
 	.legend td{padding:0px 4px; vertical-align:bottom;}
-	.legendLabel{text-align: left; width:50px; color: #1f4e78;}
-	.legendLabelNowrap{text-align: left; width:50px; color: #1f4e78; white-space: nowrap;}
+	.legendLabel{text-align: left; width:50px; color: #1f4e78; font-size: 85%}
+	.legendLabelNowrap{text-align: left; width:50px; color: #1f4e78; white-space: nowrap; font-size: 85%}
 	.legendValue{text-align: right; width:50px;color: #1f4e78;}
 	
 	.bar_testata {fill: #1f4e78;}
