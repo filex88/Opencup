@@ -42,6 +42,12 @@ Progetto progetti = (Progetto)row.getObject();
 	
 	<div>
 		<p>
+			<span>CUP: <%= progetti.getAnagraficaCup().getCodiCup() %></span>
+		</p>
+	</div>
+	
+	<div>
+		<p>
 			<span>Anno decisione: <%= progetti.getAnnoDecisione().getAnnoDadeAnnoDecisione() %></span>
 		</p>
 	</div>

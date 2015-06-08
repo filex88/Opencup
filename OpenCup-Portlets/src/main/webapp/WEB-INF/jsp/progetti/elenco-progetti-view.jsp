@@ -13,6 +13,11 @@
 	.valign-middle {
 		vertical-align: middle !important;
 	}
+	
+	valign-top {
+		vertical-align: top !important;
+	}
+	
 	.bordo {
 		border: solid 2px #1f4e78;
 	}
@@ -24,16 +29,16 @@
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-1,
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_documentoDTOsSearchContainer_col-1
 	{
-		border-bottom:  solid 2px #1f4e78 !important;
+		border-bottom:  solid 5px #1f4e78 !important;
 		
 	}
 	
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-costo{
-		border-bottom:  solid 2px #f08c00 !important;
+		border-bottom:  solid 5px #f08c00 !important;
 	}
 	
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-importo{
-		border-bottom:  solid 2px #499652 !important;
+		border-bottom:  solid 5px #499652 !important;
 	}
 	
 	div.titolo p{padding:1em;font-size:18pt;color:#1f4e78;}
@@ -52,7 +57,63 @@
 	div.toggler-content,
 	div.table-container {padding: 1em;}
 	
-	div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
+	div.stripe{background: #fff; border-top:.5em solid #f0f0f0;}
+	
+	.aui .table-bordered{
+		border: none;
+	}
+	
+	.aui .table-bordered th, .aui .table-bordered td{
+		border-bottom: none;
+		border-left: none;
+		border-right: none;
+	}
+	
+	.aui .table-hover tbody tr:hover>td, .aui .table-hover tbody tr:hover>th{
+		background-color: #fff;
+	}
+	
+	.aui .table-striped tbody>tr:nth-child(odd)>td, .aui .table-striped tbody>tr:nth-child(odd)>th{
+		background-color:#fff;
+	}
+	
+	.aui .table th{
+		color: #1f4e78;
+		border-top: none !important;
+	}
+	
+	.aui .table td{
+		color: #1f4e78;
+		border-bottom: .5em solid #f0f0f0 !important;
+	}
+	
+	.aui a{
+		color: #1f4e78;
+	}
+	
+	.classificazione-portlet1 .intestazione-tab, .classificazione-portlet1 .table-columns th, .elenco-progetti-portlet .intestazione-tab, .elenco-progetti-portlet .table-columns th, #tabRisultati .intestazione-tab, #tabRisultati .table-columns th{
+		background-color: #fff;
+	}
+	
+	div.my-toggler-affina-ricerca-elenco-progetti, div.toggler-content-wrapper, div.toggler-content, div.table-container{
+		padding-top: 1em;
+		padding-bottom: 1em;
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+	
+	.w50{
+		width: 50%;
+	}
+	
+	.w25{
+		width: 25%;
+	}
+	
+	.centra-testo{
+		text-align: center !important;
+	}
+	
 	
 </style>
 
@@ -92,14 +153,14 @@
 					</li>
 					<li class="sumCosto w100">
 						<div>
-							<span class="left"><small>Costo</small></span>
+							<span class="left"><small>Costo Previsto</small></span>
 							<span class="right"><small id="costoTotale"></small></span>
 							<svg class="w100"></svg>
 						</div>
 					</li>
 					<li class="sumImporto w100">
 					<div>
-						<span class="left"><small>Finanziamento pubblico</small></span>
+						<span class="left"><small>Finanziamento Pubblico Previsto</small></span>
 						<span class="right"><small id="importoTotale"></small></span>
 						<svg class="w100"></svg>
 					</div>
@@ -114,11 +175,11 @@
 	</c:if>
 	
 	<c:if test="${currentAction eq 'elencoProgetti' || currentAction eq 'ricercaAvanzata'}">
-		<div id="my-toggler-affina-ricerca-elenco-progetti" class="my-toggler-affina-ricerca-elenco-progetti">
+		<div id="my-toggler-affina-ricerca-elenco-progetti" class="my-toggler-affina-ricerca-elenco-progetti" style="border-top:.5em solid #f0f0f0">
 			
 			<c:choose>
 				<c:when test="${currentAction eq 'elencoProgetti'}">
-					<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px">
+					<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px;padding-right: 40px;">
 						<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
 							AFFINA LA RICERCA
 							<span>
@@ -442,14 +503,20 @@
 				
 				<liferay-ui:search-container-row className="it.dipe.opencup.model.Progetto" keyProperty="id" modelVar="progetti">
 			
-					<liferay-ui:search-container-column-jsp path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
+					<liferay-ui:search-container-column-jsp cssClass="w50" path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
 					
-					<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
+					<liferay-ui:search-container-column-text cssClass="valign-top w25 centra-testo" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
+						<%-- 
 						<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
+						--%>
+						<fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>
 					</liferay-ui:search-container-column-text>
 					
-					<liferay-ui:search-container-column-text cssClass="valign-middle" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+					<liferay-ui:search-container-column-text cssClass="valign-top w25 centra-testo" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+						<%-- 
 						<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
+						--%>
+						<fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/>
 					</liferay-ui:search-container-column-text>
 				
 				</liferay-ui:search-container-row>
@@ -459,7 +526,7 @@
 			</liferay-ui:search-container>
 		</div>
 	</c:if>
-	
+
 	<c:if test="${action eq 'ricercaLibera'}">
 		<div class="intestazione">
 			<span><strong>Elenco dei documenti <i class="icon-list"></i></strong></span>

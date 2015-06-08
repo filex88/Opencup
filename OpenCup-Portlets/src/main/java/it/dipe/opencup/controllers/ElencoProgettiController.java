@@ -210,10 +210,17 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		
 		NavigaAggregata navigaAggregata = new NavigaAggregata();
-		navigaAggregata.importa( navigaProgetti );
+		//navigaAggregata.importa( navigaProgetti );
+		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
+		navigaAggregata.setIdNatura(idNatura);
 		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
+		NavigaProgetti navigaProgettitot = new NavigaProgetti();
+		navigaProgettitot.setIdNatura(idNatura);
+		
+		int sizetot =  progettoFacade.sizeElencoProgetti( navigaProgettitot ).getSize();
+
 		// RIEPILOGO //
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
@@ -223,7 +230,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
 		
-		model.addAttribute("volumeDeiProgetti", size);
+		model.addAttribute("volumeDeiProgetti", sizetot);
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		// FINE RIEPILOGO //
@@ -522,7 +529,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 		progetto.setId(Integer.parseInt(doc.getField(Field.ENTRY_CLASS_PK).getValue()));
 		progetto.setAnnoAnnoDecisione(doc.get(Constants.RICERCALIBERA_FIELD_ANNO_DECISIONE));
 		
-		
 		CategoriaIntervento categoriaIntervento = new CategoriaIntervento();
 		categoriaIntervento.setDescCategoriaIntervento(doc.get(Constants.RICERCALIBERA_FIELD_CATEGORIA));
 		progetto.setCategoriaIntervento(categoriaIntervento);
@@ -532,6 +538,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		progetto.setAnnoDecisione(annodec);
 		AnagraficaCup ana = new AnagraficaCup();
 		ana.setDescCup(doc.get(Field.TITLE));
+		ana.setCodiCup( "" );
 		progetto.setAnagraficaCup(ana);
 		progetto.setImpoCostoProgetto(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_COSTO)));
 		progetto.setImpoImportoFinanziato(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_IMPORTO)));
