@@ -261,7 +261,7 @@
 					</div>
 					
 					<div class="span4">
-						<div style="display: block; text-align: center; font-weight: bold; color: #c90061; border-bottom: solid 2px #c90061 !important; padding-bottom: 10px; font-size: 1.4em">
+						<div style="display: block; text-align: center; font-weight: bold; color: #499652; border-bottom: solid 2px #499652 !important; padding-bottom: 10px; font-size: 1.4em">
 							Finanziamento Pubblico
 						</div>
 						<div style="display: block; text-align: center; font-weight: bold; color: #1f4e78; padding-top: 10px; padding-bottom: 15px">

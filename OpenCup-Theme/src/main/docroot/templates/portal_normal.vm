@@ -294,7 +294,7 @@ $theme.include($body_top_include)
 	
 		<footer id="footer" role="contentinfo">
 			
-			<div >
+			<div>
 				<ul id="main-footer-list">
 				#foreach ($footerLinkColumn in $footerLinkColumns) ##scorrimento array delle nested list del footer
 					#set ($recordsfooterLinkColumn = $ddlRecordService.getRecords($footerLinkColumn))
@@ -338,13 +338,17 @@ $theme.include($body_top_include)
 						</ul>
 					</li>
 				#end
-				</ul>	
-			</div>
-			<div class="powered-by">
-				<!--	#language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>-->
-				Copyright 2014 OpenCup
+				</ul>
+					
+				<div class="powered-by">
+					<!--	#language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>-->
+					Copyright 2014 OpenCup
+				</div>
 				
 			</div>
+			
+			
+			
 		</footer>
 		
 	</div>

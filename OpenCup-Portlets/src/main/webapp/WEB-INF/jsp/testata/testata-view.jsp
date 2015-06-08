@@ -23,8 +23,8 @@
 	#conteiner div.ic_tray:first-child{margin-left: -6px!important;}
 	#conteiner div.ic_tray:last-child{margin-left: -6px!important;}
 	#conteiner div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
-	#conteiner div.titolo p{padding:1em; font-size:1.6em; color:#1f4e78;}
-	#conteiner .firstLoc{ padding-top:1em; padding-left:1em; color:#1f4e78; font-size:16pt; white-space: nowrap;}
+	#conteiner div.titolo p{padding:0.5em; font-size:1.6em; color:#1f4e78;}
+	#conteiner .firstLoc{ padding-top:0.8em; padding-left:1em; color:#1f4e78; font-size:2em; white-space: nowrap;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
 	#conteiner .classchart rect:first-of-type {fill: #d9d9d9;}
 	#conteiner .classchart rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #1f4e78;}
@@ -34,8 +34,9 @@
 	.legend tr{border-bottom:0px solid #1f4e78;}
 	.legend tr:first-child{border-top:0px solid #1f4e78;}
 	.legend{ margin-bottom: 10px; display:inline-block; border-collapse: collapse; border-spacing: 0px;}
-	.legend td{padding:4px 5px; vertical-align:bottom;}
-	.legendLabel{text-align: left; width:50px; color: #1f4e78; white-space: nowrap;}
+	.legend td{padding:0px 4px; vertical-align:bottom;}
+	.legendLabel{text-align: left; width:50px; color: #1f4e78;}
+	.legendLabelNowrap{text-align: left; width:50px; color: #1f4e78; white-space: nowrap;}
 	.legendValue{text-align: right; width:50px;color: #1f4e78;}
 	
 	.bar_testata {fill: #1f4e78;}
@@ -125,15 +126,67 @@
 
 <div class="stripe">
 	<div style="height: auto; border-left: 5px solid #1f4e78; overflow: auto;">
+		
 		<div class="row" id="conteiner" >
 			<div class="span12 titolo" id="titolo"></div>
 		</div>
+		
 		<div class="row" id="conteiner" >
+		
 			<div class="span3 corpo_logo" id="corpo_logo"></div>
-			<div class="span2 pie_chart_testata_stato" id="pie_chart_testata_stato"></div>
-			<div class="span1 pie_chart_testata_stato_legend" id="pie_chart_testata_stato_legend" style="margin-left: 15px;"></div>
-			<div class="span3 bar_chart_testata_anni" id="bar_chart_testata_anni" style="padding-left: 25px;"></div>
-			<div class="span3 trend_chart_testata_anni" id="trend_chart_testata_anni"></div>
+			
+			<div class="span3" style="margin-top: 20px;">
+				<div>
+					<div class="span6 pie_chart_testata_stato" id="pie_chart_testata_stato" style="margin-left: 0px;"></div>
+					<div class="span6 pie_chart_testata_stato_legend" id="pie_chart_testata_stato_legend" style="margin-left: 0px;"></div>
+				</div>
+			</div>
+			
+			<div class="span3" style="margin-left: 0px">
+				<div>
+					<div class="span8 bar_chart_testata_anni" id="bar_chart_testata_anni" style="margin-left: 0px; min-height: 152px"></div>
+					<div class="span4 bar_chart_testata_anni_legend" id="bar_chart_testata_anni_legend" style="margin-left: 0px; color: #1f4e78;">
+						<table class="legend">
+							<tbody>
+								<tr>
+									<td class="legendLabel">Numerosit&agrave; Progetti</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<div class="span3">
+				<div>
+					<div class="span8 trend_chart_testata_anni" id="trend_chart_testata_anni" style="margin-left: 0px; min-height: 152px"></div>
+					<div class="span4 trend_chart_testata_anni_legend" id="trend_chart_testata_anni_legend" style="margin-left: 0px;">
+					
+						<table class="legend">
+							<tbody>
+								<tr>
+									<td width="10" style="vertical-align: inherit">
+										<svg width="10" height="10">
+											<rect width="10" height="2" fill="#1f4e78"></rect>
+										</svg>
+									</td>
+									<td class="legendLabel">Costo<br>previsto</td>
+								</tr>
+								<tr>
+									<td width="10" style="vertical-align: inherit">
+										<svg width="10" height="10">
+											<rect width="10" height="10" fill="#b2c6ff"></rect>
+										</svg>
+									</td>
+									<td class="legendLabel">Finanziamento<br>pubblico previsto</td>
+								</tr>
+							</tbody>
+						</table>
+						
+					</div>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 </div>
@@ -201,29 +254,30 @@
 		.style("list-style","none")
 		.style("float","left")
 		.append("div")
-		.attr("class","classificazione");
+		.attr("class", "classificazione");
 		
 		d3.selectAll(elementName)
 		.selectAll("div.classificazione")
 		.append("div")
 		.attr("class", "left effHistogram")
-		.style("width", (singleElMwClass*4.3)+"px")
+		.style("width", (singleElMwClass*2.6)+"px")
 		.append("img")
 		.attr("src",function(d){
 			var areaCorrente=d.desArea.split(/[\s,]+/);
 		 	var firstDesc=areaCorrente[0].toLowerCase();
 		 	if( firstDesc == 'tutte' ){
-		 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg"
-		 		console.log(appoUrl);
+		 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg";
+		 	}else{
+		 		var appoUrl = "${imgFolder}/icona-"+firstDesc+".svg";
 		 	}
-		 	return "${imgFolder}/icona-"+firstDesc+".svg";
+		 	return appoUrl
 		});
 		
 		d3.selectAll(elementName)
 		.selectAll("div.classificazione")
 		.append("div")
-		.attr("class","right")
-		.style("width",(singleElMwClass*5.5)+"px")
+		.attr("class","left")
+		.style("width",(singleElMwClass*6.5)+"px")
 	    .html(function(d){
 	    	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"+nFormatter(d.impoCostoProgetti)+"</p>";
 	    });
@@ -243,10 +297,11 @@
 		.append("div")
 		.attr("class","right barcontainer")
 		.style("width",(singleElMwClass*5.5)+"px")
+		.style("padding-top","0px")
 		.append("svg")
 		.attr("class","classchart")
 		.attr("width",(singleElMwClass*5))
-		.attr("height", 20);
+		.attr("height", 10);
 		
 		d3.selectAll(".classchart")
 		.each(function(d){
@@ -257,14 +312,14 @@
 			.data(range)
 			.enter().append("rect")
 		 	.attr("width", x)
-		 	.attr("height", 20);
+		 	.attr("height", 16);
 		 	
 		});
 		
-		//d3.selectAll(".barcontainer")
-		//.append("div")
-		//.style("width",(singleElMwClass*5)+"px")
-		//.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
+		d3.selectAll(".barcontainer")
+		.append("div")
+		.style("width",(singleElMwClass*5)+"px")
+		.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
 		
 	}
 	
@@ -272,8 +327,8 @@
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		
-		var margin = 0;
-		var outerRadius = (totWidth/100*70)/2;
+		var margin = 10;
+		var outerRadius = (totWidth/100*80)/2;
 		var innerRadius = outerRadius - (outerRadius / 3);
 		var sortArcs = 0;
 		
@@ -420,16 +475,16 @@
             
         // create the first column for each segment.
         tr.append("td")
-        .attr("width", '16')
+        .attr("width", '10')
         .append("svg")
-        .attr("width", '16').attr("height", '16').append("rect")
-        .attr("width", '16').attr("height", '16')
+        .attr("width", '10').attr("height", '10').append("rect")
+        .attr("width", '10').attr("height", '10')
         .attr("fill", function(d, i) { return colorScale(i); });
             
         // create the second column for each segment.
         tr.append("td")
-        .attr("width", totWidth-16)
-        .attr("class", 'legendLabel').text(function(d){ return d.label; });
+        .attr("width", totWidth-10)
+        .attr("class", 'legendLabelNowrap').text(function(d){ return d.label; });
         
     }
 	
@@ -437,10 +492,13 @@
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		
-		var margin = {top: 5, right: 5, bottom: 20, left: 0},
+		var totHeight = d3.select(selectString).node().getBoundingClientRect().height;	
+		
+		var margin = {top: 5, right: 0, bottom: 30, left: 0},
 	    width = totWidth - margin.left - margin.right - 5,
-	    height = (totWidth/2) - margin.top - margin.bottom;
-
+	    //height = (totWidth/2) - margin.top - margin.bottom;
+	    height = totHeight - margin.top - margin.bottom;
+	    
 		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
 
 		var y = d3.scale.linear().range([height, 0]);
@@ -450,15 +508,14 @@
 		var yAxis = d3.svg.axis().scale(y).orient("left");
 
 		var svg = d3.select(selectString).append("svg")
-	  	.attr("width", width-5)
-	  	.attr("height", (totWidth/2))
+	  	.attr("width", width+5)
+	  	.attr("height", height + margin.bottom)
 	  	.append("g")
 	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	  	x.domain(dataSet.map(function(d) { return d.label; }));
 	  	
 	  	y.domain([0, d3.max(dataSet, function(d) { return d.volume; })]);
-
 	  	
 	 	// extract the x labels for the axis and scale domain
 		var xLabels = dataSet.map(function (d) { return d.label; })
@@ -509,15 +566,18 @@
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		
+		var totHeight = d3.select(selectString).node().getBoundingClientRect().height;	
+		
 		var decimalFormat = d3.format("0.2f");
 		
-		var margin = {top: 5, right: 5, bottom: 20, left: 0},
+		var margin = {top: 5, right: 0, bottom: 30, left: 0},
 	    width = totWidth - margin.left - margin.right - 5,
-	    height = (totWidth/2) - margin.top - margin.bottom;
+	    //height = (totWidth/2) - margin.top - margin.bottom;
+	    height = totHeight - margin.top - margin.bottom;
 		
 		var svgAll = d3.select(selectString).append("svg")
-		  	.attr("width", totWidth-5)
-		  	.attr("height", totWidth/2)
+		  	.attr("width", totWidth+5)
+		  	.attr("height", height +  + margin.bottom)
 		  	.attr("class", barName)
 		
 		var svg = svgAll
@@ -630,76 +690,8 @@
 		svg.select(".y.axis")
 			.attr("transform", "translate(" + (margin.left) + ",0)")
 			.call(yFinanziatoAxis.tickFormat(decimalFormat));
-	
-		
-		// draw legend
-		  var legend = svgAll.append("g")
-		    .attr("class", "legend")
-		    .attr("transform", "translate(0,0)");
-
-		  // draw legend colored rectangles
-		  legend.append("rect")
-		      .attr("x", width - 18)
-		      .attr("y", 0)
-		      .attr("width", 16)
-		      .attr("height", 16)
-		      .style("fill", baseColor1);
-		 
-		 legend.append("rect")
-	      	.attr("x", width - 18)
-	      	.attr("y", 29)
-	      	.attr("width", 16)
-	      	.attr("height", 2)
-	      	.style("fill", baseColor3);
-
-		  // draw legend text
-		  legend.append("text")
-		      .attr("x", width - 24)
-		      .attr("y", 8)
-		      .attr("dy", ".35em")
-		      .style("text-anchor", "end")
-		      .text("Finanziato pubblico");
-		  
-		legend.append("text")
-		      .attr("x", width - 24)
-		      .attr("y", 29)
-		      .attr("dy", ".35em")
-		      .style("text-anchor", "end")
-		      .text("Costo progetti");
-		
-		/*
-		var legend = svgAll.append("g")
-			  .attr("class", "legendTrend")
-			  .attr("x", margin.right)
-			  .attr("y", margin.top)
-			  .attr("height", margin.top)
-			  .attr("width", width);
-		
-		legend.append("rect")
-			  .attr("x", margin.left)
-			  .attr("y", 0)
-			  .attr("width", 10)
-			  .attr("height", 10)
-			  .style("fill", "#1f4e78");
-
-		legend.append("text")
-			  .attr("x", margin.left + 15)
-			  .attr("y", 9)
-			  .text("Importo Finanziato");
-	
-		legend.append("rect")
-			  .attr("x", margin.left)
-			  .attr("y", 0)
-			  .attr("width", 10)
-			  .attr("height", 10)
-			  .style("fill", "#1f4e78");
-
-		legend.append("text")
-			  .attr("x", margin.left + 15)
-			  .attr("y", 9)
-			  .text("Importo Finanziato");
-		*/
 	};
+	
 	
 	var JsonClass = ${jsonResultRiepilogo};
 	var calculatedJsonClass = eval( JsonClass );
@@ -724,5 +716,5 @@
 	drawBarTestataAnni("TestataBarAnni", dataSetTestataAnni1, ".bar_chart_testata_anni" );
 	
 	drawTrendTestataAnni("trend_svg_testata_anni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
-	
+
 </script>

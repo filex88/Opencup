@@ -33,7 +33,7 @@
 	}
 	
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-importo{
-		border-bottom:  solid 2px #c90061 !important;
+		border-bottom:  solid 2px #499652 !important;
 	}
 	
 	div.titolo p{padding:1em;font-size:18pt;color:#1f4e78;}
@@ -41,11 +41,11 @@
 
 	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
 	div.summary ul li span{color: #1f4e78;}
-	div.summary ul li.sumVolume svg {height: .8em; background-color: #009600;}
+	div.summary ul li.sumVolume svg {height: .8em; background-color: #7ade87;}
 	div.summary ul li.sumCosto svg {height: .8em; background-color: #f08c00;}
 	div.summary ul li.sumImporto svg {height: .8em;}
 	div.summary ul li.sumImporto rect:first-of-type {fill: #d9d9d9;}
-	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #c90061;}
+	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #499652;}
 	
 	div.my-toggler-affina-ricerca-elenco-progetti,
 	div.toggler-content-wrapper,
@@ -116,23 +116,35 @@
 	<c:if test="${currentAction eq 'elencoProgetti' || currentAction eq 'ricercaAvanzata'}">
 		<div id="my-toggler-affina-ricerca-elenco-progetti" class="my-toggler-affina-ricerca-elenco-progetti">
 			
-			<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px">
-				<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
-					AFFINA LA RICERCA
-					<span>
-						<i class="icon-filter"> 
-							<c:if test="${ navigaProgetti.countAffRicerca != null }">
-								<span class="icon-stack" id="filtriBadge">
-					          		<i class="icon-circle icon-stack-base" ></i>
-					          		<i class="icon-light">${ navigaProgetti.countAffRicerca }</i>
-								</span>
-							</c:if> 
-						</i>
-					</span>
-				</div>
-			</div>
+			<c:choose>
+				<c:when test="${currentAction eq 'elencoProgetti'}">
+					<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px">
+						<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
+							AFFINA LA RICERCA
+							<span>
+								<i class="icon-filter"> 
+									<c:if test="${ navigaProgetti.countAffRicerca != null }">
+										<span class="icon-stack" id="filtriBadge">
+							          		<i class="icon-circle icon-stack-base" ></i>
+							          		<i class="icon-light">${ navigaProgetti.countAffRicerca }</i>
+										</span>
+									</c:if> 
+								</i>
+							</span>
+						</div>
+					</div>
+				</c:when>
+			</c:choose>
 			
-			<div class="content-elenco-progetti toggler-content-collapsed bordo">
+			<c:choose>
+				<c:when test="${currentAction eq 'elencoProgetti'}">
+					<div class="content-elenco-progetti toggler-content-collapsed bordo">
+				</c:when>
+				<c:otherwise>
+					<div class="content-elenco-progetti bordo">
+				</c:otherwise>
+			</c:choose>
+			
 				<portlet:actionURL var="affinaRicercaActionVar">
 				   	<portlet:param name="action" value="ricerca"></portlet:param>
 				</portlet:actionURL>
@@ -145,9 +157,11 @@
 					cssClass="form-horizontal ricerca-form">	
 				
 					<div>
-						<div>
-				           	<span><strong>Filtri di ricerca <i class='icon-filter'></i></strong></span>
-				       	</div>
+						<c:if test="${currentAction eq 'elencoProgetti'}">
+							<div>
+					           	<span><strong>Filtri di ricerca <i class='icon-filter'></i></strong></span>
+					       	</div>
+						</c:if>
 				       	<div>
 				       		<div class="span6">
 				       		
@@ -414,9 +428,13 @@
 	</c:if>	
 	
 	<c:if test="${valoreRicercaValido eq 'SI'}">
-		<div class="intestazione">
-			<span><strong>Elenco dei progetti <i class="icon-list"></i></strong></span>
-		</div>
+		
+		<c:if test="${currentAction ne 'elencoProgetti'}">
+			<div class="intestazione">
+				<span><strong>Elenco dei progetti <i class="icon-list"></i></strong></span>
+			</div>
+		</c:if>
+		
 		<div class="table-container">
 			<liferay-ui:search-container searchContainer="${searchContainerElenco}" delta="${searchContainerElenco.delta}" orderByType="${searchContainerElenco.orderByType}" deltaParam="delta">
 				

@@ -88,8 +88,8 @@
 			</c:when>
 			<c:otherwise>
 				<div class="div_soggetto_1">
-					<div class="row chart-div">
-						<div class="span8 offset1 div_soggetto chart soggetto_1">
+					<div class="row chart-div" style="min-height: 250px;">
+						<div class="span8 offset2 div_soggetto chart soggetto_1" style="min-height: 250px;">
 						</div>
 					</div>
 					<div class="row chart-div">
@@ -142,29 +142,34 @@
 	
 	var textColor = "#1f4e78";
 	var fillColor = "Maroon";
+	var coloreMisura = "#1f4e78";
 	
 	if (tipoAggregazioneSoggetto == "VOLUME"){
 		baseColor1 = "#ffdbaa";
 		baseColor2 = "#ffb551";
 		baseColor3 = "#f08c00";
 		fillColor = "#d27900";
+		coloreMisura = "#f08c00";
 	}else
 	if (tipoAggregazioneSoggetto == "COSTO"){
-		baseColor1 = "#ffc6e1";
-		baseColor2 = "#ff55a6";
-		baseColor3 = "#c90061";
-		fillColor = "#950047";
+		baseColor1 = "#69d876";
+		baseColor2 = "#58b663";
+		baseColor3 = "#499652";
+		fillColor = "#3e7d46";
+		coloreMisura = "#499652";
 	}else
 	if (tipoAggregazioneSoggetto == "IMPORTO"){
 		baseColor1 = "#c1ffc1";
 		baseColor2 = "#48ff48";
-		baseColor3 = "#009600";
+		baseColor3 = "#7ade87";
 		fillColor = "#005500";
+		coloreMisura = "#7ade87";
 	}
 	
-	d3.select("#titoloSoggetto").style("background", fillColor);
+	d3.select("#titoloSoggetto").style("color", coloreMisura);
+	d3.select("#titoloSoggetto").style("text-align", "left");
 	
-	var bordoSoggetto = fillColor;
+	var bordoSoggetto = coloreMisura;
 	var portletSecondariaDXSoggetto = "${ configSoggetto.portletSecondariaDX }";
 	if(portletSecondariaDXSoggetto=="true"){
 		bordoSoggetto = "#f0f0f0";
@@ -361,7 +366,7 @@
 		var widthTotal = 50;
 		var heightLegend = 25; 
 		var gapBetweenGroups = 25;		
-		var margin = {top: 15, right: 25, bottom: 15, left: 25};
+		var margin = {top: 0, right: 15, bottom: 15, left: 15};
 		
 		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
 		var width = totWidth - margin.left - margin.right;
@@ -478,17 +483,17 @@
 		       			});
 		       				
 		       			$(".costo-color-soggetto").mouseover(function() { 
-		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #950047'); 
+		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #2c5831'); 
 		       			});
 		       			$(".costo-color-soggetto").mouseout(function() { 
-		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #c90061'); 
+		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #499652'); 
 		       			});
 		       				
 		       			$(".importo-color-soggetto").mouseover(function() { 
 		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #005500'); 
 		       			});
 		       			$(".importo-color-soggetto").mouseout(function() { 
-		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #009600'); 
+		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #7ade87'); 
 		       			});
 		       				
 		       			$( ".sel-type-btn-soggetto" ).click(function() {

@@ -85,8 +85,8 @@
 			</c:when>
 			<c:otherwise>
 				<div class="div_pie_chart_1">
-					<div class="row chart-div">
-						<div class="span5 offset2 div_pie_chart chart pie_chart_1" id="pie_chart_1">
+					<div class="row chart-div" style="min-height: 250px;">
+						<div class="span5 offset4 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="min-height: 250px;">
 						</div>
 					</div>
 					<div class="row chart-div">
@@ -153,35 +153,39 @@
 	
 	var textColor = "#1f4e78";
 	var fillColor = "Maroon";
+	var coloreMisura = "#1f4e78";
 	
 	var minData = 0;
 	var maxData = ${ recordCount };
 	var midData = maxData / 2;
-	
 	
 	if (tipoAggregazione == "VOLUME"){
 		baseColor1 = "#ffdbaa";
 		baseColor2 = "#ffb551";
 		baseColor3 = "#f08c00";
 		fillColor = "#d27900";
+		coloreMisura = "#f08c00";
 	}else
 	if (tipoAggregazione == "COSTO"){
-		baseColor1 = "#ffc6e1";
-		baseColor2 = "#ff55a6";
-		baseColor3 = "#c90061";
-		fillColor = "#950047";
+		baseColor1 = "#69d876";
+		baseColor2 = "#58b663";
+		baseColor3 = "#499652";
+		fillColor = "#3e7d46";
+		coloreMisura = "#499652";
 	}else
 	if (tipoAggregazione == "IMPORTO"){
 		baseColor1 = "#c1ffc1";
 		baseColor2 = "#48ff48";
-		baseColor3 = "#009600";
+		baseColor3 = "#7ade87";
 		fillColor = "#005500";
+		coloreMisura = "#7ade87";
 	}
 
-	d3.select("#titoloClassificazione").style("background", fillColor);
+	d3.select("#titoloClassificazione").style("color", coloreMisura);
+	d3.select("#titoloClassificazione").style("text-align", "left");
 	
 	
-	var bordoPie = fillColor;
+	var bordoPie = coloreMisura;
 	var portletSecondariaDXPie = "${ config.portletSecondariaDX }";
 	if(portletSecondariaDXPie=="true"){
 		bordoPie = "#f0f0f0";
@@ -584,26 +588,20 @@
 		var canvas = d3.select(divLegend).append("svg:svg")
 		    .attr("width", width_svg)
 		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
-			
 		
 //		var colorScale = d3.scale.ordinal().range(segments);
 		
-		// Plot the bullet circles...
-		canvas.selectAll("circle")
+		
+		canvas.selectAll("rect")
 		.data(dataSet)
 		.enter()
-		/*
-		.append("svg:a")
-		.attr("xlink:href", function(d) {
-			return "#"; //d.data.linkURL;
-		}).on('onclick',  function() {return false;})
-		*/
-		.append("svg:circle") // Append circle elements
-		
-		.attr("cx", widthTotal)
-		.attr("cy", function(d, i) { 
+		.append("rect")
+		.attr("width", "16")
+		.attr("height", "16")
+		.attr("x", widthTotal - 10)
+		.attr("y", function(d, i) { 
 			//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
-			return gapBetweenGroups + (heightLegend * i);
+			return gapBetweenGroups + (heightLegend * i) - 10;
 		})
 		
 		.attr("data_id", function(d, i) { return dataSet[i].id })
@@ -611,9 +609,10 @@
 		.attr("data_value", function(d, i) { return dataSet[i].value })
 		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
-			
-		.attr("stroke-width", ".5").style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
-		.attr("r", 5).attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
+		
+		.style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
+		
+		.attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-" + i; })
 		.attr("class", function(d, i) { 
 			retval = "legend-" + legendName + "-legendBullet-index-" + i;
@@ -624,6 +623,46 @@
 		 })
 		.on('mouseover', synchronizedMouseOver)
 		.on("mouseout", synchronizedMouseOut);
+		
+		
+		// Plot the bullet circles...
+//		canvas.selectAll("circle")
+//		.data(dataSet)
+//		.enter()
+		/*
+		.append("svg:a")
+		.attr("xlink:href", function(d) {
+			return "#"; //d.data.linkURL;
+		}).on('onclick',  function() {return false;})
+		*/
+//		.append("svg:circle") // Append circle elements
+		
+//		.attr("cx", widthTotal)
+//		.attr("cy", function(d, i) { 
+			//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
+//			return gapBetweenGroups + (heightLegend * i);
+//		})
+		
+//		.attr("data_id", function(d, i) { return dataSet[i].id })
+//		.attr("data_label", function(d, i) { return dataSet[i].label })
+//		.attr("data_value", function(d, i) { return dataSet[i].value })
+//		.attr("data_percentage", function(d, i) { return dataSet[i].percentage })
+//		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
+			
+//		.attr("stroke-width", ".5")
+//		.style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
+//		.attr("r", 5)
+//		.attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
+//		.attr("index_value", function(d, i) { return "index-" + i; })
+//		.attr("class", function(d, i) { 
+//			retval = "legend-" + legendName + "-legendBullet-index-" + i;
+//			if(!selezionabile){
+//				retval = retval + " link-url-naviga-pie";
+//			}
+//			return retval;
+//		 })
+//		.on('mouseover', synchronizedMouseOver)
+//		.on("mouseout", synchronizedMouseOut);
 		
 		
 		// Create hyper linked text at right that acts as label key...
@@ -711,17 +750,17 @@
 	       				});
 	       				
 	       				$(".costo-color-pie").mouseover(function() { 
-	       					$(".arrow-down-costo-pie").css('border-top','10px solid #950047'); 
+	       					$(".arrow-down-costo-pie").css('border-top','10px solid #2c5831'); 
 	       				});
 	       				$(".costo-color-pie").mouseout(function() { 
-	       					$(".arrow-down-costo-pie").css('border-top','10px solid #c90061'); 
+	       					$(".arrow-down-costo-pie").css('border-top','10px solid #499652'); 
 	       				});
 	       				
 	       				$(".importo-color-pie").mouseover(function() { 
 	       					$(".arrow-down-importo-pie").css('border-top','10px solid #005500'); 
 	       				});
 	       				$(".importo-color-pie").mouseout(function() { 
-	       					$(".arrow-down-importo-pie").css('border-top','10px solid #009600'); 
+	       					$(".arrow-down-importo-pie").css('border-top','10px solid #7ade87'); 
 	       				});
 	       				
 	       				$( ".sel-type-btn-pie" ).click(function() {
