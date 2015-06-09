@@ -21,10 +21,10 @@
 	div#sponsor-list ul li a{color: #1f4e78;padding-left:1em;line-height: 4em;}
 	div#sponsor-list ul li div.sponsorImg{width: 4em;height: 4em;padding-left: .5em;}
 
-	div#news-list{padding-top:1em;background: #fff;height: 17em;}
+	div#news-list{padding-top:1em;background: #fff;height: 11em;}
 	div#news-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
-	div#news-list ul{padding-top: 1em;width: 100%;margin-left: 0;}
-	div#news-list ul li {display: inline-block;list-style: none;width:32%;margin-left: 1em;}
+	div#news-list ul{padding-top: 1em;width: 100%;margin-left: 1em;}
+	div#news-list ul li {display: inline-block;list-style: none;width:100%;margin-left: 1em; background: #fff;}
 	div#news-list ul li a{color: #1f4e78;font-style: italic;}
 	div#news-list ul li i{color: #00b0f0;}
 	div#news-list ul li strong.newsTitleHome{padding-left: 0px!important;}
@@ -34,21 +34,37 @@
 	div#news-list div.allNewsLink{margin-top: 1em;margin-right: .8em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
 	div#news-list div.allNewsLink a{color: #fff;line-height: 2em;}
 	div#news-list div.allNewsLink a:hover{text-decoration: underline;}
+	
+	
+	div#approfondimenti-list{padding-top:1em;background: #fff;height: 11em;}
+	div#approfondimenti-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
+	div#approfondimenti-list ul{padding-top: 1em;margin-left: 0; width:100%;}
+	div#approfondimenti-list ul li {display: inline-block;list-style: none;width:47%;margin-left: 1em; background: #fff;}
+	div#approfondimenti-list ul li a{color: #1f4e78;font-style: italic;}
+	div#approfondimenti-list ul li i{color: #00b0f0;}
+	div#approfondimenti-list ul li strong.approfondimentoTitleHome{padding-left: 0px!important;}
+	div#approfondimenti-list ul li div.linkToPage{margin-top:.5em;}
+	div#approfondimenti-list ul li div.contApprofondimento{height:5em;text-align: justify;margin-right: .7em;}
+	div#approfondimenti-list ul li div.imgCont{width: 7.5em;height: 6.5em; }
+	div#approfondimenti-list div.allApprofondimentiLink{margin-top: 1em;margin-right: .8em;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
+	div#approfondimenti-list div.allApprofondimentiLink a{color: #fff;line-height: 2em;}
+	div#approfondimenti-list div.allApprofondimentiLink a:hover{text-decoration: underline;}
 
 	div#noticeCarousel.carousel {height:18em;}
 	ol#noticeSpinner.carousel-indicators{padding-right: 40em;z-index: 0; padding-top:17em;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
 	ol#noticeSpinner li:hover{cursor: pointer;}
 	ol#noticeSpinner li.active{background-color:#0084b0;}
-	div#textHome {text-align: center;}
+	div#textHome {text-align: center; color: #1f4e78;}
 	div.stripe{background: #fff;height:20em;border-top:.5em solid #f0f0f0;}
 	
 	div.firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
 	div.firstStripeLeft small{font-size: .5em;}
-	div.secondStripeLeft{text-align: justify;padding-top:3em;line-height: 1.3em;}
+	div.secondStripeLeft{text-align: center;padding-top:2.3em;line-height: 1.3em;}
 	div.secondStripeLeft div.linkScopri{float: right;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
 	div.secondStripeLeft div a.linkHome{line-height: 2em;color:#fff;}
 	div.secondStripeLeft div a.linkHome:hover {text-decoration: underline;cursor: pointer;}
+	div.secondStripeLeft .titoloGraficoCup {font-size: 1.4em; text-align: right; padding-right:30px;}
 	
 	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
 	div.summary ul li span{color: #1f4e78;}
@@ -58,6 +74,11 @@
 	div.summary ul li.sumImporto rect:first-of-type {fill: #d9d9d9;}
 	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #1f4e78;}
 	
+	div.summary ul li.graficoCup {text-align:right; padding-right:30px;}
+	div.summary ul li.graficoCup small{font-size: 1em;}
+	div.summary ul li div.borderProgettiTotali {border-bottom: 1px solid; padding-top:10px;}
+	div.summary ul li div.costo {font-size: 2em; }
+	div.summary ul li div.borderProgettiTotali {border-bottom: 1px solid #1f4e78; padding-top:10px;}
 	
 	#rulloLoc{padding-bottom: 1em;}
 	#rulloLoc .infiniteCarousel{background-color: #f0f0f0;height: 20em!important;}
@@ -166,34 +187,23 @@
 					 </div>
 				</div>
 				<div class="right secondStripeLeft w20">
+					<div class="titoloGraficoCup">Lavori Pubblici</div>
 					<div class="summary">
 						<ul>
-							<li class="sumVolume w100">
-								<div>
-									<div class="right">
-										<small>Progetti</small>
-										<div><fmt:formatNumber value="${numeProgettiTotaliClass}" type="number" minIntegerDigits="0"/></div>
-									</div>
-									<div class="borderProgettiTotali"></div>
-								</div>
+							<li class="graficoCup">
+								<small>Progetti</small>
+								<div class="costo"><fmt:formatNumber value="${numeProgettiTotaliClass}" type="number" minIntegerDigits="0"/></div>
+								<div class="borderProgettiTotali"></div>
 							</li>
-							<li class="sumCosto w100">
-								<div>
-									<div class="right">
-										<small>Costo</small>
-										<div><fmt:formatNumber value="${impoCostoProgetti}" type="number" minIntegerDigits="0"/></div>
-									</div>
-									<div class="borderProgettiTotali"></div>
-								</div>
+							<li class="graficoCup">
+								<small>Costo</small>
+								<div class="costo"><span id="impoCostoProgetti"></span></div>
+								<div class="borderProgettiTotali"></div>
 							</li>
-							<li class="sumImporto w100">
-								<div>
-									<div class="rigth">
-										<small>Finanziamento pubblico</small>
-										<div><fmt:formatNumber value="${importoFinanziato}" type="number" minIntegerDigits="0"/></div>
-									</div>
-									<div class="borderProgettiTotali"></div>
-								</div>
+							<li class="graficoCup">
+								<small>Finanziamento pubblico</small>
+								<div class="costo"><span id="importoFinanziato"></span></div>
+								<div class="borderProgettiTotali"></div>
 							</li>
 						</ul>
 					
@@ -229,22 +239,101 @@
 		
 </div>
 
-<div class="clear"></div>
+<!-- <div class="clear"></div>
 
 	<div class="stripe" id="rulloClass">
 		<ul id="classCarousel" style="max-height: 20em;list-style: none;display: inline;" class="span12">
 		</ul>
-	</div>
+	</div> -->
 
 
+
+<!-- <div class="row chart-div">
+						<div class="span5 offset1" id="chartLegendPie"></div>
+						<div class="span6" id="histogramChartPie"></div>
+</div> -->
 
 <div class="clear"></div>
 
-	<div class="stripe" id="rulloLoc">
+<div class="row" style="height:24em;">
+
+	<div class="span4 chart-div" style="border-top:0.5em solid #0084b0; padding-top:1em;">
+		<div class="left" style="margin-left:0.5em;">
+			<i class="icon-sitemap right" style="font-size:1.5em; border:0.25em solid #0084b0;color:#0084b0; border-radius:50%; padding: .25em;"></i>
+		</div>
+		<div style="margin-left:4em;">
+			<span style="font-size: 2em; color: #0084b0">Classificazione</span><br/><span style="font-size: 1em; color: #0084b0">Numero Progetti</span></div>
+		<div style="margin-top:2em;">
+			<div class="span6" id="chartLegendClassificazione"></div>
+			<div class="span6" id="histogramClassificazione"></div>
+		</div>
+	</div> 
+	
+	<div class="span4 chart-div" style="border-top:0.5em solid #00b0f0; padding-top:1em;">
+		<div class="left">
+			<i class="icon-globe right" style="font-size:1.5em; border:0.25em solid #00b0f0;color:#00b0f0; border-radius:50%; padding: .25em;"></i>
+		</div>
+		<div style="margin-left:4em;">
+			<span style="font-size: 2em; color: #00b0f0">Localizzazione</span><br/><span style="font-size: 1em; color: #00b0f0">Numero Progetti</span></div>
+		<div style="margin-top:2em;">
+			<div class="span6" id="chartLegendLocalizzazione"></div>
+			<div class="span6" id="histogramLocalizzazione"></div>
+		</div>
+	</div> 
+
+	<div class="span4 chart-div" style="border-top:0.5em solid #86c5fc; padding-top:1em;">
+		<div class="left">
+			<i class="icon-user right" style="font-size:1.5em; border:0.25em solid #86c5fc;color:#86c5fc; border-radius:50%; padding: .25em;"></i>
+		</div>
+		<div style="margin-left:4em;">
+			<span style="font-size: 2em; color: #86c5fc">Soggetto</span><br/><span style="font-size: 1em; color: #86c5fc">Numero Progetti</span></div>
+		<div style="margin-top:2em;">
+			<div class="span4" id="chartLegendSoggetto"></div>
+			<div class="span6 offset2" id="histogramSoggetto"></div>
+		</div>
+	</div> 
+	
+</div>
+	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
+		<div class="offset3 span2">
+			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					PROGETTI
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "VOLUME"}'>
+				<div class="arrow-down-volume"></div>
+			</c:if>
+		</div>
+		<div class="span2">	
+			<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					COSTO
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "COSTO"}'>
+				<div class="arrow-down-costo"></div>
+			</c:if>
+		</div>
+		<div class="span2">	
+			<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+				<aui:a href="#" onClick="return false" cssClass="block">
+					IMPORTO
+				</aui:a>
+			</div>
+			<c:if test='${pattern eq "IMPORTO"}'>
+				<div class="arrow-down-importo"></div>
+			</c:if>
+		</div>
+		<div class="clear"></div>
+	
+	</div>	
+
+<!-- 	<div class="stripe" id="rulloLoc">
 		<ul id="locCarousel" style="max-height: 20em;list-style: none;display: inline;" class="span12">
 		</ul>
 
-	</div>
+	</div> -->
 
 
 </div>
@@ -310,7 +399,7 @@
 
 		
 		
-AUI().use('get', function(A){
+/* AUI().use('get', function(A){
    A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
        	onSuccess: function(){
        		A.Get.script('${jsFolder}/bootstrap.min.js', {
@@ -326,10 +415,10 @@ AUI().use('get', function(A){
                             	// esegue il redraw al resize
 								d3.selectAll("li.sumImporto").select("div").select("svg").selectAll("rect").remove();
 								drawFinBar();
-								d3.selectAll("#rulloClass").selectAll("div").remove();
+ 								d3.selectAll("#rulloClass").selectAll("div").remove();
 								d3.selectAll("#rulloClass").append("ul").attr("id","classCarousel");
 								drawRulloClassificazione();
-								d3.selectAll("#rulloLoc").selectAll("div").remove();
+ 								d3.selectAll("#rulloLoc").selectAll("div").remove();
 								d3.selectAll("#rulloLoc").append("ul").attr("id","locCarousel");
 								drawRulloLocalizzazione();	
                         		caricaRulli();	
@@ -353,7 +442,7 @@ AUI().use('get', function(A){
                             		autoHideCaptions: false,
                             	});
                             	
-                            	$('#classCarousel').infiniteCarousel({            
+                             	$('#classCarousel').infiniteCarousel({            
                             		transitionSpeed:600,
                             		displayTime: 6000,
 				                    heightSource: 180,
@@ -380,21 +469,27 @@ AUI().use('get', function(A){
 	 		});
       	}
 	 });
-});
+}); */
 
 
-// d3
+var tipoAggregazioneSoggetto = '${pattern}';
+
+var textColor = "#1f4e78";
+
 
 // formatta importi
 
 d3.selectAll("#costoTotale").text(nFormatterBar("${impoCostoProgettiClass}")+"\u20ac");
 d3.selectAll("#importoTotale").text(nFormatterBar("${impoImportoFinanziatoClass}")+"\u20ac");
 
+d3.selectAll("#impoCostoProgetti").text(nFormatterBar("${impoCostoProgetti}")+"\u20ac");
+d3.selectAll("#importoFinanziato").text(nFormatterBar("${importoFinanziato}")+"\u20ac");
 
 
-drawFinBar();
-drawRulloClassificazione();
-drawRulloLocalizzazione();
+
+/* drawFinBar(); */
+/* drawRulloClassificazione(); */
+/* drawRulloLocalizzazione(); */
 
 function drawFinBar(){
 	// barra importo finanziato
@@ -409,7 +504,7 @@ function drawFinBar(){
 }
 
 
-function drawRulloClassificazione(){
+/* function drawRulloClassificazione(){
 	// rullo classificazione
 	var calculatedJsonClass=eval('('+'${jsonResultClassificazione}'+')');
 	var containerWClass=d3.select("#rulloClass")[0][0].clientWidth;
@@ -485,10 +580,10 @@ function drawRulloClassificazione(){
 	.style("width",(singleElMwClass*5)+"px")
 	.html("<span class=\'left pubblico\'><small>Pubblico</small>"
 		+"</span><span class=\'right privato\'><small>Privato</small></span>");
-}
+} */
 
 
-function drawRulloLocalizzazione(){
+/* function drawRulloLocalizzazione(){
 	
 	// rullo localizzazione
 	var calculatedJson=eval('('+'${jsonResultLocalizzazione}'+')');
@@ -568,20 +663,20 @@ function drawRulloLocalizzazione(){
      .append("p")
      .html('<small>Finanziamenti Pubblici</small>');
 
-}	
+}	 */
 	
 
 function nFormatter(num) {
-     if (num >= 1000000000) {
-        return'<strong>'+ (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld </strong><small>&euro;</small>';
-     }
-     if (num >= 1000000) {
-        return '<strong>'+ (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
-     }
-     if (num >= 1000) {
-        return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small>progetti</small>';
-     }
-     return num;
+    if (num >= 1000000000) {
+       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
+    }
+    if (num >= 1000000) {
+       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
+    }
+    if (num >= 1000) {
+       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
+    }
+    return num;
 }
 
 function nFormatterBar(num){
@@ -597,6 +692,181 @@ function nFormatterBar(num){
      return num;
 
 }
+
+function drawLegend(divLegend, legendName, dataSet){
+	
+	var widthTotal = 10;
+	var heightLegend = 40; 
+	var gapBetweenGroups = 30;
+	var legendBulletOffset = 30;
+	var legendTextOffset = 20;
+	var textVerticalSpace = 20;
+
+	var width_svg = d3.select(divLegend).node().getBoundingClientRect().width;
+	
+	var canvas = d3.select(divLegend).append("svg:svg")
+	    .attr("width", width_svg)
+	    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
+		
+	
+//	var colorScale = d3.scale.ordinal().range(segments);
+	
+	// Plot the bullet circles...
+/* 	canvas.selectAll("circle")
+	.data(dataSet)
+	.enter()
+	.append("svg:circle") // Append circle elements
+	
+	.attr("cx", widthTotal)
+	.attr("cy", function(d, i) { 
+		return gapBetweenGroups + (heightLegend * i);
+	})
+		
+	.attr("stroke-width", ".5").style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
+	.attr("r", 5).attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
+	.attr("class", function(d, i) { 
+		retval = "legend-" + legendName + "-legendBullet-index-" + i;
+		return retval;
+	 }); */
+	
+	
+	// Create hyper linked text at right that acts as label key...
+    canvas.selectAll(".legend_link")
+	.data(dataSet) // Instruct to bind dataSet to text elements
+	.enter()
+	.append("text")
+	.attr("text-anchor", "center")
+	.attr("x", widthTotal)
+	.attr("y", function(d, i) { 
+		return gapBetweenGroups + (heightLegend*i);
+	})
+	.attr("dx", 0)
+    .attr("dy", "5px") // Controls padding to place text in alignment with bullets
+    .text(function(d) { return (d.label).trunc(36, true); })
+    .attr("color_value", function(d, i) { return "#0084b0"; }) // Bar fill color...
+    
+	.attr("class", function(d, i) { 
+		retval = "label legend-" + legendName + "-legendText-index-" + i;
+		return retval;
+	 })
+    .style("fill", textColor)
+    .style("font-size", "1em") 
+    .append("title")
+    .text(function(d) { return d.label; });
+	
+};
+
+function drawBar(chartName, histogramName, dataSet) {
+	
+	var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
+	
+	var chartWidth       = (width_div_chart / 100 * 50);
+	
+	var barHeight        = 40, //220 / dataSet.length, //310
+	    gapBetweenGroups = 30,
+	    spaceForLabels   = width_div_chart - chartWidth;
+
+	// Zip the series data together (first values, second values, etc.)
+	var zippedData = [];
+	for (var i=0; i<dataSet.length; i++) {
+	   zippedData.push(dataSet[i].value); 
+	}
+
+	var chartHeight = barHeight * zippedData.length + (gapBetweenGroups * 2);
+
+	var x = d3.scale.linear().domain([0, d3.max(zippedData)]).range([0, chartWidth]);
+
+	var y = d3.scale.linear().range([chartHeight + gapBetweenGroups, 0]);
+
+	var yAxis = d3.svg.axis()
+	    .scale(y)
+	    .tickFormat('')
+	    .tickSize(0)
+	    .orient("left");
+
+	// Specify the chart area and dimensions
+	
+	var chart = d3.select(chartName).append("svg:svg")
+	    .attr("width", spaceForLabels + chartWidth)
+	    .attr("height", chartHeight);
+
+	// Create bars
+	var bar = chart.selectAll("g")
+	    .data(zippedData)
+	    .enter()
+		.append("g")
+	    .attr("color_value", function(d, i) { return "#0084b0"; }) // Bar fill color...
+		
+		.attr("class", function(d, i) { 
+			retval = "";
+			return retval;
+		 })
+		
+		.attr("transform", function(d, i) {
+	      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/dataSet.length))) + ")";
+	    });
+
+	// Create rectangles of the correct width
+	bar.append("rect")
+	    .attr("fill", function(d,i) { return "#0084b0" })
+		.attr("class", function(d, i) { return "bar histogram-" + histogramName + "-arc-index-" + i; })
+	    .attr("width", x)
+	    .attr("height", barHeight - 10);
+
+	
+	// Draw labels
+	bar.append("text")
+	   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
+	   .attr("x", 
+			function(d, i) { 
+				var delta = 60;
+				if(nFormatter( d ).length > 6){
+					delta = nFormatter( d ).length * 10
+				}
+				return - delta; 
+		})
+	   .attr("y", (barHeight-10) / 2)
+	   .attr("dy", ".25em")
+	   .style("fill", textColor)
+	   .style("font-size", "1em")
+	   .text(function(d, i) { 
+			return nFormatter(dataSet[i].value);
+		});
+};
+
+String.prototype.trunc =
+    function(n,useWordBoundary){
+        var toLong = this.length>n,
+        s_ = toLong ? this.substr(0,n-1) : this;
+        s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+        //return  toLong ? s_ + '&hellip;' : s_;
+        return  toLong ? s_ + '...' : s_;
+     };
+
+var dataSet = ${aggregatiClassificazione};
+var dataSet1 = eval( dataSet );
+
+legend = drawLegend("#chartLegendClassificazione", "LegendClassificazione", dataSet1);
+
+bar = drawBar("#histogramClassificazione", "HistogramClassificazione", dataSet1);
+
+
+// *** SECONDO GRAFICO ***//
+var dataSet1 = ${aggregatiLocalizzazione};
+var dataSet2 = eval( dataSet1 );
+
+legend1 = drawLegend("#chartLegendLocalizzazione", "LegendLocalizzazione", dataSet2);
+
+bar1 = drawBar("#histogramLocalizzazione", "HistogramLocalizzazione", dataSet2);
+
+//*** TERZO GRAFICO ***//
+var dataSet2 = ${aggregatiSoggetto};
+var dataSet3 = eval( dataSet2 );
+
+legend2 = drawLegend("#chartLegendSoggetto", "LegendSoggetto", dataSet3);
+
+bar2 = drawBar("#histogramSoggetto", "HistogramSoggetto", dataSet3);
+
 
 
 
