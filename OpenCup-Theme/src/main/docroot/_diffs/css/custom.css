@@ -11,14 +11,14 @@
 */
 
 @font-face {
-  font-family: 'OpenSans-Regular';
+  font-family: 'levenim-mt';
   font-style: normal;
   font-weight: 400;
-  src: local('OpenSans-Regular'), url(font/OpenSans-Regular.ttf) format('truetype');
+  src: local('levenim-mt'), url(font/ufonts.com_levenim-mt.ttf) format('truetype');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-* {font-family: 'OpenSans-Regular';}
+* {font-family: 'levenim-mt';}
 
 .no,.display_none { position: absolute!important; top: -10000em!important; width: 0px!important; height: 0px!important; overflow: hidden!important; }
 
@@ -46,7 +46,7 @@ div.portlet-layout.row-fluid{background-color: #fff!important;}
 
 .aui h2 div div ul#topLinks{padding-top: 0.2em;}
 
-.aui h2 div div ul#topLinks li{display: inline-block; width:19%!important; text-align: center; height: inherit; vertical-align: top;}
+.aui h2 div div ul#topLinks li{display: inline-block; width:18%!important; text-align: center; height: inherit; vertical-align: top;}
 
 .aui h2 div div ul#topLinks li div{height:inherit;}
 
@@ -132,7 +132,14 @@ div#searchBar button{background:#fff;border: none; color: #1f4e78;box-shadow:NON
 
 #footer ul#main-footer-list li ul.inner-sublist-footer li a{color: #1f4e78;}
 
-.aui .breadcrumb {line-height: 2em!important; background-color: #f0f0f0!important; margin: 0px; font-size: 0.9em;}
+.aui .breadcrumb {
+	line-height: 2em!important; 
+	background-color: #f0f0f0!important; 
+	margin: 0px; 
+	font-size: 0.8em;
+	font-weight: bold;
+	padding: 4px 15px;
+}
 
 .aui .breadcrumb  li{text-shadow: none!important;}
 

@@ -34,17 +34,19 @@ Progetto progetti = (Progetto)row.getObject();
 <div>
 
 	<div>
-		<p>
+		<p style="font-size: 1.2em;">
 			<a href="${linkURLdettaglioprogetto}" class="link-url-dettaglio">
 			<strong><%= progetti.getAnagraficaCup().getDescCup() %></strong></a>
 		</p>
 	</div>
 	
 	<div>
-		<p>
-			<span>CUP: <%= progetti.getAnagraficaCup().getCodiCup() %></span>
+		<p style="font-size: 1.2em;">
+			<span>CUP: <strong><%= progetti.getAnagraficaCup().getCodiCup() %></strong></span>
 		</p>
 	</div>
+	
+	<hr style="background-color: #1f4e78; width: 75%; height:2px">
 	
 	<div>
 		<p>

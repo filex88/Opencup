@@ -13,7 +13,7 @@
 
 <c:if test="${ configSoggetto.mostraPulsanti }">
 	<div class="stripe">	
-		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
+		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 10px;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">

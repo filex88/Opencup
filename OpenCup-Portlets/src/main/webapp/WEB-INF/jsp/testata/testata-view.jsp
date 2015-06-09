@@ -13,7 +13,8 @@
 
 <style>
 	
-	div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
+	div.stripe{	background: #fff; border-bottom:.5em solid #f0f0f0;}
+	div.stripeTestata{background: #fff;}
 	
 	#conteiner{padding-bottom: 0.5em;}
 	#conteiner2{padding-bottom: 0.5em; display: inline-block;}
@@ -23,7 +24,7 @@
 	#conteiner div.ic_tray:first-child{margin-left: -6px!important;}
 	#conteiner div.ic_tray:last-child{margin-left: -6px!important;}
 	#conteiner div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
-	#conteiner div.titolo p{padding:0.5em; font-size:1.6em; color:#1f4e78;}
+	#conteiner div.titolo p{padding-top:0.5em; padding-left:0.5em; font-size:1.6em; color:#1f4e78; margin:0 0 5px;}
 	#conteiner .firstLoc{ padding-top:0.8em; padding-left:1em; color:#1f4e78; font-size:2em; white-space: nowrap;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
 	#conteiner .classchart rect:first-of-type {fill: #d9d9d9;}
@@ -124,7 +125,7 @@
 	
 </style>
 
-<div class="stripe">
+<div class="stripeTestata">
 	<div style="height: auto; border-left: 5px solid #1f4e78; overflow: auto;">
 		
 		<div class="row" id="conteiner" >
@@ -157,7 +158,7 @@
 				</div>
 			</div>
 			
-			<div class="span3">
+			<div class="span3" style="margin-left: 0px">
 				<div>
 					<div class="span8 trend_chart_testata_anni" id="trend_chart_testata_anni" style="margin-left: 0px; min-height: 152px"></div>
 					<div class="span4 trend_chart_testata_anni_legend" id="trend_chart_testata_anni_legend" style="margin-left: 0px;">
@@ -170,7 +171,7 @@
 											<rect width="10" height="2" fill="#1f4e78"></rect>
 										</svg>
 									</td>
-									<td class="legendLabel">Costo<br>previsto</td>
+									<td class="legendLabel">Costo previsto</td>
 								</tr>
 								<tr>
 									<td width="10" style="vertical-align: inherit">
@@ -178,7 +179,7 @@
 											<rect width="10" height="10" fill="#b2c6ff"></rect>
 										</svg>
 									</td>
-									<td class="legendLabel">Finanziamento<br>pubblico previsto</td>
+									<td class="legendLabel">Finanziamento pubblico previsto</td>
 								</tr>
 							</tbody>
 						</table>
@@ -200,13 +201,13 @@
 
 	function nFormatter(num) {
 	    if (num >= 1000000000) {
-	       return'<strong>'+ (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld </strong><small>&euro;</small>';
+	       return'<strong>'+ (num / 1000000000).toFixed(1).replace(/\.0$/, '') + '</strong><small> Mld &euro;</small>';
 	    }
 	    if (num >= 1000000) {
 	       return '<strong>'+ (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
 	    }
 	    if (num >= 1000) {
-	       return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small>progetti</small>';
+	       return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small style="font-size: .5em;">progetti</small>';
 	    }
 	    return num;
 	}
@@ -717,4 +718,16 @@
 	
 	drawTrendTestataAnni("trend_svg_testata_anni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
 
+	
+	d3.selectAll(".divider").each(
+			function(){
+				var c=d3.select(this).node().parentNode;
+				d3.select(c)
+					.style("font-weight","bold")
+					.append("i")
+					.attr("class","icon-caret-right")
+					.attr("style","padding: 0 5px");
+			
+					d3.select(c).select("span").remove();
+			});
 </script>

@@ -16,6 +16,7 @@
 	
 	valign-top {
 		vertical-align: top !important;
+		padding-top: 25px;
 	}
 	
 	.bordo {
@@ -34,11 +35,11 @@
 	}
 	
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-costo{
-		border-bottom:  solid 5px #f08c00 !important;
+		border-bottom:  solid 5px #499652 !important;
 	}
 	
 	#_elencoprogettiportlet_WAR_OpenCupPortletsportlet_progettosSearchContainer_col-aggregato-importo{
-		border-bottom:  solid 5px #499652 !important;
+		border-bottom:  solid 5px #7ade87 !important;
 	}
 	
 	div.titolo p{padding:1em;font-size:18pt;color:#1f4e78;}
@@ -46,11 +47,11 @@
 
 	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
 	div.summary ul li span{color: #1f4e78;}
-	div.summary ul li.sumVolume svg {height: .8em; background-color: #7ade87;}
-	div.summary ul li.sumCosto svg {height: .8em; background-color: #f08c00;}
+	div.summary ul li.sumVolume svg {height: .8em; background-color: #f08c00;}
+	div.summary ul li.sumCosto svg {height: .8em; background-color: #499652;}
 	div.summary ul li.sumImporto svg {height: .8em;}
 	div.summary ul li.sumImporto rect:first-of-type {fill: #d9d9d9;}
-	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #499652;}
+	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #7ade87;}
 	
 	div.my-toggler-affina-ricerca-elenco-progetti,
 	div.toggler-content-wrapper,
@@ -79,12 +80,13 @@
 	
 	.aui .table th{
 		color: #1f4e78;
-		border-top: none !important;
+		border-top: 0px solid #ddd !important;
 	}
 	
 	.aui .table td{
 		color: #1f4e78;
-		border-bottom: .5em solid #f0f0f0 !important;
+		border-bottom: 10px solid #f0f0f0 !important;
+		border-top: 0px solid #ddd !important;
 	}
 	
 	.aui a{
@@ -102,18 +104,38 @@
 		padding-left: 0px;
 	}
 	
+	.w100{
+		width: 100%;
+	}
+	
+	.w75{
+		width: 75%;
+	}
+	
 	.w50{
 		width: 50%;
 	}
 	
-	.w25{
-		width: 25%;
+	.w23{
+		width: 23%;
+	}
+	
+	.w2{
+		width: 2%;
 	}
 	
 	.centra-testo{
 		text-align: center !important;
 	}
 	
+	.sumVolume, .sumCosto, .sumImporto{
+		text-align: center !important;
+	}
+	
+	.impo{
+		font-size: 1.6em;
+		font-weight: bold;
+	}
 	
 </style>
 
@@ -159,11 +181,11 @@
 						</div>
 					</li>
 					<li class="sumImporto w100">
-					<div>
-						<span class="left"><small>Finanziamento Pubblico Previsto</small></span>
-						<span class="right"><small id="importoTotale"></small></span>
-						<svg class="w100"></svg>
-					</div>
+						<div>
+							<span class="left"><small>Finanziamento Pubblico Previsto</small></span>
+							<span class="right"><small id="importoTotale"></small></span>
+							<svg class="w100"></svg>
+						</div>
 					</li>
 				</ul>
 				
@@ -181,7 +203,7 @@
 				<c:when test="${currentAction eq 'elencoProgetti'}">
 					<div class="header-elenco-progetti toggler-header-collapsed" style="float: right; height: 0px;padding-right: 40px;">
 						<div id="affina-ricerca" class="affina-ricerca-div affina-ricerca cursor-pointer">
-							AFFINA LA RICERCA
+							FILTRI DI RICERCA
 							<span>
 								<i class="icon-filter"> 
 									<c:if test="${ navigaProgetti.countAffRicerca != null }">
@@ -217,12 +239,14 @@
 					id="ricerca-form" 
 					cssClass="form-horizontal ricerca-form">	
 				
-					<div>
+					<div style="color: #004383">
+						<%-- 
 						<c:if test="${currentAction eq 'elencoProgetti'}">
 							<div>
 					           	<span><strong>Filtri di ricerca <i class='icon-filter'></i></strong></span>
 					       	</div>
 						</c:if>
+						--%>
 				       	<div>
 				       		<div class="span6">
 				       		
@@ -254,7 +278,7 @@
 														<aui:option value="${areaIntervento.id}" label="${areaIntervento.descAreaIntervento}" selected="${navigaProgetti.idAreaIntervento == areaIntervento.id}"/>
 													</c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoAreaIntervento" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoAreaIntervento" style="cursor: pointer;"></i> --%>
 											</div>
 										</div>
 										
@@ -267,7 +291,7 @@
 														<aui:option value="${sottosettoreIntervento.id}" label="${sottosettoreIntervento.descSottosettoreInt}" selected="${navigaProgetti.idSottosettoreIntervento == sottosettoreIntervento.id}"/>
 													</c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoSottosettoreIntervento" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoSottosettoreIntervento" style="cursor: pointer;"></i>--%>
 											</div>
 										</div>
 										
@@ -280,7 +304,7 @@
 														<aui:option value="${categoria.id}" label="${categoria.descCategoriaIntervento}" selected="${navigaProgetti.idCategoriaIntervento == categoria.id}"/>
 													</c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoCategoriaIntervento" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoCategoriaIntervento" style="cursor: pointer;"></i>--%>
 											</div>
 										</div>	
 									
@@ -301,7 +325,7 @@
 									            <aui:option value="${areasoggetto.id}" label="${areasoggetto.descAreaSoggetto}" selected="${navigaProgetti.idAreaSoggetto == areasoggetto.id}"/>
 									        </c:forEach>
 										</aui:select>
-										<i class="icon-remove-circle pulisciElementoAreaSoggetto" style="cursor: pointer;"></i>
+										<%-- <i class="icon-remove-circle pulisciElementoAreaSoggetto" style="cursor: pointer;"></i>--%>
 									</div>
 								</div>
 							
@@ -314,7 +338,7 @@
 									            <aui:option value="${categoriasoggetto.id}" label="${categoriasoggetto.descCategoriaSoggetto}" selected="${navigaProgetti.idCategoriaSoggetto == categoriasoggetto.id}"/>
 									        </c:forEach>
 										</aui:select>
-										<i class="icon-remove-circle pulisciElementoCategoriaSoggetto" style="cursor: pointer;"></i>
+										<%-- <i class="icon-remove-circle pulisciElementoCategoriaSoggetto" style="cursor: pointer;"></i>--%>
 									</div>
 								</div>
 								
@@ -327,7 +351,7 @@
 									            <aui:option value="${sottoCategoriaSoggetto.id}" label="${sottoCategoriaSoggetto.descSottocategSoggetto}" selected="${navigaProgetti.idSottoCategoriaSoggetto == sottoCategoriaSoggetto.id}"/>
 									        </c:forEach>
 										</aui:select>
-										<i class="icon-remove-circle pulisciElementoSottoCategoriaSoggetto" style="cursor: pointer;"></i>
+										<%-- <i class="icon-remove-circle pulisciElementoSottoCategoriaSoggetto" style="cursor: pointer;"></i>--%>
 									</div>
 								</div>
 								
@@ -340,7 +364,7 @@
 									            <aui:option value="${tipologiaintervento.id}" label="${tipologiaintervento.descTipologiaIntervento}" selected="${navigaProgetti.idTipologiaIntervento == tipologiaintervento.id}"/>
 									        </c:forEach>
 										</aui:select>
-										<i class="icon-remove-circle pulisciElementoTipologia" style="cursor: pointer;"></i>
+										<%-- <i class="icon-remove-circle pulisciElementoTipologia" style="cursor: pointer;"></i>--%>
 									</div>
 								</div>
 					
@@ -353,7 +377,7 @@
 									            <aui:option value="${statoprogetto.id}" label="${statoprogetto.descStatoProgetto}" selected="${navigaProgetti.idStatoProgetto == statoprogetto.id}"/>
 									        </c:forEach>
 										</aui:select>
-										<i class="icon-remove-circle pulisciElementoStatoprogetto" style="cursor: pointer;"></i>
+										<%-- <i class="icon-remove-circle pulisciElementoStatoprogetto" style="cursor: pointer;"></i>--%>
 									</div>
 								</div>
 								
@@ -393,7 +417,7 @@
 											            <aui:option value="${areaGeografica.id}" label="${areaGeografica.descAreaGeografica}" selected="${navigaProgetti.idAreaGeografica == areaGeografica.id}"/>
 											        </c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoAreaGeografica" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoAreaGeografica" style="cursor: pointer;"></i>--%>
 											</div>
 										</div>
 										 
@@ -406,7 +430,7 @@
 											            <aui:option value="${regione.id}" label="${regione.descRegione}" selected="${navigaProgetti.idRegione == regione.id}"/>
 											        </c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoRegione" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoRegione" style="cursor: pointer;"></i>--%>
 											</div>
 										</div>
 										
@@ -419,7 +443,7 @@
 											            <aui:option value="${provincia.id}" label="${provincia.descProvincia}" selected="${navigaProgetti.idProvincia == provincia.id}"/>
 											        </c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoProvincia" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoProvincia" style="cursor: pointer;"></i>--%>
 											</div>
 										</div>
 										
@@ -432,7 +456,7 @@
 											            <aui:option value="${comune.id}" label="${comune.descComune}" selected="${navigaProgetti.idComune == comune.id}"/>
 											        </c:forEach>
 												</aui:select>
-												<i class="icon-remove-circle pulisciElementoComune" style="cursor: pointer;"></i>
+												<%-- <i class="icon-remove-circle pulisciElementoComune" style="cursor: pointer;"></i>--%>
 											</div>
 										</div>
 									
@@ -463,7 +487,7 @@
 									        </c:forEach>
 									        
 										</aui:select>
-										<i class="icon-remove-circle pulisciElementoAnno" style="cursor: pointer;"></i>
+										<%-- <i class="icon-remove-circle pulisciElementoAnno" style="cursor: pointer;"></i>--%>
 									</div>
 								</div>
 								
@@ -505,18 +529,26 @@
 			
 					<liferay-ui:search-container-column-jsp cssClass="w50" path="/WEB-INF/jsp/progetti/riga-elenco-progetti.jsp" />		
 					
-					<liferay-ui:search-container-column-text cssClass="valign-top w25 centra-testo" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
+					<liferay-ui:search-container-column-text cssClass="w2">
+						&nbsp;
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text cssClass="valign-top w23 centra-testo impo" name="aggregato-costo" orderableProperty="impoCostoProgetto" orderable="true">
 						<%-- 
 						<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/></span>
 						--%>
-						<fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="2" minFractionDigits="2"/>
+						<fmt:formatNumber value="${progetti.impoCostoProgetto}" type="currency" minIntegerDigits="1" maxFractionDigits="0" minFractionDigits="0"/>
 					</liferay-ui:search-container-column-text>
 					
-					<liferay-ui:search-container-column-text cssClass="valign-top w25 centra-testo" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
+					<liferay-ui:search-container-column-text cssClass="w2">
+						&nbsp;
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text cssClass="valign-top w23 centra-testo impo" name="aggregato-importo" orderableProperty="impoImportoFinanziato" orderable="true">
 						<%-- 
 						<span class="pull-right colonne-block"><fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/></span>
 						--%>
-						<fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="2" minFractionDigits="2"/>
+						<fmt:formatNumber value="${progetti.impoImportoFinanziato}" type="currency" minIntegerDigits="1"  maxFractionDigits="0" minFractionDigits="0"/>
 					</liferay-ui:search-container-column-text>
 				
 				</liferay-ui:search-container-row>

@@ -297,7 +297,7 @@
 }
 
 .dettaglio-progetto-portlet .dett-value {
-	font-style: italic;
+	font-style: normal;
 	color: #1f4e78 !important;
 	text-align: right;
 }
@@ -969,7 +969,8 @@ div.celle_dati_sitesi{
 
 div.stripe{
 	background: #fff;
-	border-bottom:.5em solid #f0f0f0;}
+	border-bottom:.5em solid #f0f0f0;
+}
 
 div.titoloClassificazione,
 div.titoloLocalizzazione,
