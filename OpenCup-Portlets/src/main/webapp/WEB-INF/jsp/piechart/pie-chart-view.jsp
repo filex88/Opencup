@@ -12,7 +12,7 @@
 	
 <c:if test="${ config.mostraPulsanti }">
 	<div class="stripe">
-		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
+		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 10px;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">
@@ -90,7 +90,7 @@
 						</div>
 					</div>
 					<div class="row chart-div">
-						<div class="span5 offset1" id="chartLegendPie"></div>
+						<div class="span6" id="chartLegendPie"></div>
 						<div class="span6" id="histogramChartPie"></div>
 					</div>
 				</div>
@@ -458,9 +458,9 @@
 			}
 			return retval;
 		 })
-		.style("fill", "White")
-		.style("font-size", "1.8em")
-		.text(function(d) { return (d.data.percentage) + "%"; })
+//		.style("fill", "White")
+//		.style("font-size", "1.8em")
+//		.text(function(d) { return (d.data.percentage) + "%"; })
 		.on('mouseover', synchronizedMouseOver)
 		.on("mouseout", synchronizedMouseOut);
 	
@@ -554,6 +554,7 @@
 		*/
 		
 		// Draw labels
+		
 		bar.append("text")
 		   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
 		   .attr("x", 
@@ -572,6 +573,7 @@
 		        //return dataSet[i].label; 
 				return nFormatter(dataSet[i].value);
 			});
+		
 	};
 	
 	function drawLegend(divLegend, legendName, dataSet){

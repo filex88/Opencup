@@ -14,12 +14,6 @@
 
 <fmt:setLocale value="it_IT"/>
 
-<style>
-<!--
-div.stripe{background: #fff;border-top:.5em solid #f0f0f0;}
--->
-</style>
-
 <div class="stripe">	
 
 	<a href="${linkallregioni}" >NAVIGA PER REGIONI</a>

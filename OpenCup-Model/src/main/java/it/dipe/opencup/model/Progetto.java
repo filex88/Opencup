@@ -131,7 +131,15 @@ public class Progetto extends AbstractCommonEntity implements Serializable {
 		return regioneProgetto;
 	}
 	
-	
+	public String getAreaGeografica(){
+		String areaGeografica = "";
+		for( CupLocalizzazione c : this.anagraficaCup.getCupLocalizzazioneList() ){
+			if( areaGeografica.toLowerCase().indexOf( c.getAreaGeografica().getDescAreaGeografica().toLowerCase() ) == -1 ){
+				areaGeografica = ( StringUtils.isEmpty(areaGeografica) )? c.getAreaGeografica().getDescAreaGeografica() : areaGeografica + ", " + c.getAreaGeografica().getDescAreaGeografica();
+			}
+		}
+		return areaGeografica;
+	}
 
 	public Integer getId() {
 		return id;
