@@ -538,7 +538,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		progetto.setAnnoDecisione(annodec);
 		AnagraficaCup ana = new AnagraficaCup();
 		ana.setDescCup(doc.get(Field.TITLE));
-		ana.setCodiCup( "" );
+		ana.setCodiCup( doc.get (Constants.RICERCALIBERA_FIELD_CODICE_CUP) );
 		progetto.setAnagraficaCup(ana);
 		progetto.setImpoCostoProgetto(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_COSTO)));
 		progetto.setImpoImportoFinanziato(Double.parseDouble(doc.get(Constants.RICERCALIBERA_FIELD_IMPORTO)));
