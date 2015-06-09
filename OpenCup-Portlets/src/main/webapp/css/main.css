@@ -553,7 +553,9 @@ div.celle_dati_sitesi{
 }
 */
 
-.classificazione-portlet1 .btn-carica-distribuzione{ 
+.classificazione-portlet1 .btn-carica-distribuzione,
+.home-page-portlet  .btn-carica-distribuzione
+{ 
     border-radius: 3px;
 }
 
@@ -561,7 +563,9 @@ div.celle_dati_sitesi{
     padding: 5px;
 }
 
-.classificazione-portlet1 .btn-carica-distribuzione .block{ 
+.classificazione-portlet1 .btn-carica-distribuzione .block,
+.home-page-portlet  .btn-carica-distribuzione .block
+{ 
     display:block;
     padding:16px; 
     border: 0px;  
@@ -855,6 +859,7 @@ div.celle_dati_sitesi{
 
 .soggetto-portlet .importo-color,
 .localizzazione-portlet0 .importo-color,
+.home-page-portlet .importo-color,
 .pie-chart-portlet .importo-color {
 	background-color:#7ade87;
 }
@@ -919,6 +924,8 @@ div.celle_dati_sitesi{
 .soggetto-portlet .importo-color a.block:focus,
 .localizzazione-portlet0 .importo-color a.block:hover,
 .localizzazione-portlet0 .importo-color a.block:focus,
+.home-page-portlet .importo-color a.block:hover,
+.home-page-portlet .importo-color a.block:focus,
 .pie-chart-portlet .importo-color a.block:hover,
 .pie-chart-portlet .importo-color a.block:focus {
 	background-color:#005500;
