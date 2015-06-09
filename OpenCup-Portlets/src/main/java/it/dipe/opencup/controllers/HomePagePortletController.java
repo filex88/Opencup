@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -139,6 +142,16 @@ public class HomePagePortletController {
 		return "homepage-view";
 		
 		
+	}
+	
+	@ActionMapping(params="action=cambiaAggregazione")
+	public void actionCambiaAggregazione(	ActionRequest aRequest, 
+									ActionResponse aResponse, 
+									Model model,
+									@RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
+		
+		aResponse.setRenderParameter("pattern", pattern);
+
 	}
 	
 	

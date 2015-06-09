@@ -50,21 +50,21 @@
 	div#approfondimenti-list div.allApprofondimentiLink a{color: #fff;line-height: 2em;}
 	div#approfondimenti-list div.allApprofondimentiLink a:hover{text-decoration: underline;}
 
-	div#noticeCarousel.carousel {height:18em;}
-	ol#noticeSpinner.carousel-indicators{padding-right: 40em;z-index: 0; padding-top:17em;}
+	div#noticeCarousel.carousel {height:18em; padding-top:3em;}
+	ol#noticeSpinner.carousel-indicators{padding-right: 40em;z-index: 0; padding-top:23em;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
 	ol#noticeSpinner li:hover{cursor: pointer;}
 	ol#noticeSpinner li.active{background-color:#0084b0;}
-	div#textHome {text-align: center; color: #1f4e78;}
-	div.stripe{background: #fff;height:20em;border-top:.5em solid #f0f0f0;}
+	div#textHome {text-align: center; color: #1f4e78; }
+	div.stripe{background: #fff;height:26em;border-top:.5em solid #f0f0f0;}
 	
-	div.firstStripeLeft{text-align: center;padding-top:1.5em;color:#1f4e78;font-size:3em;}
-	div.firstStripeLeft small{font-size: .5em;}
-	div.secondStripeLeft{text-align: center;padding-top:2.3em;line-height: 1.3em;}
+	div.firstStripeLeft{text-align: center;padding-top:2em;color:#1f4e78;font-size:3em;}
+	div.firstStripeLeft small{font-size: .5em; margin-bottom:1em;}
+	div.secondStripeLeft{text-align: left;padding-top:2.3em;line-height: 1.3em;}
 	div.secondStripeLeft div.linkScopri{float: right;height:2em;width:14em;text-align:center;text-transform: uppercase;background: #0084b0;}
 	div.secondStripeLeft div a.linkHome{line-height: 2em;color:#fff;}
 	div.secondStripeLeft div a.linkHome:hover {text-decoration: underline;cursor: pointer;}
-	div.secondStripeLeft .titoloGraficoCup {font-size: 1.4em; text-align: right; padding-right:30px;}
+	div.secondStripeLeft .titoloGraficoCup {font-size: 1.4em; text-align: right; padding-right:30px; margin-top:-1.5em;}
 	
 	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
 	div.summary ul li span{color: #1f4e78;}
@@ -77,7 +77,7 @@
 	div.summary ul li.graficoCup {text-align:right; padding-right:30px;}
 	div.summary ul li.graficoCup small{font-size: 1em;}
 	div.summary ul li div.borderProgettiTotali {border-bottom: 1px solid; padding-top:10px;}
-	div.summary ul li div.costo {font-size: 2em; }
+	div.summary ul li div.costo {font-size: 2em; padding-top:.5em; }
 	div.summary ul li div.borderProgettiTotali {border-bottom: 1px solid #1f4e78; padding-top:10px;}
 	
 	#rulloLoc{padding-bottom: 1em;}
@@ -121,45 +121,39 @@
 				<div  class="firstStripeLeft left w30">
 					OpenCUP<br/>
 							<br/>
-				<small>Ambito - Lavori Pubblici 1</small>
+				<small></small>
 				</div>
 				<div class="left secondStripeLeft w40">
 					<div>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
-					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
-					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+OpenCUP presenta per la prima volta in un'unica area web le decisioni di investimento pubblico programmate sul territorio nazionale relative a progetti di sviluppo finanziati con risorse pubbliche (comunitarie, nazionali, regionali, etc.) o private.
+<br /><br />
+In questo spazio ogni cittadino, istituzione od ente potr&agrave; conoscere con l'ausilio di mappe, filtri e infografica quali e quanti interventi di sviluppo sono stati programmati sul territorio, in quali settori, da quali soggetti e con quali costi e finanziamenti previsti, nonch&egrave; scaricare i relativi dati in formato Open Data. 
+
 					 </div>
 					 <br /><br />
-					 <div class="linkScopri">
-					 		<a class="linkHome" href="#">Approfondisci</a>
+					 <div style="color:#1f4e78; text-align:right;">
+					 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="#">Approfondisci >></a>
 
 					 </div>
 				</div>
-				<div class="right secondStripeLeft w20">
+				<div class="right secondStripeLeft w23">
+					<div class="titoloGraficoCup">Lavori Pubblici</div>
 					<div class="summary">
 						<ul>
-							<li class="sumVolume w100">
-								<div>
-									<span class="left"><small>Progetti censiti</small></span>
-									<span class="right"><small><fmt:formatNumber value="${numeProgettiClass}" type="number" minIntegerDigits="0"/></small></span>
-									<svg class="w100"></svg>
-								</div>
+							<li class="graficoCup">
+								<small>Progetti</small>
+								<div class="costo"><fmt:formatNumber value="${numeProgettiClass}" type="number" minIntegerDigits="0"/></div>
+								<div class="borderProgettiTotali"></div>
 							</li>
-							<li class="sumCosto w100">
-								<div>
-									<span class="left"><small>Costo</small></span>
-									<span class="right"><small id="costoTotale"></small></span>
-									<svg class="w100"></svg>
-								</div>
+							<li class="graficoCup">
+								<small>Costo Previsto</small>
+								<div class="costo"><span id="costoTotale"></span></div>
+								<div class="borderProgettiTotali"></div>
 							</li>
-							<li class="sumImporto w100">
-							<div>
-								<span class="left"><small>Finanziamento pubblico</small></span>
-								<span class="right"><small id="importoTotale"></small></span>
-								<svg class="w100"></svg>
-							</div>
+							<li class="graficoCup">
+								<small>Finanziamento pubblico previsto</small>
+								<div class="costo"><span id="importoTotale"></span></div>
+								<div class="borderProgettiTotali"></div>
 							</li>
 						</ul>
 					
@@ -170,24 +164,22 @@
 				<div  class="firstStripeLeft left w30">
 					CUP<br/>
 							<br/>
-				<small>Ambito - Lavori Pubblici 2</small>
+				<small></small>
 				</div>
 				<div class="left secondStripeLeft w40">
 					<div>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
-					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
-					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Il CUP, Codice Unico di Progetto, identifica univocamente un progetto di investimento pubblico ed &egrave; composto da una stringa alfanumerica di 15 caratteri: va richiesto al momento della decisione di realizzare tale progetto, non varia e deve essere utilizzato fino alla chiusura dello stesso.<br/><br/>
+Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'investimento pubblico" e permette la rilevazione dei dati per il  Sistema di Monitoraggio degli Investimenti Pubblici MIP. Il CUP &egrave; poi utilizzato quale strumento a supporto della tracciabilit&agrave; dei flussi finanziari prevista dalla legge 136/2010 s.m.i. e del Monitoraggio finanziario "Grandi Opere" ai fini anti criminalit&agrave; organizzata. 
+
 					 </div>
 					 <br /><br />
-					 <div class="linkScopri">
-					 		<a class="linkHome" href="#">Approfondisci</a>
+					 <div style="color:#1f4e78; text-align:right;">
+					 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="#">Approfondisci >></a>
 
 					 </div>
 				</div>
-				<div class="right secondStripeLeft w20">
-					<div class="titoloGraficoCup">Lavori Pubblici</div>
+				<div class="right secondStripeLeft w23">
+					<div class="titoloGraficoCup"></div>
 					<div class="summary">
 						<ul>
 							<li class="graficoCup">
@@ -196,12 +188,12 @@
 								<div class="borderProgettiTotali"></div>
 							</li>
 							<li class="graficoCup">
-								<small>Costo</small>
+								<small>Costo Previsto</small>
 								<div class="costo"><span id="impoCostoProgetti"></span></div>
 								<div class="borderProgettiTotali"></div>
 							</li>
 							<li class="graficoCup">
-								<small>Finanziamento pubblico</small>
+								<small>Finanziamento pubblico previsto</small>
 								<div class="costo"><span id="importoFinanziato"></span></div>
 								<div class="borderProgettiTotali"></div>
 							</li>
@@ -214,14 +206,25 @@
 				<div  class="firstStripeLeft left w30">
 					OpenData<br/>
 							<br/>
-				<small>Ambito - Lavori Pubblici 3</small>
+				<small></small>
 				</div>
-				<div class="right secondStripeLeft w70">
+				<div class="left secondStripeLeft w40">
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. 
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque 
 					 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					<br /><br />
+				 <div style="color:#1f4e78; text-align:right;">
+				 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="#">Approfondisci >></a>
+				 </div>
+				</div>
+				 <div class="right secondStripeLeft w23">
+					<div class="titoloGraficoCup"></div>
+					<div class="summary">
+						
+					
+					</div>
 				</div>
 			</div>
   		</div>
@@ -255,7 +258,7 @@
 
 <div class="clear"></div>
 
-<div class="row" style="height:24em;">
+<div class="row" style="height:22em; border-bottom:0.5em solid #f08c00;">
 
 	<div class="span4 chart-div" style="border-top:0.5em solid #0084b0; padding-top:1em;">
 		<div class="left" style="margin-left:0.5em;">
@@ -294,11 +297,11 @@
 	</div> 
 	
 </div>
-	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0;">
+	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-bottom:1em;">
 		<div class="offset3 span2">
-			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
+			<div class="btn-carica-distribuzione volume-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="VOLUME">
 				<aui:a href="#" onClick="return false" cssClass="block">
-					PROGETTI
+					Progetti
 				</aui:a>
 			</div>
 			<c:if test='${pattern eq "VOLUME"}'>
@@ -306,9 +309,9 @@
 			</c:if>
 		</div>
 		<div class="span2">	
-			<div class="btn-carica-distribuzione costo-color sel-type-btn" data-distribuzione="COSTO">
+			<div class="btn-carica-distribuzione costo-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="COSTO">
 				<aui:a href="#" onClick="return false" cssClass="block">
-					COSTO
+					Costo
 				</aui:a>
 			</div>
 			<c:if test='${pattern eq "COSTO"}'>
@@ -316,9 +319,9 @@
 			</c:if>
 		</div>
 		<div class="span2">	
-			<div class="btn-carica-distribuzione importo-color sel-type-btn" data-distribuzione="IMPORTO">
+			<div class="btn-carica-distribuzione importo-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="IMPORTO">
 				<aui:a href="#" onClick="return false" cssClass="block">
-					IMPORTO
+					Finanziamenti
 				</aui:a>
 			</div>
 			<c:if test='${pattern eq "IMPORTO"}'>
@@ -328,15 +331,23 @@
 		<div class="clear"></div>
 	
 	</div>	
-
-<!-- 	<div class="stripe" id="rulloLoc">
-		<ul id="locCarousel" style="max-height: 20em;list-style: none;display: inline;" class="span12">
-		</ul>
-
-	</div> -->
-
-
 </div>
+
+	<portlet:actionURL var="urlActionSoggettoVar">
+	   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
+	</portlet:actionURL>
+	
+	<form 
+		action="${urlActionSoggettoVar}" 
+		method="post" 
+		name="naviga-form-distribuzione" 
+		class="naviga-form-distribuzione"
+		id="naviga-form-distribuzione"
+		style="display: none;">
+	
+			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
+			
+	</form>
 <!-- 
 	<div id="news-list">	
 				<strong>
@@ -693,10 +704,10 @@ function nFormatterBar(num){
 
 }
 
-function drawLegend(divLegend, legendName, dataSet){
+function drawLegend(divLegend, legendName, dataSet, hexColor){
 	
-	var widthTotal = 10;
-	var heightLegend = 40; 
+	var widthTotal = 12;
+	var heightLegend = 35; 
 	var gapBetweenGroups = 30;
 	var legendBulletOffset = 30;
 	var legendTextOffset = 20;
@@ -743,26 +754,26 @@ function drawLegend(divLegend, legendName, dataSet){
 	.attr("dx", 0)
     .attr("dy", "5px") // Controls padding to place text in alignment with bullets
     .text(function(d) { return (d.label).trunc(36, true); })
-    .attr("color_value", function(d, i) { return "#0084b0"; }) // Bar fill color...
+    .attr("color_value", function(d, i) { return hexColor; }) // Bar fill color...
     
 	.attr("class", function(d, i) { 
-		retval = "label legend-" + legendName + "-legendText-index-" + i;
+		retval = "legend-" + legendName + "-legendText-index-" + i;
 		return retval;
 	 })
     .style("fill", textColor)
-    .style("font-size", "1em") 
+    .style("font-size", "0.9em") 
     .append("title")
     .text(function(d) { return d.label; });
 	
 };
 
-function drawBar(chartName, histogramName, dataSet) {
+function drawBar(chartName, histogramName, dataSet, hexColor) {
 	
 	var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
 	
 	var chartWidth       = (width_div_chart / 100 * 50);
 	
-	var barHeight        = 40, //220 / dataSet.length, //310
+	var barHeight        = 35, //220 / dataSet.length, //310
 	    gapBetweenGroups = 30,
 	    spaceForLabels   = width_div_chart - chartWidth;
 
@@ -795,7 +806,7 @@ function drawBar(chartName, histogramName, dataSet) {
 	    .data(zippedData)
 	    .enter()
 		.append("g")
-	    .attr("color_value", function(d, i) { return "#0084b0"; }) // Bar fill color...
+	    .attr("color_value", function(d, i) { return hexColor; }) // Bar fill color...
 		
 		.attr("class", function(d, i) { 
 			retval = "";
@@ -808,7 +819,7 @@ function drawBar(chartName, histogramName, dataSet) {
 
 	// Create rectangles of the correct width
 	bar.append("rect")
-	    .attr("fill", function(d,i) { return "#0084b0" })
+	    .attr("fill", function(d,i) { return hexColor })
 		.attr("class", function(d, i) { return "bar histogram-" + histogramName + "-arc-index-" + i; })
 	    .attr("width", x)
 	    .attr("height", barHeight - 10);
@@ -816,7 +827,7 @@ function drawBar(chartName, histogramName, dataSet) {
 	
 	// Draw labels
 	bar.append("text")
-	   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
+	   .attr("class", function(d, i) { return " histogram-" + histogramName + "-label-index-" + i; })
 	   .attr("x", 
 			function(d, i) { 
 				var delta = 60;
@@ -846,29 +857,67 @@ String.prototype.trunc =
 var dataSet = ${aggregatiClassificazione};
 var dataSet1 = eval( dataSet );
 
-legend = drawLegend("#chartLegendClassificazione", "LegendClassificazione", dataSet1);
+legend = drawLegend("#chartLegendClassificazione", "LegendClassificazione", dataSet1, "#0084b0");
 
-bar = drawBar("#histogramClassificazione", "HistogramClassificazione", dataSet1);
+bar = drawBar("#histogramClassificazione", "HistogramClassificazione", dataSet1, "#0084b0");
 
 
 // *** SECONDO GRAFICO ***//
 var dataSet1 = ${aggregatiLocalizzazione};
 var dataSet2 = eval( dataSet1 );
 
-legend1 = drawLegend("#chartLegendLocalizzazione", "LegendLocalizzazione", dataSet2);
+legend1 = drawLegend("#chartLegendLocalizzazione", "LegendLocalizzazione", dataSet2, "#00b0f0");
 
-bar1 = drawBar("#histogramLocalizzazione", "HistogramLocalizzazione", dataSet2);
+bar1 = drawBar("#histogramLocalizzazione", "HistogramLocalizzazione", dataSet2, "#00b0f0");
 
 //*** TERZO GRAFICO ***//
 var dataSet2 = ${aggregatiSoggetto};
 var dataSet3 = eval( dataSet2 );
 
-legend2 = drawLegend("#chartLegendSoggetto", "LegendSoggetto", dataSet3);
+legend2 = drawLegend("#chartLegendSoggetto", "LegendSoggetto", dataSet3, "#86c5fc");
 
-bar2 = drawBar("#histogramSoggetto", "HistogramSoggetto", dataSet3);
+bar2 = drawBar("#histogramSoggetto", "HistogramSoggetto", dataSet3, "#86c5fc");
 
 
-
+AUI().use('get', function(A){
+	A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
+		onSuccess: function(){
+	    	A.Get.script('${jsFolder}/bootstrap.min.js', {
+	       		onSuccess: function(){	
+					
+	       			$(".volume-color-distribuzione").mouseover(function() { 
+	       				$(".arrow-down-volume-distribuzione").css('border-top','10px solid #d27900'); 
+	       			});
+	       			$(".volume-color-distribuzione").mouseout(function() { 
+	       				$(".arrow-down-volume-distribuzione").css('border-top','10px solid #f08c00'); 
+	       			});
+	       				
+	       			$(".costo-color-distribuzione").mouseover(function() { 
+	       				$(".arrow-down-costo-distribuzione").css('border-top','10px solid #2c5831'); 
+	       			});
+	       			$(".costo-color-distribuzione").mouseout(function() { 
+	       				$(".arrow-down-costo-distribuzione").css('border-top','10px solid #499652'); 
+	       			});
+	       				
+	       			$(".importo-color-distribuzione").mouseover(function() { 
+	       				$(".arrow-down-importo-distribuzione").css('border-top','10px solid #005500'); 
+	       			});
+	       			$(".importo-color-distribuzione").mouseout(function() { 
+	       				$(".arrow-down-importo-distribuzione").css('border-top','10px solid #7ade87'); 
+	       			});
+	       				
+	       			$( ".sel-type-btn-distribuzione" ).click(function() {
+       					var arc = d3.select(this);
+	       				var distribuzione = arc.attr("data-distribuzione");
+	       				$( ".pattern" ).val(distribuzione);
+	       				$( ".naviga-form-distribuzione" ).submit();
+	       			});
+	       			
+	      		}
+		 	});
+	    }
+	});
+});
 
 
 </script>
