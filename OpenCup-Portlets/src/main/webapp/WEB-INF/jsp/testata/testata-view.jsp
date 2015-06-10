@@ -201,13 +201,14 @@
 
 	function nFormatter(num) {
 	    if (num >= 1000000000) {
-	       return'<strong>'+ (num / 1000000000).toFixed(1).replace(/\.0$/, '') + '</strong><small> Mld &euro;</small>';
+	       return'<strong>' + (num / 1000000000).toFixed(0).replace(/\.0$/, '') + '</strong><small> Mld &euro;</small>';
 	    }
 	    if (num >= 1000000) {
-	       return '<strong>'+ (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
+	       return '<strong>' + (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
 	    }
 	    if (num >= 1000) {
-	       return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small style="font-size: .5em;">progetti</small>';
+	    	// return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small style="font-size: .5em;">progetti</small>';
+	    	return '<strong>' + num + '</strong><small style="font-size: .5em;">progetti</small>';
 	    }
 	    return num;
 	}
@@ -264,13 +265,29 @@
 		.style("width", (singleElMwClass*2.6)+"px")
 		.append("img")
 		.attr("src",function(d){
-			var areaCorrente=d.desArea.split(/[\s,]+/);
-		 	var firstDesc=areaCorrente[0].toLowerCase();
-		 	if( firstDesc == 'tutte' ){
-		 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg";
-		 	}else{
-		 		var appoUrl = "${imgFolder}/icona-"+firstDesc+".svg";
+			
+			var areaCorrente = d.desArea.split(/[\s,]+/);
+		 	var desArea = areaCorrente[0].toLowerCase();
+		 	
+		 	var areaGeograficaCorrente = d.descAreaGeografica.split(/[\s,]+/);
+		 	var descAreaGeografica = areaGeograficaCorrente[0].toLowerCase();
+		 	
+		 	var areaSoggettoCorrente = d.descAreaSoggetto.split(/[\s,]+/);
+		 	var descAreaSoggetto = areaSoggettoCorrente[0].toLowerCase();
+		 	if( areaSoggettoCorrente.length > 2 ){
+		 		descAreaSoggetto = areaSoggettoCorrente[2].toLowerCase();
 		 	}
+		 	
+		 	if( desArea != 'tutte' ){
+		 		var appoUrl = "${imgFolder}/icona-" + desArea + ".svg";
+		 	}else if( descAreaGeografica != 'tutte' ){
+		 		var appoUrl = "${imgFolder}/icona-" + descAreaGeografica + ".svg";
+		 	}else if( descAreaSoggetto != 'tutte' ){
+		 		var appoUrl = "${imgFolder}/icona-" + descAreaSoggetto + ".svg";
+		 	}else{
+		 		var appoUrl = "${imgFolder}/icona-"+pagNavigazioneLogo+".svg";
+		 	}
+
 		 	return appoUrl
 		});
 		
@@ -717,8 +734,7 @@
 	drawBarTestataAnni("TestataBarAnni", dataSetTestataAnni1, ".bar_chart_testata_anni" );
 	
 	drawTrendTestataAnni("trend_svg_testata_anni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
-
-	
+	/*
 	d3.selectAll(".divider").each(
 			function(){
 				var c=d3.select(this).node().parentNode;
@@ -730,4 +746,5 @@
 			
 					d3.select(c).select("span").remove();
 			});
+	*/
 </script>

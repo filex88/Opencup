@@ -278,6 +278,7 @@
 		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
 					
 		// Plot the bullet circles...
+		/*
 		canvas.selectAll("circle")
 		.data(dataSet)
 		.enter()
@@ -287,6 +288,18 @@
 			return gapBetweenGroups + (heightLegend * i);
 		})
 		.attr("stroke-width", ".5")
+		.attr("r", 5)
+		*/
+		canvas.selectAll("rect")
+		.data(dataSet)
+		.enter()
+		.append("rect")
+		.attr("width", "16")
+		.attr("height", "16")
+		.attr("x", widthTotal - 10)
+		.attr("y", function(d, i) { 
+			return gapBetweenGroups + (heightLegend * i) - 10;
+		})
 		.style("fill", 
 				function(d, i) {
 					if( dimension=='VOLUME'){
@@ -299,7 +312,7 @@
 						return color(d.importoValue);
 					}
 				}) // Bullet fill color
-		.attr("r", 5)
+		
 		.attr("index_value", function(d, i) { return "index-" + i; })
 		.attr("class", function(d, i) { return "link-url-naviga-dettaglio legend-" + legendName + "-legendBullet-index-" + i; });
 		

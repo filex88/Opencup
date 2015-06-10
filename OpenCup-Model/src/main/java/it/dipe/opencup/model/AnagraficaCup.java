@@ -1,6 +1,7 @@
 package it.dipe.opencup.model;
 
 import it.dipe.opencup.model.common.AbstractCommonEntity;
+import it.dipe.opencup.util.MyStringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
@@ -182,6 +184,15 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescCup() {
+		
+		System.out.println( descCup );
+		System.out.println( MyStringUtils.unescapeHtml3(descCup) );
+		System.out.println( StringEscapeUtils.unescapeHtml3(descCup) );
+		System.out.println( StringEscapeUtils.unescapeHtml4(descCup) );
+		
+		
+		//return StringEscapeUtils.unescapeHtml4(descCup);
+		//return MyStringUtils.unescapeHtml3(descCup);
 		return descCup;
 	}
 

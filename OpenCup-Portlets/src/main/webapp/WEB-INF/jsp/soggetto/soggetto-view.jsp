@@ -379,6 +379,7 @@
 	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
 		// Plot the bullet circles...
+		/*
 		svg
 		.selectAll("circle")
 		.data(dataSet)
@@ -390,6 +391,32 @@
 			return gapBetweenGroups + (heightLegend * i);
 		})
 		.attr("stroke-width", ".5")
+		.style("fill", function(d, i) { return colorSoggetto(i); }) // Bullet fill color
+		.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
+		.attr("index_value", function(d, i) { return "index-"+i; })
+		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
+		.attr("class", function(d, i){
+			retval = "legend-circle-"+elementName+"-index-"+i;
+			if(!selezionabileSoggetto){
+				retval = retval + " link-url-naviga-soggetto";
+			}
+			return retval;
+	  	})
+		.on('mouseover', synchronizedMouseOverSoggetto)
+		.on("mouseout", synchronizedMouseOutSoggetto);
+		*/
+		
+		svg.selectAll("rect")
+		.data(dataSet)
+		.enter()
+		.append("rect")
+		.attr("width", "16")
+		.attr("height", "16")
+		.attr("x", widthTotal - 10)
+		.attr("y", function(d, i) { 
+			//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
+			return gapBetweenGroups + (heightLegend * i) - 10;
+		})
 		.style("fill", function(d, i) { return colorSoggetto(i); }) // Bullet fill color
 		.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
