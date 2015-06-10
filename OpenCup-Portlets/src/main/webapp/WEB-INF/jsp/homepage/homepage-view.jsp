@@ -106,6 +106,13 @@
 	#rulloClass div.barcontainer span.pubblico{color:#1f4e78;}
 	#rulloClass div.barcontainer span.privato{color:#ababab;}
 	
+	div.row.graficoHome {height:22em;}
+	div.row.graficoHome.progetti{border-bottom:0.5em solid #f08c00;}
+	div.row.graficoHome.costo{border-bottom:0.5em solid #499652;}
+	div.row.graficoHome.finanziamenti{border-bottom:0.5em solid #7ade87}
+	
+	
+	
 </style>
 <fmt:setLocale value="it_IT"/>
 <div class="portlet-body">
@@ -258,14 +265,25 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 
 <div class="clear"></div>
 
-<div class="row" style="height:22em; border-bottom:0.5em solid #f08c00;">
+<div class="row graficoHome ${tipoAggregazione}">
 
 	<div class="span4 chart-div" style="border-top:0.5em solid #0084b0; padding-top:1em;">
 		<div class="left" style="margin-left:0.5em;">
 			<i class="icon-sitemap right" style="font-size:1.5em; border:0.25em solid #0084b0;color:#0084b0; border-radius:50%; padding: .25em;"></i>
 		</div>
 		<div style="margin-left:4em;">
-			<span style="font-size: 2em; color: #0084b0">Classificazione</span><br/><span style="font-size: 1em; color: #0084b0">Numero Progetti</span></div>
+			<span style="font-size: 2em; color: #0084b0">Classificazione</span><br/>
+			<span style="font-size: 1em; color: #0084b0">
+			<c:if test='${pattern eq "VOLUME"}'>
+				Numero Progetti
+			</c:if>
+			<c:if test='${pattern eq "COSTO"}'>
+				Costo previsto
+			</c:if>	
+			<c:if test='${pattern eq "IMPORTO"}'>
+				Finanziamento Pubblico Previsto
+			</c:if>	
+			</span></div>
 		<div style="margin-top:2em;">
 			<div class="span6" id="chartLegendClassificazione"></div>
 			<div class="span6" id="histogramClassificazione"></div>
@@ -277,7 +295,18 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 			<i class="icon-globe right" style="font-size:1.5em; border:0.25em solid #00b0f0;color:#00b0f0; border-radius:50%; padding: .25em;"></i>
 		</div>
 		<div style="margin-left:4em;">
-			<span style="font-size: 2em; color: #00b0f0">Localizzazione</span><br/><span style="font-size: 1em; color: #00b0f0">Numero Progetti</span></div>
+			<span style="font-size: 2em; color: #00b0f0">Localizzazione</span><br/>
+			<span style="font-size: 1em; color: #00b0f0">
+			<c:if test='${pattern eq "VOLUME"}'>
+				Numero Progetti
+			</c:if>
+			<c:if test='${pattern eq "COSTO"}'>
+				Costo previsto
+			</c:if>	
+			<c:if test='${pattern eq "IMPORTO"}'>
+				Finanziamento Pubblico Previsto
+			</c:if>	
+			</span></div>
 		<div style="margin-top:2em;">
 			<div class="span6" id="chartLegendLocalizzazione"></div>
 			<div class="span6" id="histogramLocalizzazione"></div>
@@ -289,7 +318,18 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 			<i class="icon-user right" style="font-size:1.5em; border:0.25em solid #86c5fc;color:#86c5fc; border-radius:50%; padding: .25em;"></i>
 		</div>
 		<div style="margin-left:4em;">
-			<span style="font-size: 2em; color: #86c5fc">Soggetto</span><br/><span style="font-size: 1em; color: #86c5fc">Numero Progetti</span></div>
+			<span style="font-size: 2em; color: #86c5fc">Soggetto</span><br/>
+			<span style="font-size: 1em; color: #86c5fc">
+			<c:if test='${pattern eq "VOLUME"}'>
+				Numero Progetti
+			</c:if>
+			<c:if test='${pattern eq "COSTO"}'>
+				Costo previsto
+			</c:if>	
+			<c:if test='${pattern eq "IMPORTO"}'>
+				Finanziamento Pubblico Previsto
+			</c:if>	
+			</span></div>
 		<div style="margin-top:2em;">
 			<div class="span4" id="chartLegendSoggetto"></div>
 			<div class="span6 offset2" id="histogramSoggetto"></div>
@@ -299,34 +339,43 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 </div>
 	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-bottom:1em;">
 		<div class="offset3 span2">
+			<c:if test='${pattern eq "VOLUME"}'>
+				<div class="arrow-up-volume arrow-up-volume-distribuzione"></div>
+			</c:if>
+			<c:if test='${pattern ne "VOLUME"}'>
+				<div style="height: 10px;"></div>
+			</c:if>
 			<div class="btn-carica-distribuzione volume-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="VOLUME">
 				<aui:a href="#" onClick="return false" cssClass="block">
 					Progetti
 				</aui:a>
 			</div>
-			<c:if test='${pattern eq "VOLUME"}'>
-				<div class="arrow-down-volume"></div>
-			</c:if>
 		</div>
-		<div class="span2">	
+		<div class="span2">
+			<c:if test='${pattern eq "COSTO"}'>
+				<div class="arrow-up-costo arrow-up-costo-distribuzione"></div>
+			</c:if>	
+			<c:if test='${pattern ne "COSTO"}'>
+				<div style="height: 10px;"></div>
+			</c:if>
 			<div class="btn-carica-distribuzione costo-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="COSTO">
 				<aui:a href="#" onClick="return false" cssClass="block">
 					Costo
 				</aui:a>
 			</div>
-			<c:if test='${pattern eq "COSTO"}'>
-				<div class="arrow-down-costo"></div>
-			</c:if>
 		</div>
-		<div class="span2">	
+		<div class="span2">
+			<c:if test='${pattern eq "IMPORTO"}'>
+				<div class="arrow-up-importo arrow-up-importo-distribuzione"></div>
+			</c:if>	
+			<c:if test='${pattern ne "IMPORTO"}'>
+				<div style="height: 10px;"></div>
+			</c:if>
 			<div class="btn-carica-distribuzione importo-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="IMPORTO">
 				<aui:a href="#" onClick="return false" cssClass="block">
 					Finanziamenti
 				</aui:a>
 			</div>
-			<c:if test='${pattern eq "IMPORTO"}'>
-				<div class="arrow-down-importo"></div>
-			</c:if>
 		</div>
 		<div class="clear"></div>
 	
@@ -886,24 +935,24 @@ AUI().use('get', function(A){
 	       		onSuccess: function(){	
 					
 	       			$(".volume-color-distribuzione").mouseover(function() { 
-	       				$(".arrow-down-volume-distribuzione").css('border-top','10px solid #d27900'); 
+	       				$(".arrow-up-volume-distribuzione").css('border-top','10px solid #d27900'); 
 	       			});
 	       			$(".volume-color-distribuzione").mouseout(function() { 
-	       				$(".arrow-down-volume-distribuzione").css('border-top','10px solid #f08c00'); 
+	       				$(".arrow-up-volume-distribuzione").css('border-top','10px solid #f08c00'); 
 	       			});
 	       				
 	       			$(".costo-color-distribuzione").mouseover(function() { 
-	       				$(".arrow-down-costo-distribuzione").css('border-top','10px solid #2c5831'); 
+	       				$(".arrow-up-costo-distribuzione").css('border-top','10px solid #2c5831'); 
 	       			});
 	       			$(".costo-color-distribuzione").mouseout(function() { 
-	       				$(".arrow-down-costo-distribuzione").css('border-top','10px solid #499652'); 
+	       				$(".arrow-up-costo-distribuzione").css('border-top','10px solid #499652'); 
 	       			});
 	       				
 	       			$(".importo-color-distribuzione").mouseover(function() { 
-	       				$(".arrow-down-importo-distribuzione").css('border-top','10px solid #005500'); 
+	       				$(".arrow-up-importo-distribuzione").css('border-top','10px solid #005500'); 
 	       			});
 	       			$(".importo-color-distribuzione").mouseout(function() { 
-	       				$(".arrow-down-importo-distribuzione").css('border-top','10px solid #7ade87'); 
+	       				$(".arrow-up-importo-distribuzione").css('border-top','10px solid #7ade87'); 
 	       			});
 	       				
 	       			$( ".sel-type-btn-distribuzione" ).click(function() {
