@@ -876,6 +876,17 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #f08c00;
 }
 
+.home-page-portlet .arrow-up-volume {
+	width: 0; 
+	height: 0; 
+	position: relative;
+	left:15px;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 10px solid #f08c00;
+}
+
+
 .soggetto-portlet .arrow-down-costo,
 .localizzazione-portlet0 .arrow-down-costo,
 .pie-chart-portlet .arrow-down-costo {
@@ -886,6 +897,16 @@ div.celle_dati_sitesi{
 	border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
 	border-top: 10px solid #499652;
+}
+
+.home-page-portlet .arrow-up-costo {
+	width: 0; 
+	height: 0; 
+	position: relative;
+	left:15px;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 10px solid #499652;
 }
 
 .soggetto-portlet .arrow-down-importo,
@@ -900,10 +921,22 @@ div.celle_dati_sitesi{
 	border-top: 10px solid #7ade87;
 }
 
+.home-page-portlet .arrow-up-importo {
+	width: 0; 
+	height: 0; 
+	position: relative;
+	left:15px;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 10px solid #7ade87;
+}
+
 .soggetto-portlet .volume-color a.block:hover,
 .soggetto-portlet .volume-color a.block:focus,
 .localizzazione-portlet0 .volume-color a.block:hover,
 .localizzazione-portlet0 .volume-color a.block:focus,
+.home-page-portlet .volume-color a.block:hover,
+.home-page-portlet .volume-color a.block:focus,
 .pie-chart-portlet .volume-color a.block:hover,
 .pie-chart-portlet .volume-color a.block:focus {
 	background-color:#d27900;

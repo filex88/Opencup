@@ -189,6 +189,14 @@ public class HomePagePortletController {
 		model.addAttribute("aggregatiClassificazione", createJsonStringFromQueryResult(converterClassificazione));
 		model.addAttribute("aggregatiLocalizzazione", createJsonStringFromQueryResult(converterLocalizzazione));
 		model.addAttribute("aggregatiSoggetto", createJsonStringFromQueryResult(converterSoggetto));
+		String tipoAggregazione ="";
+		if("VOLUME".equals(pattern))
+			tipoAggregazione ="progetti";
+		if("COSTO".equals(pattern))
+			tipoAggregazione ="costo";
+		if("IMPORTO".equals(pattern))
+			tipoAggregazione ="finanziamenti";
+		model.addAttribute("tipoAggregazione", tipoAggregazione);
 		return null;
 	}
 	
@@ -217,7 +225,12 @@ public class HomePagePortletController {
 			if( navigaAggregata.getIdAreaGeografica().equals("0") ){
 				conv.setLabel(aggregataDTO.getDescAreaGeografica() );
 			}else if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
-				conv.setLabel(aggregataDTO.getDescAreaSoggetto() );
+				if(aggregataDTO.getDescAreaSoggetto()!=null && aggregataDTO.getDescAreaSoggetto().toLowerCase().contains("centrale"))
+					conv.setLabel("PAC");
+				else if(aggregataDTO.getDescAreaSoggetto()!=null && aggregataDTO.getDescAreaSoggetto().toLowerCase().contains("locale"))
+					conv.setLabel("PAL");
+				else
+					conv.setLabel(aggregataDTO.getDescAreaSoggetto() );
 			}else if( navigaAggregata.getIdAreaIntervento().equals("0") ){
 				conv.setLabel(aggregataDTO.getDesArea() );
 			}
