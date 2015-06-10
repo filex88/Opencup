@@ -529,13 +529,6 @@
 		       				$( ".pattern-soggetto" ).val(distribuzione);
 		       				$( ".naviga-form-soggetto" ).submit();
 		       			});
-		       			
-		       			$( ".sel-type-btn-soggetto" ).click(function() {
-       						var arc = d3.select(this);
-	       					var distribuzione = arc.attr("data-distribuzione");
-	       					$( ".pattern-soggetto" ).val(distribuzione);
-	       					$( ".naviga-form-soggetto" ).submit();
-	       				});
 		       				
 		       			$( ".link-url-naviga-soggetto" ).click(function() {
 		       				if(!selezionabileSoggetto){
