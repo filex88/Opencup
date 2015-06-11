@@ -47,8 +47,15 @@
 
 	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
 	div.summary ul li span{color: #1f4e78;}
-	div.summary ul li.sumVolume svg {height: .8em; background-color: #f08c00;}
-	div.summary ul li.sumCosto svg {height: .8em; background-color: #499652;}
+
+	div.summary ul li.sumVolume svg {height: .8em;}
+	div.summary ul li.sumVolume rect:first-of-type {fill: #d9d9d9;}
+	div.summary ul li.sumVolume rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #f08c00;}
+
+	div.summary ul li.sumCosto svg {height: .8em;}
+	div.summary ul li.sumCosto rect:first-of-type {fill: #d9d9d9;}
+	div.summary ul li.sumCosto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #499652;}
+		
 	div.summary ul li.sumImporto svg {height: .8em;}
 	div.summary ul li.sumImporto rect:first-of-type {fill: #d9d9d9;}
 	div.summary ul li.sumImporto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #7ade87;}
@@ -163,13 +170,14 @@
 				</p></div>
 			</div>
 				
-			<div class="span6 summary">
+			<div class="span4 offset1 summary">
 			
 				<ul>
 					<li class="sumVolume w100">
 						<div>
 							<span class="left"><small>Progetti censiti</small></span>
-							<span class="right"><small><fmt:formatNumber value="${volumeDeiProgetti}" type="number" minIntegerDigits="0"/></small></span>
+							<%--<span class="right"><small><fmt:formatNumber value="${volumeDeiProgetti}" type="number" volumeDeiProgettiProg="0"/></small></span>--%>
+							<span class="right"><small id="volumeTotale"></small></span>
 							<svg class="w100"></svg>
 						</div>
 					</li>
@@ -615,28 +623,69 @@
 	        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil ';
 	     }
 	     if (num >= 1000) {
-	        return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 ';
+	        return (num / 1).toFixed(0).replace(/\.0$/, '');
 	     }
 	     return num;
 
 	}
 	
 	if(currentAction == 'elencoProgetti'){
-		d3.selectAll("#costoTotale").text(nFormatterBar("${costoDeiProgetti}")+"\u20ac");
 		
-		d3.selectAll("#importoTotale").text(nFormatterBar("${importoFinanziamenti}")+"\u20ac");
+		d3.selectAll("#volumeTotale").text(nFormatterBar("${volumeDeiProgettiProg}"));
+		d3.selectAll("#costoTotale").text(nFormatterBar("${costoDeiProgettiProg}")+"\u20ac");
+		d3.selectAll("#importoTotale").text(nFormatterBar("${importoFinanziamentiProg}")+"\u20ac");
 		
 		function drawFinBar(){
 			// barra importo finanziato
-			var widthLiFinanziato=d3.selectAll("li.sumImporto")[0][0].clientWidth;
-			var rangeFinanziato=["${costoDeiProgetti}","${importoFinanziamenti}"];
-			var xFinanziato=d3.scale.linear().domain([0, d3.max(rangeFinanziato)]).range([0, widthLiFinanziato]);
-
-			d3.selectAll("li.sumImporto").select("div").select("svg").selectAll("rect").data(rangeFinanziato)
-			.enter().append("rect")
-			.attr("width", xFinanziato)
+			var widthLi=d3.selectAll("li.sumImporto")[0][0].clientWidth;
+			var range=[${importoFinanziamenti}, ${importoFinanziamentiProg}];
+			var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, widthLi]);
+			
+			d3.selectAll("li.sumImporto")
+			.select("div")
+			.select("svg")
+			.selectAll("rect")
+			.data(range)
+			.enter()
+			.append("rect")
+			.attr("width", x)
 			.attr("height", ".8em");
 		}
+		function drawCostoBar(){
+			// barra costo previsto
+			var widthLi=d3.selectAll("li.sumCosto")[0][0].clientWidth;
+			var range=[${costoDeiProgetti}, ${costoDeiProgettiProg}];
+			var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, widthLi]);
+			
+			d3.selectAll("li.sumCosto")
+			.select("div")
+			.select("svg")
+			.selectAll("rect")
+			.data(range)
+			.enter()
+			.append("rect")
+			.attr("width", x)
+			.attr("height", ".8em");
+		}
+		function drawVolumeBar(){
+			// barra volume
+			var widthLi=d3.selectAll("li.sumVolume")[0][0].clientWidth;
+			var range=[${volumeDeiProgetti}, ${volumeDeiProgettiProg}];
+			var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, widthLi]);
+			
+			d3.selectAll("li.sumVolume")
+			.select("div")
+			.select("svg")
+			.selectAll("rect")
+			.data(range)
+			.enter()
+			.append("rect")
+			.attr("width", x)
+			.attr("height", ".8em");
+		}
+		
+		drawVolumeBar();
+		drawCostoBar();
 		drawFinBar();
 	}
 	

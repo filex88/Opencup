@@ -241,7 +241,12 @@ public class ProgettoFacade {
 	}
 
 	@Cacheable(value = "Progetto")
-	public List<Progetto> findElencoProgetti(NavigaProgetti filtri, String orderByCol, String orderByType, Integer startResult, Integer endResult) {
+	public List<Progetto> findElencoProgetti( NavigaProgetti filtri ) {
+		
+		String orderByCol = filtri.getOrderByCol();
+		String orderByType = filtri.getOrderByType();
+		Integer startResult = filtri.getStart();
+		Integer endResult = filtri.getDelta();
 		
 		Criteria criteria = buildCriteria(filtri)
 				.setFirstResult(startResult.intValue())

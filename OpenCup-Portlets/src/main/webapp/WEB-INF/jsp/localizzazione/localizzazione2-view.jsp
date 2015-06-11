@@ -28,7 +28,7 @@
 		</div>
 		<div class="header toggler-header-collapsed" style="float: right;">
 			<div id="affina-ricerca-localizzazione" class="affina-ricerca-div affina-ricerca cursor-pointer">
-				AFFINA LA RICERCA
+				Filtri di Ricerca
 				<span>
 					<i class="icon-filter"> 
 						<c:if test="${ navigaAggregata.countAffRicercaLocalizzazione != null }">

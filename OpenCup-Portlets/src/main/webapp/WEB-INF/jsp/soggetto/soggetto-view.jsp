@@ -12,8 +12,8 @@
 
 
 <c:if test="${ configSoggetto.mostraPulsanti }">
-	<div class="stripe">	
-		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 10px;">
+	<div>	
+		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 3px;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-soggetto sel-type-btn sel-type-btn-soggetto" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">
@@ -77,7 +77,7 @@
 		
 		<c:choose>
 			<c:when test="${ configSoggetto.portletPrincipale }">
-				<div class="div_soggetto_1 row">
+				<div class="div_soggetto_1 div_grafico_padding">
 					<div class="row chart-div">
 						<div class="span6 div_soggetto chart soggetto_1">
 						</div>
@@ -87,7 +87,7 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="div_soggetto_1">
+				<div class="div_soggetto_1 div_grafico_padding">
 					<div class="row chart-div" style="min-height: 250px;">
 						<div class="span8 offset2 div_soggetto chart soggetto_1" style="min-height: 250px;">
 						</div>
@@ -302,6 +302,9 @@
 	    .text("progetti");
 	  	*/
 	  	
+	  	var columnWidth = (x.rangeBand()>100)?100:x.rangeBand();
+	  	var columnTraslate = x.rangeBand() - columnWidth;
+	  	
 		svg.selectAll(".bar_soggetto")
 	  	.data(dataSet)
 	  	.enter()
@@ -317,8 +320,8 @@
 	  	.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-"+i; })
 		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
-	    .attr("x", function(d, i) { return x(d.label); })
-	    .attr("width", x.rangeBand())
+	    .attr("x", function(d, i) { return x(d.label) + columnTraslate; })
+	    .attr("width", columnWidth )
 	    .attr("y", function(d) { return y(d.volume); })
 	    .attr("height", function(d) { 
 	    	return height - y(d.volume); })

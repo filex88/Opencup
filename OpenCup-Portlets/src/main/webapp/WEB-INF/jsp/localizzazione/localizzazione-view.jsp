@@ -33,7 +33,7 @@
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<a id="localizzazione-portlet"></a>
 		
-		<div class="div_localizzazione_1">
+		<div class="div_localizzazione_1 div_grafico_padding">
 			<div class="row chart-div" style="min-height: 250px;">
 				
 				<div class="span6 offset3 chart" id="italybymacroareas" style="min-height: 250px;">

@@ -14,9 +14,8 @@
 
 <fmt:setLocale value="it_IT"/>
 
-<div class="stripe">
-
-	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 10px;">
+<div>
+	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 3px;">
 		<div class="offset3 span2">
 			<div class="btn-carica-distribuzione volume-color sel-type-btn" data-distribuzione="VOLUME">
 				<aui:a href="#" onClick="return false" cssClass="block">
@@ -64,7 +63,7 @@
 		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 		<a id="localizzazione-portlet"></a>
 		
-		<div class="div_localizzazione_1">
+		<div class="div_localizzazione_1 div_grafico_padding">
 			<div class="row chart-div">
 				
 				<div class="span4 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas" >

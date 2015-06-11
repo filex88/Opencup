@@ -188,11 +188,11 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
 		
-		List<Progetto> elencoProgetti = progettoFacade.findElencoProgetti(	navigaProgetti, 
-																			searchContainerElenco.getOrderByCol(), 
-																			searchContainerElenco.getOrderByType(),
-																			searchContainerElenco.getStart(), 
-																			delta);
+		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
+		navigaProgetti.setOrderByType(searchContainerElenco.getOrderByType());
+		navigaProgetti.setStart(searchContainerElenco.getStart());
+		navigaProgetti.setDelta(delta);
+		List<Progetto> elencoProgetti = progettoFacade.findElencoProgetti(	navigaProgetti );
 		
 		searchContainerElenco.setTotal(size);
 		searchContainerElenco.setResults(elencoProgetti);
@@ -204,24 +204,18 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		// MASCHERA RICERCA PROGETTI //
 		initInModelMascheraRicerca(model, navigaProgetti);
-		
 		model.addAttribute("navigaProgetti", navigaProgetti);
 		// FINE RICERCA PROGETTI //
 		
-		
+		// RIEPILOGO //
+		//DATI TOTALI
 		NavigaAggregata navigaAggregata = new NavigaAggregata();
-		//navigaAggregata.importa( navigaProgetti );
 		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
 		navigaAggregata.setIdNatura(idNatura);
-		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
-		
 		NavigaProgetti navigaProgettitot = new NavigaProgetti();
 		navigaProgettitot.setIdNatura(idNatura);
-		
-		int sizetot =  progettoFacade.sizeElencoProgetti( navigaProgettitot ).getSize();
 
-		// RIEPILOGO //
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		
@@ -230,9 +224,30 @@ public class ElencoProgettiController extends FiltriCommonController {
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
 		}
 		
+		int sizetot =  progettoFacade.sizeElencoProgetti( navigaProgettitot ).getSize();
+		
+		navigaAggregata = new NavigaAggregata();
+		navigaAggregata.setIdNatura(idNatura);
+		navigaAggregata.importa( navigaProgetti );
+		listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
+
+		Double impoCostoProgettiProg = 0.0;
+		Double impoImportoFinanziatoProg = 0.0;
+		
+		for(AggregataDTO aggregataDTO : listaAggregataDTO){
+			impoCostoProgettiProg = impoCostoProgettiProg + aggregataDTO.getImpoCostoProgetti();
+			impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
+		}
+		
+		
+		model.addAttribute("volumeDeiProgettiProg", size);
+		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
+		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
+		
 		model.addAttribute("volumeDeiProgetti", sizetot);
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
+		
 		// FINE RIEPILOGO //
 		
 		model.addAttribute("valoreRicercaValido", "SI");

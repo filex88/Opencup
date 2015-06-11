@@ -46,7 +46,7 @@
 		
 		<div class="header toggler-header-collapsed" style="float: right;">
 			<div id="affina-ricerca-classificazione" class="affina-ricerca-div affina-ricerca cursor-pointer">
-				AFFINA LA RICERCA
+				Filtri di Ricerca
 				<span>
 					<i class="icon-filter"> 
 						<c:if test="${ navigaAggregata.countAffRicerca4Natura != null }">

@@ -11,8 +11,8 @@
 <portlet:defineObjects />
 	
 <c:if test="${ config.mostraPulsanti }">
-	<div class="stripe">
-		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 10px;">
+	<div>
+		<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-top: 3px;">
 			<div class="offset3 span2">
 				<div class="btn-carica-distribuzione volume-color volume-color-pie sel-type-btn sel-type-btn-pie" data-distribuzione="VOLUME">
 					<aui:a href="#" onClick="return false" cssClass="block">
@@ -74,7 +74,7 @@
 		
 		<c:choose>
 			<c:when test="${ config.portletPrincipale }">
-				<div class="div_pie_chart_1">
+				<div class="div_pie_chart_1 div_grafico_padding">
 					<div class="row chart-div">
 						<div class="span3 offset1 div_pie_chart chart pie_chart_1" id="pie_chart_1">
 						</div>
@@ -84,7 +84,7 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="div_pie_chart_1">
+				<div class="div_pie_chart_1 div_grafico_padding">
 					<div class="row chart-div" style="min-height: 250px;">
 						<div class="span5 offset4 div_pie_chart chart pie_chart_1" id="pie_chart_1" style="min-height: 250px;">
 						</div>

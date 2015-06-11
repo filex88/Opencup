@@ -39,6 +39,11 @@ public class NavigaProgetti implements Serializable{
 	private String idProvincia;
 	private String idComune;
 	
+	private String orderByCol;
+	private String orderByType;
+	private Integer start;
+	private Integer delta;
+	
 	public void importa(NavigaAggregata navigaAggregata) {
 		
 		this.pagAggregata = navigaAggregata.getPagAggregata();
@@ -71,6 +76,8 @@ public class NavigaProgetti implements Serializable{
 	public void setCountAffRicerca(String countAffRicerca){
 		
 	}
+	
+	
 	public String getCountAffRicerca(){
 		
 		String sRetval = null;
@@ -158,6 +165,11 @@ public class NavigaProgetti implements Serializable{
 		this.idProvincia = "-1";
 		this.idComune = "-1";
 		this.idProgetto = "-1";
+		
+		this.orderByCol = "";
+		this.orderByType = "";
+		this.start = 0;
+		this.delta = 0;
 	}
 
 	public String toString(){
@@ -180,6 +192,11 @@ public class NavigaProgetti implements Serializable{
 		toString = toString + "naviga: (" + naviga + "); ";
 		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
 		toString = toString + "idProgetto: (" + idProgetto + "); ";
+		
+		toString = toString + "orderByCol: (" + orderByCol + "); ";
+		toString = toString + "orderByType: (" + orderByType + "); ";
+		toString = toString + "start: (" + start + "); ";
+		toString = toString + "delta: (" + delta + "); ";
 		return toString;
 	}
 	
@@ -209,6 +226,38 @@ public class NavigaProgetti implements Serializable{
 
 	public String getIdAreaIntervento() {
 		return idAreaIntervento;
+	}
+
+	public String getOrderByCol() {
+		return orderByCol;
+	}
+
+	public void setOrderByCol(String orderByCol) {
+		this.orderByCol = orderByCol;
+	}
+
+	public String getOrderByType() {
+		return orderByType;
+	}
+
+	public void setOrderByType(String orderByType) {
+		this.orderByType = orderByType;
+	}
+
+	public Integer getStart() {
+		return start;
+	}
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+
+	public Integer getDelta() {
+		return delta;
+	}
+
+	public void setDelta(Integer delta) {
+		this.delta = delta;
 	}
 
 	public void setIdAreaIntervento(String idAreaIntervento) {
@@ -342,6 +391,7 @@ public class NavigaProgetti implements Serializable{
 		int result = 1;
 		result = prime * result
 				+ ((currentAction == null) ? 0 : currentAction.hashCode());
+		result = prime * result + ((delta == null) ? 0 : delta.hashCode());
 		result = prime * result
 				+ ((descStato == null) ? 0 : descStato.hashCode());
 		result = prime
@@ -389,7 +439,12 @@ public class NavigaProgetti implements Serializable{
 						.hashCode());
 		result = prime * result + ((naviga == null) ? 0 : naviga.hashCode());
 		result = prime * result
+				+ ((orderByCol == null) ? 0 : orderByCol.hashCode());
+		result = prime * result
+				+ ((orderByType == null) ? 0 : orderByType.hashCode());
+		result = prime * result
 				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
 		return result;
 	}
 
@@ -406,6 +461,11 @@ public class NavigaProgetti implements Serializable{
 			if (other.currentAction != null)
 				return false;
 		} else if (!currentAction.equals(other.currentAction))
+			return false;
+		if (delta == null) {
+			if (other.delta != null)
+				return false;
+		} else if (!delta.equals(other.delta))
 			return false;
 		if (descStato == null) {
 			if (other.descStato != null)
@@ -494,13 +554,29 @@ public class NavigaProgetti implements Serializable{
 				return false;
 		} else if (!naviga.equals(other.naviga))
 			return false;
+		if (orderByCol == null) {
+			if (other.orderByCol != null)
+				return false;
+		} else if (!orderByCol.equals(other.orderByCol))
+			return false;
+		if (orderByType == null) {
+			if (other.orderByType != null)
+				return false;
+		} else if (!orderByType.equals(other.orderByType))
+			return false;
 		if (pagAggregata == null) {
 			if (other.pagAggregata != null)
 				return false;
 		} else if (!pagAggregata.equals(other.pagAggregata))
 			return false;
+		if (start == null) {
+			if (other.start != null)
+				return false;
+		} else if (!start.equals(other.start))
+			return false;
 		return true;
 	}
 
+	
 	
 }

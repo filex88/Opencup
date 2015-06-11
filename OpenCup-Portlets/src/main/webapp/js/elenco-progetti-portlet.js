@@ -176,7 +176,7 @@ AUI().use(
 				    	caricaCombo(namespaceRicerca, "loadSottoCategoriaSoggettoByCategoriaSoggetto", this.val(), namespaceRicerca4js+"sotto-categoria-soggetto");
 					});
 			
-			
+			/*
 			A.one('.pulisciElementoAreaGeografica').on(
 				    'click',
 				    function(event) {
@@ -266,6 +266,7 @@ AUI().use(
 				    function(event) {
 						A.one('.categoria-intervento').val(-1);
 					});
+			*/
 			
 			var myFormAffinaRicerca = A.one(".ricerca-form");
 			A.one('.btn-rimuovi-filtri').on(

@@ -13,7 +13,7 @@
 <div class="portlet-body">
 	<aui:form action="${ ricercaLiberaURL }" method="POST" cssClass="form-ricerca-opencup">
 		<div class="input-append">
-			<aui:input type="text" cssClass="span3" label="" bean="ricerca"  name="cercaPerKeyword" inlineField="true"  ></aui:input>	
+			<aui:input type="text" cssClass="span4" label="" bean="ricerca"  name="cercaPerKeyword" inlineField="true"  ></aui:input>	
 			<aui:button type="submit" cssClass="btn" value="<i class='icon-search'></i>" ></aui:button>	
 			<aui:button type="submit" cssClass="btn btn-ricerca-avanzata" value="Avanzata" ></aui:button>	
 		</div>

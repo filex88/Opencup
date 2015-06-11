@@ -1013,13 +1013,18 @@ div.titoloSoggetto  {
 	color: #fff; 
 	display: block; 
 	text-align: center; 
-	width: 200px;
-	margin-bottom: 1.5em; 
+	width: 100%;
+	margin-bottom: .5em; 
 	margin-left: .5em;
 	margin-top: .5em;
-	border-radius: 0px 0px 0px 10px;
-	-moz-border-radius: 0px 0px 0px 10px; /* firefox */
- 	-webkit-border-radius: 0px 0px 0px 10px; /* safari, chrome */
+	
+	/*border-radius: 0px 0px 0px 10px;*/
+	/*-moz-border-radius: 0px 0px 0px 10px;*/ /* firefox */
+ 	/*-webkit-border-radius: 0px 0px 0px 10px;*/ /* safari, chrome */
+}
+
+div.div_grafico_padding{
+	padding: 1em;
 }
 
 div.indicatoreNavigaLocalizzazioneLabel{

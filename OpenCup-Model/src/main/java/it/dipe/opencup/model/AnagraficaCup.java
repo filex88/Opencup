@@ -1,7 +1,6 @@
 package it.dipe.opencup.model;
 
 import it.dipe.opencup.model.common.AbstractCommonEntity;
-import it.dipe.opencup.util.MyStringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
@@ -176,7 +174,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getCodiCup() {
-		return codiCup;
+		return codiCup.replace(" "," ");
 	}
 
 	public void setCodiCup(String codiCup) {
@@ -184,16 +182,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescCup() {
-		
-		System.out.println( descCup );
-		System.out.println( MyStringUtils.unescapeHtml3(descCup) );
-		System.out.println( StringEscapeUtils.unescapeHtml3(descCup) );
-		System.out.println( StringEscapeUtils.unescapeHtml4(descCup) );
-		
-		
-		//return StringEscapeUtils.unescapeHtml4(descCup);
-		//return MyStringUtils.unescapeHtml3(descCup);
-		return descCup;
+		return descCup.replace(" "," ");
 	}
 
 	public void setDescCup(String descCup) {
@@ -201,7 +190,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescSoggettoRichiedente() {
-		return descSoggettoRichiedente;
+		return descSoggettoRichiedente.replace(" "," ");
 	}
 
 	public void setDescSoggettoRichiedente(String descSoggettoRichiedente) {
@@ -209,7 +198,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescTipoCup() {
-		return descTipoCup;
+		return descTipoCup.replace(" "," ");
 	}
 
 	public void setDescTipoCup(String descTipoCup) {
@@ -217,7 +206,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescFinanzaProgetto() {
-		return descFinanzaProgetto;
+		return descFinanzaProgetto.replace(" "," ");
 	}
 
 	public void setDescFinanzaProgetto(String descFinanzaProgetto) {
@@ -225,7 +214,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescSponsorizzazioni() {
-		return descSponsorizzazioni;
+		return descSponsorizzazioni.replace(" "," ");
 	}
 
 	public void setDescSponsorizzazioni(String descSponsorizzazioni) {
@@ -233,7 +222,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getAnnoAnnoDelibera() {
-		return annoAnnoDelibera;
+		return annoAnnoDelibera.replace(" "," ");
 	}
 
 	public void setAnnoAnnoDelibera(String annoAnnoDelibera) {
@@ -241,7 +230,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getNumeDeliberaCipe() {
-		return numeDeliberaCipe;
+		return numeDeliberaCipe.replace(" "," ");
 	}
 
 	public void setNumeDeliberaCipe(String numeDeliberaCipe) {
@@ -249,7 +238,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getFlagLeggeObiettivo() {
-		return flagLeggeObiettivo;
+		return flagLeggeObiettivo.replace(" "," ");
 	}
 
 	public void setFlagLeggeObiettivo(String flagLeggeObiettivo) {
@@ -257,7 +246,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescRagioneSocialeAzie() {
-		return descRagioneSocialeAzie;
+		return descRagioneSocialeAzie.replace(" "," ");
 	}
 
 	public void setDescRagioneSocialeAzie(String descRagioneSocialeAzie) {
@@ -265,7 +254,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescAttoAmministrativo() {
-		return descAttoAmministrativo;
+		return descAttoAmministrativo.replace(" "," ");
 	}
 
 	public void setDescAttoAmministrativo(String descAttoAmministrativo) {
@@ -273,7 +262,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescModalitaIntervento() {
-		return descModalitaIntervento;
+		return descModalitaIntervento.replace(" "," ");
 	}
 
 	public void setDescModalitaIntervento(String descModalitaIntervento) {
@@ -281,7 +270,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescEnte() {
-		return descEnte;
+		return descEnte.replace(" "," ");
 	}
 
 	public void setDescEnte(String descEnte) {
@@ -289,7 +278,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescBeneServizio() {
-		return descBeneServizio;
+		return descBeneServizio.replace(" "," ");
 	}
 
 	public void setDescBeneServizio(String descBeneServizio) {
@@ -297,7 +286,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescImpresaStabilimento() {
-		return descImpresaStabilimento;
+		return descImpresaStabilimento.replace(" "," ");
 	}
 
 	public void setDescImpresaStabilimento(String descImpresaStabilimento) {
@@ -305,7 +294,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getTextIndirizzo() {
-		return textIndirizzo;
+		return textIndirizzo.replace(" "," ");
 	}
 
 	public void setTextIndirizzo(String textIndirizzo) {
@@ -313,7 +302,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getCodiPiva() {
-		return codiPiva;
+		return codiPiva.replace(" "," ");
 	}
 
 	public void setCodiPiva(String codiPiva) {
@@ -321,7 +310,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescObiettivoFinaleInt() {
-		return descObiettivoFinaleInt;
+		return descObiettivoFinaleInt.replace(" "," ");
 	}
 
 	public void setDescObiettivoFinaleInt(String descObiettivoFinaleInt) {
@@ -329,7 +318,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getCodiLocaleProgetto() {
-		return codiLocaleProgetto;
+		return codiLocaleProgetto.replace(" "," ");
 	}
 
 	public void setCodiLocaleProgetto(String codiLocaleProgetto) {
@@ -337,7 +326,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getFlagCumulativo() {
-		return flagCumulativo;
+		return flagCumulativo.replace(" "," ");
 	}
 
 	public void setFlagCumulativo(String flagCumulativo) {
@@ -345,7 +334,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescStrumento() {
-		return descStrumento;
+		return descStrumento.replace(" "," ");
 	}
 
 	public void setDescStrumento(String descStrumento) {
@@ -353,7 +342,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescBeneficiario() {
-		return descBeneficiario;
+		return descBeneficiario.replace(" "," ");
 	}
 
 	public void setDescBeneficiario(String descBeneficiario) {
@@ -389,7 +378,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescQualita() {
-		return descQualita;
+		return descQualita.replace(" "," ");
 	}
 
 	public void setDescQualita(String descQualita) {
@@ -426,7 +415,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescStrutturaInfrast() {
-		return descStrutturaInfrast;
+		return descStrutturaInfrast.replace(" "," ");
 	}
 
 	public void setDescStrutturaInfrast(String descStrutturaInfrast) {
@@ -451,7 +440,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 				}
 			}
 		}
-		return tipoCopertura;
+		return tipoCopertura.replace(" "," ");
 	}
 
 	@Override

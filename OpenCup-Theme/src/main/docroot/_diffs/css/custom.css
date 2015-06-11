@@ -120,6 +120,7 @@ div#searchBar button{background:#fff;border: none; color: #1f4e78;box-shadow:NON
 	padding: 1em;
 	color:#1f4e78;
 	border-top:0px; 
+	font-size: .7em;
 }
 
 #footer ul#main-footer-list{height: inherit;padding-top: 0.5em;}
