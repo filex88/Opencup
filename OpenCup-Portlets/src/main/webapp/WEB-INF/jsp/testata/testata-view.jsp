@@ -27,8 +27,16 @@
 	#conteiner div.titolo p{padding-top:0.5em; padding-left:0.5em; font-size:1.6em; color:#1f4e78; margin:0 0 5px;}
 	#conteiner .firstLoc{ padding-top:0.8em; padding-left:1em; color:#1f4e78; font-size:2em; white-space: nowrap;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
-	#conteiner .classchart rect:first-of-type {fill: #d9d9d9;}
-	#conteiner .classchart rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #1f4e78;}
+	
+	#conteiner .classchart-natura rect:first-of-type {fill: #d9d9d9;}
+	#conteiner .classchart-natura rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #0f0e73;}
+	
+	#conteiner .classchart-localizzazione rect:first-of-type {fill: #d9d9d9;}
+	#conteiner .classchart-localizzazione rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #3f8acc;}
+	
+	#conteiner .classchart-soggetto rect:first-of-type {fill: #d9d9d9;}
+	#conteiner .classchart-soggetto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #87b5de;}
+	
 	#conteiner div.barcontainer span.pubblico{color:#1f4e78;}
 	#conteiner div.barcontainer span.privato{color:#ababab;}
 	div.div_pie_chart_testata_stato, div.div_bar_chart_testata_anni {text-align: center;}
@@ -126,7 +134,8 @@
 </style>
 
 <div class="stripeTestata">
-	<div style="height: auto; border-left: 5px solid #1f4e78; overflow: auto;">
+	
+	<div class="contenitore-testata" style="height: auto; overflow: auto;">
 		
 		<div class="row" id="conteiner" >
 			<div class="span12 titolo" id="titolo"></div>
@@ -193,12 +202,32 @@
 </div>
 
 <script>
-	
+	/*
 	var baseColor1 = "#b2c6ff";
 	var baseColor2 = "#4472fb";
 	var baseColor3 = "#1f4e78";
 	var textColor = "#1f4e78";
+	*/
+	
+	var pagNavigazioneLogo = "${pagNavigazioneLogo}";
+	
+	var baseColor1 = "#87b5de";
+	var baseColor2 = "#3f8acc";
+	var baseColor3 = "#0f0e73";
+	
+	var textColor = "#0f0e73";
+	if(pagNavigazioneLogo=='localizzazione'){
+		textColor = "#3f8acc";
+	}else if(pagNavigazioneLogo=='soggetto'){
+		textColor = "#87b5de";
+	}
+	
+	//console.log(pagNavigazioneLogo + " -> " + textColor);
 
+	d3.selectAll(".contenitore-testata").style("border-left", "5px solid " + textColor);
+	d3.selectAll(".legendLabel").style("color", textColor);
+	d3.selectAll(".legendLabelNowrap").style("color", textColor);
+	
 	function nFormatter(num) {
 	    if (num >= 1000000000) {
 	       return'<strong>' + (num / 1000000000).toFixed(0).replace(/\.0$/, '') + '</strong><small> Mld &euro;</small>';
@@ -220,6 +249,7 @@
 		.data(calculatedJsonClass)
 		.enter()
 		.append("p")
+		.style("color", textColor)
 		.html(function(d){
 			var retval = d.desNatura;
 			if( pagNavigazioneLogo == 'natura' ){
@@ -264,7 +294,7 @@
 		.attr("class", "left effHistogram")
 		.style("width", (singleElMwClass*2.6)+"px")
 		.append("img")
-		.attr("src",function(d){
+		.attr("src", function(d){
 			
 			var areaCorrente = d.desArea.split(/[\s,]+/);
 		 	var desArea = areaCorrente[0].toLowerCase();
@@ -296,8 +326,11 @@
 		.append("div")
 		.attr("class","left")
 		.style("width",(singleElMwClass*6.5)+"px")
-	    .html(function(d){
-	    	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"+nFormatter(d.impoCostoProgetti)+"</p>";
+		.append("p")
+		.style("color", textColor)
+		.attr("class", "firstLoc")
+		.html(function(d){
+	    	return nFormatter(d.numeProgetti)+"<br/><br/>"+nFormatter(d.impoCostoProgetti);
 	    });
 		
 		d3.selectAll(elementName)
@@ -308,7 +341,9 @@
 		.append("div")
 		.attr("class","left")
 		.style("width",(singleElMwClass*4.3)+"px")
-		.html("<p><small>Finanziamenti</small></p>");
+		.append("p")
+		.style("color", textColor)
+		.html("<small>Finanziamenti</small>");
 		
 		d3.selectAll(elementName)
 		.selectAll("div.barchart")
@@ -317,11 +352,11 @@
 		.style("width",(singleElMwClass*5.5)+"px")
 		.style("padding-top","0px")
 		.append("svg")
-		.attr("class","classchart")
+		.attr("class","classchart-"+pagNavigazioneLogo)
 		.attr("width",(singleElMwClass*5))
 		.attr("height", 10);
 		
-		d3.selectAll(".classchart")
+		d3.selectAll(".classchart-"+pagNavigazioneLogo)
 		.each(function(d){
 			var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
 			var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
@@ -334,10 +369,20 @@
 		 	
 		});
 		
-		d3.selectAll(".barcontainer")
+		var appo_div = d3.selectAll(".barcontainer")
 		.append("div")
-		.style("width",(singleElMwClass*5)+"px")
-		.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
+		.style("width",(singleElMwClass*5)+"px");
+		
+		appo_div.append("span")
+		.attr("class", "left pubblico")
+		.style("color", textColor)
+		.html("<small>Pubblico</small>")
+		
+		appo_div.append("span")
+		.attr("class", "right privato")
+		.html("<small>Privato</small>")
+		
+		//.html("<span class=\'left pubblico\'><small>Pubblico</small></span><span class=\'right privato\'><small>Privato</small></span>");
 		
 	}
 	
@@ -461,9 +506,9 @@
 					d.outerRadius = outerRadius; // Set Outer Coordinate
 					d.innerRadius = innerRadius; // Set Inner Coordinate
 					return "translate(" + arc.centroid(d) + ")";
-				})
-		.style("fill", "White")
-		.style("font", "normal 18px Arial");
+				});
+		//.style("fill", "White")
+		//.style("font", "normal 18px Arial");
 	
 		// Computes the angle of an arc, converting from radians to degrees.
 		function angle(d) {
@@ -502,8 +547,8 @@
         // create the second column for each segment.
         tr.append("td")
         .attr("width", totWidth-10)
-        .attr("class", 'legendLabelNowrap').text(function(d){ return d.label; });
-        
+        .attr("class", 'legendLabelNowrap').text(function(d){ return d.label; })
+        .style("color", textColor);
     }
 	
 	function drawBarTestataAnni( barName, dataSet, selectString  ) {
@@ -576,8 +621,8 @@
 	    .attr("x", function(d, i) { return x(d.label); })
 	    .attr("width", x.rangeBand())
 	    .attr("y", function(d) { return y(d.volume); })
-	    .attr("height", function(d) { return height - y(d.volume); });
-
+	    .attr("height", function(d) { return height - y(d.volume); })
+		.style("fill", textColor);
 	};
 	
 	function drawTrendTestataAnni( barName, dataSet, selectString  ) {
@@ -714,7 +759,6 @@
 	var JsonClass = ${jsonResultRiepilogo};
 	var calculatedJsonClass = eval( JsonClass );
 	
-	var pagNavigazioneLogo = "${pagNavigazioneLogo}";
 	var separatore = " <i style='font-size:0.5em; vertical-align:middle; padding:10px;' class='icon-circle'></i> ";
 	
 	drawTitoloIntestazione( '#titolo', calculatedJsonClass, pagNavigazioneLogo, separatore);
@@ -734,7 +778,7 @@
 	drawBarTestataAnni("TestataBarAnni", dataSetTestataAnni1, ".bar_chart_testata_anni" );
 	
 	drawTrendTestataAnni("trend_svg_testata_anni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
-	/*
+	
 	d3.selectAll(".divider").each(
 			function(){
 				var c=d3.select(this).node().parentNode;
@@ -746,5 +790,5 @@
 			
 					d3.select(c).select("span").remove();
 			});
-	*/
+	
 </script>

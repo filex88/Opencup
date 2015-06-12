@@ -23,6 +23,7 @@
 </div>
 
 <script>
+	/*
 	d3.selectAll(".divider").each(
 		function(){
 			var c=d3.select(this).node().parentNode;
@@ -34,4 +35,5 @@
 			
 			d3.select(c).select("span").remove();
 		});
+	*/
 </script>
