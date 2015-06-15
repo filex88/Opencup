@@ -228,16 +228,29 @@
 	d3.selectAll(".legendLabel").style("color", textColor);
 	d3.selectAll(".legendLabelNowrap").style("color", textColor);
 	
+	Number.prototype.formattaNumerico = 
+		function(c, d, t) {
+			var n = this, 
+				c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "." : d, 
+				t = t == undefined ? "," : t, s = n < 0 ? "-" : "", 
+				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				j = (j = i.length) > 3 ? j % 3 : 0;
+				
+		return s + (j ? i.substr(0, j) + t : "")
+			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
+			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
+		 
 	function nFormatter(num) {
 	    if (num >= 1000000000) {
-	       return'<strong>' + (num / 1000000000).toFixed(0).replace(/\.0$/, '') + '</strong><small> Mld &euro;</small>';
+	       return '<strong>' + (num / 1000000000).formattaNumerico(0, ',', '.') + '</strong> <small>Mld &euro;</small>';
 	    }
 	    if (num >= 1000000) {
-	       return '<strong>' + (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil </strong><small>&euro;</small>';
+	       return '<strong>' + (num / 1000000).formattaNumerico(0, ',', '.') + '</strong> <small>Mil &euro;</small>';
 	    }
 	    if (num >= 1000) {
 	    	// return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small style="font-size: .5em;">progetti</small>';
-	    	return '<strong>' + num + '</strong><small style="font-size: .5em;">progetti</small>';
+	    	return '<strong>' + num.formattaNumerico(0, ',', '.')  + '</strong>';
 	    }
 	    return num;
 	}
@@ -330,7 +343,7 @@
 		.style("color", textColor)
 		.attr("class", "firstLoc")
 		.html(function(d){
-	    	return nFormatter(d.numeProgetti)+"<br/><br/>"+nFormatter(d.impoCostoProgetti);
+	    	return nFormatter(d.numeProgetti)+' <small style="font-size: .5em;">progetti</small>'+"<br/><br/>"+nFormatter(d.impoCostoProgetti);
 	    });
 		
 		d3.selectAll(elementName)

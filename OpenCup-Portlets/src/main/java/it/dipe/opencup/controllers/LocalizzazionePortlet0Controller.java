@@ -2,8 +2,12 @@ package it.dipe.opencup.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import it.dipe.opencup.comparator.AreaGeograficaComparator;
+import it.dipe.opencup.comparator.ProvinciaComparator;
+import it.dipe.opencup.comparator.RegioneComparator;
 import it.dipe.opencup.dto.LocalizationValueConverter;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
@@ -97,7 +101,22 @@ public class LocalizzazionePortlet0Controller{
 			navigaAggregata.setIdAreaGeografica( "0" );
 			navigaAggregata.setIdRegione( "0" );
 		}
+		
 		List<Aggregata> risultati = aggregataFacade.findAggregataByLocalizzazione(navigaAggregata);
+		
+		if(flagAreaGeografica && !flagRegione){
+			//Visualizzo un'area geografica precisa
+			Collections.sort(risultati, new RegioneComparator());
+		}else if(flagAreaGeografica && flagRegione){
+			//Visualizzo una regione
+			Collections.sort(risultati, new ProvinciaComparator());
+		}else if( "R".equals( navigaAggregata.getIndicatoreNavigaLocalizzazione() ) ){
+			//Visualizzo tutta Italia
+			Collections.sort(risultati, new RegioneComparator());
+		}else{
+			//Visualizzo tutta Italia
+			Collections.sort(risultati, new AreaGeograficaComparator());
+		}
 		
 		navigaAggregata.setIdAreaGeografica( idAreaGeografica );
 		navigaAggregata.setIdRegione( idRegione );

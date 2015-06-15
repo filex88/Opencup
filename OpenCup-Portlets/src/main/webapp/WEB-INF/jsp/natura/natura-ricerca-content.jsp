@@ -92,7 +92,7 @@
 					</div>
 					
 					<div class="control-group no-margin-bottom">
-						<strong class="control-label">Gerarchia Soggetto</strong>
+						<strong class="control-label">Soggetto</strong>
 						<div class="controls">&nbsp;</div>
 					</div>
 				

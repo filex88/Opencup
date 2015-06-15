@@ -438,17 +438,30 @@
 		  return importo.replace(/^\./, "");  // elimina il primo punto se presente
 	}
 	
-	function nFormatter(num){
-	    if (num >= 1000000000) {
-	       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
-	    }
-	    if (num >= 1000000) {
-	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
-	    }
-	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
-	    }
-	    return num;
+	Number.prototype.formattaNumerico = 
+		function(c, d, t) {
+			var n = this, 
+				c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "." : d, 
+				t = t == undefined ? "," : t, s = n < 0 ? "-" : "", 
+				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				j = (j = i.length) > 3 ? j % 3 : 0;
+				
+		return s + (j ? i.substr(0, j) + t : "")
+			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
+			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
+
+	function nFormatter(num) {
+		if (num >= 1000000000) {
+			return (num / 1000000000).formattaNumerico(0, ',', '.') + ' Mld';
+		}
+		if (num >= 1000000) {
+			return (num / 1000000).formattaNumerico(0, ',', '.') + ' Mil';
+		}
+		if (num >= 1000) {
+			return num.formattaNumerico(0, ',', '.');
+		}
+		return num;
 	}
 	
 	drawGraphTerritori(dimension, jsonResultLocalizzazione);

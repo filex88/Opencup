@@ -247,14 +247,12 @@
 					id="ricerca-form" 
 					cssClass="form-horizontal ricerca-form">	
 				
-					<div style="color: #004383">
-						<%-- 
-						<c:if test="${currentAction eq 'elencoProgetti'}">
-							<div>
-					           	<span><strong>Filtri di ricerca <i class='icon-filter'></i></strong></span>
-					       	</div>
-						</c:if>
-						--%>
+					<div style="color: #004383; padding: 1em;">
+						
+						<div style="padding: 10px;">
+				           	<span><strong>Inserimento parametri di ricerca <i class='icon-filter'></i></strong></span>
+				       	</div>
+								
 				       	<div>
 				       		<div class="span6">
 				       		
@@ -320,7 +318,7 @@
 								</c:choose>
 								
 								<div class="control-group no-margin-bottom">
-									<strong class="control-label">Gerarchia Soggetto</strong>
+									<strong class="control-label">Soggetto</strong>
 									<div class="controls">&nbsp;</div>
 								</div>
 								

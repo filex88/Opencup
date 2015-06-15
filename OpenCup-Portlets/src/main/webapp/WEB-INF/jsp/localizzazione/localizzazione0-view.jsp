@@ -49,57 +49,59 @@
 		<div class="clear"></div>
 	
 	</div>	
-		
-	<div id="container-localizzazione">
-		
-		<div class="row">
-			<div class="span6" style="height: 4em;">
-				<div class="titoloLocalizzazione" id="titoloLocalizzazione">
-					Localizzazione
-				</div>
-			</div>
-			<div class="span3 offset2" style="height: 4em;">
-				<div class="row">
-					<div class="span6 indicatoreNavigaLocalizzazioneLabel">Naviga per:</div> 
-				
-						<c:choose>
-							<c:when test='${navigaAggregata.indicatoreNavigaLocalizzazione eq "R"}'>
-								<div class="span6 indicatoreNavigaLocalizzazione" id="indicatoreNavigaLocalizzazione" data-indicatoreNavigaLocalizzazione="A">Area</div>
-							</c:when>
-							<c:otherwise>
-								<div class="span6 indicatoreNavigaLocalizzazione" id="indicatoreNavigaLocalizzazione" data-indicatoreNavigaLocalizzazione="R">Regione</div>
-							</c:otherwise>
-						</c:choose>
-					
-					
-				</div>
-			</div>
-		</div>
-		
-		<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		 -- GRAFICI --		
-		 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-		<a id="localizzazione-portlet"></a>
-		
-		<div class="div_localizzazione_1 div_grafico_padding">
-			<div class="row chart-div">
-				
-				<div class="span4 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
-				</div>
-				
-				<div class="span6">
-					<div class="span5" id="chartLegendTerritori"></div>
-					<div class="span1" id="histogramChart"></div>
-				</div>
-				<div class="clear"></div>
-				
-			</div>
-		</div>
-		
-		<div class="alert alert-info localizzazioneEmpty" id="localizzazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
-					
-	</div>
 	
+	<div class="stripe">
+	
+		<div id="container-localizzazione">
+			
+			<div class="row">
+				<div class="span6" style="height: 4em;">
+					<div class="titoloLocalizzazione" id="titoloLocalizzazione">
+						Localizzazione
+					</div>
+				</div>
+				<div class="span3 offset2" style="height: 4em;">
+					<div class="row">
+						<div class="span6 indicatoreNavigaLocalizzazioneLabel">Naviga per:</div> 
+					
+							<c:choose>
+								<c:when test='${navigaAggregata.indicatoreNavigaLocalizzazione eq "R"}'>
+									<div class="span6 indicatoreNavigaLocalizzazione" id="indicatoreNavigaLocalizzazione" data-indicatoreNavigaLocalizzazione="A">Area</div>
+								</c:when>
+								<c:otherwise>
+									<div class="span6 indicatoreNavigaLocalizzazione" id="indicatoreNavigaLocalizzazione" data-indicatoreNavigaLocalizzazione="R">Regione</div>
+								</c:otherwise>
+							</c:choose>
+						
+						
+					</div>
+				</div>
+			</div>
+			
+			<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------
+			 -- GRAFICI --		
+			 ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+			<a id="localizzazione-portlet"></a>
+			
+			<div class="div_localizzazione_1 div_grafico_padding">
+				<div class="row chart-div">
+					
+					<div class="span4 offset1 div_localizzazione chart localizzazione_1" id="italybymacroareas">
+					</div>
+					
+					<div class="span6">
+						<div class="span5" id="chartLegendTerritori"></div>
+						<div class="span1" id="histogramChart"></div>
+					</div>
+					<div class="clear"></div>
+					
+				</div>
+			</div>
+			
+			<div class="alert alert-info localizzazioneEmpty" id="localizzazioneEmpty" style="display: none"> Nessun dato trovato per la selezione fatta </div>
+						
+		</div>
+	</div>
 		
 	<portlet:actionURL var="urlActionVar">
 	   	<portlet:param name="action" value="cambiaAggregazione"></portlet:param>
@@ -724,17 +726,30 @@
 		  return importo.replace(/^\./, "");  // elimina il primo punto se presente
 	}
 	
-	function nFormatter(num){
-	    if (num >= 1000000000) {
-	       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
-	    }
-	    if (num >= 1000000) {
-	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
-	    }
-	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
-	    }
-	    return num;
+	Number.prototype.formattaNumerico = 
+		function(c, d, t) {
+			var n = this, 
+				c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "." : d, 
+				t = t == undefined ? "," : t, s = n < 0 ? "-" : "", 
+				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				j = (j = i.length) > 3 ? j % 3 : 0;
+				
+		return s + (j ? i.substr(0, j) + t : "")
+			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
+			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
+
+	function nFormatter(num) {
+		if (num >= 1000000000) {
+			return (num / 1000000000).formattaNumerico(0, ',', '.') + ' Mld';
+		}
+		if (num >= 1000000) {
+			return (num / 1000000).formattaNumerico(0, ',', '.') + ' Mil';
+		}
+		if (num >= 1000) {
+			return num.formattaNumerico(0, ',', '.');
+		}
+		return num;
 	}
 	
 	String.prototype.trunc =

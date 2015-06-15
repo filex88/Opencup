@@ -12,10 +12,8 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
-
 import javax.portlet.PortletMode;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
@@ -33,7 +31,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-
 import org.springframework.web.portlet.bind.annotation.EventMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
@@ -45,9 +42,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-
 import com.liferay.portal.kernel.util.Validator;
-
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -118,6 +113,20 @@ public class PieChartPortletController {
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		model.addAttribute("pattern", pattern);
+		
+		String orderProperty = "";
+		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
+			orderProperty = "classificazione.descCategoria";
+		}else if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
+			orderProperty = "classificazione.descSottosettore";
+		}else if( navigaAggregata.getIdAreaIntervento().equals("0") ){
+			orderProperty = "classificazione.descAreaIntervento";
+		}else if( navigaAggregata.getIdNatura().equals("0") ){
+			orderProperty = "classificazione.descNatura";
+		}
+		navigaAggregata.setOrderProperty(orderProperty);
+		navigaAggregata.setOrderType("asc");
+		
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		
 		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());

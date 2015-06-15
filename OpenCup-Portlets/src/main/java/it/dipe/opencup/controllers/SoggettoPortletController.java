@@ -115,6 +115,17 @@ public class SoggettoPortletController {
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		
 		model.addAttribute("pattern", pattern);
+		
+		String orderProperty = "";
+		if( navigaAggregata.getIdSottoCategoriaSoggetto().equals("0") ){
+			orderProperty = "gerarchiaSoggetto.descSottocategSoggetto";
+		}else if( navigaAggregata.getIdCategoriaSoggetto().equals("0") ){
+			orderProperty = "gerarchiaSoggetto.descCategSoggetto";
+		}else if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
+			orderProperty = "gerarchiaSoggetto.descAreaSoggetto";
+		}
+		navigaAggregata.setOrderProperty(orderProperty);
+		navigaAggregata.setOrderType("asc");
 
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		

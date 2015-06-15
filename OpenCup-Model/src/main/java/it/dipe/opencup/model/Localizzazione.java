@@ -41,7 +41,7 @@ public class Localizzazione extends AbstractCommonEntity implements Serializable
 	
 	@Column(name = "DESC_DLOC_AREA_GEOGRAFICA", length = 50)
 	private String descAreaGeografica;
-	 
+	
 	
 	@ManyToOne(targetEntity = Provincia.class)
 	@Fetch(FetchMode.SELECT)

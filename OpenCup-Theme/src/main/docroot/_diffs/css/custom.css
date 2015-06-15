@@ -183,3 +183,7 @@ div.newsImageContainer{width:14em;height:14em;float:right;padding-right:1em;}
 	-moz-box-shadow: 0 0 5px rgba(150,150,150,0.3);
 	box-shadow: 0 0 5px rgba(150,150,150,0.3);
 }
+
+.aui button, .aui html input[type="button"], .aui input[type="reset"], .aui input[type="submit"]{
+	font-family: 'levenim-mt' !important;
+}

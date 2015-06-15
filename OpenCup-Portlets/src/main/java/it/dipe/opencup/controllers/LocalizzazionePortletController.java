@@ -1,5 +1,6 @@
 package it.dipe.opencup.controllers;
 
+import it.dipe.opencup.comparator.AreaGeograficaComparator;
 import it.dipe.opencup.dto.LocalizationValueConverter;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.facade.AggregataFacade;
@@ -7,6 +8,7 @@ import it.dipe.opencup.model.Aggregata;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.EventRequest;
@@ -64,7 +66,12 @@ public class LocalizzazionePortletController{
 		Long numeProgetti = new Long(0);
 		double impoCostoProgetti = 0.0;
 		double impoImportoFinanziato = 0.0;
+		
+
 		List<Aggregata> risultati = aggregataFacade.findAggregataByLocalizzazione(navigaAggregata);
+		
+		Collections.sort(risultati, new AreaGeograficaComparator());
+		
 		List<LocalizationValueConverter> valori = new ArrayList<LocalizationValueConverter>();
 		for (Aggregata aggregata : risultati){
 			LocalizationValueConverter areaGeo= new LocalizationValueConverter();

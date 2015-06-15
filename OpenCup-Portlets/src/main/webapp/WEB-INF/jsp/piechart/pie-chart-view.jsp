@@ -146,7 +146,6 @@
 	var tipoAggregazione = '${pattern}';
 	var selezionabile = ! ${config.selezionabile};
 	
-	//var segments = [ "#b2c6ff", "#9eb5fc", "#90abfb", "#81a0fa", "#7597fb", "#678dfb", "#5a84fa", "#507cfb", "#4472fb", "#3869f9", "#2f62f2", "#275aea", "#2254e2", "#1b4bd8", "#1745ce", "#1240c3", "#0d39b8", "#0932a3" ];
 	var baseColor1 = "#b2c6ff";
 	var baseColor2 = "#4472fb";
 	var baseColor3 = "#0932a3";
@@ -194,21 +193,33 @@
 	
 	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	
-	function nFormatter(num) {
-	    if (num >= 1000000000) {
-	       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
-	    }
-	    if (num >= 1000000) {
-	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
-	    }
-	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
-	    }
-	    return num;
-	}
-	//var colorScale = d3.scale.ordinal().range(segments);
+	Number.prototype.formattaNumerico = 
+		function(c, d, t) {
+			var n = this, 
+				c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "." : d, 
+				t = t == undefined ? "," : t, s = n < 0 ? "-" : "", 
+				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				j = (j = i.length) > 3 ? j % 3 : 0;
+				
+		return s + (j ? i.substr(0, j) + t : "")
+			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
+			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
 
+	function nFormatter(num) {
+		if (num >= 1000000000) {
+			return (num / 1000000000).formattaNumerico(0, ',', '.') + ' Mld';
+		}
+		if (num >= 1000000) {
+			return (num / 1000000).formattaNumerico(0, ',', '.') + ' Mil';
+		}
+		if (num >= 1000) {
+			return num.formattaNumerico(0, ',', '.');
+		}
+		return num;
+	}
 	
+	//var colorScale = d3.scale.ordinal().range(segments);
 	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	
 	String.prototype.trunc =

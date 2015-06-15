@@ -189,19 +189,6 @@
 	// scala colori in base a valori calcolati
 	var colorSoggetto = d3.scale.linear().domain([minDataSoggetto, midDataSoggetto, maxDataSoggetto]).range([baseColor1, baseColor2, baseColor3]);
 	
-	function nFormatter(num) {
-	    if (num >= 1000000000) {
-	       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
-	    }
-	    if (num >= 1000000) {
-	       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
-	    }
-	    if (num >= 1000) {
-	       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
-	    }
-	    return num;
-	}
-	
 	String.prototype.trunc =
 	     function(n,useWordBoundary){
 	         var toLong = this.length>n,
@@ -210,177 +197,230 @@
 	         //return  toLong ? s_ + '&hellip;' : s_;
 	         return  toLong ? s_ + '...' : s_;
 	      };
+	 
+ 
+	Number.prototype.formattaNumerico = 
+		function(c, d, t) {
+			var n = this, 
+				c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "." : d, 
+				t = t == undefined ? "," : t, s = n < 0 ? "-" : "", 
+				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				j = (j = i.length) > 3 ? j % 3 : 0;
+				
+		return s + (j ? i.substr(0, j) + t : "")
+			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
+			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
+
+	function nFormatter(num) {
+		if (num >= 1000000000) {
+			return (num / 1000000000).formattaNumerico(0, ',', '.') + ' Mld';
+		}
+		if (num >= 1000000) {
+			return (num / 1000000).formattaNumerico(0, ',', '.') + ' Mil';
+		}
+		if (num >= 1000) {
+			return num.formattaNumerico(0, ',', '.');
+		}
+		return num;
+	}
 
 	synchronizedMouseOverSoggetto = function(info) {
 		var obj = d3.select(this);
-		
-		if(selezionabileSoggetto){
-			
-			obj.style('cursor','default');
-		
-		}else{
-			
+
+		if (selezionabileSoggetto) {
+
+			obj.style('cursor', 'default');
+
+		} else {
+
 			var indexValue = obj.attr("index_value");
-	
-			obj.style('cursor','pointer');
-			
-			var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"+indexValue);
+
+			obj.style('cursor', 'pointer');
+
+			var histogramSoggetto = d3
+					.selectAll(".historgam-HistogramSoggetto-" + indexValue);
 			histogramSoggetto.style("fill", fillColor);
-			
-			var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"+indexValue);
+
+			var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"
+					+ indexValue);
 			circleSoggetto.style("fill", fillColor);
-			
-			var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
+
+			var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"
+					+ indexValue);
 			textSoggetto.style("fill", fillColor);
-			
-			var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"+indexValue);
+
+			var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"
+					+ indexValue);
 			numberSoggetto.style("fill", fillColor);
 		}
-		
+
 	}
-	
+
 	synchronizedMouseOutSoggetto = function(info) {
 		var obj = d3.select(this);
 		var indexValue = obj.attr("index_value");
 		var colorValue = obj.attr("color_value");
 
-		var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"+indexValue);
+		var histogramSoggetto = d3.selectAll(".historgam-HistogramSoggetto-"
+				+ indexValue);
 		histogramSoggetto.style("fill", colorValue);
-		
-		var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"+indexValue);
+
+		var circleSoggetto = d3.selectAll(".legend-circle-LegendSoggetto-"
+				+ indexValue);
 		circleSoggetto.style("fill", colorValue);
-		
-		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"+indexValue);
+
+		var textSoggetto = d3.selectAll(".legend-text-LegendSoggetto-"
+				+ indexValue);
 		textSoggetto.style("fill", textColor);
-		
-		var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"+indexValue);
+
+		var numberSoggetto = d3.selectAll(".legend-number-LegendSoggetto-"
+				+ indexValue);
 		numberSoggetto.style("fill", textColor);
 	}
-	
-	function drawHistogramSoggetto ( elementName, dataSet, selectString ) {
-		
-		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;			
-		
-		var margin = {top: 15, right: 25, bottom: 15, left: 25};
-		
+
+	function drawHistogramSoggetto(elementName, dataSet, selectString) {
+
+		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;
+
+		var margin = {
+			top : 15,
+			right : 25,
+			bottom : 15,
+			left : 25
+		};
+
 		var width = totWidth - margin.left - margin.right;
-		
-		var height = (totWidth - margin.top - margin.bottom)/2;
-		
-		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
-		
-		var y = d3.scale.linear().range([height, 0]);
-		
+
+		var height = (totWidth - margin.top - margin.bottom) / 2;
+
+		var x = d3.scale.ordinal().rangeRoundBands([ 0, width ], .1);
+
+		var y = d3.scale.linear().range([ height, 0 ]);
+
 		//var xAxis = d3.svg.axis().scale(x).orient("bottom");
 		//var yAxis = d3.svg.axis().scale(y).orient("left");
 
-		var svg = d3.select(selectString).append("svg")
-	  	.attr("width", width + margin.left + margin.right)
-	  	.attr("height", height + margin.top + margin.bottom)
-	  	.append("g")
-	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		var svg = d3.select(selectString).append("svg").attr("width",
+				width + margin.left + margin.right).attr("height",
+				height + margin.top + margin.bottom).append("g").attr(
+				"transform",
+				"translate(" + margin.left + "," + margin.top + ")");
+
+		x.domain(dataSet.map(function(d) {
+			return d.label;
+		}));
+
+		var maxVolume = d3.max(dataSet, function(d) {
+			return d.volume;
+		});
+		y.domain([ 0, maxVolume ]);
+
+		/*
+		svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis);
 		
-	  	x.domain(dataSet.map(function(d) { return d.label; }));
-	  	
-	  	var maxVolume = d3.max(dataSet, function(d) { return d.volume; });
-	  	y.domain([0, maxVolume]);
-	  	
-	  	/*
-	  	svg.append("g")
-	    .attr("class", "x axis")
-	    .attr("transform", "translate(0," + height + ")")
-	    .call(xAxis);
-	  	
-	  	svg.append("g")
-	    .attr("class", "y axis")
-	    .call(yAxis)
-	    .append("text")
-	    .attr("transform", "rotate(-90)")
-	    .attr("y", 6)
-	    .attr("dy", ".71em")
-	    .style("text-anchor", "end")
-	    .text("progetti");
-	  	*/
-	  	
-	  	var columnWidth = (x.rangeBand()>100)?100:x.rangeBand();
-	  	var columnTraslate = x.rangeBand() - columnWidth;
-	  	
-		svg.selectAll(".bar_soggetto")
-	  	.data(dataSet)
-	  	.enter()
-	  	.append("rect")
-	  	.attr("fill", function(d, i) { return colorSoggetto(i); })
-	  	.attr("class", function(d, i){
-	  		retval = "bar_soggetto historgam-"+elementName+"-index-"+i;
-			if(!selezionabileSoggetto){
-				retval = retval + " link-url-naviga-soggetto";
-			}
-			return retval;
-	  	})
-	  	.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
-		.attr("index_value", function(d, i) { return "index-"+i; })
-		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
-	    .attr("x", function(d, i) { return x(d.label) + columnTraslate; })
-	    .attr("width", columnWidth )
-	    .attr("y", function(d) { return y(d.volume); })
-	    .attr("height", function(d) { 
-	    	return height - y(d.volume); })
-	    .on('mouseover', synchronizedMouseOverSoggetto)
-		.on("mouseout", synchronizedMouseOutSoggetto);
-		
+		svg.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", ".71em")
+		.style("text-anchor", "end")
+		.text("progetti");
+		 */
+
+		var columnWidth = (x.rangeBand() > 100) ? 100 : x.rangeBand();
+		var columnTraslate = x.rangeBand() - columnWidth;
+
+		svg.selectAll(".bar_soggetto").data(dataSet).enter().append("rect")
+				.attr("fill", function(d, i) {
+					return colorSoggetto(i);
+				}).attr(
+						"class",
+						function(d, i) {
+							retval = "bar_soggetto historgam-" + elementName
+									+ "-index-" + i;
+							if (!selezionabileSoggetto) {
+								retval = retval + " link-url-naviga-soggetto";
+							}
+							return retval;
+						}).attr("color_value", function(d, i) {
+					return colorSoggetto(i);
+				}) // Bar fill color...
+				.attr("index_value", function(d, i) {
+					return "index-" + i;
+				}).attr("data_linkURL", function(d, i) {
+					return calculatedJsonClass4Soggetto[i].linkURL
+				}).attr("x", function(d, i) {
+					return x(d.label) + columnTraslate;
+				}).attr("width", columnWidth).attr("y", function(d) {
+					return y(d.volume);
+				}).attr("height", function(d) {
+					return height - y(d.volume);
+				}).on('mouseover', synchronizedMouseOverSoggetto).on(
+						"mouseout", synchronizedMouseOutSoggetto);
+
 	};
 	/*
 	function drawLegendSoggetto ( elementName, dataSet, selectString ) {
 		
 		// create table for legend.
-        var legend = d3.select(selectString)
-        .append("table")
-        .attr('class', 'legend');
-        
-        // create one row per segment.
-        var tr = legend
-        .append("tbody")
-        .selectAll("tr")
-        .data(dataSet)
-        .enter()
-        .append("tr");
-            
-        // create the first column for each segment.
-        tr
-        .append("td")
-        .append("svg")
-        .attr("width", '16')
-        .attr("height", '16')
-        .append("rect")
-        .attr("width", '16')
-        .attr("height", '16')
-        .attr("fill", function(d, i) { return colorSoggetto(i); });
-            
-        // create the second column for each segment.
-        tr
-        .append("td")
-        .attr("class", 'legendLabel')
-        .text(function(d){ return (d.label).trunc(36, true); });
+	    var legend = d3.select(selectString)
+	    .append("table")
+	    .attr('class', 'legend');
+	    
+	    // create one row per segment.
+	    var tr = legend
+	    .append("tbody")
+	    .selectAll("tr")
+	    .data(dataSet)
+	    .enter()
+	    .append("tr");
+	        
+	    // create the first column for each segment.
+	    tr
+	    .append("td")
+	    .append("svg")
+	    .attr("width", '16')
+	    .attr("height", '16')
+	    .append("rect")
+	    .attr("width", '16')
+	    .attr("height", '16')
+	    .attr("fill", function(d, i) { return colorSoggetto(i); });
+	        
+	    // create the second column for each segment.
+	    tr
+	    .append("td")
+	    .attr("class", 'legendLabel')
+	    .text(function(d){ return (d.label).trunc(36, true); });
 		
 	}
-	*/
-	function drawLegendSoggetto( elementName, dataSet, selectString ) {
-		
+	 */
+	function drawLegendSoggetto(elementName, dataSet, selectString) {
+
 		var widthTotal = 50;
-		var heightLegend = 25; 
-		var gapBetweenGroups = 25;		
-		var margin = {top: 0, right: 15, bottom: 15, left: 15};
-		
-		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;	
+		var heightLegend = 25;
+		var gapBetweenGroups = 25;
+		var margin = {
+			top : 0,
+			right : 15,
+			bottom : 15,
+			left : 15
+		};
+
+		var totWidth = d3.select(selectString).node().getBoundingClientRect().width;
 		var width = totWidth - margin.left - margin.right;
-		
-		
-		var svg = d3.select(selectString).append("svg")
-	  	.attr("width", width + margin.left + margin.right)
-	  	.attr("height", gapBetweenGroups + (dataSet.length * heightLegend))
-	  	.append("g")
-	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-		
+
+		var svg = d3.select(selectString).append("svg").attr("width",
+				width + margin.left + margin.right).attr("height",
+				gapBetweenGroups + (dataSet.length * heightLegend)).append("g")
+				.attr("transform",
+						"translate(" + margin.left + "," + margin.top + ")");
+
 		// Plot the bullet circles...
 		/*
 		svg
@@ -404,149 +444,219 @@
 				retval = retval + " link-url-naviga-soggetto";
 			}
 			return retval;
-	  	})
+		})
 		.on('mouseover', synchronizedMouseOverSoggetto)
 		.on("mouseout", synchronizedMouseOutSoggetto);
-		*/
-		
-		svg.selectAll("rect")
-		.data(dataSet)
-		.enter()
-		.append("rect")
-		.attr("width", "16")
-		.attr("height", "16")
-		.attr("x", widthTotal - 10)
-		.attr("y", function(d, i) { 
-			//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
-			return gapBetweenGroups + (heightLegend * i) - 10;
-		})
-		.style("fill", function(d, i) { return colorSoggetto(i); }) // Bullet fill color
-		.attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
-		.attr("index_value", function(d, i) { return "index-"+i; })
-		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
-		.attr("class", function(d, i){
-			retval = "legend-circle-"+elementName+"-index-"+i;
-			if(!selezionabileSoggetto){
-				retval = retval + " link-url-naviga-soggetto";
-			}
-			return retval;
-	  	})
-		.on('mouseover', synchronizedMouseOverSoggetto)
-		.on("mouseout", synchronizedMouseOutSoggetto);
-		
-		// Create text at right
-        svg.selectAll(".testo")
-		.data(dataSet) // Instruct to bind dataSet to text elements
-		.enter()
-		.append("text")
-		.attr("x", widthTotal + 20)
-		.attr("y", function(d, i) { 
-			return gapBetweenGroups + (heightLegend*i);
-		})
-		.attr("dx", 0)
-        .attr("dy", "5px") // Controls padding to place text in alignment with bullets
-        .text(function(d) { return (d.label).trunc(36, true); })
-        .attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
-		.attr("index_value", function(d, i) { return "index-"+i; })
-		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
-		.attr("class", function(d, i){
-			retval = "label testo legend-text-"+elementName+"-index-"+i;
-			if(!selezionabileSoggetto){
-				retval = retval + " link-url-naviga-soggetto";
-			}
-			return retval;
-	  	})
-        .style("fill", textColor)
-        .style("font-size", "1.8em")
-        .on('mouseover', synchronizedMouseOverSoggetto)
-        .on("mouseout", synchronizedMouseOutSoggetto)
-        .append("title")
-        .text(function(d) { return d.label; })
+		 */
 
-     	// Create number at right
-        svg.selectAll(".valore")
-		.data(dataSet) // Instruct to bind dataSet to text elements
-		.enter()
-		.append("text")
-		.attr("x", widthTotal + 400)
-		.attr("y", function(d, i) { 
-			return gapBetweenGroups + (heightLegend*i);
-		})
-		.attr("dx", 0)
-        .attr("dy", "5px") // Controls padding to place text in alignment with bullets
-        .text(function(d) { return nFormatter(d.volume); })
-        .attr("color_value", function(d, i) { return colorSoggetto(i); }) // Bar fill color...
-		.attr("index_value", function(d, i) { return "index-"+i; })
-		.attr("data_linkURL", function(d, i) { return calculatedJsonClass4Soggetto[i].linkURL })
-		.attr("class", function(d, i){
-			retval = "label valore legend-number-"+elementName+"-index-"+i;
-			if(!selezionabileSoggetto){
+		svg.selectAll("rect").data(dataSet).enter().append("rect").attr(
+				"width", "16").attr("height", "16").attr("x", widthTotal - 10)
+				.attr("y", function(d, i) {
+					//return ( gapBetweenGroups + (i * (heightTotal / dataSet.length)) + ((heightTotal / dataSet.length)/2) ) ; 
+					return gapBetweenGroups + (heightLegend * i) - 10;
+				}).style("fill", function(d, i) {
+					return colorSoggetto(i);
+				}) // Bullet fill color
+				.attr("color_value", function(d, i) {
+					return colorSoggetto(i);
+				}) // Bar fill color...
+				.attr("index_value", function(d, i) {
+					return "index-" + i;
+				}).attr("data_linkURL", function(d, i) {
+					return calculatedJsonClass4Soggetto[i].linkURL
+				}).attr("class", function(d, i) {
+					retval = "legend-circle-" + elementName + "-index-" + i;
+					if (!selezionabileSoggetto) {
+						retval = retval + " link-url-naviga-soggetto";
+					}
+					return retval;
+				}).on('mouseover', synchronizedMouseOverSoggetto).on(
+						"mouseout", synchronizedMouseOutSoggetto);
+
+		// Create text at right
+		svg.selectAll(".testo").data(dataSet) // Instruct to bind dataSet to text elements
+		.enter().append("text").attr("x", widthTotal + 20).attr("y",
+				function(d, i) {
+					return gapBetweenGroups + (heightLegend * i);
+				}).attr("dx", 0).attr("dy", "5px") // Controls padding to place text in alignment with bullets
+		.text(function(d) {
+			return (d.label).trunc(36, true);
+		}).attr("color_value", function(d, i) {
+			return colorSoggetto(i);
+		}) // Bar fill color...
+		.attr("index_value", function(d, i) {
+			return "index-" + i;
+		}).attr("data_linkURL", function(d, i) {
+			return calculatedJsonClass4Soggetto[i].linkURL
+		}).attr("class", function(d, i) {
+			retval = "label testo legend-text-" + elementName + "-index-" + i;
+			if (!selezionabileSoggetto) {
 				retval = retval + " link-url-naviga-soggetto";
 			}
 			return retval;
-	  	})
-        .style("fill", textColor)
-        .style("font-size", "1.8em")
-        .on('mouseover', synchronizedMouseOverSoggetto)
-        .on("mouseout", synchronizedMouseOutSoggetto);
-		
+		}).style("fill", textColor).style("font-size", "1.8em").on('mouseover',
+				synchronizedMouseOverSoggetto).on("mouseout",
+				synchronizedMouseOutSoggetto).append("title").text(function(d) {
+			return d.label;
+		})
+
+		// Create number at right
+		svg.selectAll(".valore").data(dataSet) // Instruct to bind dataSet to text elements
+		.enter().append("text").attr("x", widthTotal + 400).attr("y",
+				function(d, i) {
+					return gapBetweenGroups + (heightLegend * i);
+				}).attr("dx", 0).attr("dy", "5px") // Controls padding to place text in alignment with bullets
+		.text(function(d) {
+			return nFormatter(d.volume);
+		}).attr("color_value", function(d, i) {
+			return colorSoggetto(i);
+		}) // Bar fill color...
+		.attr("index_value", function(d, i) {
+			return "index-" + i;
+		}).attr("data_linkURL", function(d, i) {
+			return calculatedJsonClass4Soggetto[i].linkURL
+		}).attr(
+				"class",
+				function(d, i) {
+					retval = "label valore legend-number-" + elementName
+							+ "-index-" + i;
+					if (!selezionabileSoggetto) {
+						retval = retval + " link-url-naviga-soggetto";
+					}
+					return retval;
+				}).style("fill", textColor).style("font-size", "1.8em").on(
+				'mouseover', synchronizedMouseOverSoggetto).on("mouseout",
+				synchronizedMouseOutSoggetto);
+
 	}
 
-	
 	//var heightHistogramSoggetti = 250;
-	
-	drawHistogramSoggetto("HistogramSoggetto", calculatedJsonClass4Soggetto, ".soggetto_1" );
-	
-	drawLegendSoggetto("LegendSoggetto", calculatedJsonClass4Soggetto, ".soggetto_2" );
-	
-	AUI().use('get', function(A){
-		A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
-			onSuccess: function(){
-		    	A.Get.script('${jsFolder}/bootstrap.min.js', {
-		       		onSuccess: function(){	
-						
-		       			$(".volume-color-soggetto").mouseover(function() { 
-		       				$(".arrow-down-volume-soggetto").css('border-top','10px solid #d27900'); 
-		       			});
-		       			$(".volume-color-soggetto").mouseout(function() { 
-		       				$(".arrow-down-volume-soggetto").css('border-top','10px solid #f08c00'); 
-		       			});
-		       				
-		       			$(".costo-color-soggetto").mouseover(function() { 
-		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #2c5831'); 
-		       			});
-		       			$(".costo-color-soggetto").mouseout(function() { 
-		       				$(".arrow-down-costo-soggetto").css('border-top','10px solid #499652'); 
-		       			});
-		       				
-		       			$(".importo-color-soggetto").mouseover(function() { 
-		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #005500'); 
-		       			});
-		       			$(".importo-color-soggetto").mouseout(function() { 
-		       				$(".arrow-down-importo-soggetto").css('border-top','10px solid #7ade87'); 
-		       			});
-		       				
-		       			$( ".sel-type-btn-soggetto" ).click(function() {
-	       					var arc = d3.select(this);
-		       				var distribuzione = arc.attr("data-distribuzione");
-		       				$( ".pattern-soggetto" ).val(distribuzione);
-		       				$( ".naviga-form-soggetto" ).submit();
-		       			});
-		       				
-		       			$( ".link-url-naviga-soggetto" ).click(function() {
-		       				if(!selezionabileSoggetto){
-		       					var obj = d3.select(this);
-			       				var data_linkURL = obj.attr("data_linkURL");
-			       				$( ".naviga-form-soggetto" ).attr("action", data_linkURL);
-			       				$( ".naviga-form-soggetto" ).submit();
-		       				}
-		       			});	
-		      		}
-			 	});
-		    }
-		});
-	});
-		
+
+	drawHistogramSoggetto("HistogramSoggetto", calculatedJsonClass4Soggetto,
+			".soggetto_1");
+
+	drawLegendSoggetto("LegendSoggetto", calculatedJsonClass4Soggetto,
+			".soggetto_2");
+
+	AUI()
+			.use(
+					'get',
+					function(A) {
+						A.Get
+								.script(
+										'${jsFolder}/jquery-1.11.0.min.js',
+										{
+											onSuccess : function() {
+												A.Get
+														.script(
+																'${jsFolder}/bootstrap.min.js',
+																{
+																	onSuccess : function() {
+
+																		$(
+																				".volume-color-soggetto")
+																				.mouseover(
+																						function() {
+																							$(
+																									".arrow-down-volume-soggetto")
+																									.css(
+																											'border-top',
+																											'10px solid #d27900');
+																						});
+																		$(
+																				".volume-color-soggetto")
+																				.mouseout(
+																						function() {
+																							$(
+																									".arrow-down-volume-soggetto")
+																									.css(
+																											'border-top',
+																											'10px solid #f08c00');
+																						});
+
+																		$(
+																				".costo-color-soggetto")
+																				.mouseover(
+																						function() {
+																							$(
+																									".arrow-down-costo-soggetto")
+																									.css(
+																											'border-top',
+																											'10px solid #2c5831');
+																						});
+																		$(
+																				".costo-color-soggetto")
+																				.mouseout(
+																						function() {
+																							$(
+																									".arrow-down-costo-soggetto")
+																									.css(
+																											'border-top',
+																											'10px solid #499652');
+																						});
+
+																		$(
+																				".importo-color-soggetto")
+																				.mouseover(
+																						function() {
+																							$(
+																									".arrow-down-importo-soggetto")
+																									.css(
+																											'border-top',
+																											'10px solid #005500');
+																						});
+																		$(
+																				".importo-color-soggetto")
+																				.mouseout(
+																						function() {
+																							$(
+																									".arrow-down-importo-soggetto")
+																									.css(
+																											'border-top',
+																											'10px solid #7ade87');
+																						});
+
+																		$(
+																				".sel-type-btn-soggetto")
+																				.click(
+																						function() {
+																							var arc = d3
+																									.select(this);
+																							var distribuzione = arc
+																									.attr("data-distribuzione");
+																							$(
+																									".pattern-soggetto")
+																									.val(
+																											distribuzione);
+																							$(
+																									".naviga-form-soggetto")
+																									.submit();
+																						});
+
+																		$(
+																				".link-url-naviga-soggetto")
+																				.click(
+																						function() {
+																							if (!selezionabileSoggetto) {
+																								var obj = d3
+																										.select(this);
+																								var data_linkURL = obj
+																										.attr("data_linkURL");
+																								$(
+																										".naviga-form-soggetto")
+																										.attr(
+																												"action",
+																												data_linkURL);
+																								$(
+																										".naviga-form-soggetto")
+																										.submit();
+																							}
+																						});
+																	}
+																});
+											}
+										});
+					});
 </script>
 	
 
