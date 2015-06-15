@@ -174,7 +174,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getCodiCup() {
-		return codiCup.replace(" "," ");
+		return (StringUtils.isEmpty(codiCup))?"":codiCup.replace(" "," ");
 	}
 
 	public void setCodiCup(String codiCup) {
@@ -182,7 +182,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescCup() {
-		return descCup.replace(" "," ");
+		return (StringUtils.isEmpty(descCup))?"":descCup.replace(" "," ");
 	}
 
 	public void setDescCup(String descCup) {
@@ -190,7 +190,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescSoggettoRichiedente() {
-		return descSoggettoRichiedente.replace(" "," ");
+		return (StringUtils.isEmpty(descSoggettoRichiedente))?"":descSoggettoRichiedente.replace(" "," ");
 	}
 
 	public void setDescSoggettoRichiedente(String descSoggettoRichiedente) {
@@ -198,7 +198,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescTipoCup() {
-		return descTipoCup.replace(" "," ");
+		return (StringUtils.isEmpty(descTipoCup))?"":descTipoCup.replace(" "," ");
 	}
 
 	public void setDescTipoCup(String descTipoCup) {
@@ -206,7 +206,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescFinanzaProgetto() {
-		return descFinanzaProgetto.replace(" "," ");
+		return (StringUtils.isEmpty(descFinanzaProgetto))?"":descFinanzaProgetto.replace(" "," ");
 	}
 
 	public void setDescFinanzaProgetto(String descFinanzaProgetto) {
@@ -214,7 +214,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescSponsorizzazioni() {
-		return descSponsorizzazioni.replace(" "," ");
+		return (StringUtils.isEmpty(descSponsorizzazioni))?"":descSponsorizzazioni.replace(" "," ");
 	}
 
 	public void setDescSponsorizzazioni(String descSponsorizzazioni) {
@@ -222,7 +222,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getAnnoAnnoDelibera() {
-		return annoAnnoDelibera.replace(" "," ");
+		return (StringUtils.isEmpty(annoAnnoDelibera))?"":annoAnnoDelibera.replace(" "," ");
 	}
 
 	public void setAnnoAnnoDelibera(String annoAnnoDelibera) {
@@ -230,7 +230,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getNumeDeliberaCipe() {
-		return numeDeliberaCipe.replace(" "," ");
+		return (StringUtils.isEmpty(numeDeliberaCipe))?"":numeDeliberaCipe.replace(" "," ");
 	}
 
 	public void setNumeDeliberaCipe(String numeDeliberaCipe) {
@@ -238,7 +238,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getFlagLeggeObiettivo() {
-		return flagLeggeObiettivo.replace(" "," ");
+		return (StringUtils.isEmpty(flagLeggeObiettivo))?"":flagLeggeObiettivo.replace(" "," ");
 	}
 
 	public void setFlagLeggeObiettivo(String flagLeggeObiettivo) {
@@ -246,7 +246,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescRagioneSocialeAzie() {
-		return descRagioneSocialeAzie.replace(" "," ");
+		return (StringUtils.isEmpty(descRagioneSocialeAzie))?"":descRagioneSocialeAzie.replace(" "," ");
 	}
 
 	public void setDescRagioneSocialeAzie(String descRagioneSocialeAzie) {
@@ -254,7 +254,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescAttoAmministrativo() {
-		return descAttoAmministrativo.replace(" "," ");
+		return (StringUtils.isEmpty(descAttoAmministrativo))?"":descAttoAmministrativo.replace(" "," ");
 	}
 
 	public void setDescAttoAmministrativo(String descAttoAmministrativo) {
@@ -262,7 +262,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescModalitaIntervento() {
-		return descModalitaIntervento.replace(" "," ");
+		return (StringUtils.isEmpty(descModalitaIntervento))?"":descModalitaIntervento.replace(" "," ");
 	}
 
 	public void setDescModalitaIntervento(String descModalitaIntervento) {
@@ -270,7 +270,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescEnte() {
-		return descEnte.replace(" "," ");
+		return (StringUtils.isEmpty(descEnte))?"":descEnte.replace(" "," ");
 	}
 
 	public void setDescEnte(String descEnte) {
@@ -278,7 +278,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescBeneServizio() {
-		return descBeneServizio.replace(" "," ");
+		return (StringUtils.isEmpty(descBeneServizio))?"":descBeneServizio.replace(" "," ");
 	}
 
 	public void setDescBeneServizio(String descBeneServizio) {
@@ -286,7 +286,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescImpresaStabilimento() {
-		return descImpresaStabilimento.replace(" "," ");
+		return (StringUtils.isEmpty(descImpresaStabilimento))?"":descImpresaStabilimento.replace(" "," ");
 	}
 
 	public void setDescImpresaStabilimento(String descImpresaStabilimento) {
@@ -294,7 +294,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getTextIndirizzo() {
-		return textIndirizzo.replace(" "," ");
+		return (StringUtils.isEmpty(textIndirizzo))?"":textIndirizzo.replace(" "," ");
 	}
 
 	public void setTextIndirizzo(String textIndirizzo) {
@@ -302,7 +302,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getCodiPiva() {
-		return codiPiva.replace(" "," ");
+		return (StringUtils.isEmpty(codiPiva))?"":codiPiva.replace(" "," ");
 	}
 
 	public void setCodiPiva(String codiPiva) {
@@ -310,7 +310,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescObiettivoFinaleInt() {
-		return descObiettivoFinaleInt.replace(" "," ");
+		return (StringUtils.isEmpty(descObiettivoFinaleInt))?"":descObiettivoFinaleInt.replace(" "," ");
 	}
 
 	public void setDescObiettivoFinaleInt(String descObiettivoFinaleInt) {
@@ -318,7 +318,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getCodiLocaleProgetto() {
-		return codiLocaleProgetto.replace(" "," ");
+		return (StringUtils.isEmpty(codiLocaleProgetto))?"":codiLocaleProgetto.replace(" "," ");
 	}
 
 	public void setCodiLocaleProgetto(String codiLocaleProgetto) {
@@ -326,7 +326,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getFlagCumulativo() {
-		return flagCumulativo.replace(" "," ");
+		return (StringUtils.isEmpty(flagCumulativo))?"":flagCumulativo.replace(" "," ");
 	}
 
 	public void setFlagCumulativo(String flagCumulativo) {
@@ -334,7 +334,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescStrumento() {
-		return descStrumento.replace(" "," ");
+		return (StringUtils.isEmpty(descStrumento))?"":descStrumento.replace(" "," ");
 	}
 
 	public void setDescStrumento(String descStrumento) {
@@ -342,7 +342,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescBeneficiario() {
-		return descBeneficiario.replace(" "," ");
+		return (StringUtils.isEmpty(descBeneficiario))?"":descBeneficiario.replace(" "," ");
 	}
 
 	public void setDescBeneficiario(String descBeneficiario) {
@@ -378,7 +378,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescQualita() {
-		return descQualita.replace(" "," ");
+		return (StringUtils.isEmpty(descQualita))?"":descQualita.replace(" "," ");
 	}
 
 	public void setDescQualita(String descQualita) {
@@ -415,7 +415,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	}
 
 	public String getDescStrutturaInfrast() {
-		return descStrutturaInfrast.replace(" "," ");
+		return (StringUtils.isEmpty(descStrutturaInfrast))?"":descStrutturaInfrast.replace(" "," ");
 	}
 
 	public void setDescStrutturaInfrast(String descStrutturaInfrast) {
@@ -440,7 +440,7 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 				}
 			}
 		}
-		return tipoCopertura.replace(" "," ");
+		return (StringUtils.isEmpty(tipoCopertura))?"":tipoCopertura.replace(" "," ");
 	}
 
 	@Override
