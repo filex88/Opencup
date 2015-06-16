@@ -267,74 +267,79 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 
 <div class="row graficoHome ${tipoAggregazione}">
 
-	<div class="span4 chart-div" style="border-top:0.5em solid #0084b0; padding-top:1em;">
-		<div class="left" style="margin-left:0.5em;">
-			<i class="icon-sitemap right" style="font-size:1.5em; border:0.25em solid #0084b0;color:#0084b0; border-radius:50%; padding: .25em;"></i>
-		</div>
-		<div style="margin-left:4em;">
-			<span style="font-size: 2em; color: #0084b0">Classificazione</span><br/>
-			<span style="font-size: 1em; color: #0084b0">
-			<c:if test='${pattern eq "VOLUME"}'>
-				Numero Progetti
-			</c:if>
-			<c:if test='${pattern eq "COSTO"}'>
-				Costo previsto
-			</c:if>	
-			<c:if test='${pattern eq "IMPORTO"}'>
-				Finanziamento Pubblico Previsto
-			</c:if>	
-			</span></div>
-		<div style="margin-top:2em;">
-			<div class="span6" id="chartLegendClassificazione"></div>
-			<div class="span6" id="histogramClassificazione"></div>
-		</div>
-	</div> 
-	
-	<div class="span4 chart-div" style="border-top:0.5em solid #00b0f0; padding-top:1em;">
-		<div class="left">
-			<i class="icon-globe right" style="font-size:1.5em; border:0.25em solid #00b0f0;color:#00b0f0; border-radius:50%; padding: .25em;"></i>
-		</div>
-		<div style="margin-left:4em;">
-			<span style="font-size: 2em; color: #00b0f0">Localizzazione</span><br/>
-			<span style="font-size: 1em; color: #00b0f0">
-			<c:if test='${pattern eq "VOLUME"}'>
-				Numero Progetti
-			</c:if>
-			<c:if test='${pattern eq "COSTO"}'>
-				Costo previsto
-			</c:if>	
-			<c:if test='${pattern eq "IMPORTO"}'>
-				Finanziamento Pubblico Previsto
-			</c:if>	
-			</span></div>
-		<div style="margin-top:2em;">
-			<div class="span6" id="chartLegendLocalizzazione"></div>
-			<div class="span6" id="histogramLocalizzazione"></div>
+	<div class="span4" style="margin-left:0em; width:33%; border-right:0.5em solid #f5f5f5;">
+		<div class="span12 chart-div" style="border-top:0.5em solid #0084b0; padding-top:1em; height:22em;">
+			<div class="left" style="margin-left:0.5em;">
+				<i class="icon-sitemap right" style="font-size:1.5em; border:0.25em solid #0084b0;color:#0084b0; border-radius:50%; padding: .25em;"></i>
+			</div>
+			<div style="margin-left:4em;">
+				<span style="font-size: 2em; color: #0084b0">Classificazione</span><br/>
+				<span style="font-size: 1em; color: #0084b0">
+				<c:if test='${pattern eq "VOLUME"}'>
+					Numero Progetti
+				</c:if>
+				<c:if test='${pattern eq "COSTO"}'>
+					Costo previsto
+				</c:if>	
+				<c:if test='${pattern eq "IMPORTO"}'>
+					Finanziamento Pubblico Previsto
+				</c:if>	
+				</span></div>
+			<div style="margin-top:2em;">
+				<div class="span6" id="chartLegendClassificazione"></div>
+				<div class="span6" id="histogramClassificazione"></div>
+			</div>
 		</div>
 	</div> 
+	<div class="span4" style="margin:0; width:34%; border-right:0.5em solid #f5f5f5;  ">
+		<div class="span12 chart-div" style="border-top:0.5em solid #00b0f0; padding-top:1em; padding-left:0.5em;">
+			<div class="left">
+				<i class="icon-globe right" style="font-size:1.5em; border:0.25em solid #00b0f0;color:#00b0f0; border-radius:50%; padding: .25em;"></i>
+			</div>
+			<div style="margin-left:4em;">
+				<span style="font-size: 2em; color: #00b0f0">Localizzazione</span><br/>
+				<span style="font-size: 1em; color: #00b0f0">
+				<c:if test='${pattern eq "VOLUME"}'>
+					Numero Progetti
+				</c:if>
+				<c:if test='${pattern eq "COSTO"}'>
+					Costo previsto
+				</c:if>	
+				<c:if test='${pattern eq "IMPORTO"}'>
+					Finanziamento Pubblico Previsto
+				</c:if>	
+				</span></div>
+			<div style="margin-top:2em;">
+				<div class="span6" id="chartLegendLocalizzazione"></div>
+				<div class="span6" id="histogramLocalizzazione"></div>
+			</div>
+		</div> 
+	</div>
 
-	<div class="span4 chart-div" style="border-top:0.5em solid #86c5fc; padding-top:1em;">
-		<div class="left">
-			<i class="icon-user right" style="font-size:1.5em; border:0.25em solid #86c5fc;color:#86c5fc; border-radius:50%; padding: .25em;"></i>
-		</div>
-		<div style="margin-left:4em;">
-			<span style="font-size: 2em; color: #86c5fc">Soggetto</span><br/>
-			<span style="font-size: 1em; color: #86c5fc">
-			<c:if test='${pattern eq "VOLUME"}'>
-				Numero Progetti
-			</c:if>
-			<c:if test='${pattern eq "COSTO"}'>
-				Costo previsto
-			</c:if>	
-			<c:if test='${pattern eq "IMPORTO"}'>
-				Finanziamento Pubblico Previsto
-			</c:if>	
-			</span></div>
-		<div style="margin-top:2em;">
-			<div class="span4" id="chartLegendSoggetto"></div>
-			<div class="span6 offset2" id="histogramSoggetto"></div>
-		</div>
-	</div> 
+	<div class="span4" style="margin:0; width:33%;  ">
+		<div class="span12 chart-div" style="border-top:0.5em solid #86c5fc; padding-top:1em; padding-left:0.5em;">
+			<div class="left">
+				<i class="icon-user right" style="font-size:1.5em; border:0.25em solid #86c5fc;color:#86c5fc; border-radius:50%; padding: .25em;"></i>
+			</div>
+			<div style="margin-left:4em;">
+				<span style="font-size: 2em; color: #86c5fc">Soggetto</span><br/>
+				<span style="font-size: 1em; color: #86c5fc">
+				<c:if test='${pattern eq "VOLUME"}'>
+					Numero Progetti
+				</c:if>
+				<c:if test='${pattern eq "COSTO"}'>
+					Costo previsto
+				</c:if>	
+				<c:if test='${pattern eq "IMPORTO"}'>
+					Finanziamento Pubblico Previsto
+				</c:if>	
+				</span></div>
+			<div style="margin-top:2em;">
+				<div class="span4" id="chartLegendSoggetto"></div>
+				<div class="span6 offset2" id="histogramSoggetto"></div>
+			</div>
+		</div> 
+	</div>
 	
 </div>
 	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-bottom:1em;">
@@ -832,7 +837,7 @@ function drawBar(chartName, histogramName, dataSet, hexColor) {
 	   zippedData.push(dataSet[i].value); 
 	}
 
-	var chartHeight = barHeight * zippedData.length + (gapBetweenGroups * 2);
+	var chartHeight = barHeight * zippedData.length + (gapBetweenGroups * 1,3);
 
 	var x = d3.scale.linear().domain([0, d3.max(zippedData)]).range([0, chartWidth]);
 
