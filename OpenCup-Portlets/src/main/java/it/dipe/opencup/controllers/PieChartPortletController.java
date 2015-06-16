@@ -227,6 +227,12 @@ public class PieChartPortletController {
 		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
 
+		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		if(StringUtils.isEmpty(pattern)){
+			pattern = ParamUtil.getString(aRequest, "pattern");
+			aResponse.setRenderParameter("pattern", pattern);
+		}
+
 		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		

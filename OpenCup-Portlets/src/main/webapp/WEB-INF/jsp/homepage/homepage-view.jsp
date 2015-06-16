@@ -402,139 +402,11 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 			<aui:input cssClass="pattern" type="hidden" name="pattern" value="${pattern}" id="pattern" />
 			
 	</form>
-<!-- 
-	<div id="news-list">	
-				<strong>
-					Ultime notizie
-				</strong>
-			
-				<ul>
-					<li>
-						<i class="icon-picture icon-3x"></i>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit: Phasellus ...</p>
-						<a href="#">Leggi tutto </a>
-						
-					</li>
-					<li>
-						<i class="icon-picture icon-3x"></i>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit: Phasellus ...</p>
-						<a href="#">Leggi tutto </a>
-					</li>
-					<li>
-						<i class="icon-picture icon-3x"></i>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit: Phasellus ...</p>
-						<a href="#">Leggi tutto </a>
-					</li>
-				</ul>
-		</div>
-		 -->
-		 <!-- 
-		<div id="sponsor-list">	
-				<strong>
-					I nostri sponsor
-				</strong>
-			
-			
-				<ul>
-					<li>
-						<i class="icon-circle icon-3x"></i>
-						<a href="#">Sponsor 1</a>
-						
-					</li>
-					<li>
-						<i class="icon-circle icon-3x"></i>
-						<a href="#">Sponsor 2</a>
-					</li>
-					<li>
-						<i class="icon-circle icon-3x"></i>
-						<a href="#">Sponsor 3</a>
-					</li>
-					<li>
-						<i class="icon-circle icon-3x"></i>
-						<a href="#">Sponsor 4</a>
-					</li>
-					<li>
-						<i class="icon-circle icon-3x"></i>
-						<a href="#">Sponsor 5</a>
-					</li>
-				</ul>
-		</div>
-		 -->
+
 <script>
 
 		
-		
-/* AUI().use('get', function(A){
-   A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
-       	onSuccess: function(){
-       		A.Get.script('${jsFolder}/bootstrap.min.js', {
-       			onSuccess: function(){	
-         			$('#noticeCarousel').carousel({
-         				interval:false
-         			});	
-         			
-         			 A.Get.script('${jsFolder}/js-infinite-carousel.js', {
-                            onSuccess: function(){
-                            caricaRulli();
-                            $( window ).resize(function(){
-                            	// esegue il redraw al resize
-								d3.selectAll("li.sumImporto").select("div").select("svg").selectAll("rect").remove();
-								drawFinBar();
- 								d3.selectAll("#rulloClass").selectAll("div").remove();
-								d3.selectAll("#rulloClass").append("ul").attr("id","classCarousel");
-								drawRulloClassificazione();
- 								d3.selectAll("#rulloLoc").selectAll("div").remove();
-								d3.selectAll("#rulloLoc").append("ul").attr("id","locCarousel");
-								drawRulloLocalizzazione();	
-                        		caricaRulli();	
-                        	});
-                            
-                            function caricaRulli(){
-                            	console.log("sono jquery");
-                            	 $('#locCarousel').infiniteCarousel({            
-                            		transitionSpeed:600,
-                            		displayTime: 6000,
-				                    heightSource: 180,
-                            		internalThumbnails: false,
-                            		thumbnailType: 'none',
-                            		customClass: 'locCarousel',
-                            		displayProgressRing: false,
-                            		margin: 0,
-                            		inView: 3,
-                            		advance: 1,
-                            		autoPilot: false,
-                            		prevNextInternal: true,
-                            		autoHideCaptions: false,
-                            	});
-                            	
-                             	$('#classCarousel').infiniteCarousel({            
-                            		transitionSpeed:600,
-                            		displayTime: 6000,
-				                    heightSource: 180,
-                            		internalThumbnails: false,
-                            		thumbnailType: 'none',
-                            		customClass: 'locCarousel',
-                            		displayProgressRing: false,
-                            		margin: 0,
-                            		inView: 3,
-                            		advance: 1,
-                            		autoPilot: false,
-                            		prevNextInternal: true,
-                            		autoHideCaptions: false,
-                            	});
-                            
-                            }
 
-                        }
-
-                    });
-         			
-         			
-      			}
-	 		});
-      	}
-	 });
-}); */
 
 
 var tipoAggregazioneSoggetto = '${pattern}';
@@ -550,12 +422,6 @@ d3.selectAll("#importoTotale").text(nFormatterBar("${impoImportoFinanziatoClass}
 d3.selectAll("#impoCostoProgetti").text(nFormatterBar("${impoCostoProgetti}")+"\u20ac");
 d3.selectAll("#importoFinanziato").text(nFormatterBar("${importoFinanziato}")+"\u20ac");
 
-
-
-/* drawFinBar(); */
-/* drawRulloClassificazione(); */
-/* drawRulloLocalizzazione(); */
-
 function drawFinBar(){
 	// barra importo finanziato
 	var widthLiFinanziato=d3.selectAll("li.sumImporto")[0][0].clientWidth;
@@ -569,166 +435,6 @@ function drawFinBar(){
 }
 
 
-/* function drawRulloClassificazione(){
-	// rullo classificazione
-	var calculatedJsonClass=eval('('+'${jsonResultClassificazione}'+')');
-	var containerWClass=d3.select("#rulloClass")[0][0].clientWidth;
-	var singleLiWClass=(containerWClass/3);
-	var singleElMwClass=singleLiWClass/10;
-
-	d3.selectAll("#classCarousel").selectAll("li").data(calculatedJsonClass)
-	.enter().append("li")
-	.style("width",singleLiWClass+"px")
-	.style("display","inline")
-	.style("list-style","none")
-	.style("float","left")
-	.append("div")
-	.attr("class","classificazione")
-	.append("div")
-	.attr("class","titolo")
-	.append("p")
-	.text(function(d){
-		return d.desArea;
-	});
-
-	d3.selectAll("#classCarousel").selectAll("div.classificazione")
-	.append("div")
-	.attr("class","left effHistogram")
-	.style("width",(singleElMwClass*4.3)+"px")
-	.append("img")
-	.attr("src",function(d){
-	 	var areaCorrente=d.desArea.split(/[\s,]+/);
-	 	var firstDesc=areaCorrente[0].toLowerCase();
-		return "${imgFolder}/icona-"+firstDesc+".svg";
-	});
-	
-	d3.selectAll("#classCarousel").selectAll("div.classificazione")
-	.append("div")
-	.attr("class","right valori")
-	.style("width",(singleElMwClass*5.5)+"px")
-    .html(function(d){
-     	return "<p class=\'firstLoc\'>"+nFormatter(d.numeProgetti)+"<br/><br/>"
-     			+nFormatter(d.impoCostoProgetti)+"</p>";
-     });
-	
-	d3.selectAll("#classCarousel").selectAll("div.classificazione")
-	.append("div")
-	.attr("class","barchart")
-	.style("padding-top","8em")
-	.append("div")
-	.attr("class","left")
-	.style("width",(singleElMwClass*4.3)+"px")
-	.html("<p><small>Finanziamenti pubblici</small></p>");
-	
-	
-	d3.selectAll("#classCarousel").selectAll("div.barchart")
-	.append("div")
-	.attr("class","right barcontainer")
-	.style("width",(singleElMwClass*5.5)+"px")
-	.append("svg")
-	.attr("class","classchart")
-	.attr("width",(singleElMwClass*5))
-	.attr("height",20);
-	
-	d3.selectAll(".classchart").each(function(d){
-	var range=[d.impoCostoProgetti, d.impoImportoFinanziato];
-	var x=d3.scale.linear().domain([0, d3.max(range)]).range([0, (singleElMwClass*5)]);
-	d3.select(this).selectAll("rect").data(range)
-		.enter().append("rect")
-	 	.attr("width", x)
-	 	.attr("height", 20);
-	 	
-	});
-	
-	d3.selectAll(".barcontainer")
-	.append("div")
-	.style("width",(singleElMwClass*5)+"px")
-	.html("<span class=\'left pubblico\'><small>Pubblico</small>"
-		+"</span><span class=\'right privato\'><small>Privato</small></span>");
-} */
-
-
-/* function drawRulloLocalizzazione(){
-	
-	// rullo localizzazione
-	var calculatedJson=eval('('+'${jsonResultLocalizzazione}'+')');
-	var baseColor1="rgb(0,176,240)";
-	var baseColor2="rgb(220,233,245)";
-
-	var width = 120,
-   	 	height = 120,
-    	radius = Math.min(width, height) / 2;
-
-	var color = d3.scale.linear().range([baseColor1,baseColor2]);
-
-	var pie = d3.layout.pie()
-    	.sort(null);
-
-	var arc = d3.svg.arc()
-    	.innerRadius(radius - 20)
-    	.outerRadius(radius - 10);
-
-	var containerW=d3.select("#rulloLoc")[0][0].clientWidth;
-	var singleLiW=(containerW/3);
-	var singleElMw=singleLiW/10;
-
-	d3.selectAll("#locCarousel").selectAll("li").data(calculatedJson)
-	.enter().append("li")
-	.style("width",singleLiW+"px")
-	.style("display","inline")
-	.style("list-style","none")
-	.style("float","left")
-	.append("div")
-	.attr("class","donut")
-	.append("div")
-	.attr("class","right effDonut")
-	.style("width",(singleElMw*4.3)+"px")
-	.append("svg")
-	.attr("width", width)
-    .attr("height", height)
-    .style("padding-left",((singleElMw*4.3)-width)/2+"px")
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-    
-    
-    d3.selectAll("#locCarousel").selectAll("g").selectAll("path")
-    .data(function(d){
-    	var dataSet=[d.importoValue,(d.costoValue-d.importoValue)];
-    	return pie(dataSet);
-    })
-    .enter().append("path")
-    .attr("fill", function(a, i) { return color(i); })
-    .attr("d", arc);
-    
-    d3.selectAll("#locCarousel").selectAll("g")
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("dy",".35em")
-    .style("fill","#00b0f0")
-    .style("font-size","18")
-    .style("font-weight","bold")
-    .text(function (d){
-    	var dataCalc=d.importoValue/d.costoValue;
-    	var dataPercent=dataCalc*100;
-    	return (dataPercent.toFixed(1) +"%");
-    });
-    
-     d3.selectAll("#locCarousel").selectAll("li").selectAll("div.donut")
-     .append("div")
-     .attr("class","left")
-     .style("width",(singleElMw*5.5)+"px")
-     .html(function(d){
-     	
-     	return "<p class=\'firstLoc\'><strong>"+d.fullLabel+"</strong></p>"+
-     			"<p class=\'secondLoc\'>"+nFormatter(d.volumeValue)+"<br/><br/>"
-     			+""+nFormatter(d.costoValue)+"</p>";
-     });
-    
-     d3.selectAll("#locCarousel").selectAll("div.effDonut")
-     .append("p")
-     .html('<small>Finanziamenti Pubblici</small>');
-
-}	 */
 	
 
 function nFormatter(num) {
@@ -809,9 +515,10 @@ function drawLegend(divLegend, legendName, dataSet, hexColor){
     .attr("dy", "5px") // Controls padding to place text in alignment with bullets
     .text(function(d) { return (d.label).trunc(36, true); })
     .attr("color_value", function(d, i) { return hexColor; }) // Bar fill color...
-    
+    .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
+    .attr("style", "cursor:pointer;")
 	.attr("class", function(d, i) { 
-		retval = "legend-" + legendName + "-legendText-index-" + i;
+		retval = "link-url-naviga legend-" + legendName + "-legendText-index-" + i;
 		return retval;
 	 })
     .style("fill", textColor)
@@ -874,14 +581,16 @@ function drawBar(chartName, histogramName, dataSet, hexColor) {
 	// Create rectangles of the correct width
 	bar.append("rect")
 	    .attr("fill", function(d,i) { return hexColor })
-		.attr("class", function(d, i) { return "bar histogram-" + histogramName + "-arc-index-" + i; })
+		.attr("class", function(d, i) { return "bar link-url-naviga histogram-" + histogramName + "-arc-index-" + i; })
 	    .attr("width", x)
+	    .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
+	    .attr("style", "cursor:pointer;")
 	    .attr("height", barHeight - 10);
 
 	
 	// Draw labels
 	bar.append("text")
-	   .attr("class", function(d, i) { return " histogram-" + histogramName + "-label-index-" + i; })
+	   .attr("class", function(d, i) { return "link-url-naviga histogram-" + histogramName + "-label-index-" + i; })
 	   .attr("x", 
 			function(d, i) { 
 				var delta = 60;
@@ -893,6 +602,8 @@ function drawBar(chartName, histogramName, dataSet, hexColor) {
 	   .attr("y", (barHeight-10) / 2)
 	   .attr("dy", ".25em")
 	   .style("fill", textColor)
+	    .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
+    	.attr("style", "cursor:pointer;")
 	   .style("font-size", "1em")
 	   .text(function(d, i) { 
 			return nFormatter(dataSet[i].value);
@@ -967,6 +678,12 @@ AUI().use('get', function(A){
 	       				$( ".naviga-form-distribuzione" ).submit();
 	       			});
 	       			
+					$(".link-url-naviga").click(function() {
+						var obj = d3.select(this);
+						var data_linkURL = obj.attr("data_linkURL");
+						$(".naviga-form-distribuzione").attr("action",data_linkURL);
+						$(".naviga-form-distribuzione").submit();
+					});
 	      		}
 		 	});
 	    }
