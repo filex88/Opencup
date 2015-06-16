@@ -792,16 +792,4 @@
 	
 	drawTrendTestataAnni("trend_svg_testata_anni", dataSetTestataAnni1, ".trend_chart_testata_anni" );
 	
-	d3.selectAll(".divider").each(
-			function(){
-				var c=d3.select(this).node().parentNode;
-				d3.select(c)
-					.style("font-weight","bold")
-					.append("i")
-					.attr("class","icon-caret-right")
-					.attr("style","padding: 0 5px");
-			
-					d3.select(c).select("span").remove();
-			});
-	
 </script>
