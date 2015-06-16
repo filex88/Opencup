@@ -218,6 +218,10 @@
 		}
 		return num;
 	}
+	//var colorScale = d3.scale.ordinal().range(segments);
+
+	
+	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
 	
 	//var colorScale = d3.scale.ordinal().range(segments);
 	var colorScale = d3.scale.linear().domain([minData,midData,maxData]).range([baseColor1,baseColor2,baseColor3]);
@@ -637,7 +641,6 @@
 		.on('mouseover', synchronizedMouseOver)
 		.on("mouseout", synchronizedMouseOut);
 		
-		
 		// Plot the bullet circles...
 //		canvas.selectAll("circle")
 //		.data(dataSet)
@@ -735,7 +738,6 @@
 		}
 	};
 */	
-	
 	
 	width_pie_chart_1 = d3.select(".pie_chart_1").node().getBoundingClientRect().width;
 	d3.select("#titoloClassificazione").style("height", width_pie_chart_1);

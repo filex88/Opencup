@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
+
 import javax.portlet.ActionResponse;
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
+
 import javax.portlet.PortletMode;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
@@ -31,7 +33,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+
 import org.springframework.web.portlet.bind.annotation.EventMapping;
+
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -42,7 +46,9 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+
 import com.liferay.portal.kernel.util.Validator;
+
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -182,6 +188,7 @@ public class PieChartPortletController {
 			conv.setValue( value );
 			conv.setLinkURL(aggregataDTO.getLinkURL());
 			converter.add(conv);
+
 		}
 
 		model.addAttribute("recordCount", converter.size());
@@ -207,7 +214,6 @@ public class PieChartPortletController {
 		
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		aResponse.setRenderParameter("pattern", pattern);
-
 	}
 	
 	@ActionMapping(params="action=navigazione")
@@ -216,12 +222,10 @@ public class PieChartPortletController {
 									Model model, 
 									@ModelAttribute("navigaAggregata") NavigaAggregata navigaAggregata,
 									@RequestParam(required=false, value="pattern") String pattern){
-		
 		navigaAggregata.setIdNatura(ParamUtil.getString(aRequest, "rowIdLiv1"));
 		navigaAggregata.setIdAreaIntervento(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		navigaAggregata.setIdSottosettoreIntervento(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdCategoriaIntervento(ParamUtil.getString(aRequest, "rowIdLiv4"));
-		
 
 		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
