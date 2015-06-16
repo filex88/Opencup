@@ -186,16 +186,27 @@ public class ElencoProgettiController extends FiltriCommonController {
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
 		
-		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
+		//int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
 		
 		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
 		navigaProgetti.setOrderByType(searchContainerElenco.getOrderByType());
+		/*
 		navigaProgetti.setStart(searchContainerElenco.getStart());
 		navigaProgetti.setDelta(delta);
+		*/
+		
 		List<Progetto> elencoProgetti = progettoFacade.findElencoProgetti(	navigaProgetti );
+		int size =  elencoProgetti.size();
 		
 		searchContainerElenco.setTotal(size);
-		searchContainerElenco.setResults(elencoProgetti);
+		int fromIndex = searchContainerElenco.getStart();
+		int toIndex = (((searchContainerElenco.getStart() + delta) > size)?size:(searchContainerElenco.getStart() + delta)) - 1;
+		
+		System.out.println( fromIndex );
+		System.out.println( toIndex );
+		
+		List<Progetto> elencoProgetti4Pag = elencoProgetti.subList(fromIndex, toIndex);
+		searchContainerElenco.setResults(elencoProgetti4Pag);
 		
 		model.addAttribute("searchContainerElenco", searchContainerElenco);
 		
@@ -209,6 +220,8 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		// RIEPILOGO //
 		//DATI TOTALI
+		
+		
 		NavigaAggregata navigaAggregata = new NavigaAggregata();
 		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
 		navigaAggregata.setIdNatura(idNatura);
@@ -226,6 +239,12 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		int sizetot =  progettoFacade.sizeElencoProgetti( navigaProgettitot ).getSize();
 		
+		model.addAttribute("volumeDeiProgetti", sizetot);
+		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
+		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
+
+		
+		/*
 		navigaAggregata = new NavigaAggregata();
 		navigaAggregata.setIdNatura(idNatura);
 		navigaAggregata.importa( navigaProgetti );
@@ -239,14 +258,22 @@ public class ElencoProgettiController extends FiltriCommonController {
 			impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
 		}
 		
+		model.addAttribute("volumeDeiProgettiProg", size);
+		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
+		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
+		*/
+		
+		Double impoCostoProgettiProg = 0.0;
+		Double impoImportoFinanziatoProg = 0.0;
+		
+		for( Progetto p : elencoProgetti ){
+			impoCostoProgettiProg = impoCostoProgettiProg + p.getImpoCostoProgetto();
+			impoImportoFinanziatoProg = impoImportoFinanziatoProg + p.getImpoImportoFinanziato();
+		}
 		
 		model.addAttribute("volumeDeiProgettiProg", size);
 		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
 		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
-		
-		model.addAttribute("volumeDeiProgetti", sizetot);
-		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
-		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
 		// FINE RIEPILOGO //
 		
