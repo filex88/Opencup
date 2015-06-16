@@ -189,10 +189,6 @@ public class ProgettoFacade {
 			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaProgetti.getIdStatoProgetto())) );
 		}	
 		
-		
-		
-
-		
 //		if( navigaProgetti.getIdComune().equals("0") ){
 //			criteria.add( Restrictions.ge("cupLocalizzazioni.comune.id", Integer.valueOf(navigaProgetti.getIdComune())) );
 //		}else{
@@ -245,13 +241,15 @@ public class ProgettoFacade {
 		
 		String orderByCol = filtri.getOrderByCol();
 		String orderByType = filtri.getOrderByType();
+/*
 		Integer startResult = filtri.getStart();
 		Integer endResult = filtri.getDelta();
-		
-		Criteria criteria = buildCriteria(filtri)
+*/		
+		Criteria criteria = buildCriteria(filtri);
+/*
 				.setFirstResult(startResult.intValue())
 				.setMaxResults(endResult.intValue());
-
+*/
 		if("asc".equals(orderByType))
 			criteria.addOrder(Order.asc(orderByCol));
 		else

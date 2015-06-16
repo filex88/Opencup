@@ -532,131 +532,68 @@
 
 	//var heightHistogramSoggetti = 250;
 
-	drawHistogramSoggetto("HistogramSoggetto", calculatedJsonClass4Soggetto,
-			".soggetto_1");
+	drawHistogramSoggetto("HistogramSoggetto", calculatedJsonClass4Soggetto, ".soggetto_1");
 
-	drawLegendSoggetto("LegendSoggetto", calculatedJsonClass4Soggetto,
-			".soggetto_2");
+	drawLegendSoggetto("LegendSoggetto", calculatedJsonClass4Soggetto, ".soggetto_2");
 
-	AUI()
-			.use(
-					'get',
-					function(A) {
-						A.Get
-								.script(
-										'${jsFolder}/jquery-1.11.0.min.js',
-										{
-											onSuccess : function() {
-												A.Get
-														.script(
-																'${jsFolder}/bootstrap.min.js',
-																{
-																	onSuccess : function() {
+	AUI().use(
+		'get',
+		function(A) {
+			A.Get.script('${jsFolder}/jquery-1.11.0.min.js',
+				{onSuccess : function() {
+					A.Get.script('${jsFolder}/bootstrap.min.js',
+						{onSuccess : function() {
+							$(".volume-color-soggetto").mouseover(
+									function() {
+										$(".arrow-down-volume-soggetto").css('border-top', '10px solid #d27900');
+									});
+							$(".volume-color-soggetto").mouseout(
+									function() {
+										$(".arrow-down-volume-soggetto").css('border-top', '10px solid #f08c00');
+									});
 
-																		$(
-																				".volume-color-soggetto")
-																				.mouseover(
-																						function() {
-																							$(
-																									".arrow-down-volume-soggetto")
-																									.css(
-																											'border-top',
-																											'10px solid #d27900');
-																						});
-																		$(
-																				".volume-color-soggetto")
-																				.mouseout(
-																						function() {
-																							$(
-																									".arrow-down-volume-soggetto")
-																									.css(
-																											'border-top',
-																											'10px solid #f08c00');
-																						});
+							$(".costo-color-soggetto").mouseover(
+									function() {
+										$(".arrow-down-costo-soggetto").css('border-top', '10px solid #2c5831');
+							});
+								
+							$(".costo-color-soggetto").mouseout(
+									function() {
+										$(".arrow-down-costo-soggetto").css('border-top', '10px solid #499652');
+							});
 
-																		$(
-																				".costo-color-soggetto")
-																				.mouseover(
-																						function() {
-																							$(
-																									".arrow-down-costo-soggetto")
-																									.css(
-																											'border-top',
-																											'10px solid #2c5831');
-																						});
-																		$(
-																				".costo-color-soggetto")
-																				.mouseout(
-																						function() {
-																							$(
-																									".arrow-down-costo-soggetto")
-																									.css(
-																											'border-top',
-																											'10px solid #499652');
-																						});
+							$(".importo-color-soggetto").mouseover(
+									function() {
+										$(".arrow-down-importo-soggetto").css('border-top', '10px solid #005500');
+							});
+																		
+							$(".importo-color-soggetto").mouseout(
+									function() {
+										$(".arrow-down-importo-soggetto").css('border-top', '10px solid #7ade87');
+							});
 
-																		$(
-																				".importo-color-soggetto")
-																				.mouseover(
-																						function() {
-																							$(
-																									".arrow-down-importo-soggetto")
-																									.css(
-																											'border-top',
-																											'10px solid #005500');
-																						});
-																		$(
-																				".importo-color-soggetto")
-																				.mouseout(
-																						function() {
-																							$(
-																									".arrow-down-importo-soggetto")
-																									.css(
-																											'border-top',
-																											'10px solid #7ade87');
-																						});
+							$(".sel-type-btn-soggetto").click(
+									function() {
+										var arc = d3.select(this);
+										var distribuzione = arc.attr("data-distribuzione");
+										$(".pattern-soggetto").val(distribuzione);
+										$(".naviga-form-soggetto").submit();
+							});
 
-																		$(
-																				".sel-type-btn-soggetto")
-																				.click(
-																						function() {
-																							var arc = d3
-																									.select(this);
-																							var distribuzione = arc
-																									.attr("data-distribuzione");
-																							$(
-																									".pattern-soggetto")
-																									.val(
-																											distribuzione);
-																							$(
-																									".naviga-form-soggetto")
-																									.submit();
-																						});
-
-																		$(
-																				".link-url-naviga-soggetto")
-																				.click(
-																						function() {
-																							if (!selezionabileSoggetto) {
-																								var obj = d3
-																										.select(this);
-																								var data_linkURL = obj
-																										.attr("data_linkURL");
-																								$(
-																										".naviga-form-soggetto")
-																										.attr(
-																												"action",
-																												data_linkURL);
-																								$(
-																										".naviga-form-soggetto")
-																										.submit();
-																							}
-																						});
-																	}
-																});
-											}
-										});
+							$(".link-url-naviga-soggetto").click(
+									function() {
+										if (!selezionabileSoggetto) {
+											var obj = d3.select(this);
+											var data_linkURL = obj.attr("data_linkURL");
+											$(".naviga-form-soggetto").attr("action", data_linkURL);
+											$(".naviga-form-soggetto").submit();
+										}
+							});
+						}
 					});
+				}
+		});
+	});
 </script>
 	
 
