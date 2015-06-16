@@ -1,5 +1,6 @@
 package it.dipe.opencup.utils;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -24,32 +25,47 @@ public class ProgettoIndicizzatoreMessageListener implements MessageListener {
 	@Override
 	public void receive(Message message) throws MessageListenerException {
 		
+		logger.info("BATCH IN ESECUZIONE: id:" + this.toString());
+		
+		
 		ProgettoFacade progettoFacade = (ProgettoFacade)SpringContextUtil.getApplicationContext().getBean("progettoFacade");
 		BatchFacade batchFacade = (BatchFacade)SpringContextUtil.getApplicationContext().getBean("batchFacade");
 		
 		Indexer indexer = IndexerRegistryUtil.getIndexer(Progetto.class);
 		
-		System.out.println("BATCH IN ESECUZIONE: id:" + this.toString());
 		
 		Batch batch = batchFacade.ricercaBatchByNome(Constants.BATCH_INDICIZZAZIONE_NOME);
+		String lastStato = batch.getStato();
 		batch.setStato(Constants.BATCH_STATUS_ESECUZIONE);
 		
+		logger.info("BATCH conteggio totale progetti...");
+		
 		int currentPage = 0;
-		int pageSize = 30;
+		int pageSize = 500;
 		int total = progettoFacade.countProgettiIndicizzazione() / pageSize;
 		batch.setTotale(total);
+		batchFacade.aggiornaBatch(batch);
+		
+		logger.info("BATCH totale progetti da indicizzare: " + total * pageSize);
 		
 		boolean stop = false;
 		while (!stop) {
 			List<Progetto> progetti = progettoFacade.findProgettiIndicizzazione(currentPage * pageSize, pageSize);
+		
+			logger.info("BATCH progetti da: " + currentPage * pageSize);
+			
 			if (progetti != null && progetti.size() > 0) {
-				batch.setStep(currentPage);
-				currentPage ++;
 				
+				batch = batchFacade.ricercaBatchByNome(Constants.BATCH_INDICIZZAZIONE_NOME);
+				batch.setStep(currentPage);
 				batchFacade.aggiornaBatch(batch);
+				
+				currentPage ++;
 				
 				for (Progetto progetto : progetti) {
 					try {
+						logger.debug("BATCH indicizzazione progetto id : " + progetto.getId());
+						
 						indexer.reindex(progetto);
 					} catch (SearchException e) {
 						logger.error("Errore nella indicizzazione del progetto " + progetto.getId() + ": " + e.getMessage());
@@ -59,11 +75,13 @@ public class ProgettoIndicizzatoreMessageListener implements MessageListener {
 				stop = true;
 			}
 		}
-				
-		batch.setStato(Constants.BATCH_STATUS_SCHEDULATO);
+		
+		batch = batchFacade.ricercaBatchByNome(Constants.BATCH_INDICIZZAZIONE_NOME);
+		batch.setStato(lastStato);
+		batch.setDataUltimaEsecuzione(new Date());
 		batchFacade.aggiornaBatch(batch);
 		
 		
-		System.out.println("...FINE BATCH");
+		logger.info("...FINE BATCH");
 	}
 }
