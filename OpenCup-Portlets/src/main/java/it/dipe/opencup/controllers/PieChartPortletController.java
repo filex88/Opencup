@@ -232,6 +232,7 @@ public class PieChartPortletController {
 			pattern = ParamUtil.getString(aRequest, "pattern");
 			aResponse.setRenderParameter("pattern", pattern);
 		}
+		
 
 		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
