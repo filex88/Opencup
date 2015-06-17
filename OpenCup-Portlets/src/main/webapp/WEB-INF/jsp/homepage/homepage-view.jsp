@@ -405,10 +405,6 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 
 <script>
 
-		
-
-
-
 var tipoAggregazioneSoggetto = '${pattern}';
 
 var textColor = "#1f4e78";
