@@ -44,17 +44,17 @@
 
 div.portlet-layout.row-fluid{background-color: #fff!important;}
 
-.aui h2 div div ul#topLinks{padding-top: 0.2em;}
+.aui h2 div div ul#topLinks{padding-top: 0.2em; margin-left: 0px; }
 
-.aui h2 div div ul#topLinks li{display: inline-block; width:18%!important; text-align: center; height: inherit; vertical-align: top;}
+.aui h2 div div ul#topLinks li{display: inline-block; width:15%!important; text-align: center; height: inherit; vertical-align: top; white-space: nowrap;}
 
 .aui h2 div div ul#topLinks li div{height:inherit;}
 
-.aui h2 div div ul#topLinks li div:hover,.aui h2 div div ul#topLinks li div:focus,.aui h2 div div ul#topLinks li div:active{ background-color: #0084b0; border-radius:1em;}
+.aui h2 div div ul#topLinks li div:hover,.aui h2 div div ul#topLinks li div:focus,.aui h2 div div ul#topLinks li div:active{ background-color: #0084b0; border-radius:0.8em;}
 
 .aui h2 div div ul#topLinks li div:hover a,.aui h2 div div ul#topLinks li div:focus a,.aui h2 div div ul#topLinks li div:active a{text-decoration: underline; color: #fcfcfc!important; text-shadow: inherit;}
 
-.aui h2 div div ul#topLinks li div a{font-size: 0.42em; color:#1f4e78; font-weight: bold !important; vertical-align: bottom; padding: 0.5em; display: block;}
+.aui h2 div div ul#topLinks li div a{font-size: 0.42em; color:#1f4e78; font-weight: bold !important; vertical-align: bottom; padding-top: 0.5em; padding-bottom: 0.5em; display: block;}
 
 .aui h2 div div ul#topLinks li i{font-size: 0.42em;color:#1780c2;font-weight: normal!important; line-height: 2.8em;}
 
