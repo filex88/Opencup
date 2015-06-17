@@ -382,7 +382,9 @@ public abstract class AbstractCommonDAO <T extends AbstractCommonEntity> {
 		log.debug("count all instances by pattern");
 		try {
 		
-			int totalRecords = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			//int totalRecords = ((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			int totalRecords = ((Number)criteria.setProjection(Projections.countDistinct("id")).uniqueResult()).intValue();
+			
 			return totalRecords;
 		} catch (Exception re) {
 			log.error("countTotalPagesByCriteria failed", re);

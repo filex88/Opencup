@@ -190,7 +190,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
 		navigaProgetti.setOrderByType(searchContainerElenco.getOrderByType());
-		
 		navigaProgetti.setStart(searchContainerElenco.getStart());
 		navigaProgetti.setDelta(delta);
 		

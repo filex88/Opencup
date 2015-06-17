@@ -144,6 +144,27 @@
 		font-weight: bold;
 	}
 	
+	
+	.ricerca-form-elenco text, 
+	.ricerca-form-elenco select,
+	.ricerca-form-elenco button,  
+	.ricerca-form-elenco input,
+	.ricerca-form-elenco html input[type="button"], 
+	.ricerca-form-elenco input[type="reset"], 
+	.ricerca-form-elenco input[type="submit"]{
+		border-radius: 10px !important;
+		border-color: #004383 !important;
+		border-width: 1px !important;
+		border-style: solid !important;
+	}
+	
+	.form-horizontal input{
+		border-radius: 10px !important;
+		border-color: #004383 !important;
+		border-width: 1px !important;
+		border-style: solid !important;
+	}
+	
 </style>
 
 <fmt:setLocale value="it_IT"/>
@@ -245,7 +266,7 @@
 					method="post" 
 					name="ricerca-form" 
 					id="ricerca-form" 
-					cssClass="form-horizontal ricerca-form">	
+					cssClass="form-horizontal ricerca-form ricerca-form-elenco">	
 				
 					<div style="color: #004383; padding: 1em;">
 						
