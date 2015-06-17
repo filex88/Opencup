@@ -20,7 +20,7 @@
 	<portlet:param name="action" value="azioneDaAvviare"/> 
 </portlet:actionURL>
 
-<portlet:resourceURL var="statoIndicizzazioneURL" id="loadSChedulazione" escapeXml="false"   />
+<portlet:resourceURL var="statoIndicizzazioneURL" id="loadSchedulazione" escapeXml="false"   />
 
 <script>
 function submitTheForm(action){
@@ -32,6 +32,7 @@ function submitTheForm(action){
 }
 
 var Aui = null;
+var progressBar = null;
 
 function checkJob() {
 	var resourceURL = "${statoIndicizzazioneURL}";
@@ -50,6 +51,31 @@ function checkJob() {
 	   					Aui.one('#statoIndicizzazione').setStyle('font-weight', 'bold');
 	   					Aui.one('#boxAvanzamento').show();
 	   					Aui.one('#boxProssimaEsecuzione').hide();
+	   					
+	   					if (progressBar == null) {
+	   						progressBar = new Aui.ProgressBar(
+	  	   					      {
+	  	   					        boundingBox: '#avanzamento',
+	  	   					        label: '0%',
+	  	   					        max: 100,
+	  	   					        min: 0,
+	  	   					        on: {
+	  	   					          complete: function(e) {
+	  	   					            this.set('label', 'Terminato!');
+	  	   					          },
+	  	   					          valueChange: function(e) {
+	  	   					            this.set('label', e.newVal + '%');
+	  	   					          }
+	  	   					        },
+	  	   					        value: 0,
+	  	   					        width: 900
+	  	   					      }
+	  	   					    )
+	   					};
+						console.log("step = " + jobInd.step + ", totale = " + jobInd.totale + ", value = " + (jobInd.step / jobInd.totale) * 100);
+	   					progressBar.set("value", (jobInd.step / jobInd.totale) * 100 );
+	   					progressBar.render();
+	   					
 	   				}
 	   				
 	   				if (jobInd.stato == 'SCHEDULATO') {
@@ -72,8 +98,10 @@ function checkJob() {
 	   				
 	   			},
 	   			failure: function (e) {
-	   				var message = this.get('responseData');
-	   				alert("Ajax Error : "+message);	
+	   				Aui.one('#statoIndicizzazione').set('text', 'IMPOSSIBILE CONTATTARE IL SERVER');
+   					Aui.one('#statoIndicizzazione').setStyle('color', 'red');
+   					Aui.one('#statoIndicizzazione').setStyle('font-weight', 'bold');
+	   				
 	   			}
 			}
 		});
@@ -84,6 +112,7 @@ AUI().use(
 		'liferay-portlet-url', 
 		'aui-base', 
 		'aui-io-deprecated',
+		'aui-progressbar',
 		function( A ) {
 			
 			Aui = A;
@@ -110,7 +139,7 @@ AUI().use(
 	<div class="control-group" id="boxAvanzamento" style="display: none;">
 		<label class="control-label" for="stato">Avanzamento</label>
 		<div class="controls">
-			<span id="statoIndicizzazione"></span>
+			<div id="avanzamento"></div>
 		</div>
 	</div>
 
@@ -133,6 +162,7 @@ AUI().use(
 		<div class="pull-right">
 			<aui:button type="button" cssClass="btn-primary" value="Schedula indicizzazione" onClick="javascript:submitTheForm('schedulaIndicizzazione')"></aui:button>
 			<aui:button type="button" cssClass="btn" value="Cancella schedulazione" onClick="javascript:submitTheForm('cancellaSchedulazione')"></aui:button>
+			<aui:button type="button" cssClass="btn" value="Avvio manuale" onClick="javascript:submitTheForm('avvioManuale')"></aui:button>
 		</div>
 	</div>
 </aui:form>

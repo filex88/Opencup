@@ -193,7 +193,7 @@
 	
 	<bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder"
       	factory-method="from">
-    	<constructor-arg value="maximumSize=10000, expireAfterAccess=12h, expireAfterWrite=12h" />
+    	<constructor-arg value="maximumSize=10000, expireAfterAccess=36h, expireAfterWrite=36h" />
 	</bean>
 
 	<!-- 

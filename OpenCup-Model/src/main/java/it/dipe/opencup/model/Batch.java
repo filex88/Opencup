@@ -49,6 +49,8 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 	@Column(name = "TEXT_LIFB_STATO")
 	private String stato;
 	
+	@Column(name = "DATA_LIFB_ULTIMA_ESECUZIONE")
+	private Date dataUltimaEsecuzione;
 	
 	@Version
 	@Column(name = "NUME_LIFB_VERSIONE")
@@ -140,6 +142,14 @@ public class Batch extends AbstractCommonEntity implements Serializable {
 
 	public void setPrecedenteEsecuzione(Date precedenteEsecuzione) {
 		this.precedenteEsecuzione = precedenteEsecuzione;
+	}
+
+	public Date getDataUltimaEsecuzione() {
+		return dataUltimaEsecuzione;
+	}
+
+	public void setDataUltimaEsecuzione(Date dataUltimaEsecuzione) {
+		this.dataUltimaEsecuzione = dataUltimaEsecuzione;
 	}
 
 	@Override

@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
 import org.springframework.web.portlet.bind.annotation.EventMapping;
-
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -117,7 +116,7 @@ public class PieChartPortletController {
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
-		
+
 		model.addAttribute("pattern", pattern);
 		
 		String orderProperty = "";
@@ -192,7 +191,6 @@ public class PieChartPortletController {
 		}
 
 		model.addAttribute("recordCount", converter.size());
-
 		model.addAttribute("aggregati4Pie", createJsonStringFromQueryResult(converter));
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
