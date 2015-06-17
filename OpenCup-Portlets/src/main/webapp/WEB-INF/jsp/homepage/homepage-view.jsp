@@ -265,16 +265,16 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 
 <div class="clear"></div>
 
-<div class="row graficoHome ${tipoAggregazione}">
+<div class="row graficoHome ${tipoAggregazione}" id="graficiHome">
 
 	<div class="span4" style="margin-left:0em; width:33%; border-right:0.5em solid #f5f5f5;">
-		<div class="span12 chart-div" style="border-top:0.5em solid #0084b0; padding-top:1em; height:22em;">
+		<div class="span12 chart-div" style="border-top:0.5em solid #1f4e78; padding-top:1em; height:22em;">
 			<div class="left" style="margin-left:0.5em;">
-				<i class="icon-sitemap right" style="font-size:1.5em; border:0.25em solid #0084b0;color:#0084b0; border-radius:50%; padding: .25em;"></i>
+				<i class="icon-sitemap right" style="font-size:1.5em; border:0.25em solid #1f4e78;color:#1f4e78; border-radius:50%; padding: .25em;"></i>
 			</div>
 			<div style="margin-left:4em;">
-				<span style="font-size: 2em; color: #0084b0">Classificazione</span><br/>
-				<span style="font-size: 1em; color: #0084b0">
+				<span style="font-size: 2em; color: #1f4e78">Classificazione</span><br/>
+				<span style="font-size: 1em; color: #1f4e78">
 				<c:if test='${pattern eq "VOLUME"}'>
 					Numero Progetti
 				</c:if>
@@ -292,13 +292,13 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 		</div>
 	</div> 
 	<div class="span4" style="margin:0; width:34%; border-right:0.5em solid #f5f5f5;  ">
-		<div class="span12 chart-div" style="border-top:0.5em solid #00b0f0; padding-top:1em; padding-left:0.5em;">
+		<div class="span12 chart-div" style="border-top:0.5em solid #3f8acc; padding-top:1em; padding-left:0.5em;">
 			<div class="left">
-				<i class="icon-globe right" style="font-size:1.5em; border:0.25em solid #00b0f0;color:#00b0f0; border-radius:50%; padding: .25em;"></i>
+				<i class="icon-globe right" style="font-size:1.5em; border:0.25em solid #3f8acc;color:#3f8acc; border-radius:50%; padding: .25em;"></i>
 			</div>
 			<div style="margin-left:4em;">
-				<span style="font-size: 2em; color: #00b0f0">Localizzazione</span><br/>
-				<span style="font-size: 1em; color: #00b0f0">
+				<span style="font-size: 2em; color: #3f8acc">Localizzazione</span><br/>
+				<span style="font-size: 1em; color: #3f8acc">
 				<c:if test='${pattern eq "VOLUME"}'>
 					Numero Progetti
 				</c:if>
@@ -317,13 +317,13 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 	</div>
 
 	<div class="span4" style="margin:0; width:33%;  ">
-		<div class="span12 chart-div" style="border-top:0.5em solid #86c5fc; padding-top:1em; padding-left:0.5em;">
+		<div class="span12 chart-div" style="border-top:0.5em solid #87b5de; padding-top:1em; padding-left:0.5em;">
 			<div class="left">
-				<i class="icon-user right" style="font-size:1.5em; border:0.25em solid #86c5fc;color:#86c5fc; border-radius:50%; padding: .25em;"></i>
+				<i class="icon-user right" style="font-size:1.5em; border:0.25em solid #87b5de;color:#87b5de; border-radius:50%; padding: .25em;"></i>
 			</div>
 			<div style="margin-left:4em;">
-				<span style="font-size: 2em; color: #86c5fc">Soggetto</span><br/>
-				<span style="font-size: 1em; color: #86c5fc">
+				<span style="font-size: 2em; color: #87b5de">Soggetto</span><br/>
+				<span style="font-size: 1em; color: #87b5de">
 				<c:if test='${pattern eq "VOLUME"}'>
 					Numero Progetti
 				</c:if>
@@ -351,7 +351,7 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 				<div style="height: 10px;"></div>
 			</c:if>
 			<div class="btn-carica-distribuzione volume-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="VOLUME">
-				<aui:a href="#" onClick="return false" cssClass="block">
+				<aui:a href="#graficiHome" onClick="return false" cssClass="block">
 					Progetti
 				</aui:a>
 			</div>
@@ -364,7 +364,7 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 				<div style="height: 10px;"></div>
 			</c:if>
 			<div class="btn-carica-distribuzione costo-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="COSTO">
-				<aui:a href="#" onClick="return false" cssClass="block">
+				<aui:a href="#graficiHome" onClick="return false" cssClass="block">
 					Costo
 				</aui:a>
 			</div>
@@ -377,7 +377,7 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 				<div style="height: 10px;"></div>
 			</c:if>
 			<div class="btn-carica-distribuzione importo-color sel-type-btn sel-type-btn-distribuzione" data-distribuzione="IMPORTO">
-				<aui:a href="#" onClick="return false" cssClass="block">
+				<aui:a href="#graficiHome" onClick="return false" cssClass="block">
 					Finanziamenti
 				</aui:a>
 			</div>
@@ -392,7 +392,7 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 	</portlet:actionURL>
 	
 	<form 
-		action="${urlActionSoggettoVar}" 
+		action="${urlActionSoggettoVar}#graficiHome" 
 		method="post" 
 		name="naviga-form-distribuzione" 
 		class="naviga-form-distribuzione"
@@ -469,7 +469,7 @@ function drawLegend(divLegend, legendName, dataSet, hexColor){
 	var legendTextOffset = 20;
 	var textVerticalSpace = 20;
 
-	var width_svg = d3.select(divLegend).node().getBoundingClientRect().width;
+	var width_svg = d3.select(divLegend).node().getBoundingClientRect().width+2;
 	
 	var canvas = d3.select(divLegend).append("svg:svg")
 	    .attr("width", width_svg)
@@ -505,7 +505,7 @@ function drawLegend(divLegend, legendName, dataSet, hexColor){
 	.attr("text-anchor", "center")
 	.attr("x", widthTotal)
 	.attr("y", function(d, i) { 
-		return gapBetweenGroups + (heightLegend*i);
+		return gapBetweenGroups + (heightLegend*i)-3;
 	})
 	.attr("dx", 0)
     .attr("dy", "5px") // Controls padding to place text in alignment with bullets
@@ -593,7 +593,7 @@ function drawBar(chartName, histogramName, dataSet, hexColor) {
 				if(nFormatter( d ).length > 6){
 					delta = nFormatter( d ).length * 10
 				}
-				return - delta; 
+				return - delta+10; 
 		})
 	   .attr("y", (barHeight-10) / 2)
 	   .attr("dy", ".25em")
@@ -618,26 +618,26 @@ String.prototype.trunc =
 var dataSet = ${aggregatiClassificazione};
 var dataSet1 = eval( dataSet );
 
-legend = drawLegend("#chartLegendClassificazione", "LegendClassificazione", dataSet1, "#0084b0");
+legend = drawLegend("#chartLegendClassificazione", "LegendClassificazione", dataSet1, "#1f4e78");
 
-bar = drawBar("#histogramClassificazione", "HistogramClassificazione", dataSet1, "#0084b0");
+bar = drawBar("#histogramClassificazione", "HistogramClassificazione", dataSet1, "#1f4e78");
 
 
 // *** SECONDO GRAFICO ***//
 var dataSet1 = ${aggregatiLocalizzazione};
 var dataSet2 = eval( dataSet1 );
 
-legend1 = drawLegend("#chartLegendLocalizzazione", "LegendLocalizzazione", dataSet2, "#00b0f0");
+legend1 = drawLegend("#chartLegendLocalizzazione", "LegendLocalizzazione", dataSet2, "#3f8acc");
 
-bar1 = drawBar("#histogramLocalizzazione", "HistogramLocalizzazione", dataSet2, "#00b0f0");
+bar1 = drawBar("#histogramLocalizzazione", "HistogramLocalizzazione", dataSet2, "#3f8acc");
 
 //*** TERZO GRAFICO ***//
 var dataSet2 = ${aggregatiSoggetto};
 var dataSet3 = eval( dataSet2 );
 
-legend2 = drawLegend("#chartLegendSoggetto", "LegendSoggetto", dataSet3, "#86c5fc");
+legend2 = drawLegend("#chartLegendSoggetto", "LegendSoggetto", dataSet3, "#87b5de");
 
-bar2 = drawBar("#histogramSoggetto", "HistogramSoggetto", dataSet3, "#86c5fc");
+bar2 = drawBar("#histogramSoggetto", "HistogramSoggetto", dataSet3, "#87b5de");
 
 
 AUI().use('get', function(A){

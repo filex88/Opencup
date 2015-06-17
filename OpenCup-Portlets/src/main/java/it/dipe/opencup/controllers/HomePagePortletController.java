@@ -134,7 +134,7 @@ public class HomePagePortletController {
 		filtroTotaliClass.setIdNatura(naturaOpenCup.getId().toString());
 		filtroTotaliClass.setDescNatura(naturaOpenCup.getDescNatura());
 		filtroTotaliClass.setIdAreaIntervento("0");
-		List<ProgettiTotali> risultatiTotaliClassificazione=aggregataFacade.findDatiCUPByNatura(Integer.parseInt(filtroTotaliClass.getIdNatura()));
+		List<ProgettiTotali> risultatiTotaliClassificazione=aggregataFacade.findDatiCUPAll();
 		for(ProgettiTotali progettiTotali : risultatiTotaliClassificazione){
 			numeProgettiTotaliClass = numeProgettiTotaliClass + progettiTotali.getNumeProgetti();
 			impoCostoProgetti = impoCostoProgetti + progettiTotali.getImpoCostoProgetti();
