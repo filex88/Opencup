@@ -214,7 +214,7 @@
 		
 		var width = width_div_mappa,
 	    height = width_div_mappa,
-	    border=0.5
+	    border=1,
 	    bordercolor='none',
 	    smallrectW=50,
 	    smallrectH=50;
@@ -406,8 +406,10 @@
 	    		
 	    		// sposta all'angolo, poi quintuplica, poi sposta al centro
 	    		selection.attr("transform", "translate("+xSecondTranslation+","+10+")  scale("+maxScale+")  translate("+xFirstTranslation+","+yFirstTranslation+") " );
-	    			var newBorder=border/maxScale;
+	    		
+	    		var newBorder = (Math.ceil((border/maxScale)*10))/10;
 	    		selection.style("stroke-width", newBorder);
+	    		selection.style("stroke", "white");
 
    			});
 	}

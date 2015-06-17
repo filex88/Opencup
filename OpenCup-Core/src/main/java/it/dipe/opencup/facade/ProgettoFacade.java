@@ -9,6 +9,7 @@ import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.dto.SizeDTO;
+import it.dipe.opencup.model.AnagraficaCup;
 import it.dipe.opencup.model.CupCoperturaFinanziaria;
 import it.dipe.opencup.model.Progetto;
 
@@ -241,21 +242,22 @@ public class ProgettoFacade {
 		
 		String orderByCol = filtri.getOrderByCol();
 		String orderByType = filtri.getOrderByType();
-/*
+
 		Integer startResult = filtri.getStart();
 		Integer endResult = filtri.getDelta();
-*/		
-		Criteria criteria = buildCriteria(filtri);
-/*
+		
+		Criteria criteria = buildCriteria(filtri)
 				.setFirstResult(startResult.intValue())
 				.setMaxResults(endResult.intValue());
-*/
+
 		if("asc".equals(orderByType))
 			criteria.addOrder(Order.asc(orderByCol));
 		else
 			criteria.addOrder(Order.desc(orderByCol));
+		
 		List<Progetto> progetti = progettoDAO.findByCriteria(criteria);
 		List<Progetto> retval = new ArrayList<Progetto>();
+		
 		for( Progetto tmp : progetti ){
 			if( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() != null ){
 				tmp.getAnagraficaCup().setAnagraficaCup(
@@ -312,6 +314,10 @@ public class ProgettoFacade {
 		
 		return progettoDAO.findByCriteria(criteria);
 		
+	}
+
+	public AnagraficaCup findAnagraficaCupById(Integer fkDcupDcupIdMaster) {
+		return anagraficaCupDAO.findById( fkDcupDcupIdMaster );
 	}
 	
 }

@@ -186,18 +186,17 @@ public class ElencoProgettiController extends FiltriCommonController {
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
 		
-		//int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
+		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
 		
 		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
 		navigaProgetti.setOrderByType(searchContainerElenco.getOrderByType());
-		/*
+		
 		navigaProgetti.setStart(searchContainerElenco.getStart());
 		navigaProgetti.setDelta(delta);
-		*/
 		
-		List<Progetto> elencoProgetti = progettoFacade.findElencoProgetti(	navigaProgetti );
-		int size =  elencoProgetti.size();
-		
+		List<Progetto> elencoProgetti4Pag = progettoFacade.findElencoProgetti(	navigaProgetti );
+		//int size =  elencoProgetti.size();
+		/*
 		searchContainerElenco.setTotal(size);
 		int fromIndex = searchContainerElenco.getStart();
 		int toIndex = (((searchContainerElenco.getStart() + delta) > size)?size:(searchContainerElenco.getStart() + delta)) - 1;
@@ -205,7 +204,15 @@ public class ElencoProgettiController extends FiltriCommonController {
 		System.out.println( fromIndex );
 		System.out.println( toIndex );
 		
-		List<Progetto> elencoProgetti4Pag = elencoProgetti.subList(fromIndex, toIndex);
+		List<Progetto> elencoProgetti4Pag = new ArrayList<Progetto>();
+		for( Progetto tmp : elencoProgetti.subList(fromIndex, toIndex) ){
+			if( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() != null ){
+				tmp.getAnagraficaCup().setAnagraficaCup(
+						progettoFacade.findAnagraficaCupById( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() ) );
+			}
+			elencoProgetti4Pag.add(tmp);
+		}
+		*/
 		searchContainerElenco.setResults(elencoProgetti4Pag);
 		
 		model.addAttribute("searchContainerElenco", searchContainerElenco);
@@ -220,7 +227,6 @@ public class ElencoProgettiController extends FiltriCommonController {
 		
 		// RIEPILOGO //
 		//DATI TOTALI
-		
 		
 		NavigaAggregata navigaAggregata = new NavigaAggregata();
 		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
@@ -242,9 +248,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("volumeDeiProgetti", sizetot);
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
-
 		
-		/*
 		navigaAggregata = new NavigaAggregata();
 		navigaAggregata.setIdNatura(idNatura);
 		navigaAggregata.importa( navigaProgetti );
@@ -261,7 +265,9 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("volumeDeiProgettiProg", size);
 		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
 		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
-		*/
+		
+		/*
+		System.out.println("STEP 4");
 		
 		Double impoCostoProgettiProg = 0.0;
 		Double impoImportoFinanziatoProg = 0.0;
@@ -274,7 +280,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("volumeDeiProgettiProg", size);
 		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
 		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
-		
+		*/
 		// FINE RIEPILOGO //
 		
 		model.addAttribute("valoreRicercaValido", "SI");
