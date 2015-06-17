@@ -164,7 +164,6 @@ public class AnagraficaCup extends AbstractCommonEntity implements Serializable 
 	@Transient
 	private List<CupCoperturaFinanziaria> cupCoperturaFinanziaria;
 	
-
 	public Integer getId() {
 		return id;
 	}
