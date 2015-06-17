@@ -143,8 +143,7 @@
 		font-size: 1.6em;
 		font-weight: bold;
 	}
-	
-	
+
 	.ricerca-form-elenco text, 
 	.ricerca-form-elenco select,
 	.ricerca-form-elenco button,  
