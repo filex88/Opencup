@@ -410,6 +410,12 @@ public class AggregataFacade {
 		return retVal;
 	}
 	
+	@Cacheable(value = "AggregataDTO")
+	public List<ProgettiTotali> findDatiCUPAll() {
+		List<ProgettiTotali> retVal = new ArrayList<ProgettiTotali>();
+		retVal.addAll(progettiTotaliDAO.findAll());
+		return retVal;
+	}
 	
 	@Cacheable(value = "Aggregata")
 	public List<Aggregata> findAggregataByLocalizzazione(NavigaAggregata navigaAggregata) {		
