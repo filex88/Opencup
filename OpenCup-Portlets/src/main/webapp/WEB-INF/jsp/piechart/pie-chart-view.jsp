@@ -568,8 +568,7 @@
 		   .text(function(d, i) { return nFormatter(dataSet[i].value); });
 		*/
 		
-		// Draw labels
-		
+		// Draw labels		
 		bar.append("text")
 		   .attr("class", function(d, i) { return "label histogram-" + histogramName + "-label-index-" + i; })
 		   .attr("x", 
@@ -601,7 +600,6 @@
 		var textVerticalSpace = 20;
 
 		var width_svg = d3.select(divLegend).node().getBoundingClientRect().width;
-		
 		var canvas = d3.select(divLegend).append("svg:svg")
 		    .attr("width", width_svg)
 		    .attr("height", gapBetweenGroups + (dataSet.length * heightLegend) );
@@ -628,7 +626,6 @@
 		.attr("data_linkURL", function(d, i) { return dataSet[i].linkURL })
 		
 		.style("fill", function(d, i) { return colorScale(i); }) // Bullet fill color
-		
 		.attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
 		.attr("index_value", function(d, i) { return "index-" + i; })
 		.attr("class", function(d, i) { 
@@ -738,7 +735,7 @@
 		}
 	};
 */	
-	
+
 	width_pie_chart_1 = d3.select(".pie_chart_1").node().getBoundingClientRect().width;
 	d3.select("#titoloClassificazione").style("height", width_pie_chart_1);
 	

@@ -200,6 +200,10 @@ public class SoggettoPortletController {
 		navigaAggregata.setIdAreaSoggetto(ParamUtil.getString(aRequest, "rowIdLiv2"));
 		navigaAggregata.setIdCategoriaSoggetto(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdSottoCategoriaSoggetto(ParamUtil.getString(aRequest, "rowIdLiv4"));
+		if(StringUtils.isEmpty(pattern)){
+			pattern = ParamUtil.getString(aRequest, "pattern");
+			aResponse.setRenderParameter("pattern", pattern);
+		}
 		
 		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);

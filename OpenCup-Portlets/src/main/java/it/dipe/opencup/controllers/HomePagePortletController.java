@@ -58,6 +58,16 @@ public class HomePagePortletController {
 	
 	@Value("#{config['pagina.soggetto']}")
 	private String paginaSoggetto;
+
+	@Value("#{config['portlet.classificazione.instanceId']}")
+	private String portletClassificazione;
+	
+	@Value("#{config['portlet.localizzazione.instanceId']}")
+	private String portletLocalizzazione;
+	
+	@Value("#{config['portlet.soggetto.instanceId']}")
+	private String portletSoggetto;
+	
 	
 	@RenderMapping
 	public String renderRequest(RenderRequest renderRequest, RenderResponse renderResponse,Model model, @RequestParam(required=false, defaultValue="VOLUME", value="pattern") String pattern){
@@ -163,7 +173,7 @@ public class HomePagePortletController {
 		navigaAggregataClass.setPagAggregata(paginaClassificazione);
 		navigaAggregataClass.setIdAreaIntervento("0");
 		List<AggregataDTO> listaAggregataClassDTO = aggregataFacade.findAggregataByNatura(navigaAggregataClass);
-		//impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());
+		impostaLinkURL(renderRequest, navigaAggregataClass, listaAggregataClassDTO, navigaAggregataClass.getPagAggregata(),pattern);
 		List<D3PieConverter> converterClassificazione=  getListaAggregata(pattern, listaAggregataClassDTO, navigaAggregataClass);
 		
 		
@@ -172,6 +182,7 @@ public class HomePagePortletController {
 		navigaAggregataLoc.setPagAggregata(paginaLocalizzazione);
 		navigaAggregataLoc.setIdAreaGeografica("0");
 		List<AggregataDTO> listaAggregataLocDTO = aggregataFacade.findAggregataByNatura(navigaAggregataLoc);
+		impostaLinkURL(renderRequest, navigaAggregataLoc, listaAggregataLocDTO, navigaAggregataLoc.getPagAggregata(),pattern);
 		List<D3PieConverter> converterLocalizzazione=  getListaAggregata(pattern, listaAggregataLocDTO, navigaAggregataLoc);
 		
 		
@@ -182,6 +193,7 @@ public class HomePagePortletController {
 		navigaAggregataSog.setIdCategoriaSoggetto("-1");
 		navigaAggregataSog.setIdSottoCategoriaSoggetto("-1");
 		List<AggregataDTO> listaAggregataSogDTO = aggregataFacade.findAggregataByNatura(navigaAggregataSog);
+		impostaLinkURL(renderRequest, navigaAggregataSog, listaAggregataSogDTO, navigaAggregataSog.getPagAggregata(),pattern);
 		List<D3PieConverter> converterSoggetto=  getListaAggregata(pattern, listaAggregataSogDTO, navigaAggregataSog);
 		
 		
@@ -296,9 +308,20 @@ public class HomePagePortletController {
 	private void impostaLinkURL(PortletRequest request, 
 			NavigaAggregata sessionAttrNav, 
 			List<AggregataDTO> listaAggregataDTO, 
-			String pageTo) {
+			String pageTo,String pattern) {
 
-		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo, (String) request.getAttribute(WebKeys.PORTLET_ID), PortletRequest.ACTION_PHASE);
+		String portletId = (String) request.getAttribute(WebKeys.PORTLET_ID);
+		if(pageTo.equals(paginaSoggetto)){
+			portletId = portletSoggetto;
+		}
+		else if(pageTo.equals(paginaClassificazione)){
+			portletId = portletClassificazione;
+		}
+		else if(pageTo.equals(paginaLocalizzazione)){
+			portletId = portletLocalizzazione;
+		}
+		LiferayPortletURL renderURL = createLiferayPortletURL(request, pageTo, portletId, PortletRequest.ACTION_PHASE);
+		
 		String rowIdLiv1URL = "", rowIdLiv2URL = "", rowIdLiv3URL = "", rowIdLiv4URL = "";
 
 		for(AggregataDTO tmp : listaAggregataDTO){		
@@ -306,23 +329,24 @@ public class HomePagePortletController {
 			//Per ogni elemento oltre a caricare la descrizione e i valori
 			//viene generato un linkURL che punta alla pagina successiva
 
-			rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
-			rowIdLiv2URL = String.valueOf(sessionAttrNav.getIdAreaIntervento());
-			rowIdLiv3URL = String.valueOf(sessionAttrNav.getIdSottosettoreIntervento());
-			rowIdLiv4URL = String.valueOf(sessionAttrNav.getIdCategoriaIntervento());
-
-			if( sessionAttrNav.getIdCategoriaIntervento().equals("0") ){
-				rowIdLiv4URL = tmp.getIdCategoriaIntervento().toString(); 
-				tmp.setDescURL( tmp.getDesCategoriaIntervento() );
-			}else if( sessionAttrNav.getIdSottosettoreIntervento().equals("0") ){
-				rowIdLiv3URL = tmp.getIdSottoSettore().toString(); 
-				rowIdLiv4URL = "0";
-				tmp.setDescURL( tmp.getDesSottoSettore() );
-			}else if( sessionAttrNav.getIdAreaIntervento().equals("0") ){
+			if(pageTo.equals(paginaSoggetto)){
+				rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
+				rowIdLiv2URL = tmp.getIdAreaSoggetto().toString(); 
+				rowIdLiv3URL = "0";
+				rowIdLiv4URL = "-1";
+				tmp.setDescURL( tmp.getDescAreaSoggetto() );
+			} 
+			else if(pageTo.equals(paginaClassificazione)){
+				rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
 				rowIdLiv2URL = tmp.getIdArea().toString(); 
 				rowIdLiv3URL = "0";
 				rowIdLiv4URL = "-1";
 				tmp.setDescURL( tmp.getDesArea() );
+			} else if(pageTo.equals(paginaLocalizzazione)){
+				rowIdLiv1URL = String.valueOf(sessionAttrNav.getIdNatura());
+				rowIdLiv2URL = tmp.getIdAreaGeografica().toString();
+				rowIdLiv3URL = "0";
+				rowIdLiv4URL = "-1";
 			}
 
 			renderURL.setParameter("rowIdLiv1", rowIdLiv1URL); 
@@ -331,6 +355,7 @@ public class HomePagePortletController {
 			renderURL.setParameter("rowIdLiv4", rowIdLiv4URL); 
 
 			renderURL.setParameter("action", "navigazione");
+			renderURL.setParameter("pattern", pattern);
 
 			tmp.setLinkURL(renderURL.toString());
 		}

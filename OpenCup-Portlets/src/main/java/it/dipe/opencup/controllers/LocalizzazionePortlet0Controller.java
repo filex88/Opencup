@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -210,6 +211,10 @@ public class LocalizzazionePortlet0Controller{
 		navigaAggregata.setIdRegione(ParamUtil.getString(aRequest, "rowIdLiv3"));
 		navigaAggregata.setIdProvincia(ParamUtil.getString(aRequest, "rowIdLiv4"));
 		
+		if(StringUtils.isEmpty(pattern)){
+			pattern = ParamUtil.getString(aRequest, "pattern");
+			aResponse.setRenderParameter("pattern", pattern);
+		}
 		navigaAggregata.setDistribuzione(pattern);
 		model.addAttribute("navigaAggregata", navigaAggregata);
 		
