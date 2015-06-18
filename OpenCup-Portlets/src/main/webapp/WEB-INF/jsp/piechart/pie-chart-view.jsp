@@ -491,7 +491,7 @@
 		
 		var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
 		
-		var chartWidth       = (width_div_chart / 100 * 70);
+		var chartWidth       = (width_div_chart / 100 * 70)-70;
 		
 		var barHeight        = 25, //220 / dataSet.length, //310
 		    gapBetweenGroups = 30,

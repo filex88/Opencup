@@ -36,7 +36,7 @@
 	div#news-list div.allNewsLink a:hover{text-decoration: underline;}
 	
 	
-	div#approfondimenti-list{padding-top:1em;background: #fff;height: 11em;}
+	div#approfondimenti-list{padding-top:1em;background: #fff;height: 11em; border-left: 0.5em solid #f0f0f0;}
 	div#approfondimenti-list strong{font-size: 1.3em;color: #1f4e78;padding-left:.5em;}
 	div#approfondimenti-list ul{padding-top: 1em;margin-left: 0; width:100%;}
 	div#approfondimenti-list ul li {display: inline-block;list-style: none;width:47%;margin-left: 1em; background: #fff;}
@@ -342,7 +342,7 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 	</div>
 	
 </div>
-	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-bottom:1em;">
+	<div class="distribuzioneToolBar" id="distribuzioneToolBar" style="text-align: center; background: #f0f0f0; padding-bottom:0.2em;">
 		<div class="offset3 span2">
 			<c:if test='${pattern eq "VOLUME"}'>
 				<div class="arrow-up-volume arrow-up-volume-distribuzione"></div>
@@ -412,11 +412,11 @@ var textColor = "#1f4e78";
 
 // formatta importi
 
-d3.selectAll("#costoTotale").text(nFormatterBar("${impoCostoProgettiClass}")+"\u20ac");
-d3.selectAll("#importoTotale").text(nFormatterBar("${impoImportoFinanziatoClass}")+"\u20ac");
+d3.selectAll("#costoTotale").text(nFormatter("${impoCostoProgettiClass}")+" \u20ac");
+d3.selectAll("#importoTotale").text(nFormatter("${impoImportoFinanziatoClass}")+" \u20ac");
 
-d3.selectAll("#impoCostoProgetti").text(nFormatterBar("${impoCostoProgetti}")+"\u20ac");
-d3.selectAll("#importoFinanziato").text(nFormatterBar("${importoFinanziato}")+"\u20ac");
+d3.selectAll("#impoCostoProgetti").text(nFormatter("${impoCostoProgetti}")+" \u20ac");
+d3.selectAll("#importoFinanziato").text(nFormatter("${importoFinanziato}")+" \u20ac");
 
 function drawFinBar(){
 	// barra importo finanziato
@@ -435,15 +435,19 @@ function drawFinBar(){
 
 function nFormatter(num) {
     if (num >= 1000000000) {
-       return (num / 1000000000).toFixed(0).replace(/\.0$/, '') + ' Mld';
+       return formatNumber((num / 1000000000).toFixed(0).replace(/\.0$/, '')) + ' Mld';
     }
     if (num >= 1000000) {
-       return (num / 1000000).toFixed(0).replace(/\.0$/, '') + ' Mil';
+       return formatNumber((num / 1000000).toFixed(0).replace(/\.0$/, '')) + ' Mil';
     }
     if (num >= 1000) {
-       return (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000';
+       return formatNumber((num / 1000).toFixed(0).replace(/\.0$/, '')) + '.000';
     }
     return num;
+}
+
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
 }
 
 function nFormatterBar(num){
@@ -600,6 +604,7 @@ function drawBar(chartName, histogramName, dataSet, hexColor) {
 	   .style("fill", textColor)
 	    .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
     	.attr("style", "cursor:pointer;")
+    	.style("color",hexColor)
 	   .style("font-size", "1em")
 	   .text(function(d, i) { 
 			return nFormatter(dataSet[i].value);

@@ -502,7 +502,7 @@
 
 		// Create number at right
 		svg.selectAll(".valore").data(dataSet) // Instruct to bind dataSet to text elements
-		.enter().append("text").attr("x", widthTotal + 400).attr("y",
+		.enter().append("text").attr("x", widthTotal + 393).attr("y",
 				function(d, i) {
 					return gapBetweenGroups + (heightLegend * i);
 				}).attr("dx", 0).attr("dy", "5px") // Controls padding to place text in alignment with bullets
