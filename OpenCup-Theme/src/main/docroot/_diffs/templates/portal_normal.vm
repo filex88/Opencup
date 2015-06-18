@@ -86,6 +86,7 @@ $theme.include($body_top_include)
 					<div class="mainHeadContainer row">
 						<div class="left w30">
 							<div class="left w40">
+							<a href="/web/opencup/homepage">
 								<svg id="Livello_1" x="0px" y="0px" width="180px" viewBox="0 0 841.889 595.28" enable-background="new 0 0 841.889 595.28" height="100px">
 									<g transform="scale(1.8) translate(-250,-125)">
 										<g>
@@ -187,6 +188,7 @@ $theme.include($body_top_include)
 												c-3.311-6.083-10.217-16.72-14.295-22.22l0,0c-2.434-3.28-5.555-7.112-8.242-10.166L474.875,192.861z"></path>
 									</g>
 								</svg>
+								</a>
 							</div>
 							<div class="right w60 subtitle">
 								<span >
