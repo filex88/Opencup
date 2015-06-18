@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 public class NavigaProgetti implements Serializable{
 
 	/**
@@ -12,6 +14,11 @@ public class NavigaProgetti implements Serializable{
 	private static final long serialVersionUID = 8974832497625407563L;
 	
 	private String idProgetto;
+	
+	private String cup;
+	private String descrizione;
+	private String soggettoResponsabile;
+	private String cfPiSoggettoResponsabile;
 	
 	private String naviga;
 	private String currentAction;
@@ -70,6 +77,11 @@ public class NavigaProgetti implements Serializable{
 		this.idAnnoDecisiones.add("-1");
 		
 		this.idProgetto = "-1";
+		
+		this.cup = "";
+		this.descrizione = "";
+		this.soggettoResponsabile = "";
+		this.cfPiSoggettoResponsabile = "";
 		
 	}
 	
@@ -138,6 +150,20 @@ public class NavigaProgetti implements Serializable{
 			 retval++;
 		}
 		
+		if(!StringUtils.isEmpty(this.cup)){
+			 retval++;
+		}
+		if(!StringUtils.isEmpty(this.descrizione)){
+			 retval++;
+		}
+		if(!StringUtils.isEmpty(this.soggettoResponsabile)){
+			 retval++;
+		}
+		if(!StringUtils.isEmpty(this.cfPiSoggettoResponsabile)){
+			 retval++;
+		}
+
+		
 		if( retval > 0 ){
 			sRetval = String.valueOf(retval);
 		}
@@ -170,6 +196,11 @@ public class NavigaProgetti implements Serializable{
 		this.orderByType = "";
 		this.start = 0;
 		this.delta = 0;
+		
+		this.cup = "";
+		this.descrizione = "";
+		this.soggettoResponsabile = "";
+		this.cfPiSoggettoResponsabile = "";
 	}
 
 	public String toString(){
@@ -197,6 +228,12 @@ public class NavigaProgetti implements Serializable{
 		toString = toString + "orderByType: (" + orderByType + "); ";
 		toString = toString + "start: (" + start + "); ";
 		toString = toString + "delta: (" + delta + "); ";
+		
+		toString = toString + "cup: (" + cup + "); ";
+		toString = toString + "descrizione: (" + descrizione + "); ";
+		toString = toString + "soggettoResponsabile: (" + soggettoResponsabile + "); ";
+		toString = toString + "cfPiSoggettoResponsabile: (" + cfPiSoggettoResponsabile + "); ";
+
 		return toString;
 	}
 	
@@ -385,15 +422,54 @@ public class NavigaProgetti implements Serializable{
 		this.currentAction = currentAction;
 	}
 
+	public String getCup() {
+		return cup;
+	}
+
+	public void setCup(String cup) {
+		this.cup = cup;
+	}
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+
+	public String getSoggettoResponsabile() {
+		return soggettoResponsabile;
+	}
+
+	public void setSoggettoResponsabile(String soggettoResponsabile) {
+		this.soggettoResponsabile = soggettoResponsabile;
+	}
+
+	public String getCfPiSoggettoResponsabile() {
+		return cfPiSoggettoResponsabile;
+	}
+
+	public void setCfPiSoggettoResponsabile(String cfPiSoggettoResponsabile) {
+		this.cfPiSoggettoResponsabile = cfPiSoggettoResponsabile;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ ((cfPiSoggettoResponsabile == null) ? 0
+						: cfPiSoggettoResponsabile.hashCode());
+		result = prime * result + ((cup == null) ? 0 : cup.hashCode());
 		result = prime * result
 				+ ((currentAction == null) ? 0 : currentAction.hashCode());
 		result = prime * result + ((delta == null) ? 0 : delta.hashCode());
 		result = prime * result
 				+ ((descStato == null) ? 0 : descStato.hashCode());
+		result = prime * result
+				+ ((descrizione == null) ? 0 : descrizione.hashCode());
 		result = prime
 				* result
 				+ ((idAnnoDecisiones == null) ? 0 : idAnnoDecisiones.hashCode());
@@ -444,6 +520,10 @@ public class NavigaProgetti implements Serializable{
 				+ ((orderByType == null) ? 0 : orderByType.hashCode());
 		result = prime * result
 				+ ((pagAggregata == null) ? 0 : pagAggregata.hashCode());
+		result = prime
+				* result
+				+ ((soggettoResponsabile == null) ? 0 : soggettoResponsabile
+						.hashCode());
 		result = prime * result + ((start == null) ? 0 : start.hashCode());
 		return result;
 	}
@@ -457,6 +537,17 @@ public class NavigaProgetti implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		NavigaProgetti other = (NavigaProgetti) obj;
+		if (cfPiSoggettoResponsabile == null) {
+			if (other.cfPiSoggettoResponsabile != null)
+				return false;
+		} else if (!cfPiSoggettoResponsabile
+				.equals(other.cfPiSoggettoResponsabile))
+			return false;
+		if (cup == null) {
+			if (other.cup != null)
+				return false;
+		} else if (!cup.equals(other.cup))
+			return false;
 		if (currentAction == null) {
 			if (other.currentAction != null)
 				return false;
@@ -471,6 +562,11 @@ public class NavigaProgetti implements Serializable{
 			if (other.descStato != null)
 				return false;
 		} else if (!descStato.equals(other.descStato))
+			return false;
+		if (descrizione == null) {
+			if (other.descrizione != null)
+				return false;
+		} else if (!descrizione.equals(other.descrizione))
 			return false;
 		if (idAnnoDecisiones == null) {
 			if (other.idAnnoDecisiones != null)
@@ -569,6 +665,11 @@ public class NavigaProgetti implements Serializable{
 				return false;
 		} else if (!pagAggregata.equals(other.pagAggregata))
 			return false;
+		if (soggettoResponsabile == null) {
+			if (other.soggettoResponsabile != null)
+				return false;
+		} else if (!soggettoResponsabile.equals(other.soggettoResponsabile))
+			return false;
 		if (start == null) {
 			if (other.start != null)
 				return false;
@@ -577,6 +678,5 @@ public class NavigaProgetti implements Serializable{
 		return true;
 	}
 
-	
 	
 }

@@ -18,11 +18,13 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 
 @Component("progettoFacade")
@@ -110,7 +112,14 @@ public class ProgettoFacade {
 		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
 		criteria.createAlias("soggettoTitolare.sottocategoriaSoggetto", "sottocategoriaSoggetto");
 		//}
-		
+			
+		if( ! StringUtils.isEmpty( navigaProgetti.getSoggettoResponsabile() ) ){
+			criteria.add( Restrictions.like("soggettoTitolare.descSoggettoTitolare", navigaProgetti.getSoggettoResponsabile(), MatchMode.ANYWHERE ).ignoreCase() );
+		}
+		if( ! StringUtils.isEmpty( navigaProgetti.getCfPiSoggettoResponsabile() ) ){
+			criteria.add( Restrictions.eq("soggettoTitolare.codiCodfiscalePiva", navigaProgetti.getCfPiSoggettoResponsabile() ).ignoreCase() );
+		}
+
 		if( navigaProgetti.getIdCategoriaSoggetto().equals("0") ){
 			criteria.add( Restrictions.ge("soggettoTitolare.categoriaSoggetto.id", Integer.valueOf(navigaProgetti.getIdCategoriaSoggetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdCategoriaSoggetto())){
@@ -135,6 +144,13 @@ public class ProgettoFacade {
 		
 		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.stato", "stato");
 		criteria.add( Restrictions.eq("stato.descStato", navigaProgetti.getDescStato() ) );
+		
+		if( ! StringUtils.isEmpty( navigaProgetti.getCup() ) ){
+			criteria.add( Restrictions.eq("anagraficaCup.codiCup", navigaProgetti.getCup() ).ignoreCase() );
+		}
+		if( ! StringUtils.isEmpty( navigaProgetti.getDescrizione() ) ){
+			criteria.add( Restrictions.like("anagraficaCup.descCup", navigaProgetti.getDescrizione(), MatchMode.ANYWHERE ).ignoreCase() );
+		}
 		
 		if( navigaProgetti.getIdRegione().equals("0") ){
 			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.regione", "regione");
@@ -256,6 +272,7 @@ public class ProgettoFacade {
 			criteria.addOrder(Order.desc(orderByCol));
 		
 		List<Progetto> progetti = progettoDAO.findByCriteria(criteria);
+
 		List<Progetto> retval = new ArrayList<Progetto>();
 		
 		for( Progetto tmp : progetti ){
