@@ -10,6 +10,7 @@ import it.dipe.opencup.dao.CategoriaInterventoDAO;
 import it.dipe.opencup.dao.CategoriaSoggettoDAO;
 import it.dipe.opencup.dao.ClassificazioneDAO;
 import it.dipe.opencup.dao.ComuneDAO;
+import it.dipe.opencup.dao.GerarchiaSoggettoDAO;
 import it.dipe.opencup.dao.LocalizzazioneDAO;
 import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.NaturaSettoreDAO;
@@ -33,6 +34,7 @@ import it.dipe.opencup.model.AreaSoggetto;
 import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CategoriaSoggetto;
 import it.dipe.opencup.model.Comune;
+import it.dipe.opencup.model.GerarchiaSoggetto;
 import it.dipe.opencup.model.Natura;
 import it.dipe.opencup.model.NaturaSettore;
 import it.dipe.opencup.model.ProgettiTotali;
@@ -45,6 +47,8 @@ import it.dipe.opencup.model.StatoProgetto;
 import it.dipe.opencup.model.TipologiaIntervento;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -124,6 +128,9 @@ public class AggregataFacade {
 	
 	@Autowired
 	private ProgettiTotaliDAO progettiTotaliDAO;
+	
+	@Autowired
+	private GerarchiaSoggettoDAO gerarchiaSoggettoDAO;
 	
 //	private Criteria buildCriteria4Testata(NavigaAggregata navigaAggregata){
 //		Criteria criteria = aggregataDAO.newCriteria();
@@ -563,7 +570,10 @@ public class AggregataFacade {
 		
 		Criteria criteria = annoDecisioneDAO.newCriteria();
 		criteria.add( Restrictions.ne("id", -1) );
-		criteria.addOrder(Order.asc("annoDadeAnnoDecisione"));
+		//Modifica Daniele - 
+		criteria.add(Restrictions.le("annoDadeAnnoDecisione", getYearFromDate(new Date()).toString()));
+		//End - Daniele
+		criteria.addOrder(Order.desc("annoDadeAnnoDecisione"));
 		
 		retval = annoDecisioneDAO.findByCriteria(criteria);
 		
@@ -888,25 +898,31 @@ public class AggregataFacade {
 		return retval;
 	}
 	
-//	@Cacheable(value = "CategoriaSoggetto")
-//	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto(Integer idAreaSoggetto) {
-//		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
-//		
-//		Criteria criteria = categoriaSoggettoDAO.newCriteria();
-//		
-//		criteria.createAlias("areaSoggetto", "areaSoggetto");
-//		
-//		criteria.add( Restrictions.ne("codiCategoriaSoggetto", "0000") );
-//		criteria.add( Restrictions.ne("id", -1) );
-//		
-//		criteria.add( Restrictions.eq("areaSoggetto.id", idAreaSoggetto) );
-//		
-//		criteria.addOrder(Order.asc("descCategoriaSoggetto"));
-//		
-//		retval = categoriaSoggettoDAO.findByCriteria(criteria);
-//		
-//		return retval;
-//	}
+	@Cacheable(value = "CategoriaSoggetto")
+	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto(Integer idAreaSoggetto) {
+		List<CategoriaSoggetto> retval = new ArrayList<CategoriaSoggetto>();
+		List<String> listDescCatSoggetto = new ArrayList<String>();
+		
+		Criteria criteria = gerarchiaSoggettoDAO.newCriteria();
+		criteria.createAlias("areaSoggetto", "areaSoggetto");
+		criteria.createAlias("categoriaSoggetto", "categoriaSoggetto");
+		criteria.add( Restrictions.ne("categoriaSoggetto.codiCategoriaSoggetto", "0000") );
+		criteria.add( Restrictions.ne("categoriaSoggetto.id", -1) );
+		
+		criteria.add( Restrictions.eq("areaSoggetto.id", idAreaSoggetto) );
+		
+		criteria.addOrder(Order.asc("categoriaSoggetto.descCategoriaSoggetto"));
+		
+		List<GerarchiaSoggetto> list =  gerarchiaSoggettoDAO.findByCriteria(criteria);
+		for(GerarchiaSoggetto gSoggetto :list){
+			if(!listDescCatSoggetto.contains(gSoggetto.getCategoriaSoggetto().getDescCategoriaSoggetto())){
+				listDescCatSoggetto.add(gSoggetto.getCategoriaSoggetto().getDescCategoriaSoggetto());
+				retval.add(gSoggetto.getCategoriaSoggetto());
+			}
+		}
+		
+		return retval;
+	}
 	
 	@Cacheable(value = "CategoriaSoggetto")
 	public List<CategoriaSoggetto> findCategoriaSoggettoByIdAreaSoggetto() {
@@ -930,5 +946,12 @@ public class AggregataFacade {
 //		List<Aggregata> listaAggregata = aggregataDAO.findByCriteria(buildCriteria(navigaAggregata));
 //		return listaAggregataToListaAggregataDTO(navigaAggregata, listaAggregata);
 //	}
+	
+	public static Integer getYearFromDate(Date data) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(data);
+		int anno = cal.get(Calendar.YEAR);
+		return anno;
+	}
 	
 }

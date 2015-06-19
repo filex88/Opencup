@@ -124,7 +124,7 @@ public class FiltriCommonController {
 		
 		List<FiltroRicercaDTO> lista = new ArrayList<FiltroRicercaDTO>();
 		FiltroRicercaDTO ele = null;
-		for(CategoriaSoggetto categoriaSoggetto : aggregataFacade.findCategoriaSoggettoByIdAreaSoggetto()){//pattern)){
+		for(CategoriaSoggetto categoriaSoggetto : aggregataFacade.findCategoriaSoggettoByIdAreaSoggetto(pattern)){//pattern)){
 			ele = new FiltroRicercaDTO();
 			ele.setId( categoriaSoggetto.getId() );
 			ele.setLabel( categoriaSoggetto.getDescCategoriaSoggetto() );
