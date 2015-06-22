@@ -78,6 +78,13 @@ public class ProgettoFacade {
 //				.add(Projections.groupProperty("annoAnnoDecisione"))
 //				);      
 		
+		if( ! StringUtils.isEmpty( navigaProgetti.getCup() ) ){
+			criteria.add( Restrictions.eq("anagraficaCup.codiCup", navigaProgetti.getCup() ).ignoreCase() );
+		}
+		if( ! StringUtils.isEmpty( navigaProgetti.getDescrizione() ) ){
+			criteria.add( Restrictions.like("anagraficaCup.descCup", navigaProgetti.getDescrizione(), MatchMode.ANYWHERE ).ignoreCase() );
+		}
+		
 		//CLASSIFICAZIONE
 		criteria.createAlias("natura", "natura");
 		criteria.add( Restrictions.eq("natura.id", Integer.valueOf(navigaProgetti.getIdNatura())) );
@@ -106,7 +113,6 @@ public class ProgettoFacade {
 			criteria.add( Restrictions.eq("categoriaIntervento.id", Integer.valueOf(navigaProgetti.getIdCategoriaIntervento())) );
 		}
 		
-		
 		//GERARCHIA SOGGETTO
 		//if( ( !"-1".equals(navigaProgetti.getIdCategoriaSoggetto()) ) || (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())) || (!"-1".equals(navigaProgetti.getIdAreaSoggetto())) ){
 		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
@@ -134,7 +140,7 @@ public class ProgettoFacade {
 	
 		if( navigaProgetti.getIdAreaSoggetto().equals("0") ){
 			criteria.add( Restrictions.ge("sottocategoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
-		}else if(!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())){
+		}else if(!"-1".equals(navigaProgetti.getIdAreaSoggetto())){
 			criteria.add( Restrictions.eq("sottocategoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
 		}
 
@@ -145,12 +151,13 @@ public class ProgettoFacade {
 		criteria.createAlias("anagraficaCup.cupLocalizzazioneList.stato", "stato");
 		criteria.add( Restrictions.eq("stato.descStato", navigaProgetti.getDescStato() ) );
 		
-		if( ! StringUtils.isEmpty( navigaProgetti.getCup() ) ){
-			criteria.add( Restrictions.eq("anagraficaCup.codiCup", navigaProgetti.getCup() ).ignoreCase() );
-		}
-		if( ! StringUtils.isEmpty( navigaProgetti.getDescrizione() ) ){
-			criteria.add( Restrictions.like("anagraficaCup.descCup", navigaProgetti.getDescrizione(), MatchMode.ANYWHERE ).ignoreCase() );
-		}
+		if( navigaProgetti.getIdAreaGeografica().equals("0") ){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.areaGeografica", "areaGeografica");
+			criteria.add( Restrictions.ge("areaGeografica.id", Integer.valueOf(navigaProgetti.getIdAreaGeografica())) );
+		}else if(!"-1".equals(navigaProgetti.getIdAreaGeografica())){
+			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.areaGeografica", "areaGeografica");
+			criteria.add( Restrictions.eq("areaGeografica.id", Integer.valueOf(navigaProgetti.getIdAreaGeografica())) );
+		} 
 		
 		if( navigaProgetti.getIdRegione().equals("0") ){
 			criteria.createAlias("anagraficaCup.cupLocalizzazioneList.regione", "regione");
@@ -272,7 +279,7 @@ public class ProgettoFacade {
 			criteria.addOrder(Order.desc(orderByCol));
 		
 		List<Progetto> progetti = progettoDAO.findByCriteria(criteria);
-
+		
 		List<Progetto> retval = new ArrayList<Progetto>();
 		
 		for( Progetto tmp : progetti ){
