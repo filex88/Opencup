@@ -242,17 +242,19 @@
 	};
 		 
 	function nFormatter(num) {
-	    if (num >= 1000000000) {
+		
+		if (num >= 1000000000) {
 	       return '<strong>' + (num / 1000000000).formattaNumerico(0, ',', '.') + '</strong> <small>Mld &euro;</small>';
 	    }
 	    if (num >= 1000000) {
 	       return '<strong>' + (num / 1000000).formattaNumerico(0, ',', '.') + '</strong> <small>Mil &euro;</small>';
 	    }
-	    if (num >= 1000) {
+	    //if (num >= 1000) {
 	    	// return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small style="font-size: .5em;">progetti</small>';
-	    	return '<strong>' + num.formattaNumerico(0, ',', '.')  + '</strong>';
-	    }
-	    return num;
+	    return '<strong>' + num.formattaNumerico(0, ',', '.')  + '</strong>';
+	    //}
+	    
+	    //return num;
 	}
 	
 	function drawTitoloIntestazione ( elementName, calculatedJsonClass, pagNavigazioneLogo, separatore ) {
