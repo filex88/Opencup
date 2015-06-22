@@ -287,6 +287,11 @@ AUI().use(
 				    	A.one('.anno').val(-1);
 				    	A.one('.tipologia').val(-1);
 				    	A.one('.statoprogetto').val(-1);
+				    	
+				    	A.one('.cup').val("");
+				    	A.one('.descrizione').val("");
+				    	A.one('.soggettoResponsabile').val("");
+				    	A.one('.cfPiSoggettoResponsabile').val("");
 
 				    	// submit
 				    	myFormAffinaRicerca.submit();
