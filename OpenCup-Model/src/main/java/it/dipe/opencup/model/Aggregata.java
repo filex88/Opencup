@@ -21,6 +21,7 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 2621837735327804843L;
 
+	
 	@Id
 	@Column(name = "SEQU_FAGG_ID")
 	private Integer id;
