@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,31 +26,31 @@ public class CupLocalizzazione extends AbstractCommonEntity implements Serializa
 	private Integer id;
 
 	
-	@ManyToOne(targetEntity = Comune.class)
+	@ManyToOne(targetEntity = Comune.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_ACLO_DCOM_ID", referencedColumnName = "SEQU_DCOM_ID")
 	private Comune comune;
 		 
 	
-	@ManyToOne(targetEntity = Provincia.class)
+	@ManyToOne(targetEntity = Provincia.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_ACLO_DPRO_ID", referencedColumnName = "SEQU_DPRO_ID")
 	private Provincia provincia;
 	 
 
-	@ManyToOne(targetEntity = Regione.class)
+	@ManyToOne(targetEntity = Regione.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_ACLO_DREG_ID", referencedColumnName = "SEQU_DREG_ID")
 	private Regione regione;
 	 
 
-	@ManyToOne(targetEntity = Stato.class)
+	@ManyToOne(targetEntity = Stato.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_ACLO_DSTA_ID", referencedColumnName = "SEQU_DSTA_ID")
 	private Stato stato;
 	 
 
-	@ManyToOne(targetEntity = AreaGeografica.class)
+	@ManyToOne(targetEntity = AreaGeografica.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_ACLO_DAGE_ID", referencedColumnName = "SEQU_DAGE_ID")
 	private AreaGeografica areaGeografica;
 	
-	@ManyToOne(targetEntity = AnagraficaCup.class)
+	@ManyToOne(targetEntity = AnagraficaCup.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_ACLO_DCUP_ID", referencedColumnName = "SEQU_DCUP_ID")
 	private AnagraficaCup anagraficaCup;
 

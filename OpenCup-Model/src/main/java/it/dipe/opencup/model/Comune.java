@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,7 +34,7 @@ public class Comune extends AbstractCommonEntity implements Serializable {
 	private String descComune;
 	 
 
-	@ManyToOne(targetEntity = Provincia.class)
+	@ManyToOne(targetEntity = Provincia.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_DCOM_DPRO_ID", referencedColumnName = "SEQU_DPRO_ID")
 	private Provincia provincia;
 

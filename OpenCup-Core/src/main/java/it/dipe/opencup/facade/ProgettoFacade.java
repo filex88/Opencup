@@ -115,9 +115,22 @@ public class ProgettoFacade {
 		
 		//GERARCHIA SOGGETTO
 		//if( ( !"-1".equals(navigaProgetti.getIdCategoriaSoggetto()) ) || (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto())) || (!"-1".equals(navigaProgetti.getIdAreaSoggetto())) ){
-		criteria.createAlias("soggettoTitolare", "soggettoTitolare");
-		criteria.createAlias("soggettoTitolare.sottocategoriaSoggetto", "sottocategoriaSoggetto");
+		//criteria.createAlias("soggettoTitolare", "soggettoTitolare");
+		//criteria.createAlias("soggettoTitolare.sottocategoriaSoggetto", "sottocategoriaSoggetto");
 		//}
+		
+		boolean addSoggettoTitolareAlias = true;
+		if(
+				( ! StringUtils.isEmpty( navigaProgetti.getSoggettoResponsabile() ) )
+				|| ( ! StringUtils.isEmpty( navigaProgetti.getCfPiSoggettoResponsabile() ) )
+				|| ( navigaProgetti.getIdCategoriaSoggetto().equals("0") )
+				|| (!"-1".equals(navigaProgetti.getIdCategoriaSoggetto()))
+				|| ( navigaProgetti.getIdSottoCategoriaSoggetto().equals("0") )
+				|| (!"-1".equals(navigaProgetti.getIdSottoCategoriaSoggetto()))
+				){
+			criteria.createAlias("soggettoTitolare", "soggettoTitolare");
+			addSoggettoTitolareAlias = false;
+		}
 			
 		if( ! StringUtils.isEmpty( navigaProgetti.getSoggettoResponsabile() ) ){
 			criteria.add( Restrictions.like("soggettoTitolare.descSoggettoTitolare", navigaProgetti.getSoggettoResponsabile(), MatchMode.ANYWHERE ).ignoreCase() );
@@ -139,8 +152,16 @@ public class ProgettoFacade {
 		}
 	
 		if( navigaProgetti.getIdAreaSoggetto().equals("0") ){
+			if(addSoggettoTitolareAlias){
+				criteria.createAlias("soggettoTitolare", "soggettoTitolare");
+			}
+			criteria.createAlias("soggettoTitolare.sottocategoriaSoggetto", "sottocategoriaSoggetto");
 			criteria.add( Restrictions.ge("sottocategoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
 		}else if(!"-1".equals(navigaProgetti.getIdAreaSoggetto())){
+			if(addSoggettoTitolareAlias){
+				criteria.createAlias("soggettoTitolare", "soggettoTitolare");
+			}
+			criteria.createAlias("soggettoTitolare.sottocategoriaSoggetto", "sottocategoriaSoggetto");
 			criteria.add( Restrictions.eq("sottocategoriaSoggetto.areaSoggetto.id", Integer.valueOf(navigaProgetti.getIdAreaSoggetto())) );
 		}
 
@@ -259,7 +280,7 @@ public class ProgettoFacade {
 		Criteria criteria = buildCriteria(filtri);	
 		return new SizeDTO(progettoDAO.countByCriteria(criteria));
 	}
-
+	
 	@Cacheable(value = "Progetto")
 	public List<Progetto> findElencoProgetti( NavigaProgetti filtri ) {
 		
@@ -283,6 +304,7 @@ public class ProgettoFacade {
 		List<Progetto> retval = new ArrayList<Progetto>();
 		
 		for( Progetto tmp : progetti ){
+			simulaGet4ListaProgetti(tmp);
 			if( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() != null ){
 				tmp.getAnagraficaCup().setAnagraficaCup(
 						anagraficaCupDAO.findById( tmp.getAnagraficaCup().getFkDcupDcupIdMaster() ) );
@@ -293,10 +315,18 @@ public class ProgettoFacade {
 		return retval;
 	}
 
+	private void simulaGet4ListaProgetti(Progetto progetto) {
+		System.out.println( progetto.getAnagraficaCup() );
+		System.out.println( progetto.getAnnoDecisione() );
+		System.out.println( progetto.getCategoriaIntervento() );
+		System.out.println( progetto.getComuniProgetto() );
+	}
+
 	@Cacheable(value = "Progetto")
 	public Progetto findProgettoById(Integer id) {
-		Progetto p = progettoDAO.findById(id);
 		
+		Progetto p = progettoDAO.findById(id);
+		similaGet4Dettaglio(p);
 		Criteria criteria = cupCoperturaFinanziariaDAO.newCriteria();
 		criteria.createAlias("anagraficaCup", "anagraficaCup");
 		criteria.add( Restrictions.eq("anagraficaCup.id", p.getAnagraficaCup().getId() ));
@@ -313,6 +343,26 @@ public class ProgettoFacade {
 	}	
 	
 	
+	private void similaGet4Dettaglio(Progetto progetto) {
+		System.out.println(	progetto.getAnnoDecisione() );
+		System.out.println(	progetto.getSoggettoTitolare() );
+		System.out.println(	progetto.getUnitaOrganizzativa() );
+		System.out.println(	progetto.getNatura() );
+		System.out.println(	progetto.getTipologiaIntervento() );
+		System.out.println(	progetto.getSettoreIntervento() );
+		System.out.println(	progetto.getSottosettoreIntervento() );
+		System.out.println(	progetto.getCategoriaIntervento() );
+		System.out.println(	progetto.getStrumentoProgr() );
+		System.out.println(	progetto.getStatoProgetto() );
+		System.out.println(	progetto.getGruppoAteco() );
+		System.out.println(	progetto.getAnagraficaCup() );
+		System.out.println(	progetto.getComuniProgetto() );
+		System.out.println(	progetto.getProvinceProgetto() );
+		System.out.println(	progetto.getRegioneProgetto() );
+		System.out.println(	progetto.getAreaGeografica() );
+		System.out.println(	progetto.getAreaIntervento() );
+	}
+
 	public int countProgettiIndicizzazione() {
 		
 		String codiNatura = "03"; // natura lavori pubblici

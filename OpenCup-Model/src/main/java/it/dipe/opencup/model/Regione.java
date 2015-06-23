@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,7 +33,7 @@ public class Regione extends AbstractCommonEntity implements Serializable {
 	@Column(name = "DESC_DREG_REGIONE", length = 50)
 	private String descRegione;
 	 
-	@ManyToOne(targetEntity = AreaGeografica.class)
+	@ManyToOne(targetEntity = AreaGeografica.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_DREG_DAGE_ID", referencedColumnName = "SEQU_DAGE_ID")
 	private AreaGeografica areaGeografica;
 

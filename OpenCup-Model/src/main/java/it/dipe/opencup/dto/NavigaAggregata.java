@@ -29,6 +29,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	private String idCategoriaIntervento;
 	
 	private List<String> idAnnoAggregatos;
+	private List<String> idAnnoDecisiones;
 	
 	private String idRegione;
 	private String idProvincia;
@@ -63,7 +64,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	private String descTipologiaIntervento;
 	private String descStatoProgetto;
 	
-	private boolean flagAggrefaAnni=true;
+	private boolean flagAggregaAnni=true;
 	
 	private boolean filtroClassificazione;
 	
@@ -95,10 +96,10 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.idRegione = navigaProgetti.getIdRegione();
 		this.idProvincia = navigaProgetti.getIdProvincia();
 		this.idComune = navigaProgetti.getIdComune();
-
-		this.idAnnoAggregatos = new ArrayList<String>();
+		
+		this.idAnnoDecisiones = new ArrayList<String>();
 		for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
-			this.idAnnoAggregatos.add(tmp);
+			this.idAnnoDecisiones.add(tmp);
 		}
 		
 		this.indicatoreNavigaLocalizzazione = "A";
@@ -185,6 +186,8 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.idCategoriaIntervento = "-1";
 		this.idAnnoAggregatos = new ArrayList<String>();
 		this.idAnnoAggregatos.add("-1");
+		this.idAnnoDecisiones = new ArrayList<String>();
+		this.idAnnoDecisiones.add("-1");
 		this.idRegione = "-1";
 		this.idProvincia = "-1";
 		this.idComune = "-1";
@@ -209,6 +212,8 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.idCategoriaIntervento = "-1";
 		this.idAnnoAggregatos = new ArrayList<String>();
 		this.idAnnoAggregatos.add("-1");
+		this.idAnnoDecisiones = new ArrayList<String>();
+		this.idAnnoDecisiones.add("-1");
 		this.idRegione = "-1";
 		this.idProvincia = "-1";
 		this.idComune = "-1";
@@ -233,6 +238,7 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		toString = toString + "idAreaGeografica: (" + idAreaGeografica + "); ";
 		toString = toString + "descStato: (" + descStato + "); ";
 		toString = toString + "idAnnoAggregatos: (" + idAnnoAggregatos + "); ";
+		toString = toString + "idAnnoDecisiones: (" + idAnnoDecisiones + "); ";
 		toString = toString + "idCategoriaSoggetto: (" + idCategoriaSoggetto + "); ";
 		toString = toString + "idSottoCategoriaSoggetto: (" + idSottoCategoriaSoggetto + "); ";
 		toString = toString + "idAreaSoggetto: (" + idAreaSoggetto + "); ";
@@ -257,6 +263,12 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		if( idAnnoAggregatos.size() > 1 ){
 			retval=true;
 		}else
+		if( idAnnoDecisiones.size() == 1 && (!idAnnoDecisiones.contains("-1")) ){
+			 retval=true;
+		}else
+		if( idAnnoDecisiones.size() > 1 ){
+			retval=true;
+		}else	
 		if(! "-1".equals( idRegione ) ){
 			 retval=true;
 		}else
@@ -331,6 +343,13 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			retval++;
 		}
 		
+		if( idAnnoDecisiones.size() == 1 && (!idAnnoDecisiones.contains("-1")) ){
+			retval++;
+		}else
+		if( idAnnoDecisiones.size() > 1 ){
+			retval++;
+		}
+			
 		if(! "-1".equals( idRegione ) ){
 			 retval++;
 		}
@@ -383,6 +402,13 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			 retval++;
 		}else
 		if( idAnnoAggregatos.size() > 1 ){
+			retval++;
+		}
+		
+		if( idAnnoDecisiones.size() == 1 && (!idAnnoDecisiones.contains("-1")) ){
+			retval++;
+		}else
+		if( idAnnoDecisiones.size() > 1 ){
 			retval++;
 		}
 		
@@ -474,6 +500,14 @@ public class NavigaAggregata implements Serializable, Cloneable{
 
 	public void setIdAnnoAggregatos(List<String> idAnnoAggregatos) {
 		this.idAnnoAggregatos = idAnnoAggregatos;
+	}
+
+	public List<String> getIdAnnoDecisiones() {
+		return idAnnoDecisiones;
+	}
+
+	public void setIdAnnoDecisiones(List<String> idAnnoDecisiones) {
+		this.idAnnoDecisiones = idAnnoDecisiones;
 	}
 
 	public String getIdRegione() {
@@ -687,12 +721,12 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		this.countAffRicercaLocalizzazione = countAffRicercaLocalizzazione;
 	}
 
-	public boolean isFlagAggrefaAnni() {
-		return flagAggrefaAnni;
+	public boolean isFlagAggregaAnni() {
+		return flagAggregaAnni;
 	}
 
-	public void setFlagAggrefaAnni(boolean flagAggrefaAnni) {
-		this.flagAggrefaAnni = flagAggrefaAnni;
+	public void setFlagAggregaAnni(boolean flagAggregaAnni) {
+		this.flagAggregaAnni = flagAggregaAnni;
 	}
 
 	public String getOrderType() {
@@ -781,10 +815,13 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		result = prime * result
 				+ ((distribuzione == null) ? 0 : distribuzione.hashCode());
 		result = prime * result + (filtroClassificazione ? 1231 : 1237);
-		result = prime * result + (flagAggrefaAnni ? 1231 : 1237);
+		result = prime * result + (flagAggregaAnni ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((idAnnoAggregatos == null) ? 0 : idAnnoAggregatos.hashCode());
+		result = prime
+				* result
+				+ ((idAnnoDecisiones == null) ? 0 : idAnnoDecisiones.hashCode());
 		result = prime
 				* result
 				+ ((idAreaGeografica == null) ? 0 : idAreaGeografica.hashCode());
@@ -938,12 +975,17 @@ public class NavigaAggregata implements Serializable, Cloneable{
 			return false;
 		if (filtroClassificazione != other.filtroClassificazione)
 			return false;
-		if (flagAggrefaAnni != other.flagAggrefaAnni)
+		if (flagAggregaAnni != other.flagAggregaAnni)
 			return false;
 		if (idAnnoAggregatos == null) {
 			if (other.idAnnoAggregatos != null)
 				return false;
 		} else if (!idAnnoAggregatos.equals(other.idAnnoAggregatos))
+			return false;
+		if (idAnnoDecisiones == null) {
+			if (other.idAnnoDecisiones != null)
+				return false;
+		} else if (!idAnnoDecisiones.equals(other.idAnnoDecisiones))
 			return false;
 		if (idAreaGeografica == null) {
 			if (other.idAreaGeografica != null)
@@ -1041,6 +1083,5 @@ public class NavigaAggregata implements Serializable, Cloneable{
 		return true;
 	}
 
-	
 
 }

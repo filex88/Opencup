@@ -666,26 +666,43 @@
 	if(currentAction=='ricercaAvanzata'){
 		filtroExpanded = true;
 	}
+	
+	Number.prototype.formattaNumerico = 
+		function(c, d, t) {
+			var n = this, 
+				c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "." : d, 
+				t = t == undefined ? "," : t, s = n < 0 ? "-" : "", 
+				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				j = (j = i.length) > 3 ? j % 3 : 0;
+				
+		return s + (j ? i.substr(0, j) + t : "")
+			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
+			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
 
 	function nFormatterBar(num){
 		if (num >= 1000000000) {
-	        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld ';
+			//return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld ';
+			return (num / 1000000000).formattaNumerico(0, ',', '.') + ' Mld ';
 	     }
 	     if (num >= 1000000) {
-	        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil ';
+	        //return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil ';
+	    	 return (num / 1000000).formattaNumerico(0, ',', '.') + ' Mil ';
 	     }
+	     /*
 	     if (num >= 1000) {
 	        return (num / 1).toFixed(0).replace(/\.0$/, '');
 	     }
-	     return num;
+	     */
+	     return num.formattaNumerico(0, ',', '.');
 
 	}
 	
 	if(currentAction == 'elencoProgetti'){
 		
-		d3.selectAll("#volumeTotale").text(nFormatterBar("${volumeDeiProgettiProg}"));
-		d3.selectAll("#costoTotale").text(nFormatterBar("${costoDeiProgettiProg}")+"\u20ac");
-		d3.selectAll("#importoTotale").text(nFormatterBar("${importoFinanziamentiProg}")+"\u20ac");
+		d3.selectAll("#volumeTotale").text(nFormatterBar(${volumeDeiProgettiProg}));
+		d3.selectAll("#costoTotale").text(nFormatterBar(${costoDeiProgettiProg})+"\u20ac");
+		d3.selectAll("#importoTotale").text(nFormatterBar(${importoFinanziamentiProg})+"\u20ac");
 		
 		function drawFinBar(){
 			// barra importo finanziato
@@ -1042,7 +1059,7 @@ AUI().use(
 				    	A.one('.cfPiSoggettoResponsabile').val("");
 
 				    	// submit
-				    	myFormAffinaRicerca.submit();
+				    	//myFormAffinaRicerca.submit();
 					});
 
 		});

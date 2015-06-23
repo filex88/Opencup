@@ -209,23 +209,25 @@ public class AggregataFacade {
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
+		if( navigaAggregata.getIdAnnoDecisiones() != null && navigaAggregata.getIdAnnoDecisiones().size() > 0){
+			List<String> idAnnoAggregatos = new ArrayList<String>();
+			for( String tmp : navigaAggregata.getIdAnnoDecisiones() ){
+				idAnnoAggregatos.add((annoDecisioneDAO.findById( Integer.valueOf(tmp) )).getAnnoAggregato().getId().toString());
+			}
+			navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+		}
+		
 		Criteria criteria = aggregataDAO.newCriteria();
-		
-		criteria.createAlias("classificazione", "classificazione");
-		criteria.createAlias("localizzazione", "localizzazione");
-		//criteria.createAlias("localizzazione.stato", "stato");
-		criteria.createAlias("annoAggregato", "annoAggregato");
-		criteria.createAlias("gerarchiaSoggetto", "gerarchiaSoggetto");
-		
-		criteria.createAlias("statoProgetto", "statoProgetto");
-		
+
 		if( navigaAggregata.getIdAnnoAggregatos() != null && navigaAggregata.getIdAnnoAggregatos().size() > 0 ){
 			if( navigaAggregata.getIdAnnoAggregatos().contains("-1") ){
+				criteria.createAlias("annoAggregato", "annoAggregato");
 				criteria.add( Restrictions.eq("annoAggregato.id", -1 ) );
 			}else if( navigaAggregata.getIdAnnoAggregatos().contains("0") ){
+				criteria.createAlias("annoAggregato", "annoAggregato");
 				criteria.add( Restrictions.ge("annoAggregato.id", 0 ) );
 			}else{
-				
+				criteria.createAlias("annoAggregato", "annoAggregato");
 				Disjunction or = Restrictions.disjunction();
 				
 				Disjunction orId = Restrictions.disjunction();
@@ -245,58 +247,85 @@ public class AggregataFacade {
 				
 			}
 		}else{
+			criteria.createAlias("annoAggregato", "annoAggregato");
 			criteria.add( Restrictions.eq("annoAggregato.id", -1 ) );
 		}
-		
+
+		boolean addAliasLocalizzazione = false;
 		if( navigaAggregata.getIdProvincia().equals("0") ){
+			addAliasLocalizzazione = true;
 			criteria.add( Restrictions.ge("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
 		}else{
+			addAliasLocalizzazione = true;
 			criteria.add( Restrictions.eq("localizzazione.provincia.id", Integer.valueOf(navigaAggregata.getIdProvincia())) );
 		}
 		
 		if( navigaAggregata.getIdRegione().equals("0") ){
+			addAliasLocalizzazione = true;
 			criteria.add( Restrictions.ge("localizzazione.regione.id", Integer.valueOf(navigaAggregata.getIdRegione())) );
 		}else{
+			addAliasLocalizzazione = true;
 			criteria.add( Restrictions.eq("localizzazione.regione.id", Integer.valueOf(navigaAggregata.getIdRegione())) );
 		}
 		
 		if( navigaAggregata.getIdAreaGeografica().equals("0") ){
+			addAliasLocalizzazione = true;
 			criteria.add( Restrictions.ge("localizzazione.areaGeografica.id", Integer.valueOf(navigaAggregata.getIdAreaGeografica())) );
 		}else{
+			addAliasLocalizzazione = true;
 			criteria.add( Restrictions.eq("localizzazione.areaGeografica.id", Integer.valueOf(navigaAggregata.getIdAreaGeografica())) );
 		}
-
+		addAliasLocalizzazione = true;
 		criteria.add( Restrictions.eq("localizzazione.descStato", navigaAggregata.getDescStato() ) );
 		
-		//criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
+		if(addAliasLocalizzazione){
+			criteria.createAlias("localizzazione", "localizzazione");
+		}
 		
+		
+		//criteria.add( Restrictions.eq("stato.descStato", navigaAggregata.getDescStato() ) );
+		boolean addAliasClassificazione = false;
 		if( navigaAggregata.getIdNatura().equals("0") ){
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.ge("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
 		}else{
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.eq("classificazione.natura.id", Integer.valueOf(navigaAggregata.getIdNatura())) );
 		}
 		
 		if( navigaAggregata.getIdAreaIntervento().equals("0") ){
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.ge("classificazione.areaIntervento.id", Integer.valueOf(navigaAggregata.getIdAreaIntervento())) );
 		}else{
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.eq("classificazione.areaIntervento.id", Integer.valueOf(navigaAggregata.getIdAreaIntervento())) );
 		}
 		
 		if( navigaAggregata.getIdSottosettoreIntervento().equals("0") ){
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.ge("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}else{
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.eq("classificazione.sottosettoreIntervento.id", Integer.valueOf(navigaAggregata.getIdSottosettoreIntervento())) );
 		}
 		
 		if( navigaAggregata.getIdCategoriaIntervento().equals("0") ){
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.ge("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
 		}else{
+			addAliasClassificazione = true;
 			criteria.add( Restrictions.eq("classificazione.categoriaIntervento.id", Integer.valueOf(navigaAggregata.getIdCategoriaIntervento())) );
 		}	
 		
+		if(addAliasClassificazione){
+			criteria.createAlias("classificazione", "classificazione");
+		}
+		
 		if( navigaAggregata.getIdStatoProgetto().equals("0") ){
+			criteria.createAlias("statoProgetto", "statoProgetto");
 			criteria.add( Restrictions.ge("statoProgetto.id", Integer.valueOf(navigaAggregata.getIdStatoProgetto())) );
 		}else{
+			criteria.createAlias("statoProgetto", "statoProgetto");
 			criteria.add( Restrictions.eq("statoProgetto.id", Integer.valueOf(navigaAggregata.getIdStatoProgetto())) );
 		}	
 		
@@ -306,23 +335,35 @@ public class AggregataFacade {
 			criteria.add( Restrictions.eq("tipologiaIntervento.id", Integer.valueOf(navigaAggregata.getIdTipologiaIntervento())) );
 		}	
 		
+		boolean addGerarchiaSoggetto = false; 
 		if( navigaAggregata.getIdCategoriaSoggetto().equals("0") ){
+			addGerarchiaSoggetto = true;
 			criteria.add( Restrictions.ge("gerarchiaSoggetto.categoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdCategoriaSoggetto())) );
 		}else{
+			addGerarchiaSoggetto = true;
 			criteria.add( Restrictions.eq("gerarchiaSoggetto.categoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdCategoriaSoggetto())) );
 		}	
 
 		if( navigaAggregata.getIdSottoCategoriaSoggetto().equals("0") ){
+			addGerarchiaSoggetto = true;
 			criteria.add( Restrictions.ge("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
 		}else{
+			addGerarchiaSoggetto = true;
 			criteria.add( Restrictions.eq("gerarchiaSoggetto.sottocategoriaSoggetto.id", Integer.valueOf(navigaAggregata.getIdSottoCategoriaSoggetto())) );
 		}
 		
 		if( navigaAggregata.getIdAreaSoggetto().equals("0") ){
+			addGerarchiaSoggetto = true;
 			criteria.add( Restrictions.ge("gerarchiaSoggetto.areaSoggetto.id", Integer.valueOf(navigaAggregata.getIdAreaSoggetto())) );
 		}else{
+			addGerarchiaSoggetto = true;
 			criteria.add( Restrictions.eq("gerarchiaSoggetto.areaSoggetto.id", Integer.valueOf(navigaAggregata.getIdAreaSoggetto())) );
 		}
+		
+		if(addGerarchiaSoggetto){
+			criteria.createAlias("gerarchiaSoggetto", "gerarchiaSoggetto");
+		}
+		
 		/*
 		criteria.setProjection(Projections.sum("numeProgetti"));
 		criteria.setProjection(Projections.sum("impoCostoProgetti"));
@@ -333,12 +374,11 @@ public class AggregataFacade {
 		
 	private List<AggregataDTO> listaAggregataToListaAggregataDTO( 	NavigaAggregata navigaAggregata, 
 																	List<Aggregata> listaAggregata) {
-
 		List<AggregataDTO> retval = new ArrayList<AggregataDTO>();
 
 		List<Integer> listaIdElementiEleborati = new ArrayList<Integer>();
 
-		if(navigaAggregata.getIdAnnoAggregatos().size() > 1 && navigaAggregata.isFlagAggrefaAnni()){
+		if(navigaAggregata.getIdAnnoAggregatos().size() > 1 && navigaAggregata.isFlagAggregaAnni()){
 
 			//E' stata effettuata una ricerca per più anni, devo aggregare i risultati per anni diversi		
 			for( Aggregata tmpAggregata : listaAggregata ){

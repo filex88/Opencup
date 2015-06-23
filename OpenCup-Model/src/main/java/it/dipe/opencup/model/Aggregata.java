@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -37,31 +38,31 @@ public class Aggregata extends AbstractCommonEntity implements Serializable {
 	private Double impoImportoFinanziato;
 	
 	
-	@ManyToOne(targetEntity = Classificazione.class)
+	@ManyToOne(targetEntity = Classificazione.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_FAGG_DCLA_ID", referencedColumnName = "SEQU_DCLA_ID")
 	private Classificazione classificazione;
 	
 	 
-	@ManyToOne(targetEntity = Localizzazione.class)
+	@ManyToOne(targetEntity = Localizzazione.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_FAGG_DLOC_ID", referencedColumnName = "SEQU_DLOC_ID")
 	private Localizzazione localizzazione;
 	
 	
-	@ManyToOne(targetEntity = GerarchiaSoggetto.class)
+	@ManyToOne(targetEntity = GerarchiaSoggetto.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_FAGG_DGSO_ID", referencedColumnName = "SEQU_DGSO_ID")
 	private GerarchiaSoggetto gerarchiaSoggetto;
 	
 
-	@ManyToOne(targetEntity = TipologiaIntervento.class)
+	@ManyToOne(targetEntity = TipologiaIntervento.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_FAGG_DTIN_ID", referencedColumnName = "SEQU_DTIN_ID")
 	private TipologiaIntervento tipologiaIntervento;
 	
 	
-	@ManyToOne(targetEntity = StatoProgetto.class)
+	@ManyToOne(targetEntity = StatoProgetto.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_FAGG_DSPR_ID", referencedColumnName = "SEQU_DSPR_ID")
 	private StatoProgetto statoProgetto;
 	
-	@ManyToOne(targetEntity = AnnoAggregato.class)
+	@ManyToOne(targetEntity = AnnoAggregato.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_FAGG_DAAG_ID", referencedColumnName = "SEQU_DAAG_ID")
 	private AnnoAggregato annoAggregato;
 

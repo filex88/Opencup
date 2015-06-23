@@ -117,7 +117,7 @@ public class TestataNavigazionePortletController {
 			idAnnoAggregatos.add(String.valueOf(year));
 		}
 		navigaAggregataAnno.setIdAnnoAggregatos( idAnnoAggregatos );
-		navigaAggregataAnno.setFlagAggrefaAnni(false);
+		navigaAggregataAnno.setFlagAggregaAnni(false);
 		navigaAggregataAnno.setOrderProperty("annoAggregato.annoAggregato");
 		navigaAggregataAnno.setOrderType("asc");
 
