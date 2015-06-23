@@ -213,6 +213,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		}
 		*/
 		searchContainerElenco.setResults(elencoProgetti4Pag);
+		searchContainerElenco.setTotal(size);
 		
 		model.addAttribute("searchContainerElenco", searchContainerElenco);
 		

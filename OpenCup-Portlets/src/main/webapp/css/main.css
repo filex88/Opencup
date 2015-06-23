@@ -20,7 +20,6 @@
 
 .natura-portlet1 #tooltip-natura-portlet1 p {
 	margin: 0;
-	/* font-family: sans-serif; */
 	font-size: 16px;
 	line-height: 20px;
 }
@@ -179,7 +178,6 @@
 
 .classificazione-portlet1 #tooltip-classificazione-portlet1 p {
 	margin: 0;
-	/* font-family: sans-serif; */
 	font-size: 16px;
 	line-height: 20px;
 }
@@ -341,7 +339,6 @@
     shape-rendering: crispEdges;
 }
 .dettaglio-progetto-portlet .axis text {
-    /* font-family: sans-serif; */
     font-size: 11px;
 }
 
@@ -353,7 +350,6 @@
 }
 
 .dettaglio-progetto-portlet .axis text {
-    /* font-family: sans-serif; */
     font-size: 11px;
 }
 
@@ -379,7 +375,6 @@
 
 .dettaglio-progetto-portlet #tooltip p {
 	margin: 0;
-	/* font-family: sans-serif; */
 	font-size: 16px;
 	line-height: 20px;
 }
@@ -393,18 +388,12 @@
 	position: relative;
 	border:2px solid White;
 	border-radius:7px;
-	/* 
-	background: WhiteSmoke; 
-	font: normal 14px Arial;
-	font-family:Arial, Helvetica, sans-serif;
-	color:Black;
-	*/
 	padding: 15px;
 	text-align: center;
 }
 
 .classificazione-portlet1 svg {
-	font: 10px sans-serif;
+	font-size: 10px;
 	display: block;
 }
 
@@ -750,7 +739,6 @@ div.celle_dati_sitesi{
 .localizzazione-portlet0 #tooltip-pie-chart p,
 .pie-chart-portlet #tooltip-pie-chart p {
 	margin: 0;
-	/* font-family: sans-serif; */
 	font-size: 16px;
 	line-height: 20px;
 }
@@ -777,7 +765,6 @@ div.celle_dati_sitesi{
 .soggetto-portlet .axis text,
 .localizzazione-portlet0 .axis text,
 .pie-chart-portlet .axis text {
-    /* font-family: sans-serif; */
     font-size: 11px;
 }
 
@@ -795,7 +782,6 @@ div.celle_dati_sitesi{
 .soggetto-portlet .axis text,
 .localizzazione-portlet0 .axis text,
 .pie-chart-portlet .axis text {
-    /* font-family: sans-serif; */
     font-size: 11px;
 }
 
@@ -803,7 +789,7 @@ div.celle_dati_sitesi{
 .localizzazione-portlet0 .chart-bar text,
 .pie-chart-portlet .chart-bar text {
   fill: white;
-  font: 10px sans-serif;
+  font-size: 10px;
   text-anchor: end;
 }
 
@@ -811,14 +797,14 @@ div.celle_dati_sitesi{
 .localizzazione-portlet0 .chart-bar .label,
 .pie-chart-portlet .chart-bar .label {
   fill: black;
-  font: 14px sans-serif;
+  font-size: 10px;
   text-anchor: end;
 }
 
 .soggetto-portlet svg,
 .localizzazione-portlet0 svg,
 .pie-chart-portlet  svg {
-	font: 10px sans-serif;
+  font-size: 10px;
 	display: block;
 }
 
@@ -985,18 +971,18 @@ div.celle_dati_sitesi{
 
 .localizzazione-portlet .chart-bar-territori text {
   fill: white;
-  font: 10px sans-serif;
+  font-size: 10px;
   text-anchor: end;
 }
 
 .localizzazione-portlet  .chart-bar-territori .label {
   fill: black;
-  font: 14px sans-serif;
+  font-size: 14px;
   text-anchor: end;
 }
 
 .localizzazione-portlet  svg {
-	font: 10px sans-serif;
+	font-size: 10px;
 	display: block;
 }
 

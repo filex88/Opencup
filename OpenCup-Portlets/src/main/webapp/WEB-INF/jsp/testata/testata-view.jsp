@@ -24,7 +24,7 @@
 	#conteiner div.ic_tray:first-child{margin-left: -6px!important;}
 	#conteiner div.ic_tray:last-child{margin-left: -6px!important;}
 	#conteiner div.effHistogram img{width:100px;height: 100px;padding-left:1em;}
-	#conteiner div.titolo p{padding-top:0.5em; padding-left:0.5em; font-size:1.6em; color:#1f4e78; margin:0 0 5px;}
+	#conteiner div.titolo p{padding-top:0.5em; padding-left:0.5em; font-size:1.6em; color:#1f4e78; margin:0 0 5px; font-weight: bold;}
 	#conteiner .firstLoc{ padding-top:0.8em; padding-left:1em; color:#1f4e78; font-size:2em; white-space: nowrap;}
 	#conteiner div.barchart p{padding-left:1em; color:#1f4e78;}
 	
@@ -242,17 +242,19 @@
 	};
 		 
 	function nFormatter(num) {
-	    if (num >= 1000000000) {
+		
+		if (num >= 1000000000) {
 	       return '<strong>' + (num / 1000000000).formattaNumerico(0, ',', '.') + '</strong> <small>Mld &euro;</small>';
 	    }
 	    if (num >= 1000000) {
 	       return '<strong>' + (num / 1000000).formattaNumerico(0, ',', '.') + '</strong> <small>Mil &euro;</small>';
 	    }
-	    if (num >= 1000) {
+	    //if (num >= 1000) {
 	    	// return '<strong>' + (num / 1000).toFixed(0).replace(/\.0$/, '') + '.000 </strong><small style="font-size: .5em;">progetti</small>';
-	    	return '<strong>' + num.formattaNumerico(0, ',', '.')  + '</strong>';
-	    }
-	    return num;
+	    return '<strong>' + num.formattaNumerico(0, ',', '.')  + '</strong>';
+	    //}
+	    
+	    //return num;
 	}
 	
 	function drawTitoloIntestazione ( elementName, calculatedJsonClass, pagNavigazioneLogo, separatore ) {
