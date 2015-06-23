@@ -131,26 +131,27 @@ public class TestataNavigazionePortletController {
 		
 		for(AggregataDTO tmp : tmpRisultati4Anno){
 			
-			currentYear = Integer.valueOf( tmp.getAnnoAnnoAggregato() );
-			if( currentYear > year ){
-				//Riempio i buchi
-				for( int y=year; y<currentYear; y++ ){
-					ele = new D3BarConverter();
-					ele.setLabel( String.valueOf( y ) );
-					ele.setVolume( Long.valueOf(0) );
-					ele.setCosto( Double.valueOf(0) );
-					ele.setFinanziato( Double.valueOf(0) );
-					risultati4Anno.add(ele);
+			//if(!"TUTTI".equals( tmp.getAnnoAnnoAggregato() )){
+				currentYear = Integer.valueOf( tmp.getAnnoAnnoAggregato() );
+				if( currentYear > year ){
+					//Riempio i buchi
+					for( int y=year; y<currentYear; y++ ){
+						ele = new D3BarConverter();
+						ele.setLabel( String.valueOf( y ) );
+						ele.setVolume( Long.valueOf(0) );
+						ele.setCosto( Double.valueOf(0) );
+						ele.setFinanziato( Double.valueOf(0) );
+						risultati4Anno.add(ele);
+					}
 				}
-			}
-			ele = new D3BarConverter();
-			ele.setLabel( tmp.getAnnoAnnoAggregato() );
-			ele.setVolume( tmp.getNumeProgetti() );
-			ele.setCosto( tmp.getImpoCostoProgetti() );
-			ele.setFinanziato( tmp.getImpoImportoFinanziato() );
-			risultati4Anno.add(ele);
-			year = currentYear + 1;
-			
+				ele = new D3BarConverter();
+				ele.setLabel( tmp.getAnnoAnnoAggregato() );
+				ele.setVolume( tmp.getNumeProgetti() );
+				ele.setCosto( tmp.getImpoCostoProgetti() );
+				ele.setFinanziato( tmp.getImpoImportoFinanziato() );
+				risultati4Anno.add(ele);
+				year = currentYear + 1;
+			//}
 		}
 		if( currentYear < endYear ){
 			for( int y=currentYear+1 ; y<=endYear ; y++ ){

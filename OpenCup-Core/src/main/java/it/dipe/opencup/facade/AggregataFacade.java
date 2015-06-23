@@ -209,13 +209,19 @@ public class AggregataFacade {
 	
 	private Criteria buildCriteria(NavigaAggregata navigaAggregata) {
 
-		if( navigaAggregata.getIdAnnoDecisiones() != null && navigaAggregata.getIdAnnoDecisiones().size() > 0){
-			List<String> idAnnoAggregatos = new ArrayList<String>();
-			for( String tmp : navigaAggregata.getIdAnnoDecisiones() ){
-				idAnnoAggregatos.add((annoDecisioneDAO.findById( Integer.valueOf(tmp) )).getAnnoAggregato().getId().toString());
-			}
-			navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
-		}
+//		if( navigaAggregata.getIdAnnoDecisiones() != null && navigaAggregata.getIdAnnoDecisiones().size() > 0){
+//			if( navigaAggregata.getIdAnnoDecisiones().contains("-1") ){
+//				List<String> idAnnoAggregatos = new ArrayList<String>();
+//				idAnnoAggregatos.add("-1");
+//				navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+//			}else{
+//				List<String> idAnnoAggregatos = new ArrayList<String>();
+//				for( String tmp : navigaAggregata.getIdAnnoDecisiones() ){
+//					idAnnoAggregatos.add((annoDecisioneDAO.findById( Integer.valueOf(tmp) )).getAnnoAggregato().getId().toString());
+//				}
+//				navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+//			}
+//		}
 		
 		Criteria criteria = aggregataDAO.newCriteria();
 
