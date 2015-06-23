@@ -354,34 +354,12 @@
 				</div>
 			</div>
 			<div class="clear"></div>	
+			<div style="margin-top:5em; padding-bottom:15px;">
+			<span style="color:#1f4e78!important; padding-left:14px;">Per richiedere approfondimenti o effettuare una segnalazione, CONTATTACI</span>
+			</div>
 		</div>
 		
-		<%-- 
-		<div>
-			<div class="span6">
-				<c:if test="${not empty returnUrl}">
-					<div class="indietro-div" style="float: left; height: 0px; padding-top: 20px; padding-left: 20px">
-						<div id="tasto-indietro" class="tasto-indietro cursor-pointer" style="border-radius: 10px;">
-							<a class="tasto-indietro-link" href="${returnUrl}" title="Indietro">
-							Indietro
-							<span><i class="icon-circle-arrow-left"></i></span></a>
-						</div>
-					</div>
-				</c:if>
-			</div>
-			<div class="span6">
-				<div class="invia-segnalazione-div" style="float: right; height: 0px; padding-top: 20px; padding-right: 20px">
-					<div id="invia-segnalazione" class="invia-segnalazione cursor-pointer" style="border-radius: 10px;">
-						Invia Segnalazione
-						<span><i class="icon-comment"></i></span>
-					</div>
-				</div>
-			</div>
-			<div class="clear"></div>
-		</div>
-		
-	</div>
-	--%>
+
 	
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
 
