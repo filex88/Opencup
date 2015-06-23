@@ -110,8 +110,7 @@
 	div.row.graficoHome.progetti{border-bottom:0.5em solid #f08c00;}
 	div.row.graficoHome.costo{border-bottom:0.5em solid #499652;}
 	div.row.graficoHome.finanziamenti{border-bottom:0.5em solid #7ade87}
-	
-	
+
 	
 </style>
 <fmt:setLocale value="it_IT"/>
@@ -506,11 +505,15 @@ function drawLegend(divLegend, legendName, dataSet, hexColor){
 	.data(dataSet) // Instruct to bind dataSet to text elements
 	.enter()
 	.append("text")
+	.attr("index_value",  function (d,i){ return "index-"+i })
+	.attr("grafico_name",  function (d,i){ return legendName; })
 	.attr("text-anchor", "center")
 	.attr("x", widthTotal)
 	.attr("y", function(d, i) { 
 		return gapBetweenGroups + (heightLegend*i)-3;
 	})
+	.on('mouseover', synchronizedMouseOver)
+   	.on('mouseout', synchronizedMouseOut)
 	.attr("dx", 0)
     .attr("dy", "5px") // Controls padding to place text in alignment with bullets
     .text(function(d) { return (d.label).trunc(36, true); })
@@ -518,10 +521,10 @@ function drawLegend(divLegend, legendName, dataSet, hexColor){
     .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
     .attr("style", "cursor:pointer;")
 	.attr("class", function(d, i) { 
-		retval = "link-url-naviga legend-" + legendName + "-legendText-index-" + i;
+		retval = "link-url-naviga legend-Legend" + legendName + "-legendText-index-" + i;
 		return retval;
 	 })
-    .style("fill", textColor)
+    .style("fill", "#1F4E78")
     .style("font-size", "0.9em") 
     .append("title")
     .text(function(d) { return d.label; });
@@ -576,39 +579,131 @@ function drawBar(chartName, histogramName, dataSet, hexColor) {
 		
 		.attr("transform", function(d, i) {
 	      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/dataSet.length))) + ")";
-	    });
+	    })
+	    .attr("index_value", function(d, i) {"index-"+i});;
 
 	// Create rectangles of the correct width
 	bar.append("rect")
 	    .attr("fill", function(d,i) { return hexColor })
-		.attr("class", function(d, i) { return "bar link-url-naviga histogram-" + histogramName + "-arc-index-" + i; })
+		.attr("class", function(d, i) { return "bar link-url-naviga histogram-Histogram" + histogramName + "-arc-index-" + i; })
 	    .attr("width", x)
+	   	.on('mouseover', synchronizedMouseOver)
+	   	.on('mouseout', synchronizedMouseOut)
+/* 	    .on('mouseover', function(d){
+		    var nodeSelection = d3.select(this).style({opacity:'0.8'});
+		    nodeSelection.select("text").style({opacity:'1.0'});
+		})
+	   .on('mouseout', function(d){
+		    var nodeSelection = d3.select(this).style({opacity:'1.0'});
+		    nodeSelection.select("text").style({opacity:'1.0'});
+		}) */
 	    .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
 	    .attr("style", "cursor:pointer;")
-	    .attr("height", barHeight - 10);
+	    .attr("height", barHeight - 10)
+		.attr("index_value",  function (d,i){ return "index-"+i })
+		.attr("grafico_name",  function (d,i){ return histogramName; })
 
 	
 	// Draw labels
 	bar.append("text")
-	   .attr("class", function(d, i) { return "link-url-naviga histogram-" + histogramName + "-label-index-" + i; })
+	   .attr("class", function(d, i) { return "link-url-naviga histogram-Histogram" + histogramName + "-label-index-" + i; })
 	   .attr("x", 
 			function(d, i) { 
 				var delta = 60;
-				if(nFormatter( d ).length > 6){
-					delta = nFormatter( d ).length * 10
+				if(nFormatter( d ).length > 6 && nFormatter( d ).indexOf('Mld')>0){
+					delta = nFormatter( d ).length * 6+35;
+				} else {
+					delta = nFormatter( d ).length * 10;
 				}
 				return - delta+10; 
 		})
 	   .attr("y", (barHeight-10) / 2)
 	   .attr("dy", ".25em")
+		.attr("index_value",  function (d,i){ return "index-"+i })
+	   	.on('mouseover', synchronizedMouseOver)
+	   	.on('mouseout', synchronizedMouseOut)
+/* 		.on("mouseout", synchronizedMouseOut) */
+/* 	   .on('mouseover', function(d){
+		    var nodeSelection = d3.select(this).style({opacity:'0.8'});
+		    nodeSelection.select("text").style({opacity:'1.0'});
+		})
+	   .on('mouseout', function(d){
+		    var nodeSelection = d3.select(this).style({opacity:'1.0'});
+		    nodeSelection.select("text").style({opacity:'1.0'});
+		}) */
 	   .style("fill", textColor)
 	    .attr("data_linkURL", function (d,i){ console.log(dataSet[i]); return dataSet[i].linkURL })
     	.attr("style", "cursor:pointer;")
-    	.style("color",hexColor)
+    	.style("fill","#1F4E78")
 	   .style("font-size", "1em")
 	   .text(function(d, i) { 
 			return nFormatter(dataSet[i].value);
-		});
+		})
+		.attr("grafico_name",  function (d,i){ return histogramName; });
+};
+
+var synchronizedMouseOver = function(info) {
+	
+		var arc = d3.select(this);
+
+		arc.style('cursor','pointer');
+
+		var indexValue = arc.attr("index_value");
+		var label = arc.attr("data_label");
+		var percentage = arc.attr("data_percentage");
+		var value = arc.attr("data_value");
+		var graficoName = arc.attr("grafico_name");
+		
+	
+		var pieArcSelector = "." + "pie-" + "Pie1" + "-arc-" + indexValue;
+		var pieSelectedArc = d3.selectAll(pieArcSelector);
+		pieSelectedArc.style({opacity:'0.8'})
+		
+		var histogramArcSelector = "." + "histogram-Histogram" + graficoName + "-arc-" + indexValue;
+		console.log(histogramArcSelector);
+		var histogramSelectedArc = d3.selectAll(histogramArcSelector);
+		histogramSelectedArc.style({opacity:'0.8'})
+		
+		var histogramLabelSelector = "." + "histogram-Histogram" + graficoName + "-label-" + indexValue;
+		var histogramSelectedLabel = d3.selectAll(histogramLabelSelector);
+		histogramSelectedLabel.style({opacity:'0.8'})
+		
+		var legendTextSelector = "." + "legend-Legend" + graficoName + "-legendText-" + indexValue;
+		var legendTextSelected = d3.selectAll(legendTextSelector);
+		
+		legendTextSelected.style({opacity:'0.8'})
+
+};
+var synchronizedMouseOut = function(info) {
+	
+	var arc = d3.select(this);
+
+	arc.style('cursor','pointer');
+
+	var indexValue = arc.attr("index_value");
+	var label = arc.attr("data_label");
+	var percentage = arc.attr("data_percentage");
+	var value = arc.attr("data_value");
+	var graficoName = arc.attr("grafico_name");
+	
+
+	var pieArcSelector = "." + "pie-" + "Pie1" + "-arc-" + indexValue;
+	var pieSelectedArc = d3.selectAll(pieArcSelector);
+	pieSelectedArc.style({opacity:'1.0'})
+	console.log("indexValue "+indexValue);
+	var histogramArcSelector = "." + "histogram-Histogram" + graficoName + "-arc-" + indexValue;
+	var histogramSelectedArc = d3.selectAll(histogramArcSelector);
+	histogramSelectedArc.style({opacity:'1.0'})
+	
+	var histogramLabelSelector = "." + "histogram-Histogram" + graficoName + "-label-" + indexValue;
+	var histogramSelectedLabel = d3.selectAll(histogramLabelSelector);
+	histogramSelectedLabel.style({opacity:'1.0'})
+	
+	var legendTextSelector = "." + "legend-Legend" + graficoName + "-legendText-" + indexValue;
+	var legendTextSelected = d3.selectAll(legendTextSelector);
+	
+	legendTextSelected.style({opacity:'1.0'})
+
 };
 
 String.prototype.trunc =
@@ -623,26 +718,27 @@ String.prototype.trunc =
 var dataSet = ${aggregatiClassificazione};
 var dataSet1 = eval( dataSet );
 
-legend = drawLegend("#chartLegendClassificazione", "LegendClassificazione", dataSet1, "#1f4e78");
+legend = drawLegend("#chartLegendClassificazione", "Classificazione", dataSet1, "#1f4e78");
 
-bar = drawBar("#histogramClassificazione", "HistogramClassificazione", dataSet1, "#1f4e78");
+bar = drawBar("#histogramClassificazione", "Classificazione", dataSet1, "#1f4e78");
+
 
 
 // *** SECONDO GRAFICO ***//
 var dataSet1 = ${aggregatiLocalizzazione};
 var dataSet2 = eval( dataSet1 );
 
-legend1 = drawLegend("#chartLegendLocalizzazione", "LegendLocalizzazione", dataSet2, "#3f8acc");
+legend1 = drawLegend("#chartLegendLocalizzazione", "Localizzazione", dataSet2, "#3f8acc");
 
-bar1 = drawBar("#histogramLocalizzazione", "HistogramLocalizzazione", dataSet2, "#3f8acc");
+bar1 = drawBar("#histogramLocalizzazione", "Localizzazione", dataSet2, "#3f8acc");
 
 //*** TERZO GRAFICO ***//
 var dataSet2 = ${aggregatiSoggetto};
 var dataSet3 = eval( dataSet2 );
 
-legend2 = drawLegend("#chartLegendSoggetto", "LegendSoggetto", dataSet3, "#87b5de");
+legend2 = drawLegend("#chartLegendSoggetto", "Soggetto", dataSet3, "#87b5de");
 
-bar2 = drawBar("#histogramSoggetto", "HistogramSoggetto", dataSet3, "#87b5de");
+bar2 = drawBar("#histogramSoggetto", "Soggetto", dataSet3, "#87b5de");
 
 
 AUI().use('get', function(A){
