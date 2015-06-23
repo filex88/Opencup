@@ -723,6 +723,7 @@ legend = drawLegend("#chartLegendClassificazione", "Classificazione", dataSet1, 
 bar = drawBar("#histogramClassificazione", "Classificazione", dataSet1, "#1f4e78");
 
 
+
 // *** SECONDO GRAFICO ***//
 var dataSet1 = ${aggregatiLocalizzazione};
 var dataSet2 = eval( dataSet1 );
