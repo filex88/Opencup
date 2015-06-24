@@ -252,6 +252,22 @@ public class ElencoProgettiController extends FiltriCommonController {
 		navigaAggregata = new NavigaAggregata();
 		navigaAggregata.setIdNatura(idNatura);
 		navigaAggregata.importa( navigaProgetti );
+		//Gestione ANNI
+		if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0){
+			if( navigaProgetti.getIdAnnoDecisiones().contains("-1") ){
+				List<String> idAnnoAggregatos = new ArrayList<String>();
+				idAnnoAggregatos.add("0");
+				navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+			}else{
+				List<String> idAnnoAggregatos = new ArrayList<String>();
+				for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
+					idAnnoAggregatos.add((aggregataFacade.findAnniDecisione(Integer.valueOf(tmp))).getAnnoAggregato().getId().toString());
+				}
+				navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+			}
+		}
+		//FINE Gestione ANNI
+		
 		listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 
 		Double impoCostoProgettiProg = 0.0;

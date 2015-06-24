@@ -10,8 +10,20 @@ import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.dto.SizeDTO;
 import it.dipe.opencup.model.AnagraficaCup;
+import it.dipe.opencup.model.AnnoDecisione;
+import it.dipe.opencup.model.AreaIntervento;
+import it.dipe.opencup.model.CategoriaIntervento;
 import it.dipe.opencup.model.CupCoperturaFinanziaria;
+import it.dipe.opencup.model.GruppoAteco;
+import it.dipe.opencup.model.Natura;
 import it.dipe.opencup.model.Progetto;
+import it.dipe.opencup.model.SettoreIntervento;
+import it.dipe.opencup.model.SoggettoTitolare;
+import it.dipe.opencup.model.SottosettoreIntervento;
+import it.dipe.opencup.model.StatoProgetto;
+import it.dipe.opencup.model.StrumentoProgr;
+import it.dipe.opencup.model.TipologiaIntervento;
+import it.dipe.opencup.model.UnitaOrganizzativa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -315,11 +327,12 @@ public class ProgettoFacade {
 		return retval;
 	}
 
+	@SuppressWarnings("unused")
 	private void simulaGet4ListaProgetti(Progetto progetto) {
-		System.out.println( progetto.getAnagraficaCup() );
-		System.out.println( progetto.getAnnoDecisione() );
-		System.out.println( progetto.getCategoriaIntervento() );
-		System.out.println( progetto.getComuniProgetto() );
+		AnagraficaCup ac = progetto.getAnagraficaCup();
+		AnnoDecisione ad = progetto.getAnnoDecisione();
+		CategoriaIntervento ci = progetto.getCategoriaIntervento();
+		String cp = progetto.getComuniProgetto();
 	}
 
 	@Cacheable(value = "Progetto")
@@ -343,24 +356,25 @@ public class ProgettoFacade {
 	}	
 	
 	
+	@SuppressWarnings("unused")
 	private void similaGet4Dettaglio(Progetto progetto) {
-		System.out.println(	progetto.getAnnoDecisione() );
-		System.out.println(	progetto.getSoggettoTitolare() );
-		System.out.println(	progetto.getUnitaOrganizzativa() );
-		System.out.println(	progetto.getNatura() );
-		System.out.println(	progetto.getTipologiaIntervento() );
-		System.out.println(	progetto.getSettoreIntervento() );
-		System.out.println(	progetto.getSottosettoreIntervento() );
-		System.out.println(	progetto.getCategoriaIntervento() );
-		System.out.println(	progetto.getStrumentoProgr() );
-		System.out.println(	progetto.getStatoProgetto() );
-		System.out.println(	progetto.getGruppoAteco() );
-		System.out.println(	progetto.getAnagraficaCup() );
-		System.out.println(	progetto.getComuniProgetto() );
-		System.out.println(	progetto.getProvinceProgetto() );
-		System.out.println(	progetto.getRegioneProgetto() );
-		System.out.println(	progetto.getAreaGeografica() );
-		System.out.println(	progetto.getAreaIntervento() );
+		AnnoDecisione ad = progetto.getAnnoDecisione();
+		SoggettoTitolare st = progetto.getSoggettoTitolare();
+		UnitaOrganizzativa uo = progetto.getUnitaOrganizzativa();
+		Natura n = progetto.getNatura();
+		TipologiaIntervento ti = progetto.getTipologiaIntervento();
+		SettoreIntervento si = progetto.getSettoreIntervento();
+		SottosettoreIntervento ssi = progetto.getSottosettoreIntervento();
+		CategoriaIntervento ci = progetto.getCategoriaIntervento();
+		StrumentoProgr sp = progetto.getStrumentoProgr();
+		StatoProgetto stp = progetto.getStatoProgetto();
+		GruppoAteco ga = progetto.getGruppoAteco();
+		AnagraficaCup ac = progetto.getAnagraficaCup();
+		String cp = progetto.getComuniProgetto();
+		String pp = progetto.getProvinceProgetto();
+		String rp = progetto.getRegioneProgetto();
+		String ag = progetto.getAreaGeografica();
+		AreaIntervento ai = progetto.getAreaIntervento();
 	}
 
 	public int countProgettiIndicizzazione() {
