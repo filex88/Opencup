@@ -35,6 +35,16 @@ import com.liferay.portal.util.WebKeys;
 @RequestMapping("VIEW")
 public class TestataNavigazionePortletController {
 	
+
+	//@Value("#{config['pagina.classificazione']}")
+	//private String paginaClassificazione;
+	
+	//@Value("#{config['pagina.soggetto']}")
+	//private String paginaSoggetto;
+	
+	//@Value("#{config['pagina.localizzazione']}")
+	//private String paginaLocalizzazione;
+	
 	@Autowired
 	private AggregataFacade aggregataFacade;
 	
@@ -71,6 +81,9 @@ public class TestataNavigazionePortletController {
 								@ModelAttribute("navigaAggregataStato") NavigaAggregata navigaAggregataStato,
 								@ModelAttribute("navigaAggregataAnno") NavigaAggregata navigaAggregataAnno){
 		
+		//CacheThread t = new CacheThread(aggregataFacade, codiNaturaOpenCUP, paginaClassificazione, paginaSoggetto, paginaLocalizzazione);
+		//t.start ();
+		
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
@@ -84,7 +97,8 @@ public class TestataNavigazionePortletController {
 		model.addAttribute("pagNavigazioneLogo", fileName );
 
 		navigaAggregata.rimuoviZero();
-		
+		navigaAggregata.setDistribuzione("");
+		System.out.println(navigaAggregata.toString());
 		List<AggregataDTO> risultati = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		model.addAttribute("jsonResultRiepilogo",createJsonStringFromQueryResult(risultati));
 		
@@ -93,7 +107,9 @@ public class TestataNavigazionePortletController {
 		navigaAggregataStato.setIdStatoProgetto("0");
 		navigaAggregataStato.setOrderProperty("statoProgetto.descStatoProgetto");
 		navigaAggregataStato.setOrderType("asc");
-
+		navigaAggregataStato.setDistribuzione("");
+		
+		System.out.println(navigaAggregataStato.toString());
 		List<AggregataDTO> risultati4Stato = aggregataFacade.findAggregataByNatura(navigaAggregataStato);
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
@@ -120,7 +136,9 @@ public class TestataNavigazionePortletController {
 		navigaAggregataAnno.setFlagAggregaAnni(false);
 		navigaAggregataAnno.setOrderProperty("annoAggregato.annoAggregato");
 		navigaAggregataAnno.setOrderType("asc");
-
+		navigaAggregataAnno.setDistribuzione("");
+		
+		System.out.println(navigaAggregataAnno.toString());
 		List<AggregataDTO> tmpRisultati4Anno = aggregataFacade.findAggregataByNatura(navigaAggregataAnno);
 		
 		List<D3BarConverter> risultati4Anno = new ArrayList<D3BarConverter>();

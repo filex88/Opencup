@@ -1,4 +1,4 @@
-package it.dipe.opencup;
+package it.dipe.opencup.utils;
 
 import it.dipe.opencup.dto.AggregataDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
@@ -9,34 +9,33 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+public class CacheThread extends Thread{
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:testContext.xml" , "classpath:applicationContext.xml" })
-public class CacheTest {
-	
-	@Autowired
-	AggregataFacade aggregataFacade;
-	
-	@Value("#{config['codice.natura.open.cup']}")
+	private AggregataFacade aggregataFacade;
+
 	private String codiNaturaOpenCUP;
-	
-	@Value("#{config['pagina.classificazione']}")
+
 	private String paginaClassificazione;
-	
-	@Value("#{config['pagina.soggetto']}")
+
 	private String paginaSoggetto;
-	
-	@Value("#{config['pagina.localizzazione']}")
+
 	private String paginaLocalizzazione;
 	
-	@Test
-	public void testEhCache() {
+	public CacheThread(	AggregataFacade aggregataFacade,
+						String codiNaturaOpenCUP,
+						String paginaClassificazione,
+						String paginaSoggetto,
+						String paginaLocalizzazione){
+		
+		this.aggregataFacade = aggregataFacade;
+		this.codiNaturaOpenCUP = codiNaturaOpenCUP;
+		this.paginaClassificazione = paginaClassificazione;
+		this.paginaSoggetto = paginaSoggetto;
+		this.paginaLocalizzazione = paginaLocalizzazione;
+	}
+	
+	@Override
+	public void run() {
 		System.out.println("START CACHE");
 		printTime();
 		try {
@@ -68,10 +67,9 @@ public class CacheTest {
 		
 		System.out.println("END CACHE");
 		printTime();
-		
 	}
 	
-	public NavigaAggregata navigaAggregataClassificazione() {
+public NavigaAggregata navigaAggregataClassificazione() {
 		
 		String idNatura =  (aggregataFacade.findNaturaByCod( codiNaturaOpenCUP )==null)?"0":aggregataFacade.findNaturaByCod( codiNaturaOpenCUP ).getId().toString();
 		NavigaAggregata navigaAggregata = new NavigaAggregata();
@@ -251,4 +249,5 @@ public class CacheTest {
 		}
 		
 	}
+
 }
