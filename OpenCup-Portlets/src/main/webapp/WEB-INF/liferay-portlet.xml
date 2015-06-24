@@ -162,6 +162,14 @@
 		<add-default-resource>true</add-default-resource>
 	</portlet>
 	
+	<portlet>
+		<portlet-name>contattaci-portlet</portlet-name>
+		<icon>/icon.png</icon>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/contattaci-portlet.js</footer-portlet-javascript>
+		<css-class-wrapper>contattaci-portlet</css-class-wrapper>
+	</portlet>
+	
 	
 	<role-mapper>
 		<role-name>administrator</role-name>
