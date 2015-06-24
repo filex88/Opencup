@@ -103,7 +103,10 @@ public class LocalizzazionePortlet0Controller{
 			navigaAggregata.setIdRegione( "0" );
 		}
 		
+		pattern = navigaAggregata.getDistribuzione();
+		navigaAggregata.setDistribuzione("");
 		List<Aggregata> risultati = aggregataFacade.findAggregataByLocalizzazione(navigaAggregata);
+		navigaAggregata.setDistribuzione(pattern);
 		
 		if(flagAreaGeografica && !flagRegione){
 			//Visualizzo un'area geografica precisa

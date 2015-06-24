@@ -221,25 +221,44 @@ public class NavigaAggregata implements Serializable, Cloneable{
 	
 	public String toString(){
 		String toString = "";
+		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
+		toString = toString + "indicatoreNavigaLocalizzazione: (" + indicatoreNavigaLocalizzazione + "); ";
+		toString = toString + "naviga: (" + naviga + "); ";
+		toString = toString + "distribuzione: (" + distribuzione + "); ";
+		toString = toString + "orderType: (" + orderType + "); ";
+		toString = toString + "orderProperty: (" + orderProperty + "); ";
 		toString = toString + "idNatura: (" + idNatura + "); ";
 		toString = toString + "idAreaIntervento: (" + idAreaIntervento + "); ";
 		toString = toString + "idSottosettoreIntervento: (" + idSottosettoreIntervento + "); ";
 		toString = toString + "idCategoriaIntervento: (" + idCategoriaIntervento + "); ";
+		toString = toString + "idAnnoAggregatos: (" + idAnnoAggregatos + "); ";
 		toString = toString + "idRegione: (" + idRegione + "); ";
 		toString = toString + "idProvincia: (" + idProvincia + "); ";
 		toString = toString + "idComune: (" + idComune + "); ";
 		toString = toString + "idAreaGeografica: (" + idAreaGeografica + "); ";
 		toString = toString + "descStato: (" + descStato + "); ";
-		toString = toString + "idAnnoAggregatos: (" + idAnnoAggregatos + "); ";
 		toString = toString + "idCategoriaSoggetto: (" + idCategoriaSoggetto + "); ";
 		toString = toString + "idSottoCategoriaSoggetto: (" + idSottoCategoriaSoggetto + "); ";
 		toString = toString + "idAreaSoggetto: (" + idAreaSoggetto + "); ";
 		toString = toString + "idTipologiaIntervento: (" + idTipologiaIntervento + "); ";
 		toString = toString + "idStatoProgetto: (" + idStatoProgetto + "); ";
-		toString = toString + "naviga: (" + naviga + "); ";
-		toString = toString + "pagAggregata: (" + pagAggregata + "); ";
-		toString = toString + "distribuzione: (" + distribuzione + "); ";
-		toString = toString + "indicatoreNavigaLocalizzazione: (" + indicatoreNavigaLocalizzazione + "); ";		
+		toString = toString + "descNatura: (" + descNatura + "); ";
+		toString = toString + "descAreaIntervento: (" + descAreaIntervento + "); ";
+		toString = toString + "descSottosettoreIntervento: (" + descSottosettoreIntervento + ")"; ;
+		toString = toString + "descCategoriaIntervento: (" + descCategoriaIntervento + "); ";
+		toString = toString + "descAnnoAggregatos: (" + descAnnoAggregatos + "); ";
+		toString = toString + "descRegione: (" + descRegione + "); ";
+		toString = toString + "descProvincia: (" + descProvincia + "); ";
+		toString = toString + "descComune: (" + descComune + "); ";
+		toString = toString + "descAreaGeografica: (" + descAreaGeografica + "); ";
+		toString = toString + "descCategoriaSoggetto: (" + descCategoriaSoggetto + "); ";
+		toString = toString + "descSottoCategoriaSoggetto: (" + descSottoCategoriaSoggetto + "); ";
+		toString = toString + "descTipologiaIntervento: (" + descTipologiaIntervento + "); ";
+		toString = toString + "descStatoProgetto: (" + descStatoProgetto + "); ";
+		toString = toString + " flagAggregaAnni: (" + flagAggregaAnni + "); ";
+		toString = toString + " filtroClassificazione: (" + filtroClassificazione + "); ";
+		toString = toString + "countAffRicercaLocalizzazione: (" + countAffRicercaLocalizzazione + "); ";
+		toString = toString + "countAffRicerca4Natura: (" + countAffRicerca4Natura + "); ";
 		return toString;
 	}
 	

@@ -132,7 +132,9 @@ public class PieChartPortletController {
 		navigaAggregata.setOrderProperty(orderProperty);
 		navigaAggregata.setOrderType("asc");
 		
+		navigaAggregata.setDistribuzione("");
 		List<AggregataDTO> listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
+		navigaAggregata.setDistribuzione(pattern);
 		
 		impostaLinkURL(renderRequest, navigaAggregata, listaAggregataDTO, navigaAggregata.getPagAggregata());
 		
