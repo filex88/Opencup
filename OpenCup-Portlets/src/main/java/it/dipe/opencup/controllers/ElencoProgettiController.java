@@ -188,7 +188,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		searchContainerElenco.setOrderByType(orderByType);
 		
 		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
-		TotaliDTO totali = progettoFacade.sommaImpElencoProgetti( navigaProgetti );
+		
 		
 		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
 		navigaProgetti.setOrderByType(searchContainerElenco.getOrderByType());
@@ -251,40 +251,42 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
-		/*
-		navigaAggregata = new NavigaAggregata();
-		navigaAggregata.setIdNatura(idNatura);
-		navigaAggregata.importa( navigaProgetti );
-		//Gestione ANNI
-		if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0){
-			if( navigaProgetti.getIdAnnoDecisiones().contains("-1") ){
-				List<String> idAnnoAggregatos = new ArrayList<String>();
-				idAnnoAggregatos.add("0");
-				navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
-			}else{
-				List<String> idAnnoAggregatos = new ArrayList<String>();
-				for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
-					idAnnoAggregatos.add((aggregataFacade.findAnniDecisione(Integer.valueOf(tmp))).getAnnoAggregato().getId().toString());
+		if( size > 30){
+			navigaAggregata = new NavigaAggregata();
+			navigaAggregata.setIdNatura(idNatura);
+			navigaAggregata.importa( navigaProgetti );
+			//Gestione ANNI
+			if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0){
+				if( navigaProgetti.getIdAnnoDecisiones().contains("-1") ){
+					List<String> idAnnoAggregatos = new ArrayList<String>();
+					idAnnoAggregatos.add("0");
+					navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+				}else{
+					List<String> idAnnoAggregatos = new ArrayList<String>();
+					for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
+						idAnnoAggregatos.add((aggregataFacade.findAnniDecisione(Integer.valueOf(tmp))).getAnnoAggregato().getId().toString());
+					}
+					navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
 				}
-				navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
 			}
-		}
-		//FINE Gestione ANNI
-		
-		listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
+			//FINE Gestione ANNI
+			
+			listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
 
-		Double impoCostoProgettiProg = 0.0;
-		Double impoImportoFinanziatoProg = 0.0;
-		
-		for(AggregataDTO aggregataDTO : listaAggregataDTO){
-			impoCostoProgettiProg = impoCostoProgettiProg + aggregataDTO.getImpoCostoProgetti();
-			impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
+			Double impoCostoProgettiProg = 0.0;
+			Double impoImportoFinanziatoProg = 0.0;
+			
+			for(AggregataDTO aggregataDTO : listaAggregataDTO){
+				impoCostoProgettiProg = impoCostoProgettiProg + aggregataDTO.getImpoCostoProgetti();
+				impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
+			}
+			model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
+			model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
+		}else{
+			TotaliDTO totali = progettoFacade.sommaImpElencoProgetti( navigaProgetti );
+			model.addAttribute("costoDeiProgettiProg", totali.getImpoCostoProgetto());
+			model.addAttribute("importoFinanziamentiProg", totali.getImpoImportoFinanziato());
 		}
-		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
-		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
-		*/
-		model.addAttribute("costoDeiProgettiProg", totali.getImpoCostoProgetto());
-		model.addAttribute("importoFinanziamentiProg", totali.getImpoImportoFinanziato());
 		model.addAttribute("volumeDeiProgettiProg", size);
 		
 		

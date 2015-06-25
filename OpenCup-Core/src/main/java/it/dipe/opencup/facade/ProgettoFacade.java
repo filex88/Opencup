@@ -297,16 +297,28 @@ public class ProgettoFacade {
 	
 	@SuppressWarnings("unchecked")
 	public TotaliDTO sommaImpElencoProgetti(NavigaProgetti filtri) {
+	
 		Criteria criteria = buildCriteria(filtri);	
 		criteria.setProjection(Projections.distinct(Projections.property("id")));
-		List<Integer> ids = criteria.list();
-		Double impoImportoFinanziato = 0.0;
-		Double impoCostoProgetto = 0.0;
-		for(Integer tmp : ids ){
-			Progetto p = progettoDAO.findById(tmp);
-			impoImportoFinanziato = impoImportoFinanziato + p.getImpoImportoFinanziato();
-			impoCostoProgetto = impoCostoProgetto + p.getImpoCostoProgetto();
+		List<Integer> idPj = criteria.list();
+		
+		Criteria criteriaP = progettoDAO.newCriteria();
+		Criteria criteriaF = progettoDAO.newCriteria();
+		criteriaP.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		criteriaF.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		Disjunction or = Restrictions.disjunction();
+		for( Integer tmp : idPj ){
+			or.add(Restrictions.eq("id", tmp ));
 		}
+		criteriaP.add(or);
+		criteriaF.add(or);
+		
+		criteriaP.setProjection(Projections.sum("impoCostoProgetto"));
+		Double impoCostoProgetto = (Double) criteriaP.uniqueResult();
+
+		criteriaF.setProjection(Projections.sum("impoImportoFinanziato"));
+		Double impoImportoFinanziato = (Double) criteriaF.uniqueResult();
+
 		TotaliDTO retval = new TotaliDTO();
 		retval.setImpoImportoFinanziato(impoImportoFinanziato);
 		retval.setImpoCostoProgetto(impoCostoProgetto);
