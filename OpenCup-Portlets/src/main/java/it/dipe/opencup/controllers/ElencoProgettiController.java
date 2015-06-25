@@ -6,6 +6,7 @@ import it.dipe.opencup.dto.DocumentoDTO;
 import it.dipe.opencup.dto.NavigaAggregata;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.dto.RicercaLiberaDTO;
+import it.dipe.opencup.dto.TotaliDTO;
 import it.dipe.opencup.facade.AggregataFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.AnagraficaCup;
@@ -187,6 +188,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		searchContainerElenco.setOrderByType(orderByType);
 		
 		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
+		TotaliDTO totali = progettoFacade.sommaImpElencoProgetti( navigaProgetti );
 		
 		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
 		navigaProgetti.setOrderByType(searchContainerElenco.getOrderByType());
@@ -249,6 +251,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
+		/*
 		navigaAggregata = new NavigaAggregata();
 		navigaAggregata.setIdNatura(idNatura);
 		navigaAggregata.importa( navigaProgetti );
@@ -277,10 +280,13 @@ public class ElencoProgettiController extends FiltriCommonController {
 			impoCostoProgettiProg = impoCostoProgettiProg + aggregataDTO.getImpoCostoProgetti();
 			impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
 		}
-		
-		model.addAttribute("volumeDeiProgettiProg", size);
 		model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
 		model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
+		*/
+		model.addAttribute("costoDeiProgettiProg", totali.getImpoCostoProgetto());
+		model.addAttribute("importoFinanziamentiProg", totali.getImpoImportoFinanziato());
+		model.addAttribute("volumeDeiProgettiProg", size);
+		
 		
 		/*
 		System.out.println("STEP 4");

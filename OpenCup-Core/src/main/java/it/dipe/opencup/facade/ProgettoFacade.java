@@ -9,6 +9,7 @@ import it.dipe.opencup.dao.ProvinciaDAO;
 import it.dipe.opencup.dao.RegioneDAO;
 import it.dipe.opencup.dto.NavigaProgetti;
 import it.dipe.opencup.dto.SizeDTO;
+import it.dipe.opencup.dto.TotaliDTO;
 import it.dipe.opencup.model.AnagraficaCup;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaIntervento;
@@ -32,6 +33,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -291,6 +293,24 @@ public class ProgettoFacade {
 	public SizeDTO sizeElencoProgetti(NavigaProgetti filtri) {
 		Criteria criteria = buildCriteria(filtri);	
 		return new SizeDTO(progettoDAO.countByCriteria(criteria));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public TotaliDTO sommaImpElencoProgetti(NavigaProgetti filtri) {
+		Criteria criteria = buildCriteria(filtri);	
+		criteria.setProjection(Projections.distinct(Projections.property("id")));
+		List<Integer> ids = criteria.list();
+		Double impoImportoFinanziato = 0.0;
+		Double impoCostoProgetto = 0.0;
+		for(Integer tmp : ids ){
+			Progetto p = progettoDAO.findById(tmp);
+			impoImportoFinanziato = impoImportoFinanziato + p.getImpoImportoFinanziato();
+			impoCostoProgetto = impoCostoProgetto + p.getImpoCostoProgetto();
+		}
+		TotaliDTO retval = new TotaliDTO();
+		retval.setImpoImportoFinanziato(impoImportoFinanziato);
+		retval.setImpoCostoProgetto(impoCostoProgetto);
+		return retval;
 	}
 	
 	@Cacheable(value = "Progetto")

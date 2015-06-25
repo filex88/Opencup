@@ -45,9 +45,9 @@
 			
 			<div class="row chart-div">
 				
-				<div class="span4 offset1" id=chartLegendTerritori></div>
+				<div class="span5 offset1" id="chartLegendTerritori" style="margin: 0px"></div>
 					
-				<div class="span5" id="histogramChart">
+				<div class="span6" id="histogramChart">
 					<svg class="chart-bar-territori"></svg>
 				</div>
 
@@ -70,6 +70,15 @@
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	var dimension = "${dimension}";
 	
+	String.prototype.trunc =
+	     function(n,useWordBoundary){
+	         var toLong = this.length>n,
+	         s_ = toLong ? this.substr(0,n-1) : this;
+	         s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+	         //return  toLong ? s_ + '&hellip;' : s_;
+	         return  toLong ? s_ + '...' : s_;
+	      };
+	      
 	var baseColor1 = "#b2c6ff";
 	var baseColor2 = "#4472fb";
 	var baseColor3 = "#0932a3";
@@ -331,7 +340,7 @@
 		})
 		.attr("dx", 0)
         .attr("dy", "5px") // Controls padding to place text in alignment with bullets
-        .text(function(d) { return (d.fullLabel).trunc(36, true); })
+        .text(function(d) { return (d.fullLabel).trunc(14, false); })
         .attr("index_value", function(d, i) { return "index-" + i; })
 			
         .attr("class", function(d, i) { return "link-url-naviga-dettaglio label legend-" + legendName + "-legendText-index-" + i; })
