@@ -4,9 +4,13 @@ import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.Progetto;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.portlet.PortletMode;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.Layout;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.WebKeys;
+import com.liferay.portlet.PortletURLFactoryUtil;
 
 @Controller
 @RequestMapping("VIEW")
@@ -36,7 +46,7 @@ public class DettaglioProgettoController {
 										){
 
 		HttpServletRequest httpServletRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
-		
+		String codiceCup = "";
 		if( StringUtils.isEmpty( idPj ) ){
 			idPj = (httpServletRequest.getParameter("idPj") != null) ? httpServletRequest.getParameter("idPj").toString() : "";
 		}
@@ -44,7 +54,7 @@ public class DettaglioProgettoController {
 		if( idPj != null && (! idPj.isEmpty()) ){
 			Progetto progetto = progettoFacade.findProgettoById( Integer.valueOf( idPj ) );
 			model.addAttribute("dettProgetto", progetto);
-			
+			codiceCup = progetto.getAnagraficaCup().getCodiCup();
 			double impFinanziato = progetto.getImpoImportoFinanziato().doubleValue();
 			double costoProgetto = progetto.getImpoCostoProgetto().doubleValue();
 			
@@ -117,8 +127,42 @@ public class DettaglioProgettoController {
 		}else{
 			model.addAttribute("returnUrl", "");
 		}
+		
+		LiferayPortletURL renderURL = createLiferayPortletURL(renderRequest, "contattaci", "contattaciportlet_WAR_OpenCupPortletsportlet", PortletRequest.RENDER_PHASE);
+		renderURL.setParameter("codiceCup", codiceCup);
+		model.addAttribute("contattaciUrl", renderURL.toString());
 
 		return "dettaglio-progetto-view";
+	}
+	
+	private LiferayPortletURL createLiferayPortletURL(PortletRequest request, String toPage, String portletId, String portletRequest) {
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		LiferayPortletURL renderURL = null;
+		String localHost = themeDisplay.getPortalURL();		
+		List<Layout> layouts = null;
+		try{
+			layouts = LayoutLocalServiceUtil.getLayouts(themeDisplay.getLayout().getGroupId(), false);
+			for(Layout layout : layouts){
+
+				String nodeNameRemoved = PortalUtil.getLayoutFriendlyURL(layout, themeDisplay).replace(localHost, "");
+
+				//Viene ricercato l'URL esatto per la pagina successiva
+				if(nodeNameRemoved.indexOf(toPage)>0){
+
+					renderURL = PortletURLFactoryUtil.create(request, portletId, layout.getPlid(), portletRequest);
+					renderURL.setWindowState(WindowState.NORMAL);
+					renderURL.setPortletMode(PortletMode.VIEW);
+					
+					break;
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return renderURL;
 	}
 
 //	private NavigaProgetti createModelFromJsonString(String jsonString) {

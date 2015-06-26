@@ -102,7 +102,7 @@
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Messaggio</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="messaggio" cssClass="input-xlarge" label="">
+											<aui:input type="text" bean="contattaciBean" name="messaggio" cssClass="input-xlarge" label="" rows="5" cols="30">
 											</aui:input>
 										</div>
 									</div>

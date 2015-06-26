@@ -18,11 +18,13 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.junit.runners.Parameterized.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
@@ -47,20 +49,23 @@ public class ContattaciPortletController {
 	@RenderMapping
 	public String renderRequest(RenderRequest renderRequest,
 			RenderResponse renderResponse, Model model,
-			@ModelAttribute("contattaci") Contattaci contattaci) {
+			@ModelAttribute("contattaci") Contattaci contattaci,@RequestParam(required=false, value="codiceCup") String codiceCup){
 		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
 		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
 		return handleRenderRequest(renderRequest, renderResponse, model,
-				contattaci);
+				contattaci,codiceCup);
 	}
 	
 
 	@RenderMapping(params = "render=action")
 	public String handleRenderRequest(RenderRequest renderRequest,
 			RenderResponse renderResponse, Model model,
-			@ModelAttribute("contattaci") Contattaci contattaci) {
-
+			@ModelAttribute("contattaci") Contattaci contattaci, @RequestParam(required=false, value="codiceCup") String codiceCup) {
+			if(codiceCup!=null && !codiceCup.equals("")){
+				contattaci.setCup(codiceCup);
+			}
+			model.addAttribute("contattaciBean", contattaci);
 		return "contattaci-view";
 	}
 

@@ -355,7 +355,7 @@
 			</div>
 			<div class="clear"></div>	
 			<div style="margin-top:5em; padding-bottom:15px;">
-			<span style="color:#1f4e78!important; padding-left:14px;">Per richiedere approfondimenti o effettuare una segnalazione, CONTATTACI</span>
+			<span style="color:#1f4e78!important; padding-left:14px;">Per richiedere approfondimenti o effettuare una segnalazione,<aui:a href="${contattaciUrl}"> CONTATTACI</aui:a></span>
 			</div>
 		</div>
 		
