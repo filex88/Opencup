@@ -188,8 +188,10 @@ div.newsImageContainer{width:14em;height:14em;float:right;padding-right:1em;}
 	font-family: 'levenim-mt' !important;
 }
 
-
-
 .aui .label, .aui .badge{
 	text-shadow: none !important;
+}
+
+.loading-animation {
+	min-height: 15em;
 }
