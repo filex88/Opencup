@@ -34,11 +34,13 @@ import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.WebKeys;
 
 @Controller
 @RequestMapping("VIEW")
 public class ContattaciPortletController {
-	
+
 	@Autowired
 	private ProgettoFacade progettoFacade;
 
@@ -46,7 +48,9 @@ public class ContattaciPortletController {
 	public String renderRequest(RenderRequest renderRequest,
 			RenderResponse renderResponse, Model model,
 			@ModelAttribute("contattaci") Contattaci contattaci) {
-
+		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		model.addAttribute("jsFolder",themeDisplay.getPathThemeJavaScript());
+		model.addAttribute("imgFolder",themeDisplay.getPathThemeImages());
 		return handleRenderRequest(renderRequest, renderResponse, model,
 				contattaci);
 	}
@@ -74,7 +78,7 @@ public class ContattaciPortletController {
 	}
 
 	private String getCaptchaValueFromSession(PortletSession session) {
-	    Enumeration<String> atNames = session.getAttributeNames();
+		Enumeration<String> atNames = session.getAttributeNames();
 		while (atNames.hasMoreElements()) {
 			String name = atNames.nextElement();
 			if (name.contains("CAPTCHA_TEXT")) {
@@ -94,46 +98,47 @@ public class ContattaciPortletController {
 		}
 	}
 
-	
-	@ActionMapping(params="action=inviaEmail")
-    public void validateCaptcha(ActionRequest actionRequest,
-            ActionResponse actionResponse, Model model, @ModelAttribute("contattaci") Contattaci contattaci) throws IOException, PortletException {
- 
+	@ActionMapping(params = "action=inviaEmail")
+	public void validateCaptcha(ActionRequest actionRequest,
+			ActionResponse actionResponse, Model model,
+			@ModelAttribute("contattaci") Contattaci contattaci)
+			throws IOException, PortletException {
+
 		model.addAttribute("contattaci", contattaci);
-        try {
-        	String cup = ParamUtil.getString(actionRequest, "cup");
-            String nome = ParamUtil.getString(actionRequest, "nome");
-            String cognome = ParamUtil.getString(actionRequest, "cognome");
-            String email = ParamUtil.getString(actionRequest, "email");
-            String tipoMessaggio = ParamUtil.getString(actionRequest, "tipoMessaggio");
-            String oggetto = ParamUtil.getString(actionRequest, "oggetto");
-            String messaggio = ParamUtil.getString(actionRequest, "messaggio");
-            
-            
-            System.out.println("CUP  :" + cup);
-            System.out.println("Nome  :" + nome);
-            
-            CaptchaUtil.check(actionRequest);
-            contattaci.setDataInserimento(new Date());
-            progettoFacade.saveContattaci(contattaci);
-//            System.out.println("CAPTCHA validated successfully");
-            MailMessage mailMessage = new MailMessage();
-            InternetAddress addressTo = new InternetAddress();
-            InternetAddress addressFrom = new InternetAddress();
-            addressTo.setAddress("assistenzacup@assistenzacup.com");
-            addressFrom.setAddress(email);
-            mailMessage.setFrom(addressFrom);
-            mailMessage.setTo(addressTo);
-            mailMessage.setSubject(contattaci.getOggetto());
-            mailMessage.setBody(contattaci.getMessaggio());
-            MailServiceUtil.sendEmail(mailMessage);
-            
-        } catch (CaptchaException e) {
-            SessionErrors.add(actionRequest, "errorMessage");
-        }
- 
-    }
-	
+		try {
+			String cup = ParamUtil.getString(actionRequest, "cup");
+			String nome = ParamUtil.getString(actionRequest, "nome");
+			String cognome = ParamUtil.getString(actionRequest, "cognome");
+			String email = ParamUtil.getString(actionRequest, "email");
+			String tipoMessaggio = ParamUtil.getString(actionRequest,
+					"tipoMessaggio");
+			String oggetto = ParamUtil.getString(actionRequest, "oggetto");
+			String messaggio = ParamUtil.getString(actionRequest, "messaggio");
+
+			System.out.println("CUP  :" + cup);
+			System.out.println("Nome  :" + nome);
+
+			CaptchaUtil.check(actionRequest);
+			contattaci.setDataInserimento(new Date());
+			progettoFacade.saveContattaci(contattaci);
+			// System.out.println("CAPTCHA validated successfully");
+			MailMessage mailMessage = new MailMessage();
+			InternetAddress addressTo = new InternetAddress();
+			InternetAddress addressFrom = new InternetAddress();
+			addressTo.setAddress("assistenzacup@assistenzacup.com");
+			addressFrom.setAddress(email);
+			mailMessage.setFrom(addressFrom);
+			mailMessage.setTo(addressTo);
+			mailMessage.setSubject(contattaci.getOggetto());
+			mailMessage.setBody(contattaci.getMessaggio());
+			MailServiceUtil.sendEmail(mailMessage);
+
+		} catch (CaptchaException e) {
+			SessionErrors.add(actionRequest, "errorMessage");
+		}
+
+	}
+
 	@ResourceMapping
 	public void serveResource(ResourceRequest resourceRequest,
 			ResourceResponse resourceResponse) throws IOException,

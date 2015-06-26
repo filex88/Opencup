@@ -7,6 +7,7 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
+<%@ page import="java.util.Random" %>
 
 <portlet:defineObjects />
 
@@ -101,7 +102,19 @@
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Messaggio</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="messaggio" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="messaggio" cssClass="input-xlarge" label="">
+											</aui:input>
+										</div>
+									</div>
+									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
+										<portlet:resourceURL var="captchaURL"></portlet:resourceURL>
+										<label class="control-label" for="area-soggetto">Testo Immagine</label>
+										<div class="controls">
+											 <aui:input label="" name="captchaText" size="10" type="text" value="">
+										      <aui:validator name="required" />
+										    </aui:input>
+										    <img style="float:left;padding:0px !important;margin-left:10px;" alt='<liferay-ui:message key="text-to-identify" />' class="captcha" border=0 src="<%= captchaURL + "&" + new Random().nextInt(Integer.MAX_VALUE) %>" />
+										    <a href="#" class="refreshCaptcha captcha-reload" style="text-decoration: none;">&nbsp;<i class="icon-refresh"></i></a>
 										</div>
 									</div>
 								</div>
@@ -109,10 +122,28 @@
 						</div>
 
 					</div>
-					<div class="control-group no-margin-bottom row-no-wrap">
+<%-- 					<div class="control-group no-margin-bottom row-no-wrap">
+					 The url that returns the image
+					  <portlet:resourceURL var="captchaURL"></portlet:resourceURL>
+					  <label>Testo </label>
+					  <div style="float:left;">
+					    the name of the field should be captchaText
+					    <aui:input label="" name="captchaText" size="10" type="text" value="">
+					      <aui:validator name="required" />
+					    </aui:input>
+					  </div>
+					  <a href="#" class="refreshCaptcha captcha-reload" style="text-decoration: none;">refresh</a>
+					  the refresh button %-->
+					  <a href="#" class="refreshCaptcha captcha-reload" style="text-decoration: none;"></a>
+					  <%-- the image
+					  <img style="float:left;padding:0px !important;margin-left:10px;" alt='<liferay-ui:message key="text-to-identify" />' class="captcha" border=0 src="<%= captchaURL + "&" + new Random().nextInt(Integer.MAX_VALUE) %>" />
+										
+					
+					
+					
 						<portlet:resourceURL var="captchaURL"></portlet:resourceURL>
-						<liferay-ui:captcha url="<%=captchaURL%>"></liferay-ui:captcha>
-					</div>
+						<liferay-ui:captcha url="<%=captchaURL%>" ></liferay-ui:captcha>
+					</div> --%>
 					<div class="card-action">
 						<div class="control-group">
 							<div class="pull-right">
@@ -144,10 +175,24 @@
 	var namespaceRicerca = "<portlet:namespace/>";
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	
+	AUI().use('get', function(A){
+		A.Get.script('${jsFolder}/jquery-1.11.0.min.js', {
+			onSuccess: function(){
+		    	A.Get.script('${jsFolder}/bootstrap.min.js', {
+		       		onSuccess: function(){	
+					 	$(".refreshCaptcha").click(function(evt){
+							  jQuery(".captcha").attr('src', '${captchaURL}&force='+encodeURIComponent(Math.floor(Math.random()*Math.pow(2, 53))));
+							  evt.preventDefault();
+						});
+		      		}
+			 	});
+		    }
+		});
+	});
 </script>
 
 <aui:script>
-
+/* 
 var rules = {
         cognome: {
             required: true,
@@ -183,5 +228,5 @@ var rules = {
 	         }
 	       )
 	    }
-	);
+	); */
 </aui:script>
