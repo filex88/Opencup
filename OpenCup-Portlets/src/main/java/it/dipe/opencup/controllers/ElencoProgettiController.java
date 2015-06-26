@@ -251,7 +251,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
-		if( size > 30){
+		if( size > (delta*2)){
 			navigaAggregata = new NavigaAggregata();
 			navigaAggregata.setIdNatura(idNatura);
 			navigaAggregata.importa( navigaProgetti );
