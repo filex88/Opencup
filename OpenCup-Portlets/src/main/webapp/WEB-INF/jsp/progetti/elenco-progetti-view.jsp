@@ -104,6 +104,10 @@
 		background-color: #fff;
 	}
 	
+	.aui select{
+		width: 284px !important;
+	}
+
 	div.my-toggler-affina-ricerca-elenco-progetti, div.toggler-content-wrapper, div.toggler-content, div.table-container{
 		padding-top: 1em;
 		padding-bottom: 1em;
