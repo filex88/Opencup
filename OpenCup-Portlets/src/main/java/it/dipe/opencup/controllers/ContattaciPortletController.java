@@ -69,6 +69,7 @@ public class ContattaciPortletController {
 		return "contattaci-view";
 	}
 
+	
 	private void checkCaptcha(PortletRequest request) throws Exception {
 		String enteredCaptchaText = ParamUtil.getString(request, "captchaText");
 
