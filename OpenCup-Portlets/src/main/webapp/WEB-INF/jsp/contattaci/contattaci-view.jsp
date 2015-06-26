@@ -16,16 +16,23 @@
 		
 		<div class="content">
 
-			<portlet:actionURL var="affinaricercaActionVar">
+<%-- 			<portlet:actionURL var="affinaricercaActionVar">
 			   	<portlet:param name="action" value="affinaricerca"></portlet:param>
+			</portlet:actionURL> --%>
+			<!-- This URL validate the CAPTCHA data entered by user -->
+			<portlet:actionURL  var="validateURL" name="validateCaptcha">
+				<portlet:param name="action" value="inviaEmail"></portlet:param>
 			</portlet:actionURL>
+ 
+			<liferay-ui:error key="errorMessage" message="Inserire il valore corretto nel Captcha"/>
+			
 			
 			<aui:form 
-				action="${affinaricercaActionVar}" 
+				action="${validateURL}" 
 				method="post" 
-				name="affina-ricerca-form" 
-				id="affina-ricerca-form"
-				cssClass="affina-ricerca-form form-horizontal form-ricerca-padding">
+				name="contattaci-form" 
+				id="contattaci-form"
+				cssClass="contattaci-form form-horizontal form-ricerca-padding">
 					
 				<div>
 					<div style="border-bottom:0.1em solid #f0f0f0; color:#1f4e78; padding-bottom:1em; font-weight:bold; font-size:1.3em; padding-left:1em; margin-top:1em;">
@@ -45,35 +52,44 @@
 										<strong class="control-label">Soggetto</strong>
 										<div class="controls">&nbsp;</div>
 									</div> -->
-									
-									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
-										<label class="control-label" for="area-soggetto">CUP</label>
-										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="cup" value="${contattaciBean.cup}" cssClass="input-xlarge" label=""/>
+									<c:if test="${not empty contattaciBean.cup}">
+										<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
+											<label class="control-label" for="area-soggetto">CUP</label>
+											<div class="controls">
+												<aui:input type="text" bean="contattaciBean" name="cup" id="cup" value="${contattaciBean.cup}" cssClass="input-xlarge" label=""/>
+											</div>
 										</div>
-									</div>
+									</c:if>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Nome</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="nome" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="nome" id="nome" cssClass="input-xlarge" label=""/>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Cognome</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="cognome" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="cognome" id="cognome" cssClass="input-xlarge" label=""/>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Email</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="email" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="email" id="email" cssClass="input-xlarge" label=""/>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Tipo Messaggio</label>
 										<div class="controls">
-											<aui:select bean="contattaciBean" name="tipoMessaggio" cssClass="input-xlarge" label=""></aui:select>
+											<aui:select bean="contattaciBean" name="tipoMessaggio" cssClass="input-xlarge" label="">
+											<c:if test="${not empty contattaciBean.cup}">
+												<aui:option value="Segnalazione">Segnalazione</aui:option>
+												<aui:option value="Approfondimento">Approfondimento</aui:option>
+											</c:if>
+											<c:if test="${empty contattaciBean.cup}">
+												<aui:option value="Segnalazione">Assistenza</aui:option>
+											</c:if>
+											</aui:select>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
@@ -93,11 +109,14 @@
 						</div>
 
 					</div>
-					
+					<div class="control-group no-margin-bottom row-no-wrap">
+						<portlet:resourceURL var="captchaURL"></portlet:resourceURL>
+						<liferay-ui:captcha url="<%=captchaURL%>"></liferay-ui:captcha>
+					</div>
 					<div class="card-action">
 						<div class="control-group">
 							<div class="pull-right">
-								<aui:button id="affina-ricerca-classificazione" cssClass="btn btn-primary btn-filtra" value="Invia Messaggio"></aui:button>
+								<aui:button id="affina-ricerca-classificazione" type="submit" cssClass="btn btn-primary btn-filtra" value="Invia Messaggio"></aui:button>
 							</div>
 						</div>
 					</div>
@@ -126,3 +145,43 @@
 	namespaceRicerca = namespaceRicerca.substring(1, namespaceRicerca.length - 1);
 	
 </script>
+
+<aui:script>
+
+var rules = {
+        cognome: {
+            required: true,
+            rangeLength: [2,200],
+            alpha: true
+        },
+        nome: {
+            required: true,
+            rangeLength: [2,200],
+            alpha: true
+         },
+        email: {
+        	required: true
+        }
+	}
+
+	var fieldStrings = {
+	    firstname: {
+	       required: "The Force is strong with you, but we still need a name.",
+	       rangeLength: "2 to 20 characters Padawan."  
+	    }
+	}
+
+	AUI().use(
+	    'aui-form-validator',
+	    function(A) {
+	       new A.FormValidator(
+	         {
+	          boundingBox: '#contattaci-form',
+	          fieldStrings: fieldStrings,
+	          rules: rules,
+	          showAllMessages: true
+	         }
+	       )
+	    }
+	);
+</aui:script>

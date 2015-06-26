@@ -131,6 +131,7 @@ public class AggregataFacade {
 	
 	@Autowired
 	private GerarchiaSoggettoDAO gerarchiaSoggettoDAO;
+
 	
 //	private Criteria buildCriteria4Testata(NavigaAggregata navigaAggregata){
 //		Criteria criteria = aggregataDAO.newCriteria();

@@ -2,6 +2,7 @@ package it.dipe.opencup.facade;
 
 import it.dipe.opencup.dao.AnagraficaCupDAO;
 import it.dipe.opencup.dao.ComuneDAO;
+import it.dipe.opencup.dao.ContattaciDAO;
 import it.dipe.opencup.dao.CupCoperturaFinanziariaDAO;
 import it.dipe.opencup.dao.NaturaDAO;
 import it.dipe.opencup.dao.ProgettoDAO;
@@ -14,6 +15,7 @@ import it.dipe.opencup.model.AnagraficaCup;
 import it.dipe.opencup.model.AnnoDecisione;
 import it.dipe.opencup.model.AreaIntervento;
 import it.dipe.opencup.model.CategoriaIntervento;
+import it.dipe.opencup.model.Contattaci;
 import it.dipe.opencup.model.CupCoperturaFinanziaria;
 import it.dipe.opencup.model.GruppoAteco;
 import it.dipe.opencup.model.Natura;
@@ -62,6 +64,9 @@ public class ProgettoFacade {
 	
 	@Autowired
 	private NaturaDAO naturaDAO;
+	
+	@Autowired
+	private ContattaciDAO contattaciDAO;
 	
 	
 	@Autowired
@@ -456,6 +461,10 @@ public class ProgettoFacade {
 
 	public AnagraficaCup findAnagraficaCupById(Integer fkDcupDcupIdMaster) {
 		return anagraficaCupDAO.findById( fkDcupDcupIdMaster );
+	}
+	
+	public void saveContattaci(Contattaci contatto){
+		contattaciDAO.save(contatto);
 	}
 	
 }
