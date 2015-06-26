@@ -54,6 +54,7 @@ public class ContattaciPortletController {
 		return handleRenderRequest(renderRequest, renderResponse, model,
 				contattaci);
 	}
+	
 
 	@RenderMapping(params = "render=action")
 	public String handleRenderRequest(RenderRequest renderRequest,
