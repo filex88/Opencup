@@ -54,29 +54,54 @@
 										<div class="controls">&nbsp;</div>
 									</div> -->
 									<c:if test="${not empty contattaciBean.cup}">
+										<aui:input type="text" bean="contattaciBean" name="cup" id="cup" value="${contattaciBean.cup}" cssClass="input-xlarge hidden" label=""/>
 										<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 											<label class="control-label" for="area-soggetto">CUP</label>
 											<div class="controls">
-												<aui:input type="text" bean="contattaciBean" name="cup" id="cup" value="${contattaciBean.cup}" cssClass="input-xlarge" label=""/>
+												<aui:input type="text" bean="contattaciBean" name="cupVisible" disabled="true" id="cupVisible" value="${contattaciBean.cupVisible}" cssClass="input-xlarge" label=""/>
 											</div>
 										</div>
 									</c:if>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Nome</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="nome" id="nome" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="nome" id="nome" cssClass="input-xlarge" label="">
+												<aui:validator name="custom" errorMessage="Attenzione. Superato il valore di caratteri massimo di 200. ">
+												    function (val, fieldNode, ruleValue) {
+												    	if(val.length<=200){
+												    		return true;
+												    	} else {
+												    		return false;
+												    	}
+												    }
+												</aui:validator>
+												<aui:validator name="required" errorMessage="Attenzione. Campo Obbligatorio"></aui:validator>
+											</aui:input>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Cognome</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="cognome" id="cognome" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="cognome" id="cognome" cssClass="input-xlarge" label="">
+												<aui:validator name="custom" errorMessage="Attenzione. Superato il valore di caratteri massimo di 200. ">
+												    function (val, fieldNode, ruleValue) {
+												    	if(val.length<=200){
+												    		return true;
+												    	} else {
+												    		return false;
+												    	}
+												    }
+												</aui:validator>
+												<aui:validator name="required" errorMessage="Attenzione. Campo Obbligatorio"></aui:validator>
+											</aui:input>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Email</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="email" id="email" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="email" id="email" cssClass="input-xlarge" label="">
+												<aui:validator name="required" errorMessage="Attenzione. Campo Obbligatorio"></aui:validator>
+											</aui:input>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
@@ -96,19 +121,40 @@
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Oggetto</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="oggetto" cssClass="input-xlarge" label=""/>
+											<aui:input type="text" bean="contattaciBean" name="oggetto" cssClass="input-xlarge" label="">
+												<aui:validator name="custom" errorMessage="Attenzione. Superato il valore di caratteri massimo di 200. ">
+												    function (val, fieldNode, ruleValue) {
+												    	if(val.length<=200){
+												    		return true;
+												    	} else {
+												    		return false;
+												    	}
+												    }
+												</aui:validator>
+												<aui:validator name="required" errorMessage="Attenzione. Campo Obbligatorio"></aui:validator>
+											</aui:input>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<label class="control-label" for="area-soggetto">Messaggio</label>
 										<div class="controls">
-											<aui:input type="text" bean="contattaciBean" name="messaggio" cssClass="input-xlarge" label="" rows="5" cols="30">
+											<aui:input type="textarea" bean="contattaciBean" name="messaggio" cssClass="input-xxlarge" label="" rows="7" cols="30">
+												<aui:validator name="custom" errorMessage="Attenzione. Superato il valore di caratteri massimo di 4000. ">
+												    function (val, fieldNode, ruleValue) {
+												    	if(val.length<=4000){
+												    		return true;
+												    	} else {
+												    		return false;
+												    	}
+												    }
+												</aui:validator>
+												<aui:validator name="required" errorMessage="Attenzione. Campo Obbligatorio"></aui:validator>
 											</aui:input>
 										</div>
 									</div>
 									<div class="control-group no-margin-bottom row-no-wrap" id="area-soggetto-div">
 										<portlet:resourceURL var="captchaURL"></portlet:resourceURL>
-										<label class="control-label" for="area-soggetto">Testo Immagine</label>
+										<label class="control-label" for="area-soggetto">Captcha</label>
 										<div class="controls">
 											 <aui:input label="" name="captchaText" size="10" type="text" value="">
 										      <aui:validator name="required" />
@@ -190,43 +236,3 @@
 		});
 	});
 </script>
-
-<aui:script>
-/* 
-var rules = {
-        cognome: {
-            required: true,
-            rangeLength: [2,200],
-            alpha: true
-        },
-        nome: {
-            required: true,
-            rangeLength: [2,200],
-            alpha: true
-         },
-        email: {
-        	required: true
-        }
-	}
-
-	var fieldStrings = {
-	    firstname: {
-	       required: "The Force is strong with you, but we still need a name.",
-	       rangeLength: "2 to 20 characters Padawan."  
-	    }
-	}
-
-	AUI().use(
-	    'aui-form-validator',
-	    function(A) {
-	       new A.FormValidator(
-	         {
-	          boundingBox: '#contattaci-form',
-	          fieldStrings: fieldStrings,
-	          rules: rules,
-	          showAllMessages: true
-	         }
-	       )
-	    }
-	); */
-</aui:script>

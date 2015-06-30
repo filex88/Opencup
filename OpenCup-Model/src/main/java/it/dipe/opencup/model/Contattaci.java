@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -52,6 +53,9 @@ public class Contattaci extends AbstractCommonEntity implements Serializable {
 
 	@Column(name = "DATA_SCON_INSERIMENTO")
 	private Date dataInserimento;
+
+	@Transient
+	private String cupVisible;
 
 	public Integer getId() {
 		return id;
@@ -123,6 +127,14 @@ public class Contattaci extends AbstractCommonEntity implements Serializable {
 
 	public void setDataInserimento(Date dataInserimento) {
 		this.dataInserimento = dataInserimento;
+	}
+
+	public String getCupVisible() {
+		return cupVisible;
+	}
+
+	public void setCupVisible(String cupVisible) {
+		this.cupVisible = cupVisible;
 	}
 
 }

@@ -51,7 +51,7 @@
 	div#approfondimenti-list div.allApprofondimentiLink a:hover{text-decoration: underline;}
 
 	div#noticeCarousel.carousel {height:18em; padding-top:3em;}
-	ol#noticeSpinner.carousel-indicators{padding-right: 40em;z-index: 0; padding-top:23em;}
+	ol#noticeSpinner.carousel-indicators{padding-right: 40em;z-index: 0; margin-top:23em;}
 	ol#noticeSpinner li{background-color: #9fcfe0;}
 	ol#noticeSpinner li:hover{cursor: pointer;}
 	ol#noticeSpinner li.active{background-color:#0084b0;}
@@ -138,7 +138,7 @@ In questo spazio ogni cittadino, istituzione od ente potr&agrave; conoscere con 
 					 </div>
 					 <br /><br />
 					 <div style="color:#1f4e78; text-align:right;">
-					 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="#">Approfondisci >></a>
+					 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="coseopencup">Approfondisci >></a>
 
 					 </div>
 				</div>
@@ -180,7 +180,7 @@ Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'inv
 					 </div>
 					 <br /><br />
 					 <div style="color:#1f4e78; text-align:right;">
-					 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="#">Approfondisci >></a>
+					 		<a class="linkHome" style="color:#1f4e78; font-weight:bold;" href="coseilcup">Approfondisci >></a>
 
 					 </div>
 				</div>
