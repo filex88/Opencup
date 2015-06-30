@@ -139,7 +139,8 @@
 </c:if>
 
 <script type="text/javascript">
-
+	
+	var portletPrincipale = ${ config.portletPrincipale };
 	var dataSet = ${aggregati4Pie};
 	var dataSet1 = eval( dataSet );
 	
@@ -491,7 +492,7 @@
 		
 		var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
 		
-		var chartWidth       = (width_div_chart / 100 * 70)-70;
+		var chartWidth       = (width_div_chart / 100 * 70);
 		
 		var barHeight        = 25, //220 / dataSet.length, //310
 		    gapBetweenGroups = 30,
@@ -691,7 +692,12 @@
 		})
 		.attr("dx", 0)
         .attr("dy", "5px") // Controls padding to place text in alignment with bullets
-        .text(function(d) { return (d.label).trunc(36, true); })
+        .text(function(d) { 
+        	if(portletPrincipale)
+        		return (d.label).trunc(25, false); 
+        	else
+        		return (d.label).trunc(17, false); 
+        	})
         .attr("color_value", function(d, i) { return colorScale(i); }) // Bar fill color...
         .attr("index_value", function(d, i) { return "index-" + i; })
         

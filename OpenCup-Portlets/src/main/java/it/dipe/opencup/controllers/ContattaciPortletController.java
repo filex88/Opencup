@@ -63,6 +63,7 @@ public class ContattaciPortletController {
 			@ModelAttribute("contattaci") Contattaci contattaci, @RequestParam(required=false, value="codiceCup") String codiceCup) {
 			if(codiceCup!=null && !codiceCup.equals("")){
 				contattaci.setCup(codiceCup);
+				contattaci.setCupVisible(codiceCup);
 			}
 			model.addAttribute("contattaciBean", contattaci);
 		return "contattaci-view";
