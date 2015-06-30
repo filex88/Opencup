@@ -176,7 +176,7 @@ In questo spazio ogni cittadino, istituzione od ente potr&agrave; conoscere con 
 					<div>
 Il CUP, Codice Unico di Progetto, identifica univocamente un progetto di investimento pubblico ed &egrave; composto da una stringa alfanumerica di 15 caratteri: va richiesto al momento della decisione di realizzare tale progetto, non varia e deve essere utilizzato fino alla chiusura dello stesso.<br/><br/>
 Nasce quale codice identificativo dell’unit&agrave; elementare "progetto d'investimento pubblico" e permette la rilevazione dei dati per il  Sistema di Monitoraggio degli Investimenti Pubblici MIP. Il CUP &egrave; poi utilizzato quale strumento a supporto della tracciabilit&agrave; dei flussi finanziari prevista dalla legge 136/2010 s.m.i. e del Monitoraggio finanziario "Grandi Opere" ai fini anti criminalit&agrave; organizzata. 
-
+ 
 					 </div>
 					 <br /><br />
 					 <div style="color:#1f4e78; text-align:right;">
