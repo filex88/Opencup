@@ -671,7 +671,15 @@
 		// Draw labels
 		bar.append("text")
 			.attr("class", function(d, i) { return "link-url-naviga-dettaglio label histogram-legend-" + histogramName + "-cod-" + dataSet[i].localizationLabel; })
-		   	.attr("x", function(d) { return - 90; })
+		   	//.attr("x", function(d) { return - 90; })
+		   	.attr("x", 
+				function(d, i) { 
+					var delta = 60;
+					if(nFormatter( d ).length > 1){
+						delta = nFormatter( d ).length * 10
+					}
+					return - delta; 
+			})
 		   	.attr("y", (barHeight-10) / 2)
 		   	.attr("dy", ".25em")
 		   	.style("fill", textColor)

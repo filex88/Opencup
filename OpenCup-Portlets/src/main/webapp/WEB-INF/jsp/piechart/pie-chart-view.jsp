@@ -90,8 +90,8 @@
 						</div>
 					</div>
 					<div class="row chart-div">
-						<div class="span6" id="chartLegendPie"></div>
-						<div class="span6" id="histogramChartPie"></div>
+						<div class="span7" id="chartLegendPie"></div>
+						<div class="span5" id="histogramChartPie"></div>
 					</div>
 				</div>
 			</c:otherwise>
@@ -575,7 +575,7 @@
 		   .attr("x", 
 				function(d, i) { 
 					var delta = 60;
-					if(nFormatter( d ).length > 6){
+					if(nFormatter( d ).length > 1){
 						delta = nFormatter( d ).length * 10
 					}
 					return - delta; 
