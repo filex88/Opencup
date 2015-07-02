@@ -90,8 +90,8 @@
 						</div>
 					</div>
 					<div class="row chart-div">
-						<div class="span7" id="chartLegendPie"></div>
-						<div class="span5" id="histogramChartPie"></div>
+						<div class="span6" id="chartLegendPie"></div>
+						<div class="span6" id="histogramChartPie"></div>
 					</div>
 				</div>
 			</c:otherwise>
@@ -491,7 +491,7 @@
 		
 		var width_div_chart = d3.select(chartName).node().getBoundingClientRect().width - 30;
 		
-		var chartWidth       = (width_div_chart / 100 * 70);
+		var chartWidth       = (width_div_chart / 100 * 60);
 		
 		var barHeight        = 25, //220 / dataSet.length, //310
 		    gapBetweenGroups = 30,
