@@ -636,9 +636,9 @@
 		   	//.attr("x", function(d) { return - 80; })
 		   	.attr("x", 
 				function(d, i) { 
-					var delta = 60;
-					if(nFormatter( d ).length > 1){
-						delta = nFormatter( d ).length * 10
+					var delta = nFormatter( d ).length * 10
+					if( (nFormatter(d).length < 4 ) ){
+						delta = delta - 5;
 					}
 					return - delta; 
 			})

@@ -505,6 +505,9 @@
 		.attr("x", 
 				function(d, i) { 
 					var delta = 510 - (nFormatter(d.volume).length * 10);
+					if( (nFormatter(d.volume).length < 4 ) ){
+						delta = delta - 5;
+					}
 					return delta; 
 			})
 		//.attr("x", widthTotal + 393)
