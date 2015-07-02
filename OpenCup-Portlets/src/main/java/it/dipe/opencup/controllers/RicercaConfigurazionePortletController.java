@@ -3,12 +3,14 @@ package it.dipe.opencup.controllers;
 import it.dipe.opencup.facade.BatchFacade;
 import it.dipe.opencup.facade.ProgettoFacade;
 import it.dipe.opencup.model.Batch;
+import it.dipe.opencup.utils.CacheBuilder;
 import it.dipe.opencup.utils.Constants;
 import it.dipe.opencup.utils.ProgettoIndicizzatoreMessageListener;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -30,24 +32,27 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.liferay.portal.kernel.messaging.DestinationNames;
+import com.liferay.portal.cluster.ClusterExecutorImpl;
+import com.liferay.portal.kernel.cluster.Address;
+import com.liferay.portal.kernel.cluster.ClusterExecutor;
+import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
+import com.liferay.portal.kernel.cluster.ClusterNode;
+import com.liferay.portal.kernel.cluster.ClusterRequest;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.messaging.MessageListenerException;
 import com.liferay.portal.kernel.scheduler.CronTrigger;
-import com.liferay.portal.kernel.scheduler.IntervalTrigger;
-import com.liferay.portal.kernel.scheduler.SchedulerEngine;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelperUtil;
 import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.SchedulerException;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.Trigger;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.scheduler.TriggerType;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.util.WebKeys;
 
 @Controller
@@ -63,7 +68,7 @@ public class RicercaConfigurazionePortletController  {
 	private BatchFacade batchFacade;
 	
 	private Thread thread;
-	
+
 	private class ProgettoIndicizzazioneRunnable implements Runnable {
 
 	    public void run() {
@@ -265,9 +270,6 @@ public class RicercaConfigurazionePortletController  {
 	private boolean schedulaJob(String jobName, String descrizione, String cron, String portletId) {
 	
 		try {		
-			//MessageBusUtil.registerMessageListener(destinationName, messageListener);
-			
-			
 			SchedulerEntry schedulerEntry = new SchedulerEntryImpl();  
 			schedulerEntry.setDescription(descrizione);  
 			schedulerEntry.setEventListenerClass(ProgettoIndicizzatoreMessageListener.class.getName());
@@ -336,4 +338,54 @@ public class RicercaConfigurazionePortletController  {
 		thread.start();
 		return true;
 	}
+	
+	
+	@ActionMapping(params = "action=testCluster")
+	private void testCluster(ActionRequest actionRequest, ActionResponse actionResponse) {
+		
+		actionResponse.setRenderParameter("show", "testCluster");
+		
+		MethodKey methodKey = new MethodKey(CacheBuilder.class, "build");
+		MethodHandler methodHandler = new MethodHandler(methodKey, null);
+
+		List<Address> nodeAddresses = ClusterExecutorUtil.getClusterNodeAddresses();
+		Address[] targetClusterNodeAddresses = new Address[nodeAddresses.size()];
+		int i = 0;
+		for (Address nodeAddress : nodeAddresses) {
+			targetClusterNodeAddresses[i] = nodeAddress;
+			i ++;
+			logger.info("Node address: " + nodeAddress.getRealAddress());
+		}
+
+		ClusterRequest clusterRequest = ClusterRequest.createUnicastRequest(methodHandler, targetClusterNodeAddresses);
+		clusterRequest.setFireAndForget(true);
+		try {
+			List<ClusterNode> nodes = ClusterExecutorUtil.getClusterNodes();
+			String[] targetClusterNodeIds = new String[nodes.size()];
+			int j = 0;
+			for (ClusterNode node : nodes) {
+				targetClusterNodeIds[j] = node.getClusterNodeId();
+				j++;
+			}
+			clusterRequest.addTargetClusterNodeIds(targetClusterNodeIds);
+			
+			ClusterExecutorUtil.execute(clusterRequest);
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@RenderMapping(params = "show=testCluster")
+	public String showTestCluster(RenderRequest renderRequest, 
+			RenderResponse renderResponse,
+			Model model) {	
+		
+		SessionMessages.add(renderRequest, "indicizzazione-schedulata");
+		
+		return defaultRender(renderRequest, renderResponse, model);
+	}	
+	
+	
+	
 }

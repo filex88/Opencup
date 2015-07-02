@@ -165,6 +165,13 @@ AUI().use(
 			<aui:button type="button" cssClass="btn" value="Avvio manuale" onClick="javascript:submitTheForm('avvioManuale')"></aui:button>
 		</div>
 	</div>
+	
+	
+	<div class="control-group">
+		<div class="pull-left">
+			<aui:button type="button" cssClass="btn-primary" value="Test Cluster" onClick="javascript:submitTheForm('testCluster')"></aui:button>
+		</div>
+	</div>	
 </aui:form>
 
 
