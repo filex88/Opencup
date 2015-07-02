@@ -214,10 +214,9 @@
 		if (num >= 1000000) {
 			return (num / 1000000).formattaNumerico(0, ',', '.') + ' Mil';
 		}
-		if (num >= 1000) {
-			return num.formattaNumerico(0, ',', '.');
-		}
-		return num;
+
+		return num.formattaNumerico(0, ',', '.');
+
 	}
 	//var colorScale = d3.scale.ordinal().range(segments);
 
