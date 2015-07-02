@@ -386,15 +386,12 @@ public class ProgettoFacade {
 		return retval;
 	}
 
+	@SuppressWarnings("unused")
 	private void simulaGet4ListaProgetti(Progetto progetto) {
-		AnagraficaCup ac = progetto.getAnagraficaCup();
-		System.out.println(ac);
-		AnnoDecisione ad = progetto.getAnnoDecisione();
-		System.out.println(ad);
-		CategoriaIntervento ci = progetto.getCategoriaIntervento();
-		System.out.println(ci);
-		String cp = progetto.getComuniProgetto();
-		System.out.println(cp);
+		Integer ac = progetto.getAnagraficaCup().getId();
+		Integer ad = progetto.getAnnoDecisione().getId();
+		Integer ci = progetto.getCategoriaIntervento().getId();
+		byte[] cp = progetto.getComuniProgetto().getBytes();
 	}
 
 	@Cacheable(value = "Progetto")
@@ -417,41 +414,25 @@ public class ProgettoFacade {
 		return p;
 	}	
 	
+	@SuppressWarnings("unused")
 	private void similaGet4Dettaglio(Progetto progetto) {
-		AnnoDecisione ad = progetto.getAnnoDecisione();
-		System.out.println(ad);
-		SoggettoTitolare st = progetto.getSoggettoTitolare();
-		System.out.println(st);
-		UnitaOrganizzativa uo = progetto.getUnitaOrganizzativa();
-		System.out.println(uo);
-		Natura n = progetto.getNatura();
-		System.out.println(n);
-		TipologiaIntervento ti = progetto.getTipologiaIntervento();
-		System.out.println(ti);
-		SettoreIntervento si = progetto.getSettoreIntervento();
-		System.out.println(si);
-		SottosettoreIntervento ssi = progetto.getSottosettoreIntervento();
-		System.out.println(ssi);
-		CategoriaIntervento ci = progetto.getCategoriaIntervento();
-		System.out.println(ci);
-		StrumentoProgr sp = progetto.getStrumentoProgr();
-		System.out.println(sp);
-		StatoProgetto stp = progetto.getStatoProgetto();
-		System.out.println(stp);
-		GruppoAteco ga = progetto.getGruppoAteco();
-		System.out.println(ga);
-		AnagraficaCup ac = progetto.getAnagraficaCup();
-		System.out.println(ac);
-		String cp = progetto.getComuniProgetto();
-		System.out.println(cp);
-		String pp = progetto.getProvinceProgetto();
-		System.out.println(pp);
-		String rp = progetto.getRegioneProgetto();
-		System.out.println(rp);
-		String ag = progetto.getAreaGeografica();
-		System.out.println(ag);
-		AreaIntervento ai = progetto.getAreaIntervento();
-		System.out.println(ai);
+		Integer ad = progetto.getAnnoDecisione().getId();
+		Integer st = progetto.getSoggettoTitolare().getId();
+		Integer uo = progetto.getUnitaOrganizzativa().getId();
+		Integer n = progetto.getNatura().getId();
+		Integer ti = progetto.getTipologiaIntervento().getId();
+		Integer si = progetto.getSettoreIntervento().getId();
+		Integer ssi = progetto.getSottosettoreIntervento().getId();
+		Integer ci = progetto.getCategoriaIntervento().getId();
+		Integer sp = progetto.getStrumentoProgr().getId();
+		Integer stp = progetto.getStatoProgetto().getId();
+		Integer ga = progetto.getGruppoAteco().getId();
+		Integer ac = progetto.getAnagraficaCup().getId();
+		byte[] cp = progetto.getComuniProgetto().getBytes();
+		byte[] pp = progetto.getProvinceProgetto().getBytes();
+		byte[] rp = progetto.getRegioneProgetto().getBytes();
+		byte[] ag = progetto.getAreaGeografica().getBytes();
+		Integer ai = progetto.getAreaIntervento().getId();
 	}
 
 	public int countProgettiIndicizzazione() {
