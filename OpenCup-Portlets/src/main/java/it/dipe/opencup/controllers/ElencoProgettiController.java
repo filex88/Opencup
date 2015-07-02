@@ -187,7 +187,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		searchContainerElenco.setOrderByCol(orderByCol);
 		searchContainerElenco.setOrderByType(orderByType);
 		
-		int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
+		//int size =  progettoFacade.sizeElencoProgetti( navigaProgetti ).getSize();
 		
 		
 		navigaProgetti.setOrderByCol(searchContainerElenco.getOrderByCol());
@@ -215,9 +215,7 @@ public class ElencoProgettiController extends FiltriCommonController {
 		}
 		*/
 		searchContainerElenco.setResults(elencoProgetti4Pag);
-		searchContainerElenco.setTotal(size);
-		
-		model.addAttribute("searchContainerElenco", searchContainerElenco);
+
 		
 		model.addAttribute("pagDettaglioProgetto", paginaDettaglioProgetto );
 		// FINE LISTA PROGETTI //
@@ -240,54 +238,62 @@ public class ElencoProgettiController extends FiltriCommonController {
 		Double impoCostoProgetti = 0.0;
 		Double impoImportoFinanziato = 0.0;
 		
+		long sizetot = 0;//progettoFacade.sizeElencoProgetti( navigaProgettitot ).getSize();
+		
 		for(AggregataDTO aggregataDTO : listaAggregataDTO){
 			impoCostoProgetti = impoCostoProgetti + aggregataDTO.getImpoCostoProgetti();
 			impoImportoFinanziato = impoImportoFinanziato + aggregataDTO.getImpoImportoFinanziato();
+			sizetot = sizetot + aggregataDTO.getNumeProgetti();
 		}
 		
-		int sizetot =  progettoFacade.sizeElencoProgetti( navigaProgettitot ).getSize();
+		
 		
 		model.addAttribute("volumeDeiProgetti", sizetot);
 		model.addAttribute("costoDeiProgetti", impoCostoProgetti);
 		model.addAttribute("importoFinanziamenti", impoImportoFinanziato);
 		
-		if( size > (delta*2)){
-			navigaAggregata = new NavigaAggregata();
-			navigaAggregata.setIdNatura(idNatura);
-			navigaAggregata.importa( navigaProgetti );
-			//Gestione ANNI
-			if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0){
-				if( navigaProgetti.getIdAnnoDecisiones().contains("-1") ){
-					List<String> idAnnoAggregatos = new ArrayList<String>();
-					idAnnoAggregatos.add("0");
-					navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
-				}else{
-					List<String> idAnnoAggregatos = new ArrayList<String>();
-					for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
-						idAnnoAggregatos.add((aggregataFacade.findAnniDecisione(Integer.valueOf(tmp))).getAnnoAggregato().getId().toString());
-					}
-					navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
-				}
-			}
-			//FINE Gestione ANNI
-			
-			listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
-
-			Double impoCostoProgettiProg = 0.0;
-			Double impoImportoFinanziatoProg = 0.0;
-			
-			for(AggregataDTO aggregataDTO : listaAggregataDTO){
-				impoCostoProgettiProg = impoCostoProgettiProg + aggregataDTO.getImpoCostoProgetti();
-				impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
-			}
-			model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
-			model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
-		}else{
+//		if( size > (delta*2)){
+//			navigaAggregata = new NavigaAggregata();
+//			navigaAggregata.setIdNatura(idNatura);
+//			navigaAggregata.importa( navigaProgetti );
+//			//Gestione ANNI
+//			if( navigaProgetti.getIdAnnoDecisiones() != null && navigaProgetti.getIdAnnoDecisiones().size() > 0){
+//				if( navigaProgetti.getIdAnnoDecisiones().contains("-1") ){
+//					List<String> idAnnoAggregatos = new ArrayList<String>();
+//					idAnnoAggregatos.add("0");
+//					navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+//				}else{
+//					List<String> idAnnoAggregatos = new ArrayList<String>();
+//					for( String tmp : navigaProgetti.getIdAnnoDecisiones() ){
+//						idAnnoAggregatos.add((aggregataFacade.findAnniDecisione(Integer.valueOf(tmp))).getAnnoAggregato().getId().toString());
+//					}
+//					navigaAggregata.setIdAnnoAggregatos( idAnnoAggregatos );
+//				}
+//			}
+//			//FINE Gestione ANNI
+//			
+//			listaAggregataDTO = aggregataFacade.findAggregataByNatura(navigaAggregata);
+//
+//			Double impoCostoProgettiProg = 0.0;
+//			Double impoImportoFinanziatoProg = 0.0;
+//			
+//			for(AggregataDTO aggregataDTO : listaAggregataDTO){
+//				impoCostoProgettiProg = impoCostoProgettiProg + aggregataDTO.getImpoCostoProgetti();
+//				impoImportoFinanziatoProg = impoImportoFinanziatoProg + aggregataDTO.getImpoImportoFinanziato();
+//			}
+//			model.addAttribute("costoDeiProgettiProg", impoCostoProgettiProg);
+//			model.addAttribute("importoFinanziamentiProg", impoImportoFinanziatoProg);
+//		}else{
 			TotaliDTO totali = progettoFacade.sommaImpElencoProgetti( navigaProgetti );
 			model.addAttribute("costoDeiProgettiProg", totali.getImpoCostoProgetto());
 			model.addAttribute("importoFinanziamentiProg", totali.getImpoImportoFinanziato());
-		}
-		model.addAttribute("volumeDeiProgettiProg", size);
+			model.addAttribute("volumeDeiProgettiProg", totali.getContaProgetti().intValue());
+//		}
+		
+			
+		searchContainerElenco.setTotal(totali.getContaProgetti().intValue());
+			
+		model.addAttribute("searchContainerElenco", searchContainerElenco);
 		
 		
 		/*

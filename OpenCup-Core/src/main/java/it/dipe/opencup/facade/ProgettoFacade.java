@@ -35,6 +35,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -302,11 +303,30 @@ public class ProgettoFacade {
 	
 	@SuppressWarnings("unchecked")
 	public TotaliDTO sommaImpElencoProgetti(NavigaProgetti filtri) {
-	
+
+		Criteria criteria = buildCriteria(filtri);
+		ProjectionList projList = Projections.projectionList();
+		projList.add(Projections.property("id"));
+		projList.add(Projections.property("impoCostoProgetto"));
+		projList.add(Projections.property("impoImportoFinanziato"));
+		criteria.setProjection(Projections.distinct(projList));
+		List<Object[]> lista = criteria.list();
+		Double impoCostoProgetto = 0.0;
+		Double impoImportoFinanziato = 0.0;	
+		for(Object[] t : lista){
+			impoCostoProgetto = impoCostoProgetto + (Double) t[1];
+			impoImportoFinanziato = impoImportoFinanziato + (Double) t[2];
+		}
+		
+		TotaliDTO retval = new TotaliDTO();
+		retval.setImpoImportoFinanziato(impoImportoFinanziato);
+		retval.setImpoCostoProgetto(impoCostoProgetto);
+		retval.setContaProgetti((long)lista.size());
+		/*
 		Criteria criteria = buildCriteria(filtri);	
 		criteria.setProjection(Projections.distinct(Projections.property("id")));
 		List<Integer> idPj = criteria.list();
-		
+			
 		Criteria criteriaP = progettoDAO.newCriteria();
 		Criteria criteriaF = progettoDAO.newCriteria();
 		criteriaP.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -323,10 +343,12 @@ public class ProgettoFacade {
 
 		criteriaF.setProjection(Projections.sum("impoImportoFinanziato"));
 		Double impoImportoFinanziato = (Double) criteriaF.uniqueResult();
-
+		
 		TotaliDTO retval = new TotaliDTO();
 		retval.setImpoImportoFinanziato(impoImportoFinanziato);
 		retval.setImpoCostoProgetto(impoCostoProgetto);
+		*/
+
 		return retval;
 	}
 	

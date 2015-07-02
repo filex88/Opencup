@@ -98,7 +98,7 @@ public class TestataNavigazionePortletController {
 
 		navigaAggregata.rimuoviZero();
 		navigaAggregata.setDistribuzione("");
-		System.out.println(navigaAggregata.toString());
+//		System.out.println(navigaAggregata.toString());
 		List<AggregataDTO> risultati = aggregataFacade.findAggregataByNatura(navigaAggregata);
 		model.addAttribute("jsonResultRiepilogo",createJsonStringFromQueryResult(risultati));
 		
@@ -109,7 +109,7 @@ public class TestataNavigazionePortletController {
 		navigaAggregataStato.setOrderType("asc");
 		navigaAggregataStato.setDistribuzione("");
 		
-		System.out.println(navigaAggregataStato.toString());
+//		System.out.println(navigaAggregataStato.toString());
 		List<AggregataDTO> risultati4Stato = aggregataFacade.findAggregataByNatura(navigaAggregataStato);
 		
 		List <D3PieConverter> converter = new ArrayList<D3PieConverter>();
@@ -138,7 +138,7 @@ public class TestataNavigazionePortletController {
 		navigaAggregataAnno.setOrderType("asc");
 		navigaAggregataAnno.setDistribuzione("");
 		
-		System.out.println(navigaAggregataAnno.toString());
+//		System.out.println(navigaAggregataAnno.toString());
 		List<AggregataDTO> tmpRisultati4Anno = aggregataFacade.findAggregataByNatura(navigaAggregataAnno);
 		
 		List<D3BarConverter> risultati4Anno = new ArrayList<D3BarConverter>();

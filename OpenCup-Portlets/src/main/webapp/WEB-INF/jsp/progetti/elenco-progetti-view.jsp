@@ -44,14 +44,11 @@
 	
 	div.titolo p{padding:1em;font-size:18pt;color:#1f4e78;}
 	div.sintesi p{padding-left:1em;padding-right:1em;text-align:justify;color:#1f4e78;}
-
 	div.summary ul li{list-style: none;margin-top:1em;margin-left: -2em;}
 	div.summary ul li span{color: #1f4e78;}
-
 	div.summary ul li.sumVolume svg {height: .8em;}
 	div.summary ul li.sumVolume rect:first-of-type {fill: #d9d9d9;}
 	div.summary ul li.sumVolume rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #f08c00;}
-
 	div.summary ul li.sumCosto svg {height: .8em;}
 	div.summary ul li.sumCosto rect:first-of-type {fill: #d9d9d9;}
 	div.summary ul li.sumCosto rect:nth-of-type(2) {color: #fff;stroke: transparent;fill: #499652;}
@@ -107,7 +104,6 @@
 	.aui select{
 		width: 284px !important;
 	}
-
 	div.my-toggler-affina-ricerca-elenco-progetti, div.toggler-content-wrapper, div.toggler-content, div.table-container{
 		padding-top: 1em;
 		padding-bottom: 1em;
@@ -147,7 +143,6 @@
 		font-size: 1.6em;
 		font-weight: bold;
 	}
-
 	.ricerca-form-elenco-campo{
 		/*border-radius: 10px !important;*/
 		border-color: #004383 !important;
@@ -219,6 +214,7 @@
 							<svg class="w100"></svg>
 						</div>
 					</li>
+					
 					<li class="sumCosto w100">
 						<div>
 							<span class="left"><small>Costo Previsto</small></span>
@@ -233,6 +229,7 @@
 							<svg class="w100"></svg>
 						</div>
 					</li>
+					
 				</ul>
 				
 			</div>
@@ -562,7 +559,7 @@
 						<div>
 							<div class="control-group">
 								<div class="pull-right">		
-									<aui:button type="submit" id="affina-ricerca-classificazione" cssClass="btn-filtra btn btn-primary btn-filtra" value="Filtra &nbsp;<i class='icon-filter'></i>"></aui:button>
+									<aui:button type="submit" id="affina-ricerca-classificazione" cssClass="btn-filtra btn btn-primary" value="Filtra &nbsp;<i class='icon-filter'></i>"></aui:button>
 									<aui:button id="affina-ricerca" cssClass="btn btn-rimuovi-filtri" value="Rimuovi Filtri &nbsp;<i class='icon-undo'></i>"></aui:button>
 								</div>
 							</div>
@@ -658,7 +655,6 @@
 	</c:if>
 </div>
 <script type="text/javascript">
-
 	var namespaceRicerca4js = "<portlet:namespace/>";
 	
 	var namespaceRicerca = "<portlet:namespace/>";
@@ -683,7 +679,6 @@
 			+ i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
 			+ (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 	};
-
 	function nFormatterBar(num){
 		if (num >= 1000000000) {
 			//return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Mld ';
@@ -699,7 +694,6 @@
 	     }
 	     */
 	     return num.formattaNumerico(0, ',', '.');
-
 	}
 	
 	if(currentAction == 'elencoProgetti'){
@@ -762,16 +756,13 @@
 		drawFinBar();
 	}
 	
-
 	/*
 	// clear breadcrumb
 	
 	var fatherUl=d3.selectAll("li.first").node().parentNode;
-
 	d3.select(fatherUl).insert("li",":first-child")
 	.attr("style","padding: 0 5px;color:#fcfcfc")
 	.text("Sei in: ");
-
 	d3.selectAll(".divider").each(
 			function(){
 			var c=d3.select(this).node().parentNode;
@@ -784,8 +775,6 @@
 				d3.select(c).select("span").remove();
 		});
 //
-
-
 //d3.selectAll("li.current-parent.breadcrumb-truncate").selectAll("i").remove();
 d3.selectAll("li.active.last.breadcrumb-truncate").selectAll("i").remove();
 */	
@@ -810,7 +799,6 @@ AUI().use(
 			      });
 			}
 			
-
 			function caricaCombo2(pNamespaceRicerca, resourceId, pattern, pattern2, target){	
 				var select = document.getElementById(target);
 				select.options.length = 0;
@@ -990,31 +978,26 @@ AUI().use(
 				    	A.one('.categoria-soggetto').val(-1);
 				    	A.one('.sotto-categoria-soggetto').val(-1);
 					});
-
 			A.one('.pulisciElementoSottoCategoriaSoggetto').on(
 				    'click',
 				    function(event) {
 				    	A.one('.sotto-categoria-soggetto').val(-1);
 					});
-
 			A.one('.pulisciElementoAnno').on(
 				    'click',
 				    function(event) {
 				    	A.one('.anno').val(-1);
 					});
-
 			A.one('.pulisciElementoTipologia').on(
 				    'click',
 				    function(event) {
 				    	A.one('.tipologia').val(-1);
 					});
-
 			A.one('.pulisciElementoStatoprogetto').on(
 				    'click',
 				    function(event) {
 				    	A.one('.statoprogetto').val(-1);
 					});
-
 			A.one('.pulisciElementoAreaIntervento').on(
 				    'click',
 				    function(event) {
@@ -1022,14 +1005,12 @@ AUI().use(
 						A.one('.sotto-settore-intervento').val(-1); 
 						A.one('.categoria-intervento').val(-1);
 					});
-
 			A.one('.pulisciElementoSottosettoreIntervento').on(
 				    'click',
 				    function(event) {
 						A.one('.sotto-settore-intervento').val(-1); 
 						A.one('.categoria-intervento').val(-1);
 					});
-
 			A.one('.pulisciElementoCategoriaIntervento').on(
 				    'click',
 				    function(event) {
@@ -1038,6 +1019,14 @@ AUI().use(
 			*/
 			
 			var myFormAffinaRicerca = A.one(".ricerca-form");
+			
+			A.one('.btn-filtra').on(
+				    'click',
+				    function(event) {
+				    	// submit
+				    	myFormAffinaRicerca.submit();
+					}); 
+			
 			A.one('.btn-rimuovi-filtri').on(
 				    'click',
 				    function(event) {
@@ -1062,11 +1051,6 @@ AUI().use(
 				    	A.one('.soggettoResponsabile').val("");
 				    	A.one('.cfPiSoggettoResponsabile').val("");
 
-				    	// submit
-				    	//myFormAffinaRicerca.submit();
 					});
-
 		});
 </script>
-
-

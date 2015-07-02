@@ -13,6 +13,9 @@ public class TotaliDTO implements Serializable{
 	private Double impoCostoProgetto;
 
 	private Double impoImportoFinanziato;
+	
+	private Long contaProgetti;
+	
 
 	public Double getImpoCostoProgetto() {
 		return impoCostoProgetto;
@@ -28,6 +31,14 @@ public class TotaliDTO implements Serializable{
 
 	public void setImpoImportoFinanziato(Double impoImportoFinanziato) {
 		this.impoImportoFinanziato = impoImportoFinanziato;
+	}
+
+	public Long getContaProgetti() {
+		return contaProgetti;
+	}
+
+	public void setContaProgetti(Long contaProgetti) {
+		this.contaProgetti = contaProgetti;
 	}
 	
 	
